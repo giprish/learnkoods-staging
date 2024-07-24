@@ -1,0 +1,124 @@
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import { element } from "prop-types";
+import { useEffect, useState } from "react";
+import {
+  Controller,
+  useFieldArray,
+  useForm,
+  useFormContext,
+} from "react-hook-form";
+import "react-quill/dist/quill.snow.css";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+
+const StepThree = ({ setTab, onSubmit }) => {
+  const { register, handleSubmit, control, getValues } = useFormContext();
+  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
+    {
+      control, // control props comes from useForm (optional: if you are using FormProvider)
+      name: "questions", // unique name for your Field Array
+    }
+  );
+
+  const [count, setCount] = useState(0);
+
+  const handlePreviewClick = () => {
+    const formData = getValues();
+    window.localStorage.setItem("job_preview", JSON.stringify(formData));
+  };
+
+  return (
+    <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
+      <div className="row border p-2 rounded-4 mb-4">
+        <h4 className="border-bottom p-2 mb-3">Receive qualified applicants</h4>
+        <span className="p-2">Applicant collection</span>
+        <div className="form-group col-lg-4 col-md-6">
+          <label>Recieve Applicants</label>
+          <select className="chosen-single form-select">
+            <option value="">Select</option>
+            <option value="By email">By email</option>
+          </select>
+        </div>
+        <div className="form-group col-lg-8 col-md-6">
+          <label>By Email</label>
+          <input type="email" name="email" placeholder="john@mail.com" />
+        </div>
+      </div>
+      <div>
+        <div className="w-100">
+          <h5>Screening Question</h5>
+          <span>
+            we recommend adding 3 or more questions.Applicants must answer each
+            question.
+          </span>
+          {[...Array(count)].map((element, index) => {
+            return (
+              <div className="border rounded-4 mb-3">
+                <div className="d-flex flex-col flex-lg-row align-items-center justify-content-between">
+                  <div className="d-flex flex-row col-10 ">
+                    <label className="p-2 pt-2.5 ">Ques.</label>
+                    <input
+                      // key={element.id}
+                      type="text"
+                      className="border w-75 m-2 rounded-2"
+                      {...register(`questions.${index}.question_name`)}
+                    />
+                    <span className="border rounded-4 p-1 px-2 m-2 bg-success text-white">
+                      Recommended
+                    </span>
+                  </div>
+                  <div className="px-4">
+                    <button onClick={() => setCount((prev) => prev - 1)}>
+                      <i className="la la-times font-weight-bold"></i>
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    {...register(`questions.${index}.must_have`)}
+                  />
+                  <label>Must Have</label>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div className="mt-4 mx-4">
+          <h6>Add Screening Questions</h6>
+          <div className="d-flex flex-wrap">
+            <button
+              type="button"
+              className={`btn border rounded-4 p-1 px-2 m-2 ${""}`}
+              onClick={() => setCount((prev) => prev + 1)}
+            >
+              Add Question
+            </button>
+          </div>
+        </div>
+        <div className="form-group col-lg-12 col-md-6 text-right d-flex justify-content-between">
+          <Link href="/jobpreview">
+            <button
+              className="theme-btn btn-style-one"
+              type="button"
+              onClick={handlePreviewClick}
+            >
+              Preview
+            </button>
+          </Link>
+          <button className="theme-btn btn-style-one" type="submit">
+            Submit
+          </button>
+        </div>
+        <div className="form-group col-lg-6 col-md-6 text-right "></div>
+      </div>
+    </form>
+  );
+};
+
+export default StepThree;

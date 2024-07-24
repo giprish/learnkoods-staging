@@ -1,0 +1,194 @@
+.browse-internships {
+  padding: 90px 15px;
+  position: relative;
+  background-image: url("/images/resource/Group_23__1_-removebg-preview.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.browse-internships h1,
+.browse-internships h2 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.browse-internships p {
+  font-size: 1.25rem;
+  margin-top: 15px;
+  color: black;
+}
+
+.search-container,
+.top-jobs {
+  margin-bottom: 30px;
+}
+
+.browse-internships .search-box {
+  border: 0;
+  border-radius: 22px;
+  padding-top: 25px;
+}
+
+.browse-internships .job-button {
+  border: 0;
+  border-radius: 20px;
+  padding: 5px 20px;
+  font-size: 17px;
+  color: white;
+  background-color: #3b8bcb;
+  margin-bottom: 10px;
+}
+
+.browse-internships .job-button i {
+  margin-right: 10px;
+}
+
+.top-jobs {
+  border-radius: 10px;
+  background-color: #f0f1f2;
+  // padding: 20px;
+}
+
+.top-jobs .image-container {
+  // margin-bottom: 20px;
+}
+
+.job-listing .job-pill {
+  border: 1px solid;
+  border-radius: 32px;
+  color: white;
+  background-color: black;
+  margin-bottom: 10px;
+}
+
+.job-listing .job-pill .category-text {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.job-listing .job-pill .job-title {
+  font-size: 12px;
+  font-weight: 100;
+  display: block;
+}
+
+.top-jobs .heading {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.searchbox-wrap {
+  display: flex;
+  border: 0;
+  border-radius: 7px;
+  background-color: #f0f1f2;
+  margin: 0px 10px 0px 10px;
+}
+.job-button-div {
+  // margin: 0px 10px 0px 10px;
+}
+.glass {
+  padding: 7px;
+  color: #3b8bcb;
+  margin-left: 5px;
+}
+
+.searchbox-wrap input {
+  flex: 1;
+  background-color: #f0f1f2;
+  border: 0;
+  border-radius: 7px;
+  padding: 6px 12px;
+}
+
+.searchbox-wrap button {
+  padding-right: 10px;
+  border: none;
+  cursor: pointer;
+  min-width: 90px; /* Ensure button has enough width to keep text on one line */
+}
+
+.searchbox-wrap button span {
+  margin-left: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #3b8bcb;
+  margin-right: 11px;
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+/* Media Queries */
+@media (min-width: 992px) {
+  .browse-internships {
+    padding: 90px 55px;
+  }
+
+  .browse-internships .search-container {
+    height: 319px;
+  }
+
+  .browse-internships .top-jobs {
+    height: 319px;
+    width: 450px;
+  }
+
+  .top-jobs .image-container {
+    margin-top: 24px;
+    margin-left: 34px;
+  }
+
+  .job-listing .job-pill {
+    width: 270px;
+    // height: 63px;
+    margin-left: 34px;
+  }
+}
+
+@media (max-width: 991px) {
+  .browse-internships {
+    background-size: 50%;
+  }
+  .top-jobs,
+  .search-container {
+    margin-bottom: 30px;
+  }
+
+  .job-listing {
+    padding-bottom: 30px;
+  }
+
+  .browse-internships h1,
+  .browse-internships h2 {
+    text-align: center;
+  }
+
+  .search-box,
+  .top-jobs {
+    margin: 0 auto;
+  }
+
+  .job-listing .job-pill {
+    width: 70%;
+    margin: auto;
+  }
+  .top-jobs .image-container {
+    margin-top: 24px;
+    margin-left: 34px;
+  }
+}
+
+/* Media query for screens shorter than 450px */
+@media (max-width: 450px) {
+  .searchbox-wrap {
+    flex-direction: row;
+    margin: 0 5px;
+  }
+  .searchbox-wrap input {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  .searchbox-wrap button {
+    text-align: center;
+  }
+}

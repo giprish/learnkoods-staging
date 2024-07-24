@@ -1,0 +1,248 @@
+.discover-section {
+  padding: 55px;
+  background-image: url("/images/resource/Group_24__1_-removebg-preview.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+
+.freelancers-img {
+  border-radius: 20px 0px 20px 0px;
+}
+
+.discover-section .inner-column {
+  margin: auto;
+  h2 {
+    font-size: 34px;
+    font-weight: 600;
+  }
+  h5 {
+    font-size: 18px;
+    margin: 25px 0px;
+  }
+}
+
+/* Additional styles for better responsiveness */
+@media (max-width: 991px) {
+  .discover-section {
+    padding: 30px;
+    background-size: 50%;
+  }
+
+  .discover-section .inner-column {
+    margin: auto;
+    padding-top: 35px;
+  }
+
+  .discover-section .inner-column h2 {
+    font-size: 28px;
+  }
+
+  .discover-section .inner-column h5 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 767px) {
+  .discover-section {
+    background-size: 40%;
+  }
+  .discover-section .content-column {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .discover-section .inner-column h2,
+  .discover-section .inner-column h5 {
+    text-align: center;
+  }
+
+  .discover-section .image-column {
+    margin-bottom: 20px;
+  }
+}
+
+.discover-two-section {
+  padding: 55px;
+  background-image: url("/images/resource/Group_23__1_-removebg-preview.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top left;
+}
+
+.discover-two-section .business-plan-img {
+  border-radius: 0px 20px 0px 20px;
+  // width: 100%;
+  // height: auto;
+}
+
+.discover-two-section .inner-column {
+  margin: auto;
+}
+
+.discover-two-section .inner-column h2 {
+  font-size: 34px;
+  font-weight: 600;
+}
+
+.discover-two-section .inner-column h5 {
+  font-size: 18px;
+  margin: 25px 0px;
+}
+
+.discover-two-section .image-column figure {
+  // margin-left: 130px;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 991px) {
+  .discover-two-section {
+    padding: 30px;
+    background-size: 50%;
+  }
+
+  .discover-two-section .business-plan-img {
+    margin-top: 30px;
+  }
+
+  .discover-two-section .inner-column h2 {
+    font-size: 28px;
+  }
+
+  .discover-two-section .inner-column h5 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 767px) {
+  .discover-two-section {
+    background-size: 40%;
+  }
+  .discover-two-section .content-column {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .discover-two-section .inner-column h2,
+  .discover-two-section .inner-column h5 {
+    text-align: center;
+  }
+
+  .discover-two-section .image-column {
+    margin-bottom: 20px;
+  }
+
+  .discover-two-section .image-column figure {
+    margin-left: 0;
+  }
+}
+
+.leverage-section {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding-left: 55px;
+  background-color: #85c8d947;
+}
+
+.leverage-section .leverage-inner-column {
+  margin: auto;
+  h2 {
+    font-size: 34px;
+    font-weight: 700;
+  }
+  h5 {
+    font-size: 18px;
+    margin: 26px 0px;
+  }
+  span {
+    font-size: 12px;
+    color: #4b4b4b;
+    font-weight: 600;
+    margin-bottom: 10px;
+    margin-right: 20px;
+  }
+}
+
+.leverage-section .image-column {
+  figure {
+    margin-left: 130px;
+  }
+}
+
+@media (max-width: 992px) {
+  .leverage-section {
+    padding-left: 20px;
+  }
+
+  .leverage-section .leverage-inner-column {
+    text-align: center;
+  }
+  .leverage-section .leverage-inner-column h2 {
+    font-size: 28px;
+  }
+
+  .leverage-section .leverage-inner-column h5 {
+    font-size: 16px;
+  }
+
+  .leverage-section .leverage-inner-column span {
+    // font-size: 10px;
+    margin-right: 10px;
+  }
+
+  .leverage-section .image-column figure {
+    text-align: center;
+    margin: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .leverage-section {
+    padding-left: 15px;
+  }
+
+  .leverage-section .leverage-inner-column {
+    text-align: center;
+  }
+
+  .leverage-section .leverage-inner-column h2 {
+    font-size: 24px;
+  }
+
+  .leverage-section .leverage-inner-column h5 {
+    font-size: 14px;
+  }
+
+  .leverage-section .leverage-inner-column span {
+    // font-size: 9px;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .leverage-section .image-column {
+    text-align: center;
+  }
+
+  .leverage-section .image-column figure {
+    text-align: center;
+    margin: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .leverage-section {
+    padding-left: 10px;
+  }
+
+  .leverage-section .leverage-inner-column h2 {
+    font-size: 20px;
+  }
+
+  .leverage-section .leverage-inner-column h5 {
+    font-size: 12px;
+  }
+
+  .leverage-section .leverage-inner-column span {
+    // font-size: 8px;
+  }
+}

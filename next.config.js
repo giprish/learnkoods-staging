@@ -1,0 +1,26 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  images: {
+    domains: [
+      "learnkoods.us-east-2.elasticbeanstalk.comundefined",
+      "learnkoods-api.eu-north-1.elasticbeanstalk.comhttps",
+      "learnkoods.us-east-2.elasticbeanstalk.comhttps",
+      "learnkoods.us-east-2.elasticbeanstalk.comundefined",
+      "learnkoods-bucket.s3.amazonaws.com",
+    ],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "learnkoods-bucket.s3.amazonaws.com",
+        port: "",
+        pathname: "static/profile",
+      },
+    ],
+  },
+  env: {
+    GLOBAL_API: process.env.GLOBAL_API,
+  },
+};
+
+module.exports = nextConfig;
