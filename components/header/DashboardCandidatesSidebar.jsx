@@ -13,6 +13,8 @@ import { toast } from "react-toastify";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import Popover from "react-bootstrap/Popover";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 
 const DashboardCandidatesSidebar = () => {
   const { user, logOut, fetchedUser } = UserAuth();
@@ -20,6 +22,19 @@ const DashboardCandidatesSidebar = () => {
   const percentage = 30;
   const router = useRouter();
   const accessToken = window.localStorage.getItem("access");
+  const [username, setUserName] = useState(null);
+  const imageUrl = window.localStorage.getItem("profile_image");
+  const [profileImage, setProfileImage] = useState(
+    "/images/default-avatar.png"
+  );
+
+  useEffect(() => {
+    if (imageUrl !== "undefined") {
+      const user = localStorage.getItem("user");
+      setProfileImage(imageUrl);
+      setUserName(user);
+    }
+  }, [imageUrl]);
 
   // console.log(fetchedUser, "resume link");
 
@@ -75,6 +90,21 @@ const DashboardCandidatesSidebar = () => {
 
       <div className="sidebar-inner">
         <ul className="navigation">
+          {accessToken && profileImage !== "undefined" && (
+            <div className="sidebar-image">
+              <Link href="" className="">
+                <Image
+                  alt="avatar"
+                  className=""
+                  src={profileImage}
+                  width={50}
+                  height={50}
+                />
+              </Link>
+              <span className="p-2">{username}</span>
+            </div>
+          )}
+
           {candidatesuData.map((item) => {
             return (
               <OverlayTrigger
@@ -92,6 +122,7 @@ const DashboardCandidatesSidebar = () => {
                   {item.name === "Logout" ? (
                     <Link href={item.routePath} onClick={unifiedLogout}>
                       <i className={`la ${item.icon}`}></i>
+                      {item?.name}
                     </Link>
                   ) : item.name === "My Resume" ? (
                     <Link
@@ -99,17 +130,31 @@ const DashboardCandidatesSidebar = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <i className={`la ${item.icon}`}></i>
+                      <i className={`la ${item.icon}`}></i> {item?.name}
                     </Link>
                   ) : (
                     <Link href={item.routePath}>
                       <i className={`la ${item.icon}`}></i>
+                      {item?.name}
                     </Link>
                   )}
                 </li>
               </OverlayTrigger>
             );
           })}
+          {/* {candidatesuData.map((item) => (
+            <li
+              className={`${
+                isActiveLink(item.routePath, router.asPath) ? "active" : ""
+              } mb-1`}
+              key={item.id}
+              onClick={menuToggleHandler}
+            >
+              <Link href={item.routePath}>
+                <i className={`la ${item.icon}`}></i> {item.name}
+              </Link>
+            </li>
+          ))} */}
         </ul>
         {/* End navigation */}
 

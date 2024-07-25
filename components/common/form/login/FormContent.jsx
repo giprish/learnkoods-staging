@@ -8,10 +8,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import { saveUser, deleteUser } from "../../../../features/user/userslice.js";
-
-import { UserAuth } from "@/context/AuthContext";
 
 const GLOBAL_API = process.env.GLOBAL_API;
 

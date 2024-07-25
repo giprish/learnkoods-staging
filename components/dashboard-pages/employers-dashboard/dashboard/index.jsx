@@ -15,7 +15,7 @@ import ManageProject from "./components/ManageProject";
 
 const Index = () => {
   return (
-    <div className="page-wrapper dashboard">
+    <div className="page-wrapper-employer dashboard ">
       <span className="header-span"></span>
       {/* <!-- Header Span for hight --> */}
 

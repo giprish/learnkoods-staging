@@ -23,7 +23,7 @@ const DefaulHeader2 = () => {
 
   const [navbar, setNavbar] = useState(false);
   const [accessToken, setAccessToken] = useState(null);
-  const [profileImage, setprofileImage] = useState(null);
+  const [profileImage, setprofileImage] = useState("/images/logo-2.svg");
   const { fetchedUser } = UserAuth();
   const router = useRouter();
   useEffect(() => {

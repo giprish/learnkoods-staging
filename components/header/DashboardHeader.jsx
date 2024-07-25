@@ -89,19 +89,19 @@ const DashboardHeader = () => {
           </div>
           {/* End .nav-outer */}
 
-          <div className="outer-box">
+          {/* <div className="outer-box">
             <button className="menu-btn">
               <span className="count">1</span>
               <span className="icon la la-heart-o"></span>
             </button>
-            {/* wishlisted menu */}
+           
 
             <button className="menu-btn">
               <span className="icon la la-bell"></span>
             </button>
-            {/* End notification-icon */}
+           
 
-            {/* <!-- Dashboard Option --> */}
+         
             <div className="dropdown dashboard-option ">
               <a
                 className="dropdown-toggle"
@@ -144,8 +144,8 @@ const DashboardHeader = () => {
                 ))}
               </ul>
             </div>
-            {/* End dropdown */}
-          </div>
+            
+          </div> */}
           {/* End outer-box */}
         </div>
       </div>

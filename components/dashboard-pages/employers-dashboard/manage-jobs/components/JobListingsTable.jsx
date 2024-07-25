@@ -5,8 +5,11 @@ import Image from "next/image.js";
 import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { useState } from "react";
+import appliedJobs from "@/pages/candidates-dashboard/applied-jobs/index.js";
 
 const JobListingsTable = () => {
+  const [jobId, setJobdId] = useState(null);
   const access = window.localStorage.getItem("access");
   const fetchJobs = async () => {
     const response = await axios.get(`${process.env.GLOBAL_API}/job-user/`, {
@@ -21,6 +24,28 @@ const JobListingsTable = () => {
     queryKey: ["AllJobs"],
     queryFn: () => fetchJobs(),
   });
+  const fetchAppliedCandidates = async () => {
+    const response = await axios.get(
+      `${process.env.GLOBAL_API}/usr_job_applied/${jobId}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
+  const { data: AppliedCandidates, refetch } = useQuery({
+    queryKey: ["AllJobs", jobId],
+    queryFn: () => fetchAppliedCandidates(),
+  });
+
+  const callApplied = (id) => {
+    setJobdId(id);
+  };
+
+  console.log(AppliedCandidates);
   const deleteJob = async (job_id) => {
     const response = await axios.delete(
       `${process.env.GLOBAL_API}/job_api/${job_id}/`,
@@ -122,7 +147,10 @@ const JobListingsTable = () => {
                     </div>
                   </td>
                   <td className="applied">
-                    <a href="#">3+ Applied</a>
+                    <a href="#" onClick={() => callApplied(item?.job_id)}>
+                      {" "}
+                      Applied
+                    </a>
                   </td>
                   <td>
                     October 27, 2017 <br />

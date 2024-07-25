@@ -6,19 +6,28 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { store } from "@/app/store";
 
 const HeaderNavContent = () => {
   const [student, setStudent] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-  const [profileImage, setProfileImage] = useState("");
+  const [profileImage, setProfileImage] = useState("/images/logo.svg");
+  const storedProfileImage = localStorage.getItem("profile_image");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       setStudent(localStorage.getItem("student"));
       setAccessToken(localStorage.getItem("access"));
-      setProfileImage(localStorage.getItem("profile_image"));
+
+      if (
+        storedProfileImage &&
+        storedProfileImage !== "undefined" &&
+        storedProfileImage !== null
+      ) {
+        setProfileImage(storedProfileImage);
+      }
     }
-  }, []);
+  }, [storedProfileImage]);
 
   const router = useRouter();
   const href = () => {
@@ -102,7 +111,7 @@ const HeaderNavContent = () => {
               </a>
             </li>
             <li>
-              {accessToken && profileImage !== "undefined" && (
+              {accessToken && (
                 <div className="dashboard-option">
                   <Link href={href()} className="">
                     <Image
