@@ -12,13 +12,12 @@ const HeaderNavContent = () => {
   const [student, setStudent] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const [profileImage, setProfileImage] = useState("/images/logo.svg");
-  const storedProfileImage = localStorage.getItem("profile_image");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
+      const storedProfileImage = localStorage.getItem("profile_image");
       setStudent(localStorage.getItem("student"));
       setAccessToken(localStorage.getItem("access"));
-
       if (
         storedProfileImage &&
         storedProfileImage !== "undefined" &&
@@ -27,7 +26,7 @@ const HeaderNavContent = () => {
         setProfileImage(storedProfileImage);
       }
     }
-  }, [storedProfileImage]);
+  }, []);
 
   const router = useRouter();
   const href = () => {
