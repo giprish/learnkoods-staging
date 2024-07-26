@@ -78,13 +78,6 @@ const DashboardCandidatesHeader = () => {
             <div className="logo-box">
               <div className="logo">
                 <Link href="/">
-                  {/* <Image
-                                        alt="brand"
-                                        src="/images/logo.svg"
-                                        width={154}
-                                        height={50}
-                                        priority
-                                    /> */}
                   <h2>
                     <strong>Learnkoods</strong>
                   </h2>
@@ -99,15 +92,7 @@ const DashboardCandidatesHeader = () => {
           {/* End .nav-outer */}
 
           {/* <div className="outer-box">
-            <button className="menu-btn">
-              <span className="count">1</span>
-              <span className="icon la la-heart-o"></span>
-            </button>
             
-
-            <button className="menu-btn">
-              <span className="icon la la-bell"></span>
-            </button>
            
             <div className="dropdown dashboard-option">
               <a

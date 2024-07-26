@@ -7,12 +7,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { UserAuth } from "@/context/AuthContext";
-import candidatesMenuData from "@/data/candidatesMenuData";
-import { isActiveLink } from "@/utils/linkActiveChecker";
-import { set } from "react-hook-form";
 
 const DefaulHeader2 = () => {
-  const { user, logOut } = UserAuth();
   const [student, setStudent] = useState(null);
 
   useEffect(() => {

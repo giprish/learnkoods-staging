@@ -42,14 +42,6 @@ const HeaderNavContent = () => {
   };
 
   const unifiedLogout = async () => {
-    // if (user) {
-    //   try {
-    //     await logOut();
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-
     if (accessToken) {
       if (typeof window !== "undefined") {
         localStorage.clear();
@@ -62,7 +54,23 @@ const HeaderNavContent = () => {
       position: toast.POSITION.TOP_CENTER,
     });
     router.push("/");
+    if (typeof window !== "undefined") {
+      window.location.reload();
+    }
   };
+  const fetchData = async () => {
+    const response = await axios.get(`${GLOBAL_API}/usr_pro_id/${id}/`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response.data;
+  };
+
+  const { data: user, isSuccess } = useQuery({
+    queryKey: ["user", accessToken],
+    queryFn: () => fetchData(),
+  });
 
   return (
     <>
@@ -109,21 +117,38 @@ const HeaderNavContent = () => {
                 <span>Employers</span>
               </a>
             </li>
-            <li>
-              {accessToken && (
-                <div className="dashboard-option">
-                  <Link href={href()} className="">
-                    <Image
-                      alt="avatar"
-                      className="rounded-circle"
-                      src={profileImage}
-                      width={50}
-                      height={50}
-                    />
-                  </Link>
-                </div>
-              )}
-            </li>
+            {accessToken && (
+              <>
+                <li>
+                  <a href="/candidates-dashboard/messages">
+                    <button className="menu-btn">
+                      <span className="count">1</span>
+                      <span className="icon la la-comment"></span>
+                    </button>
+                  </a>
+                </li>
+                <li>
+                  <a href="/candidates-dashboard">
+                    <button className="menu-btn">
+                      <span className="icon la la-bell"></span>
+                    </button>
+                  </a>
+                </li>
+                <li>
+                  <div className="dashboard-option">
+                    <Link href={href()} className="">
+                      <Image
+                        alt="avatar"
+                        className="rounded-circle"
+                        src={user?.data?.profile_image}
+                        width={50}
+                        height={50}
+                      />
+                    </Link>
+                  </div>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
       </div>

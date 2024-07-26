@@ -13,11 +13,12 @@ module.exports = [
     routePath: "/candidates-dashboard/my-profile",
     active: "",
   },
+
   {
     id: 3,
-    name: "My Resume",
-    icon: "la la-file-invoice",
-    routePath: "/candidates-dashboard/my-resume",
+    name: "Messages",
+    icon: "la-comment-o",
+    routePath: "/candidates-dashboard/messages",
     active: "",
   },
   {
@@ -57,9 +58,9 @@ module.exports = [
   },
   {
     id: 9,
-    name: "Messages",
-    icon: "la-comment-o",
-    routePath: "/candidates-dashboard/messages",
+    name: "My Resume",
+    icon: "la la-file-invoice",
+    routePath: "/candidates-dashboard/my-resume",
     active: "",
   },
   {

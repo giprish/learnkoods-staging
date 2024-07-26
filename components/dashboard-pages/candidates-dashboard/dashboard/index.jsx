@@ -9,8 +9,42 @@ import CopyrightFooter from "../../CopyrightFooter";
 import JobApplied from "./components/JobApplied";
 import DashboardCandidatesHeader from "../../../header/DashboardCandidatesHeader";
 import MenuToggler from "../../MenuToggler";
+import ProfileBlock from "./components/ProfileBlock";
+import AssessmentBlock from "./components/AssessmentBlock";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import MessageBox from "./components/MessageBox";
 
 const Index = () => {
+  const [username, setUserName] = useState("");
+  const [userId, setUserId] = useState("");
+  const [access, setAccess] = useState(null);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUserName(localStorage.getItem("user"));
+      setUserId(localStorage.getItem("id"));
+      setAccess(localStorage.getItem("access"));
+    }
+  }, []);
+
+  const fetchData = async () => {
+    const response = await axios.get(
+      `${process.env.GLOBAL_API}/usr_pro_id/${userId}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
+  const { data: user } = useQuery({
+    queryKey: ["user", access, userId],
+    queryFn: () => fetchData(),
+  });
+
   return (
     <div className="page-wrapper dashboard">
       <span className="header-span"></span>
@@ -26,19 +60,21 @@ const Index = () => {
       {/* End MobileMenu */}
 
       <DashboardCandidatesSidebar />
-      {/* <!-- End Candidates Sidebar Menu --> */}
+      {/* <!-- End Candidates    Menu --> */}
 
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <BreadCrumb title="Howdy, Jerome!!" />
+          <BreadCrumb title={`Howdy, ${username}!!`} />
           {/* breadCrumb */}
 
           <MenuToggler />
           {/* Collapsible sidebar button */}
 
           <div className="row">
-            <TopCardBlock />
+            {/* <TopCardBlock /> */}
+            <ProfileBlock user={user} />
+            <AssessmentBlock />
           </div>
           {/* End .row top card block */}
 
@@ -80,6 +116,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
+
             {/* End .col */}
           </div>
           {/* End .row profile and notificatins */}
