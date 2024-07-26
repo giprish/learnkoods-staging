@@ -4,8 +4,8 @@ import LoginPopup from "../../../common/form/login/LoginPopup";
 import DashboardCandidatesSidebar from "../../../header/DashboardCandidatesSidebar";
 import BreadCrumb from "../../BreadCrumb";
 import CopyrightFooter from "../../CopyrightFooter";
-import JobListingsTable from "./components/JobListingsTable";
 import MenuToggler from "../../MenuToggler";
+import AIJobListingsTable from "./components/AIJobListingsTable";
 
 const index = () => {
   return (
@@ -38,7 +38,7 @@ const index = () => {
             <div className="col-lg-12">
               {/* <!-- Ls widget --> */}
               <div className="ls-widget">
-                <JobListingsTable />
+                <AIJobListingsTable />
               </div>
             </div>
           </div>

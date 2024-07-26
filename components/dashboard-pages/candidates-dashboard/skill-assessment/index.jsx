@@ -3,9 +3,8 @@ import DashboardCandidatesHeader from "../../../header/DashboardCandidatesHeader
 import LoginPopup from "../../../common/form/login/LoginPopup";
 import DashboardCandidatesSidebar from "../../../header/DashboardCandidatesSidebar";
 import BreadCrumb from "../../BreadCrumb";
-import CopyrightFooter from "../../CopyrightFooter";
-import JobListingsTable from "./components/JobListingsTable";
 import MenuToggler from "../../MenuToggler";
+import Image from "next/image";
 
 const index = () => {
   return (
@@ -28,7 +27,7 @@ const index = () => {
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <BreadCrumb title="AI recommended jobs!" />
+          <BreadCrumb title="AI based Skill Assessment!" />
           {/* breadCrumb */}
 
           <MenuToggler />
@@ -37,8 +36,12 @@ const index = () => {
           <div className="row">
             <div className="col-lg-12">
               {/* <!-- Ls widget --> */}
-              <div className="ls-widget">
-                <JobListingsTable />
+              <div className="ls-widget w-100 h-100">
+                <div class="content-area d-flex align-items-center justify-content-center w-100 h-100">
+                  <div>
+                    <h3 class="fade-in two">Coming Soon</h3>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -48,7 +51,7 @@ const index = () => {
       </section>
       {/* <!-- End Dashboard --> */}
 
-      <CopyrightFooter />
+      {/* <CopyrightFooter /> */}
       {/* <!-- End Copyright --> */}
     </div>
     // End page-wrapper

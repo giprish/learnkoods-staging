@@ -168,7 +168,7 @@ const LogoUpload = ({ handelImage, handelResume, image, resume }) => {
                 <div className="login-form default-form">
                   <iframe
                     src={`https://docs.google.com/viewer?url=${encodeURIComponent(
-                      `${process.env.GLOBAL_API}${resume.url}`
+                      `${resume.url}`
                     )}&embedded=true`}
                     type="application/pdf"
                     width="100%"

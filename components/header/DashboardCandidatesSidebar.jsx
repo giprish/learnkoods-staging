@@ -15,13 +15,32 @@ import Tooltip from "react-bootstrap/Tooltip";
 import Popover from "react-bootstrap/Popover";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 const DashboardCandidatesSidebar = () => {
-  const { user, logOut, fetchedUser } = UserAuth();
-  const { menu } = useSelector((state) => state.toggle);
-  const percentage = 30;
-  const router = useRouter();
   const accessToken = window.localStorage.getItem("access");
+  const id = window.localStorage.getItem("id");
+  const fetchData = async () => {
+    const response = await axios.get(
+      `${process.env.GLOBAL_API}/usr_pro_id/${id}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
+  const { data: user } = useQuery({
+    queryKey: ["user", accessToken],
+    queryFn: () => fetchData(),
+  });
+
+  const { menu } = useSelector((state) => state.toggle);
+  const router = useRouter();
+
   const [username, setUserName] = useState(null);
   const imageUrl = window.localStorage.getItem("profile_image");
   const [profileImage, setProfileImage] = useState(
@@ -45,13 +64,13 @@ const DashboardCandidatesSidebar = () => {
   };
 
   const unifiedLogout = async () => {
-    if (user && user !== undefined) {
-      try {
-        await logOut();
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    // if (user && user !== undefined) {
+    //   try {
+    //     await logOut();
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
 
     if (accessToken) {
       window.localStorage.clear();
@@ -126,7 +145,7 @@ const DashboardCandidatesSidebar = () => {
                     </Link>
                   ) : item.name === "My Resume" ? (
                     <Link
-                      href={`${process.env.GLOBAL_API}${fetchedUser?.data?.resume}`}
+                      href={`${user?.data?.resume}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

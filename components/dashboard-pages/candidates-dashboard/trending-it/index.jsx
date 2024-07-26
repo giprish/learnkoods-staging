@@ -4,8 +4,8 @@ import LoginPopup from "../../../common/form/login/LoginPopup";
 import DashboardCandidatesSidebar from "../../../header/DashboardCandidatesSidebar";
 import BreadCrumb from "../../BreadCrumb";
 import CopyrightFooter from "../../CopyrightFooter";
-import JobListingsTable from "./components/JobListingsTable";
 import MenuToggler from "../../MenuToggler";
+import TrendingITJobs from "./components/TrendingITjobs";
 
 const index = () => {
   return (
@@ -28,7 +28,7 @@ const index = () => {
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <BreadCrumb title="AI recommended jobs!" />
+          <BreadCrumb title="Trending jobs in IT!" />
           {/* breadCrumb */}
 
           <MenuToggler />
@@ -38,7 +38,7 @@ const index = () => {
             <div className="col-lg-12">
               {/* <!-- Ls widget --> */}
               <div className="ls-widget">
-                <JobListingsTable />
+                <TrendingITJobs />
               </div>
             </div>
           </div>
