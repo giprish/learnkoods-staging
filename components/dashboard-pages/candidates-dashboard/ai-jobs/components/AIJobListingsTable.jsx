@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link.js";
-import jobs from "../../../../../data/job-featured.js";
+import Link from "next/link";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -24,7 +23,7 @@ const AIJobListingsTable = () => {
   }, []);
 
   useEffect(() => {
-    if (skills !== undefined) {
+    if (skills !== undefined && skills !== null) {
       setPostSkills(
         JSON.parse(skills)
           .map((skill) => skill.data)
@@ -32,11 +31,13 @@ const AIJobListingsTable = () => {
       );
     }
   }, [skills]);
+
   const skillToSend = {
     input: postSkills,
   };
+
   const fetchaiJobs = async () => {
-    const resposne = await axios.post(
+    const response = await axios.post(
       `${process.env.GLOBAL_API}/api-ai/`,
       skillToSend,
       {
@@ -46,7 +47,7 @@ const AIJobListingsTable = () => {
       }
     );
 
-    return resposne.data;
+    return response.data;
   };
 
   const {
@@ -56,7 +57,8 @@ const AIJobListingsTable = () => {
     error,
   } = useQuery({
     queryKey: ["aiJobs"],
-    queryFn: () => fetchaiJobs(),
+    queryFn: fetchaiJobs,
+    enabled: !!postSkills, // Only run the query if postSkills is not empty
   });
 
   const handleRefetch = async () => {
@@ -69,12 +71,11 @@ const AIJobListingsTable = () => {
       console.error("Refetch failed:", error);
     }
   };
-  // console.log(aiJobs, "ai recommended jobs");
+
   return (
     <div className="tabs-box">
       <div className="widget-title">
         <h4>AI Jobs List</h4>
-
         <div className="chosen-outer">
           <button className="theme-btn btn-style-one" onClick={handleRefetch}>
             Refresh
@@ -86,29 +87,24 @@ const AIJobListingsTable = () => {
       {/* Start table widget content */}
       <div className="widget-content">
         <div className="table-outer">
-          <div className="table-outer">
-            <table className="default-table manage-job-table">
-              <thead>
-                <tr>
-                  <th>Job Title</th>
+          <table className="default-table manage-job-table">
+            <thead>
+              <tr>
+                <th>Job Title</th>
+              </tr>
+            </thead>
+            <tbody>
+              {aiJobs?.["Recommend Job"]?.map((item) => (
+                <tr key={item.job_id}>
+                  <td>
+                    <Link href={`/job-single-v1/${item?.id}`}>
+                      <h5>{item.job_title}</h5>
+                    </Link>
+                  </td>
                 </tr>
-              </thead>
-
-              <tbody>
-                {aiJobs?.["Recommend Job"]?.map((item) => {
-                  return (
-                    <tr key={item.job_id}>
-                      <td>
-                        <Link href={`/job-single-v1/${item?.id}`}>
-                          <h5>{item.job_title}</h5>
-                        </Link>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
       {/* End table widget content */}

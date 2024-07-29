@@ -12,7 +12,13 @@ import { toast } from "react-toastify";
 
 const DashboardHeader = () => {
   const { user, logOut } = UserAuth();
-  const student = window.localStorage.getItem("student");
+  const [student, setStudent] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setStudent(window.localStorage.getItem("student"));
+    }
+  }, []);
   const [navbar, setNavbar] = useState(false);
   const [accessToken, setAccessToken] = useState(null);
   const router = useRouter();
