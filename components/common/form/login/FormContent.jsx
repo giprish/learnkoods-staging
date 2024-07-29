@@ -13,7 +13,6 @@ const GLOBAL_API = process.env.GLOBAL_API;
 
 const FormContent = ({ hideModal }) => {
   const router = useRouter();
-  const currentPath = router.pathname;
   const [id, setId] = useState(null);
   const [access, setAccess] = useState(null);
 

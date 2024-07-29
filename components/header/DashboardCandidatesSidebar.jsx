@@ -19,8 +19,15 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
 const DashboardCandidatesSidebar = () => {
-  const accessToken = window.localStorage.getItem("access");
-  const id = window.localStorage.getItem("id");
+  const [accessToken, setAccessToken] = useState(null);
+  const [id, setId] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setAccessToken(window.localStorage.getItem("access"));
+      setId(window.localStorage.getItem("id"));
+    }
+  }, []);
 
   const fetchData = async () => {
     const response = await axios.get(

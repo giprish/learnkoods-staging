@@ -11,21 +11,8 @@ import { UserAuth } from "@/context/AuthContext";
 import { toast } from "react-toastify";
 
 const DashboardCandidatesHeader = () => {
-  const { user, logOut } = UserAuth();
-  const student = window.localStorage.getItem("student");
-  const imageUrl = window.localStorage.getItem("profile_image");
-  const [profileImage, setProfileImage] = useState(
-    "/images/default-avatar.png"
-  );
-
-  useEffect(() => {
-    if (imageUrl !== "undefined") {
-      setProfileImage(imageUrl);
-    }
-  }, [imageUrl]);
-
   const [navbar, setNavbar] = useState(false);
-  const [accessToken, setAccessToken] = useState(null);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -47,24 +34,6 @@ const DashboardCandidatesHeader = () => {
     };
   }, [router]);
 
-  const unifiedLogout = async () => {
-    if (accessToken) {
-      window.localStorage.clear();
-      setAccessToken(null);
-    }
-    if (user && user !== undefined) {
-      try {
-        await logOut();
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    toast.success("User logged out successfully", {
-      position: toast.POSITION.TOP_CENTER,
-    });
-    router.push("/");
-  };
   return (
     // <!-- Main Header-->
     <header

@@ -3,7 +3,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const ProfileBlock = () => {
-  const [username, setUserName] = useState("");
   const [userId, setUserId] = useState("");
   const [access, setAccess] = useState(null);
   useEffect(() => {
