@@ -17,12 +17,12 @@ const FormContent = ({ hideModal }) => {
   const [id, setId] = useState(null);
   const [access, setAccess] = useState(null);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setId(window.localStorage.getItem("id"));
-      setAccess(window.localStorage.getItem("access"));
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     setId(window.localStorage.getItem("id"));
+  //     setAccess(window.localStorage.getItem("access"));
+  //   }
+  // }, []);
 
   const fetchData = async () => {
     const response = await axios.get(`${GLOBAL_API}/usr_pro_id/${id}/`, {
@@ -34,12 +34,13 @@ const FormContent = ({ hideModal }) => {
   };
 
   const { data: user, isSuccess } = useQuery({
-    queryKey: ["user", access],
+    queryKey: ["user", access, id],
     queryFn: () => fetchData(),
   });
 
   useEffect(() => {
     if (typeof window !== "undefined" && isSuccess) {
+      console.log(user);
       window.localStorage.setItem("profile_image", user?.data?.profile_image);
       window.localStorage.setItem("resume", user?.data?.resume);
       window.localStorage.setItem("skills", JSON.stringify(user?.data?.skills));
@@ -65,6 +66,7 @@ const FormContent = ({ hideModal }) => {
     mutationFn: loginUser,
     onSuccess: (data) => {
       console.log(data, "data from sucessful login");
+      console.log(typeof data.data.student, "student from sucessful login");
       toast.success("User loggedin successfully", {
         position: toast.POSITION.TOP_RIGHT,
       });
@@ -75,15 +77,20 @@ const FormContent = ({ hideModal }) => {
         window.localStorage.setItem("id", data.data.id);
         window.localStorage.setItem("user", data.data.username);
         window.localStorage.setItem("student", data.data.student);
+        setId(data.data.id);
+        setAccess(data.data.access);
       }
-      if (data.data.student === "false") {
-        router.push("/employers-dashboard/dashboard");
+      if (data.data.student === false) {
+        router
+          .push("/employers-dashboard/dashboard")
+          .then(() => window.location.reload());
+      }
+      if (data.data.student === true) {
+        router
+          .push("/candidates-dashboard/dashboard")
+          .then(() => window.location.reload());
       }
 
-      if (currentPath !== "/job-single-v1/[id]") {
-        router.push("/");
-      }
-      window.location.reload();
       hideModal();
     },
     onError: (data) => {

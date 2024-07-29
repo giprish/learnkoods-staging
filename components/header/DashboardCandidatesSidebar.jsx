@@ -21,6 +21,7 @@ import { useQuery } from "@tanstack/react-query";
 const DashboardCandidatesSidebar = () => {
   const accessToken = window.localStorage.getItem("access");
   const id = window.localStorage.getItem("id");
+
   const fetchData = async () => {
     const response = await axios.get(
       `${process.env.GLOBAL_API}/usr_pro_id/${id}/`,
@@ -41,20 +42,6 @@ const DashboardCandidatesSidebar = () => {
   const { menu } = useSelector((state) => state.toggle);
   const router = useRouter();
 
-  const [username, setUserName] = useState(null);
-  const imageUrl = window.localStorage.getItem("profile_image");
-  const [profileImage, setProfileImage] = useState(
-    "/images/default-avatar.png"
-  );
-
-  useEffect(() => {
-    if (imageUrl !== "undefined") {
-      const username = localStorage.getItem("user");
-      setProfileImage(imageUrl);
-      setUserName(username);
-    }
-  }, [imageUrl]);
-
   // console.log(fetchedUser, "resume link");
 
   const dispatch = useDispatch();
@@ -64,14 +51,6 @@ const DashboardCandidatesSidebar = () => {
   };
 
   const unifiedLogout = async () => {
-    // if (user && user !== undefined) {
-    //   try {
-    //     await logOut();
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-
     if (accessToken) {
       window.localStorage.clear();
     }
@@ -109,18 +88,18 @@ const DashboardCandidatesSidebar = () => {
 
       <div className="sidebar-inner">
         <ul className="navigation">
-          {accessToken && profileImage !== "undefined" && (
+          {accessToken && (
             <div className="sidebar-image">
               <Link href="" className="">
                 <Image
                   alt="avatar"
                   className=""
-                  src={profileImage}
+                  src={user?.data?.profile_image || "/images/about-img-1.webp"}
                   width={50}
                   height={50}
                 />
               </Link>
-              <span className="p-2">{username}</span>
+              <span className="p-2">{user?.user?.username}</span>
             </div>
           )}
 

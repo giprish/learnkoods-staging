@@ -1,4 +1,35 @@
-const ProfileBlock = ({ user }) => {
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+const ProfileBlock = () => {
+  const [username, setUserName] = useState("");
+  const [userId, setUserId] = useState("");
+  const [access, setAccess] = useState(null);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUserName(localStorage.getItem("user"));
+      setUserId(localStorage.getItem("id"));
+      setAccess(localStorage.getItem("access"));
+    }
+  }, []);
+
+  const fetchData = async () => {
+    const response = await axios.get(
+      `${process.env.GLOBAL_API}/usr_pro_id/${userId}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
+  const { data: user } = useQuery({
+    queryKey: ["user", access, userId],
+    queryFn: () => fetchData(),
+  });
   console.log(user?.data?.skills);
   return (
     <>

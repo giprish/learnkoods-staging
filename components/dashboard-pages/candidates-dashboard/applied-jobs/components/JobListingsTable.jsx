@@ -4,6 +4,7 @@ import Link from "next/link.js";
 import jobs from "../../../../../data/job-featured.js";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 const JobListingsTable = () => {
   const [userId, setUserId] = useState("");

@@ -17,33 +17,11 @@ import MessageBox from "./components/MessageBox";
 
 const Index = () => {
   const [username, setUserName] = useState("");
-  const [userId, setUserId] = useState("");
-  const [access, setAccess] = useState(null);
   useEffect(() => {
     if (typeof window !== "undefined") {
       setUserName(localStorage.getItem("user"));
-      setUserId(localStorage.getItem("id"));
-      setAccess(localStorage.getItem("access"));
     }
   }, []);
-
-  const fetchData = async () => {
-    const response = await axios.get(
-      `${process.env.GLOBAL_API}/usr_pro_id/${userId}/`,
-      {
-        headers: {
-          Authorization: `Bearer ${access}`,
-        },
-      }
-    );
-    return response.data;
-  };
-
-  const { data: user } = useQuery({
-    queryKey: ["user", access, userId],
-    queryFn: () => fetchData(),
-  });
-
   return (
     <div className="page-wrapper dashboard">
       <span className="header-span"></span>
@@ -72,7 +50,7 @@ const Index = () => {
 
           <div className="row">
             {/* <TopCardBlock /> */}
-            <ProfileBlock user={user} />
+            <ProfileBlock />
             <AssessmentBlock />
           </div>
           {/* End .row top card block */}

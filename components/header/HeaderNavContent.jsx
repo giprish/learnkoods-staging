@@ -13,6 +13,7 @@ const HeaderNavContent = () => {
   const [student, setStudent] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const [profileImage, setProfileImage] = useState("");
+  const id = window.localStorage.getItem("id");
   const dispatch = useDispatch();
 
   const handleUserType = (type) => {
@@ -24,6 +25,7 @@ const HeaderNavContent = () => {
       const storedProfileImage = localStorage.getItem("profile_image");
       setStudent(localStorage.getItem("student"));
       setAccessToken(localStorage.getItem("access"));
+      // setID(localStorage.getItem("id"));
       if (
         storedProfileImage &&
         storedProfileImage !== "undefined" &&

@@ -14,12 +14,6 @@ import { useEffect, useState } from "react";
 const FormContent2 = () => {
   const [id, setId] = useState(null);
   const [access, setAccess] = useState(null);
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setId(window.localStorage.getItem("id"));
-      setAccess(window.localStorage.getItem("access"));
-    }
-  }, []);
 
   const router = useRouter();
   const currentPath = router.pathname;
@@ -37,7 +31,7 @@ const FormContent2 = () => {
   };
 
   const { data: user, isSuccess } = useQuery({
-    queryKey: ["user", access],
+    queryKey: ["user", access, id],
     queryFn: () => fetchData(),
   });
 
@@ -77,11 +71,19 @@ const FormContent2 = () => {
         window.localStorage.setItem("id", data.data.id);
         window.localStorage.setItem("user", data.data.username);
         window.localStorage.setItem("student", data.data.student);
+        setId(data.data.id);
+        setAccess(data.data.access);
       }
-      if (currentPath !== "/job-single-v1/[id]") {
-        router.push("/");
+      if (data.data.student === false) {
+        router
+          .push("/employers-dashboard/dashboard")
+          .then(() => window.location.reload());
       }
-      window.location.reload();
+      if (data.data.student === true) {
+        router
+          .push("/candidates-dashboard/dashboard")
+          .then(() => window.location.reload());
+      }
     },
     onError: (data) => {
       console.log(data, "error message");

@@ -55,7 +55,6 @@ const FormInfoBox = ({ onSubmit }) => {
             type="text"
             name="name"
             placeholder="Invisionn"
-            required
             {...register("name")}
           />
         </div>
@@ -67,7 +66,6 @@ const FormInfoBox = ({ onSubmit }) => {
             type="email"
             name="name"
             placeholder="ib-themes"
-            required
             {...register("email")}
           />
         </div>
@@ -79,7 +77,6 @@ const FormInfoBox = ({ onSubmit }) => {
             type="text"
             name="name"
             placeholder="0 123 456 7890"
-            required
             {...register("phone_number")}
           />
         </div>
@@ -91,7 +88,6 @@ const FormInfoBox = ({ onSubmit }) => {
             type="text"
             name="name"
             placeholder="www.invision.com"
-            required
             {...register("website")}
           />
         </div>

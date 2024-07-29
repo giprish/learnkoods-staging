@@ -10,7 +10,7 @@ const ChatBoxContentField = () => {
             <Image
               width={48}
               height={48}
-              src="/images/resource/candidate-8.png"
+              src="/images/resource/candidate-1.webp"
               alt="candidates"
               className="rounded-circle user_img"
             />
@@ -34,7 +34,7 @@ const ChatBoxContentField = () => {
             <Image
               width={48}
               height={48}
-              src="/images/resource/candidate-3.png"
+              src="/images/resource/candidate-3.webp"
               alt="candidates"
               className="rounded-circle user_img_msg"
             />
@@ -51,7 +51,7 @@ const ChatBoxContentField = () => {
         <div className="d-flex justify-content-end mb-2 reply">
           <div className="img_cont_msg">
             <img
-              src="/images/resource/candidate-6.png"
+              src="/images/resource/candidate-4.webp"
               alt=""
               className="rounded-circle user_img_msg"
             />
@@ -68,7 +68,7 @@ const ChatBoxContentField = () => {
         <div className="d-flex justify-content-start">
           <div className="img_cont_msg">
             <img
-              src="/images/resource/candidate-3.png"
+              src="/images/resource/candidate-2.webp"
               alt=""
               className="rounded-circle user_img_msg"
             />

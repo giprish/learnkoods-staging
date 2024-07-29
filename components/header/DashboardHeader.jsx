@@ -11,14 +11,6 @@ import { UserAuth } from "@/context/AuthContext";
 import { toast } from "react-toastify";
 
 const DashboardHeader = () => {
-  const { user, logOut } = UserAuth();
-  const [student, setStudent] = useState(null);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setStudent(window.localStorage.getItem("student"));
-    }
-  }, []);
   const [navbar, setNavbar] = useState(false);
   const [accessToken, setAccessToken] = useState(null);
   const router = useRouter();
@@ -41,26 +33,6 @@ const DashboardHeader = () => {
       window.removeEventListener("scroll", changeBackground);
     };
   }, [router]);
-
-  const unifiedLogout = async () => {
-    // if (user) {
-    //   try {
-    //     await logOut();
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-
-    if (accessToken) {
-      window.localStorage.clear();
-      setAccessToken(null);
-    }
-
-    toast.success("User logged out successfully", {
-      position: toast.POSITION.TOP_CENTER,
-    });
-    router.push("/");
-  };
 
   return (
     // <!-- Main Header-->
