@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import Popover from "react-bootstrap/Popover";
+import { useEffect, useState } from "react";
 
 const DashboardEmployerSidebar = () => {
   const { user, logOut } = UserAuth();
