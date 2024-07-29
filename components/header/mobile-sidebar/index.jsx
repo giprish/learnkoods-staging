@@ -22,11 +22,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { menuToggle } from "@/features/toggle/toggleSlice";
 import candidatesMenuData from "@/data/candidatesMenuData";
 import employerMenuData from "@/data/employerMenuData";
+import { useEffect, useState } from "react";
 
 const Index = () => {
   const router = useRouter();
   const { menu } = useSelector((state) => state.toggle);
-  const accessToken = window.localStorage.getItem("access");
+  const [accessToken, setAccessToken] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const accessToken = window.localStorage.getItem("access");
+      setAccessToken(accessToken);
+    }
+  }, []);
+
   const student = window.localStorage.getItem("student");
   const fetchData = async () => {
     const response = await axios.get(

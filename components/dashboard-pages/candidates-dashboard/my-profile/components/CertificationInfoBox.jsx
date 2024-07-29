@@ -9,8 +9,15 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const CertificationInfoBox = () => {
-  const userId = window.localStorage.getItem("id");
-  const access = window.localStorage.getItem("access");
+  const [userId, setUserId] = useState("");
+  const [access, setAccess] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUserId(localStorage.getItem("id"));
+      setAccess(localStorage.getItem("access"));
+    }
+  }, []);
   const {
     register,
     handleSubmit,

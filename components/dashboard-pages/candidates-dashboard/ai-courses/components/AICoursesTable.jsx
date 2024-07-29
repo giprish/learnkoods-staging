@@ -7,9 +7,21 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 const AICoursesTable = () => {
-  const userId = window.localStorage.getItem("id");
-  const access = window.localStorage.getItem("access");
-  const skills = window.localStorage.getItem("skills");
+  const [userId, setUserId] = useState(null);
+  const [access, setAccess] = useState(null);
+  const [skills, setSkills] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const userId = window.localStorage.getItem("id");
+      const access = window.localStorage.getItem("access");
+      const skills = window.localStorage.getItem("skills");
+      setUserId(userId);
+      setAccess(access);
+      setSkills(skills);
+    }
+  }, []);
+
   const [postSkills, setPostSkills] = useState("");
 
   useEffect(() => {

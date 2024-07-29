@@ -8,10 +8,20 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const AIJobListingsTable = () => {
-  const userId = window.localStorage.getItem("id");
-  const access = window.localStorage.getItem("access");
-  const skills = window.localStorage.getItem("skills");
   const [postSkills, setPostSkills] = useState("");
+  const [username, setUserName] = useState("");
+  const [userId, setUserId] = useState("");
+  const [access, setAccess] = useState(null);
+  const [skills, setSkills] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUserName(localStorage.getItem("user"));
+      setUserId(localStorage.getItem("id"));
+      setAccess(localStorage.getItem("access"));
+      setSkills(localStorage.getItem("skills"));
+    }
+  }, []);
 
   useEffect(() => {
     if (skills !== undefined) {
