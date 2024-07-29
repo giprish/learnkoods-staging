@@ -28,15 +28,16 @@ const Index = () => {
   const router = useRouter();
   const { menu } = useSelector((state) => state.toggle);
   const [accessToken, setAccessToken] = useState(null);
+  const [student, setStudent] = useState(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const accessToken = window.localStorage.getItem("access");
       setAccessToken(accessToken);
+      setStudent(window.localStorage.getItem("student"));
     }
   }, []);
 
-  const student = window.localStorage.getItem("student");
   const fetchData = async () => {
     const response = await axios.get(
       `${process.env.GLOBAL_API}/usr_pro_id/${id}/`,

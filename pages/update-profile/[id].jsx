@@ -27,11 +27,13 @@ const UpdateProfileDynamicV1 = () => {
   const [id, setId] = useState(null);
 
   useEffect(() => {
-    const access = window.localStorage.getItem("access");
-    const id = window.localStorage.getItem("id");
-    console.log({ access, id }, "access and id");
-    setAccessToken(access);
-    setId(id);
+    if (typeof window !== "undefined") {
+      const access = window.localStorage.getItem("access");
+      const id = window.localStorage.getItem("id");
+      console.log({ access, id }, "access and id");
+      setAccessToken(access);
+      setId(id);
+    }
   }, []);
 
   const fetchData = async () => {

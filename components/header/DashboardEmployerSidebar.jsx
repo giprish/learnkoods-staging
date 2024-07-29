@@ -16,7 +16,13 @@ const DashboardEmployerSidebar = () => {
   const { user, logOut } = UserAuth();
   const router = useRouter();
   const { menu } = useSelector((state) => state.toggle);
-  const accessToken = window.localStorage.getItem("access");
+  const [accessToken, setAccessToken] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setAccessToken(window.localStorage.getItem("access"));
+    }
+  }, []);
 
   const dispatch = useDispatch();
   // menu togggle handler

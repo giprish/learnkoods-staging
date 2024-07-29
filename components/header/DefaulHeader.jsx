@@ -10,11 +10,17 @@ import { toast } from "react-toastify";
 
 const DefaulHeader = () => {
   const { user, logOut } = UserAuth();
-  const student = window.localStorage.getItem("student");
 
   const [navbar, setNavbar] = useState(false);
   const [accessToken, setAccessToken] = useState(null);
   const [profileImage, setprofileImage] = useState(null);
+  const [student, setStudent] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setStudent(window.localStorage.getItem("student"));
+    }
+  }, []);
 
   const router = useRouter();
   useEffect(() => {
