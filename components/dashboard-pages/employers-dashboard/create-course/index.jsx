@@ -4,7 +4,7 @@ import MobileMenu from "../../../header/MobileMenu";
 import DashboardHeader from "../../../header/DashboardHeader";
 import LoginPopup from "../../../common/form/login/LoginPopup";
 import DashboardEmployerSidebar from "../../../header/DashboardEmployerSidebar";
-import CopyrightFooter from "../../CopyrightFooter";
+
 import MenuToggler from "../../MenuToggler";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -191,7 +191,6 @@ const index = () => {
       </section>
       {/* <!-- End Dashboard --> */}
 
-      <CopyrightFooter />
       {/* <!-- End Copyright --> */}
     </div>
     // End page-wrapper

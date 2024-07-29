@@ -6,12 +6,18 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { store } from "@/app/store";
+import { useDispatch } from "react-redux";
+import { setUserType } from "../../features/user/userslice";
 
 const HeaderNavContent = () => {
   const [student, setStudent] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-  const [profileImage, setProfileImage] = useState("/images/logo.svg");
+  const [profileImage, setProfileImage] = useState("");
+  const dispatch = useDispatch();
+
+  const handleUserType = (type) => {
+    dispatch(setUserType(type));
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -96,27 +102,106 @@ const HeaderNavContent = () => {
                 <span>Mentorship</span>
               </a>
             </li>
-            <li>
-              {accessToken ? (
-                <a href="#" className="" onClick={unifiedLogout}>
-                  Logout
+
+            {student === "false" && (
+              <li>
+                <a href="/employers-dashboard/dashboard">
+                  <span>Employers</span>
                 </a>
-              ) : (
+              </li>
+            )}
+
+            {!accessToken && (
+              <li className="nav-item dropdown">
                 <a
                   href="#"
-                  className=""
-                  data-bs-toggle="modal"
-                  data-bs-target="#loginPopupModal"
+                  className="theme-btn btn-style-new dropdown-toggle"
+                  id="loginDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
                 >
-                  Login / Register
+                  Login
                 </a>
-              )}
-            </li>
-            <li>
-              <a href="/employers-list/employers-list-v1">
-                <span>Employers</span>
-              </a>
-            </li>
+                <ul className="dropdown-menu" aria-labelledby="loginDropdown">
+                  <li>
+                    <a
+                      className="dropdown-item"
+                      href="#"
+                      data-bs-toggle="modal"
+                      data-bs-target="#loginPopupModal"
+                    >
+                      Student
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      className="dropdown-item"
+                      href="#"
+                      data-bs-toggle="modal"
+                      data-bs-target="#loginPopupModal"
+                    >
+                      Employer
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            )}
+
+            {!accessToken && (
+              <li className="nav-item dropdown">
+                <a
+                  href="#"
+                  className="theme-btn btn-style-new dropdown-toggle"
+                  id="registerDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Register
+                </a>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="registerDropdown"
+                >
+                  <li>
+                    <a
+                      className="dropdown-item"
+                      href="#"
+                      data-bs-toggle="modal"
+                      data-bs-target="#registerModal"
+                      onClick={() => handleUserType("candidate")}
+                    >
+                      Student
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      className="dropdown-item"
+                      href="#"
+                      data-bs-toggle="modal"
+                      data-bs-target="#registerModal"
+                      onClick={() => handleUserType("employer")}
+                    >
+                      Employer
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            )}
+
+            {accessToken && (
+              <li>
+                <a
+                  href="#"
+                  className="theme-btn btn-style-new"
+                  onClick={unifiedLogout}
+                >
+                  Logout
+                </a>
+              </li>
+            )}
+
             {accessToken && (
               <>
                 <li>
@@ -140,7 +225,10 @@ const HeaderNavContent = () => {
                       <Image
                         alt="avatar"
                         className="rounded-circle"
-                        src={user?.data?.profile_image}
+                        src={
+                          user?.data?.profile_image ||
+                          "/images/about-img-1.webp"
+                        }
                         width={50}
                         height={50}
                       />

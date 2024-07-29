@@ -2,7 +2,6 @@ import MobileMenu from "../../../header/MobileMenu";
 import LoginPopup from "../../../common/form/login/LoginPopup";
 import DashboardCandidatesSidebar from "../../../header/DashboardCandidatesSidebar";
 import BreadCrumb from "../../BreadCrumb";
-import CopyrightFooter from "../../CopyrightFooter";
 import ChatBox from "./components";
 import DashboardCandidatesHeader from "../../../header/DashboardCandidatesHeader";
 import MenuToggler from "../../MenuToggler";
@@ -56,8 +55,6 @@ const Index = () => {
         {/* End dashboard-outer */}
       </section>
       {/* <!-- End Dashboard --> */}
-
-      <CopyrightFooter />
       {/* <!-- End Copyright --> */}
     </div>
     // End page-wrapper

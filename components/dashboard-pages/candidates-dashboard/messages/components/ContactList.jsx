@@ -8,7 +8,7 @@ const ChatboxContactList = () => {
           <div className="d-flex bd-highlight">
             <div className="img_cont">
               <Image
-                src="/images/resource/candidate-1.png"
+                src="/images/resource/candidate-1.webp"
                 className="rounded-circle user_img"
                 alt="chatbox avatar"
                 width={90}
@@ -30,7 +30,7 @@ const ChatboxContactList = () => {
           <div className="d-flex bd-highlight">
             <div className="img_cont">
               <Image
-                src="/images/resource/candidate-2.png"
+                src="/images/resource/candidate-2.webp"
                 className="rounded-circle user_img"
                 alt="chatbox avatar"
                 width={90}
@@ -54,7 +54,7 @@ const ChatboxContactList = () => {
           <div className="d-flex bd-highlight">
             <div className="img_cont">
               <Image
-                src="/images/resource/candidate-3.png"
+                src="/images/resource/candidate-3.webp"
                 className="rounded-circle user_img"
                 alt="chatbox avatar"
                 width={90}
@@ -78,7 +78,7 @@ const ChatboxContactList = () => {
           <div className="d-flex bd-highlight">
             <div className="img_cont">
               <Image
-                src="/images/resource/candidate-4.png"
+                src="/images/resource/candidate-4.webp"
                 className="rounded-circle user_img"
                 alt="chatbox avatar"
                 width={90}
@@ -100,7 +100,7 @@ const ChatboxContactList = () => {
           <div className="d-flex bd-highlight">
             <div className="img_cont">
               <Image
-                src="/images/resource/candidate-5.png"
+                src="/images/resource/candidate-1.webp"
                 className="rounded-circle user_img"
                 alt="chatbox avatar"
                 width={90}
@@ -124,7 +124,7 @@ const ChatboxContactList = () => {
           <div className="d-flex bd-highlight">
             <div className="img_cont">
               <Image
-                src="/images/resource/candidate-6.png"
+                src="/images/resource/candidate-2.webp"
                 className="rounded-circle user_img"
                 alt="chatbox avatar"
                 width={90}
@@ -146,7 +146,7 @@ const ChatboxContactList = () => {
           <div className="d-flex bd-highlight">
             <div className="img_cont">
               <Image
-                src="/images/resource/candidate-7.png"
+                src="/images/resource/candidate-3.webp"
                 className="rounded-circle user_img"
                 alt="chatbox avatar"
                 width={90}
@@ -168,7 +168,7 @@ const ChatboxContactList = () => {
           <div className="d-flex bd-highlight">
             <div className="img_cont">
               <Image
-                src="/images/resource/candidate-8.png"
+                src="/images/resource/candidate-4.webp"
                 className="rounded-circle user_img"
                 alt="chatbox avatar"
                 width={90}

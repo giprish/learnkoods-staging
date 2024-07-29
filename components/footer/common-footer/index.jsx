@@ -60,7 +60,7 @@ const index = ({ footerStyle = "" }) => {
       </div>
       {/* End auto-container */}
 
-      {/* <CopyrightFooter /> */}
+      {/* */}
       {/* <!--Bottom--> */}
     </footer>
     //   {/* <!-- End Main Footer --> */}

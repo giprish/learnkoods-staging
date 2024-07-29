@@ -9,7 +9,7 @@ import CompletionChart from "./components/CompletionChart";
 import Notification from "./components/Notification";
 import Progress from "./components/Progress";
 import Applicants from "./components/Applicants";
-import CopyrightFooter from "../../CopyrightFooter";
+
 import MenuToggler from "../../MenuToggler";
 import ManageProject from "./components/ManageProject";
 
@@ -114,7 +114,6 @@ const Index = () => {
       </section>
       {/* <!-- End Dashboard --> */}
 
-      <CopyrightFooter />
       {/* <!-- End Copyright --> */}
     </div>
     // End page-wrapper

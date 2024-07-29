@@ -41,6 +41,8 @@ const FormContent = ({ hideModal }) => {
   useEffect(() => {
     if (typeof window !== "undefined" && isSuccess) {
       window.localStorage.setItem("profile_image", user?.data?.profile_image);
+      window.localStorage.setItem("resume", user?.data?.resume);
+      window.localStorage.setItem("skills", JSON.stringify(user?.data?.skills));
     }
   }, [user, isSuccess]);
 
@@ -73,6 +75,9 @@ const FormContent = ({ hideModal }) => {
         window.localStorage.setItem("id", data.data.id);
         window.localStorage.setItem("user", data.data.username);
         window.localStorage.setItem("student", data.data.student);
+      }
+      if (data.data.student === "false") {
+        router.push("/employers-dashboard/dashboard");
       }
 
       if (currentPath !== "/job-single-v1/[id]") {

@@ -1,6 +1,7 @@
 import SearchForm from "../../common/job-search/SearchForm";
 import ImageBox from "./ImageBox";
 import PopularSearch from "../PopularSearch";
+import Link from "next/link";
 
 const index = () => {
   return (
@@ -31,8 +32,16 @@ const index = () => {
               </div>
 
               <div className="d-flex flex-row">
-                <button className="theme-btn btn-style-one">Get a Job</button>
-                <button className="theme-btn btn-style-one mx-4 ">Start</button>
+                <Link href={"/job-list/job-list-v1"}>
+                  <button className="theme-btn btn-style-one">Get a Job</button>
+                </Link>
+                <button
+                  className="theme-btn btn-style-one mx-4 call-modal signup"
+                  data-bs-toggle="modal"
+                  data-bs-target="#registerModal"
+                >
+                  Start
+                </button>
               </div>
 
               {/* <!-- Job Search Form --> */}

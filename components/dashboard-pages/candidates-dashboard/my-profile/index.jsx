@@ -7,7 +7,6 @@ import BreadCrumb from "../../BreadCrumb";
 import MyProfile from "./components/my-profile";
 import SocialNetworkBox from "./components/SocialNetworkBox";
 import ContactInfoBox from "./components/ContactInfoBox";
-import CopyrightFooter from "../../CopyrightFooter";
 import DashboardCandidatesHeader from "../../../header/DashboardCandidatesHeader";
 import MenuToggler from "../../MenuToggler";
 import { useEffect, useState } from "react";
@@ -337,8 +336,6 @@ const index = () => {
         {/* End dashboard-outer */}
       </section>
       {/* <!-- End Dashboard --> */}
-
-      <CopyrightFooter />
       {/* <!-- End Copyright --> */}
     </div>
     // End page-wrapper

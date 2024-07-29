@@ -3,13 +3,12 @@ import DashboardCandidatesHeader from "../../../header/DashboardCandidatesHeader
 import LoginPopup from "../../../common/form/login/LoginPopup";
 import DashboardCandidatesSidebar from "../../../header/DashboardCandidatesSidebar";
 import BreadCrumb from "../../BreadCrumb";
-import CopyrightFooter from "../../CopyrightFooter";
 import MenuToggler from "../../MenuToggler";
 import TrendingITJobs from "./components/TrendingITjobs";
 
 const index = () => {
   return (
-    <div className="page-wrappera dashboard">
+    <div className="page-wrapper dashboard">
       <span className="header-span"></span>
       {/* <!-- Header Span for hight --> */}
 
@@ -48,7 +47,6 @@ const index = () => {
       </section>
       {/* <!-- End Dashboard --> */}
 
-      <CopyrightFooter />
       {/* <!-- End Copyright --> */}
     </div>
     // End page-wrapper

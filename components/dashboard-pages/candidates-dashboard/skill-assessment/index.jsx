@@ -8,7 +8,7 @@ import Image from "next/image";
 
 const index = () => {
   return (
-    <div className="page-wrappera dashboard">
+    <div className="page-wrapper dashboard">
       <span className="header-span"></span>
       {/* <!-- Header Span for hight --> */}
 
@@ -50,8 +50,6 @@ const index = () => {
         {/* End dashboard-outer */}
       </section>
       {/* <!-- End Dashboard --> */}
-
-      {/* <CopyrightFooter /> */}
       {/* <!-- End Copyright --> */}
     </div>
     // End page-wrapper

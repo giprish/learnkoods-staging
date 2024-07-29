@@ -7,7 +7,7 @@ import DashboardEmployerSidebar from "../../../header/DashboardEmployerSidebar";
 import RegisterProfile from "./components/register-profile";
 import RegisterSocialnetworkBox from "./components/RegisterSocialnetworkBox";
 import RegisterContactInfoBox from "./components/RegisterContactInfoBox";
-import CopyrightFooter from "../../CopyrightFooter";
+
 import MenuToggler from "../../MenuToggler";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -212,7 +212,6 @@ const index = () => {
       </section>
       {/* <!-- End Dashboard --> */}
 
-      <CopyrightFooter />
       {/* <!-- End Copyright --> */}
     </div>
     // End page-wrapper

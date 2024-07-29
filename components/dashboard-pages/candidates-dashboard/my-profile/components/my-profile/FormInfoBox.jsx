@@ -54,7 +54,6 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           <input
             type="text"
             name="first_name"
-            required
             placeholder="Jerome"
             {...register("first_name")}
           />
@@ -67,7 +66,6 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           <input
             type="text"
             name="last_name"
-            required
             placeholder="kumar"
             {...register("last_name")}
           />
@@ -160,7 +158,6 @@ const FormInfoBox = ({ onSubmit, onError }) => {
             name="name"
             placeholder="5-10 Years"
             {...register("experience_level")}
-            required
           />
           {errors.experience_level && (
             <p className="text-danger">{errors.experience_level.message}</p>
@@ -175,7 +172,6 @@ const FormInfoBox = ({ onSubmit, onError }) => {
             name="age"
             placeholder="20"
             {...register("age")}
-            required
           />
           {errors.age && <p className="text-danger">{errors.age.message}</p>}
         </div>
@@ -215,7 +211,7 @@ const FormInfoBox = ({ onSubmit, onError }) => {
             name="skills"
             control={control}
             // defaultValue={[]}
-            rules={{ required: "Please select at least one skill" }}
+            // rules={{ required: "Please select at least one skill" }}
             render={({ field }) => (
               <Select
                 {...field}

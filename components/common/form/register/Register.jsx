@@ -1,19 +1,19 @@
+"use client";
+
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import LoginWithSocial from "./LoginWithSocial";
 import Form from "./FormContent";
 import Link from "next/link";
 import SigninWithSocial from "./SigninWithSocial";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Register = ({ hideModal }) => {
-  const [usertype, setUserType] = useState("candidate");
-  // console.log(usertype);
   return (
     <div className="form-inner">
-      <h3>Create a Free Superio Account</h3>
+      <h3>Create a Free LearnKoods Account</h3>
 
       <Tabs>
-        <div className="form-group register-dual">
+        {/* <div className="form-group register-dual">
           <TabList className="btn-box row">
             <Tab className="col-lg-6 col-md-12">
               <button
@@ -33,16 +33,15 @@ const Register = ({ hideModal }) => {
               </button>
             </Tab>
           </TabList>
-        </div>
-        {/* End .form-group */}
+        </div> */}
 
         <TabPanel>
-          <Form hideModal={hideModal} usertype={usertype} />
+          <Form hideModal={hideModal} />
         </TabPanel>
         {/* End cadidates Form */}
 
         <TabPanel>
-          <Form hideModal={hideModal} usertype={usertype} />
+          <Form hideModal={hideModal} />
         </TabPanel>
         {/* End Employer Form */}
       </Tabs>

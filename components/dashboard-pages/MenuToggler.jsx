@@ -15,7 +15,14 @@ const MenuToggler = () => {
         type="button"
         className="theme-btn toggle-filters"
       >
-        <span className="flaticon-menu-1"></span> Menu
+        <a
+          href="#"
+          className="mobile-nav-toggler"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasMenu"
+        >
+          <span className="flaticon-menu-1"></span> Menu
+        </a>
       </button>
     </div>
   );

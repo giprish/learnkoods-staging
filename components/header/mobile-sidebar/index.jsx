@@ -16,9 +16,50 @@ import {
   isActiveParentChaild,
 } from "../../../utils/linkActiveChecker";
 import { useRouter } from "next/router";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { menuToggle } from "@/features/toggle/toggleSlice";
+import candidatesMenuData from "@/data/candidatesMenuData";
+import employerMenuData from "@/data/employerMenuData";
 
 const Index = () => {
   const router = useRouter();
+  const { menu } = useSelector((state) => state.toggle);
+  const accessToken = window.localStorage.getItem("access");
+  const student = window.localStorage.getItem("student");
+  const fetchData = async () => {
+    const response = await axios.get(
+      `${process.env.GLOBAL_API}/usr_pro_id/${id}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
+  const { data: user } = useQuery({
+    queryKey: ["user", accessToken],
+    queryFn: () => fetchData(),
+  });
+  const dispatch = useDispatch();
+
+  const menuToggleHandler = () => {
+    dispatch(menuToggle());
+  };
+
+  const unifiedLogout = async () => {
+    if (accessToken) {
+      window.localStorage.clear();
+    }
+
+    toast.success("User logged out successfully", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+    router.push("/");
+  };
 
   return (
     <div
@@ -33,31 +74,48 @@ const Index = () => {
       {/* <ProSidebarProvider> */}
       <Sidebar>
         <Menu>
-          {mobileMenuData.map((item) => (
-            <SubMenu
-              className={
-                isActiveParentChaild(item.items, router.asPath)
-                  ? "menu-active"
-                  : ""
-              }
-              label={item.label}
-              key={item.id}
-            >
-              {item.items.map((menuItem, i) => (
+          {student === "true" &&
+            candidatesMenuData.map((item) => (
+              <MenuItem
+                className={
+                  isActiveLink(item.routePath, router.asPath)
+                    ? "menu-active-link"
+                    : ""
+                }
+                key={item.id}
+              >
+                {item.name === "Logout" ? (
+                  <Link href={item.routePath} onClick={unifiedLogout}>
+                    {item?.name}
+                  </Link>
+                ) : item.name === "My Resume" ? (
+                  <Link
+                    href={`${user?.data?.resume}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {item?.name}
+                  </Link>
+                ) : (
+                  <Link href={item.routePath}>{item?.name}</Link>
+                )}
+              </MenuItem>
+            ))}
+          {student === "false" &&
+            employerMenuData.map((item) => (
+              <Link href={item.routePath}>
                 <MenuItem
                   className={
-                    isActiveLink(menuItem.routePath, router.asPath)
+                    isActiveLink(item.routePath, router.asPath)
                       ? "menu-active-link"
                       : ""
                   }
-                  key={i}
-                  routerLink={<Link href={menuItem.routePath} />}
+                  key={item.id}
                 >
-                  {menuItem.name}
+                  {item.name}
                 </MenuItem>
-              ))}
-            </SubMenu>
-          ))}
+              </Link>
+            ))}
         </Menu>
       </Sidebar>
       {/* </ProSidebarProvider> */}

@@ -49,9 +49,9 @@ const DashboardCandidatesSidebar = () => {
 
   useEffect(() => {
     if (imageUrl !== "undefined") {
-      const user = localStorage.getItem("user");
+      const username = localStorage.getItem("user");
       setProfileImage(imageUrl);
-      setUserName(user);
+      setUserName(username);
     }
   }, [imageUrl]);
 

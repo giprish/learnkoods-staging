@@ -7,7 +7,7 @@ const ChatBoxContentField = () => {
         <div className="d-flex bd-highlight">
           <div className="img_cont">
             <img
-              src="/images/resource/candidate-8.png"
+              src="/images/resource/candidate-3.webp"
               alt=""
               className="rounded-circle user_img"
             />
@@ -29,7 +29,7 @@ const ChatBoxContentField = () => {
         <div className="d-flex justify-content-start mb-2">
           <div className="img_cont_msg">
             <img
-              src="/images/resource/candidate-3.png"
+              src="/images/resource/candidate-4.webp"
               alt=""
               className="rounded-circle user_img_msg"
             />
@@ -46,7 +46,7 @@ const ChatBoxContentField = () => {
         <div className="d-flex justify-content-end mb-2 reply">
           <div className="img_cont_msg">
             <img
-              src="/images/resource/candidate-6.png"
+              src="/images/resource/candidate-1.webp"
               alt=""
               className="rounded-circle user_img_msg"
             />
@@ -63,7 +63,7 @@ const ChatBoxContentField = () => {
         <div className="d-flex justify-content-start">
           <div className="img_cont_msg">
             <img
-              src="/images/resource/candidate-3.png"
+              src="/images/resource/candidate-4.webp"
               alt=""
               className="rounded-circle user_img_msg"
             />
@@ -85,7 +85,7 @@ const ChatBoxContentField = () => {
               required
             ></textarea>
             <button
-              type="submit"
+              type="button"
               className="theme-btn btn-style-one submit-btn"
             >
               Send Message

@@ -1,5 +1,4 @@
 "use client";
-
 import { QueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -8,11 +7,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-const FormContent = ({ hideModal, usertype }) => {
+const FormContent = ({ hideModal }) => {
   const [resume, setResume] = useState();
   const [url, setUrl] = useState("");
   const router = useRouter();
+
+  const usertype = useSelector((state) => state.user.userType);
+  console.log(usertype, "usertpe from redux");
 
   useEffect(() => {
     if (usertype === "candidate") {
@@ -52,13 +55,16 @@ const FormContent = ({ hideModal, usertype }) => {
         if (usertype === "candidate") {
           localStorage.setItem("id", data?.payload?.id);
           localStorage.setItem("user", data.payload.username);
+          // router.push("/");
         }
         if (usertype === "employer") {
           localStorage.setItem("id", data.payload.id);
           localStorage.setItem("user", data.payload.username);
+          // router.push("/employers-dashboard/dashboard");
         }
+        // window.location.reload();
       }
-      router.push("/");
+
       hideModal();
     },
     onError: (error) => {
@@ -89,7 +95,7 @@ const FormContent = ({ hideModal, usertype }) => {
     formData.append("resume", resume || null);
 
     console.log(userdata, "form data");
-    mutate(formData); // Assuming mutate accepts formData
+    // mutate(formData); // Assuming mutate accepts formData
   };
 
   return (
