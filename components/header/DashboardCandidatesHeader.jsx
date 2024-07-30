@@ -16,8 +16,6 @@ const DashboardCandidatesHeader = () => {
   const router = useRouter();
 
   useEffect(() => {
-    setAccessToken(window.localStorage.getItem("access"));
-
     const changeBackground = () => {
       if (window.scrollY >= 10) {
         setNavbar(true);

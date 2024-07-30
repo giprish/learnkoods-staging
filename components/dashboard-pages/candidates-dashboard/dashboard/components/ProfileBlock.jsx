@@ -7,7 +7,6 @@ const ProfileBlock = () => {
   const [access, setAccess] = useState(null);
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setUserName(localStorage.getItem("user"));
       setUserId(localStorage.getItem("id"));
       setAccess(localStorage.getItem("access"));
     }
