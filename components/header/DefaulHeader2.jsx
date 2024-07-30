@@ -9,17 +9,8 @@ import { toast } from "react-toastify";
 import { UserAuth } from "@/context/AuthContext";
 
 const DefaulHeader2 = () => {
-  const [student, setStudent] = useState(null);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setStudent(localStorage.getItem("student"));
-    }
-  }, []);
-
   const [navbar, setNavbar] = useState(false);
   const [accessToken, setAccessToken] = useState(null);
-  const [profileImage, setprofileImage] = useState("/images/logo-2.svg");
   const { fetchedUser } = UserAuth();
   const router = useRouter();
   useEffect(() => {
@@ -45,40 +36,6 @@ const DefaulHeader2 = () => {
     };
   }, [router]);
 
-  const unifiedLogout = async () => {
-    // if (user) {
-    //   try {
-    //     await logOut();
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-
-    if (accessToken) {
-      if (typeof window !== "undefined") {
-        localStorage.clear();
-      }
-
-      setAccessToken(null);
-    }
-
-    toast.success("User logged out successfully", {
-      position: toast.POSITION.TOP_CENTER,
-    });
-    router.push("/");
-  };
-
-  const href = () => {
-    if (accessToken) {
-      if (student === "false") {
-        return "/employers-dashboard/dashboard";
-      } else if (student === "true") {
-        return "/candidates-dashboard/my-profile";
-      }
-    } else {
-      return;
-    }
-  };
   return (
     // <!-- Main Header-->
     <header
