@@ -11,7 +11,6 @@ import { UserAuth } from "@/context/AuthContext";
 const DefaulHeader2 = () => {
   const [navbar, setNavbar] = useState(false);
 
-  const { fetchedUser } = UserAuth();
   const router = useRouter();
   useEffect(() => {
     const changeBackground = () => {

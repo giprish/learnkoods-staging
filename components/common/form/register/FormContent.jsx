@@ -15,7 +15,6 @@ const FormContent = ({ hideModal }) => {
   const router = useRouter();
 
   const usertype = useSelector((state) => state.user.userType);
-  console.log(usertype, "usertpe from redux");
 
   useEffect(() => {
     if (usertype === "candidate") {

@@ -12,29 +12,48 @@ import { setUserType } from "../../features/user/userslice";
 const HeaderNavContent = () => {
   const [student, setStudent] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-  const [profileImage, setProfileImage] = useState("");
-  const [id, setID] = useState(null);
+  const [profileImage, setProfileImage] = useState(
+    "/images/resource/ads-bg-4.png"
+  );
+  const [Id, setID] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setStudent(window.localStorage.getItem("student"));
+      setAccessToken(window.localStorage.getItem("access"));
+      setID(window.localStorage.getItem("id"));
+    }
+  }, []);
+
+  const fetchData = async () => {
+    const response = await axios.get(
+      `${process.env.GLOBAL_API}/usr_pro_id/${Id}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
+  const { data: user } = useQuery({
+    queryKey: ["user", accessToken],
+    queryFn: () => fetchData(),
+  });
+
+  useEffect(() => {
+    if (user) {
+      setProfileImage(user?.data?.profile_image);
+    }
+  }, [user]);
+
+  console.log(Id, "user id local");
   const dispatch = useDispatch();
 
   const handleUserType = (type) => {
     dispatch(setUserType(type));
   };
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedProfileImage = localStorage.getItem("profile_image");
-      setStudent(localStorage.getItem("student"));
-      setAccessToken(localStorage.getItem("access"));
-      setID(localStorage.getItem("id"));
-      if (
-        storedProfileImage &&
-        storedProfileImage !== "undefined" &&
-        storedProfileImage !== null
-      ) {
-        setProfileImage(storedProfileImage);
-      }
-    }
-  }, []);
 
   const router = useRouter();
   const href = () => {
@@ -66,19 +85,6 @@ const HeaderNavContent = () => {
       window.location.reload();
     }
   };
-  const fetchData = async () => {
-    const response = await axios.get(`${GLOBAL_API}/usr_pro_id/${id}/`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    return response.data;
-  };
-
-  const { data: user, isSuccess } = useQuery({
-    queryKey: ["user", accessToken],
-    queryFn: () => fetchData(),
-  });
 
   return (
     <>
@@ -227,10 +233,7 @@ const HeaderNavContent = () => {
                       <Image
                         alt="avatar"
                         className="rounded-circle"
-                        src={
-                          user?.data?.profile_image ||
-                          "/images/about-img-1.webp"
-                        }
+                        src={profileImage}
                         width={50}
                         height={50}
                       />
