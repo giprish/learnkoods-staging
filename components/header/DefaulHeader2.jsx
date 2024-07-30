@@ -10,16 +10,10 @@ import { UserAuth } from "@/context/AuthContext";
 
 const DefaulHeader2 = () => {
   const [navbar, setNavbar] = useState(false);
-  const [accessToken, setAccessToken] = useState(null);
+
   const { fetchedUser } = UserAuth();
   const router = useRouter();
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setAccessToken(localStorage.getItem("access"));
-    }
-
-    setprofileImage(fetchedUser?.data?.profile_image);
-
     const changeBackground = () => {
       if (window.scrollY >= 10) {
         setNavbar(true);
@@ -62,7 +56,7 @@ const DefaulHeader2 = () => {
               </Link>
             </div>
           </div>
-          <HeaderNavContent accessToken={accessToken} />
+          <HeaderNavContent />
           {/* <!-- Main Menu End--> */}
         </div>
       </div>
