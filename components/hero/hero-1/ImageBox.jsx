@@ -17,9 +17,9 @@ const ImageBox = () => {
           alt="hero image"
           className="img-1"
         />
-        <div className="social-hero">
+        {/* <div className="social-hero">
           <SocialHero />
-        </div>
+        </div> */}
         <Image
           width={150}
           height={100}

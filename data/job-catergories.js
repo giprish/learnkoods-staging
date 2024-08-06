@@ -64,8 +64,8 @@ module.exports = [
   },
   {
     id: 10,
-    icon: "flaticon-car",
-    catTitle: "Explore all",
+    icon: "flaticon-monitor-2",
+    catTitle: "AI",
     jobNumber: "92",
     bgColor: "#ADADFD",
   },

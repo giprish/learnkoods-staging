@@ -7,8 +7,8 @@ const Discover = () => {
     <>
       {/* <!-- Content Column --> */}
 
-      <div className="content-column row col-lg-12 col-md-12 col-sm-12 order-2">
-        <div className="image-column col-lg-6 col-md-12 col-sm-12">
+      <div className="row justify-content-between">
+        <div className="image-column col-xl-6 col-lg-6 col-md-12 col-sm-12">
           <figure className="image-box">
             <Image
               width={150}
@@ -42,7 +42,7 @@ const Discover = () => {
             </div>
           </figure>
         </div>
-        <div className="inner-column col-lg-6 col-md-12 col-sm-12">
+        <div className="inner-column col-xl-5 col-lg-5 col-md-12 col-sm-12">
           <h3 className="sec-subtitle">
             <img src="/images/resource/dot.png" />
             Welcome to Education

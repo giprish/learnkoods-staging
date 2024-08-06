@@ -8,12 +8,12 @@ Main Footer
 
 .main-footer {
   position: relative;
-  background-color: #ffffff;
+  background-color: #001d25;
   padding: 0px 55px;
-  background-image: url(/images/resource/Group_26__1_-removebg-preview.webp);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: bottom;
+  // background-image: url(/images/resource/Group_26__1_-removebg-preview.webp);
+  // background-size: contain;
+  // background-repeat: no-repeat;
+  // background-position: bottom;
 }
 
 .main-footer.alternate {
@@ -29,7 +29,7 @@ Main Footer
 .main-footer .widgets-section {
   position: relative;
   padding-top: 50px;
-  padding-bottom: 50px;
+  padding-bottom: 10px;
 }
 
 .main-footer .footer-column {
@@ -45,7 +45,7 @@ Main Footer
   position: relative;
   font-size: 18px;
   font-weight: 700;
-  color: #2f2d51;
+  color: #fff;
   line-height: 1.4em;
   margin-bottom: 30px;
 }
@@ -53,6 +53,10 @@ Main Footer
 .main-footer .logo {
   position: relative;
   margin-bottom: 25px;
+
+  h2 {
+    color: #ff3158;
+  }
 }
 
 .main-footer .logo img {
@@ -80,12 +84,12 @@ Main Footer
 .main-footer .address {
   font-size: 14px;
   line-height: 25px;
-  color: #000000;
+  color: #fff;
   font-weight: 400;
 }
 
 .main-footer .address a {
-  color: #000000;
+  color: #fff;
 }
 
 /*=== Cities Widget ===*/
@@ -112,7 +116,7 @@ Main Footer
 .main-footer .list li a {
   display: inline-block;
   font-size: 14px;
-  color: #000000;
+  color: #fff;
   -webkit-transition: all 200ms ease;
   -o-transition: all 200ms ease;
   transition: all 200ms ease;
@@ -125,7 +129,7 @@ Main Footer
   height: 2px;
   width: 0px;
   content: "";
-  border-bottom: 2px solid var(--primary-color);
+  border-bottom: 2px solid white;
   -webkit-transition: all 300ms ease;
   -o-transition: all 300ms ease;
   transition: all 300ms ease;
@@ -222,7 +226,7 @@ Main Footer
   font-size: 24px;
   font-weight: 1000;
   line-height: 24px;
-  color: #000000;
+  color: #ff3158;
   -webkit-transition: all 300ms ease;
   -o-transition: all 300ms ease;
   transition: all 300ms ease;

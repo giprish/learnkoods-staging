@@ -24,9 +24,9 @@ const index = () => {
               />
               <div className="title-box ">
                 <h3 className="font-weight-bold">
-                  Take Student <br />
-                  <span className="red">Experience</span> to the <br />
-                  Next Level
+                  Supercharge Your <br />
+                  <span className="red">Career</span> with <br />
+                  AI-Powered Upskilling
                 </h3>
                 <p>
                   Architect client-centered total linkage for intuitive benefits

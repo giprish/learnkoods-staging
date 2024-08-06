@@ -75,7 +75,7 @@ const index = () => {
           </div>
         </div>
       </section>
-      <section className="discover-section my-4">
+      <section className="discover-section">
         <div className="auto-container">
           <div
             className="row "

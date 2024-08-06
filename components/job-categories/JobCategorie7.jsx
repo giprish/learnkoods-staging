@@ -4,22 +4,21 @@ import jobCatContent from "../../data/job-catergories";
 const JobCategorie7 = () => {
   return (
     <>
-      <div>
-        <section
-          className="job-categories ui-job-categories shadow"
-          id="job-categories"
-        >
-          <div className="auto-container">
-            <div className="sec-title text-center">
-              <h2>Find out by popular Categories</h2>
-              <p className="mt-4">
-                We offer a brand new approach to the most basic learning
-                paradigms. Choose from a wide range of
-                <br /> learning options and gain new skills! Our school is know.
-              </p>
-            </div>
+      <section
+        className="job-categories ui-job-categories shadow justify-content-center "
+        id="job-categories"
+      >
+        <div className="auto-container">
+          <div className="sec-title text-center">
+            <h2>Find out by popular Categories</h2>
+            <p className="mt-4">
+              We offer a brand new approach to the most basic learning
+              paradigms. Choose from a wide range of
+              <br /> learning options and gain new skills! Our school is know.
+            </p>
+          </div>
 
-            {/* <div className="row custom-row row-1">
+          {/* <div className="row custom-row row-1">
               {jobCatContent.slice(0, 4).map((item) => (
                 <div
                   className="col-sm-12 col-md-12 col-lg-3 col-xl-3"
@@ -91,31 +90,40 @@ const JobCategorie7 = () => {
               ))}
             </div> */}
 
-            <div class="grid-container container-1">
-              {jobCatContent.map((item) => (
-                <>
-                  <div key={item.id}>
-                    <Link
-                      href="/job-list/job-list-v8"
-                      className="icon-item -type-3 "
+          <div class="grid-container container-1">
+            {jobCatContent.map((item) => (
+              <>
+                <div key={item.id}>
+                  <Link
+                    href="/job-list/job-list-v8"
+                    className="icon-item -type-3 "
+                  >
+                    <div
+                      className="icon-wrap"
+                      style={{ backgroundColor: `${item?.bgColor}` }}
                     >
-                      <div
-                        className="icon-wrap"
-                        style={{ backgroundColor: `${item?.bgColor}` }}
-                      >
-                        <div className={`icon ${item.icon}`}></div>
-                      </div>
-                      <div className="content">
-                        <h4>{item.catTitle}</h4>
-                      </div>
-                    </Link>
-                  </div>
-                </>
-              ))}
-            </div>
+                      <div className={`icon ${item.icon}`}></div>
+                    </div>
+                    <div className="content">
+                      <h4>{item.catTitle}</h4>
+                    </div>
+                  </Link>
+                </div>
+              </>
+            ))}
           </div>
-        </section>
-      </div>
+        </div>
+        <div className="explore-pill">
+          <Link href="/job-list/job-list-v8" className="icon-item -type-3 ">
+            <div className="icon-wrap" style={{ backgroundColor: `wheat` }}>
+              <div className={`icon flaticon-car`}></div>
+            </div>
+            <div className="content">
+              <h4>Explore All </h4>
+            </div>
+          </Link>
+        </div>
+      </section>
     </>
   );
 };

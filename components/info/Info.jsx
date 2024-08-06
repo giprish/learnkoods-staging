@@ -26,7 +26,7 @@ const Info = () => {
       title: "Innovation  ",
       content:
         "Fostering a culture of creativity and continuous improvement to stay ahead in a dynamic market. At its core, innovation is about the relentless pursuit.",
-      class: "info-div",
+      class: "info-div ",
     },
     {
       id: 2,
@@ -60,7 +60,7 @@ const Info = () => {
       title: " Customer Centricity",
       content:
         "Placing customers at the heart of decisions and actions, prioritizing their needs and satisfaction. Once such show each uniforms, to such ancient vices from select.",
-      class: "info-div",
+      class: "info-div ",
     },
     {
       id: 3,
@@ -128,28 +128,29 @@ const Info = () => {
   console.log(items[0].image);
   return (
     <>
-      <div className="d-flex justify-content-between">
+      <div className="justify-content-between">
         <div className="col-lg-6">
-          <span className="text mb-4">Our Values</span>
-          <h2 className="info-heading">Building lasting value</h2>
+          <span className=" btn-sol">Our Values</span>
+          <h2 className="info-heading mt-4">Building lasting value</h2>
         </div>
-        <div className="col-lg-6 p-4 border-start">
+        <div className="col-lg-6 mt-4 mb-4">
           Adipiscing elit, sed do euismod tempor incidunt ut labore et dolore
           magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
           ullamco.
         </div>
       </div>
 
-      <div className="d-flex content-column col-lg-12 col-md-12 col-sm-12 order-2 justify-content-around ">
-        {items.map((item, index) => {
+      <div className="d-flex flex-wrap content-column order-2 justify-content-around mb-4">
+        {items.map((item) => {
           return (
-            <>
-              <div key={item.id} className={item.class}>
-                {item.image}
-                <h3>{item.title}</h3>
-                <p>{item.content}</p>
-              </div>
-            </>
+            <div
+              key={item.id}
+              className={`col-12 col-sm-12 col-md-3  col-lg-3  col-xl-3 mb-3 ${item.class}`}
+            >
+              {item.image}
+              <h3>{item.title}</h3>
+              <p>{item.content}</p>
+            </div>
           );
         })}
       </div>

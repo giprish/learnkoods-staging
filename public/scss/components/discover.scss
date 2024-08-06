@@ -160,7 +160,7 @@
 .discover-two-section .info_block_discover-two {
   position: absolute;
   top: 45%;
-  right: -30%;
+  right: -15%;
   min-height: 105px;
   display: flex;
   justify-content: space-around;
@@ -292,7 +292,7 @@
   font-family: "Manrope", sans-serif;
 }
 
-.leverage-section .testimonial_content .testimonial_btn {
+.leverage-section .content .testimonial_btn {
   gap: 15px;
   display: flex;
   -webkit-box-orient: vertical;
@@ -321,15 +321,28 @@
 
   .discover-section .inner-column {
     margin: auto;
-    padding-top: 35px;
+    padding-top: 100px;
   }
 
   .discover-section .inner-column h2 {
-    font-size: 28px;
+    font-size: 20px;
   }
 
   .discover-section .inner-column h5 {
     font-size: 16px;
+  }
+  .discover-section .content-column {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .discover-section .inner-column h2,
+  .discover-section .inner-column h5 {
+    text-align: center;
+  }
+
+  .discover-section .image-column {
+    margin-bottom: 20px;
   }
 }
 
@@ -345,6 +358,9 @@
   .discover-section .inner-column h2,
   .discover-section .inner-column h5 {
     text-align: center;
+  }
+  .discover-section .inner-column h2 {
+    font-size: 15px;
   }
 
   .discover-section .image-column {
@@ -444,6 +460,12 @@
 
   .discover-two-section .image-column figure {
     margin-left: 0;
+  }
+}
+
+@media (max-width: 500px) {
+  .discover-two-section .info_block_discover-two {
+    width: 72%;
   }
 }
 

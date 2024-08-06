@@ -20,12 +20,6 @@ const index = ({ footerStyle = "" }) => {
               <div className="footer-column about-widget">
                 <div className="logo">
                   <a href="#">
-                    {/* <Image
-                      width={154}
-                      height={50}
-                      src="/images/logo.svg"
-                      alt="brand"
-                    /> */}
                     <h2>
                       <b>Learnkoods</b>
                     </h2>
