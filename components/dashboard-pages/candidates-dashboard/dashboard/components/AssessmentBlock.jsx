@@ -21,11 +21,13 @@ const AssessmentBlock = () => {
 
   return (
     <>
-      <div className="ui-block col-xl-3 col-lg-6 col-md-6 col-sm-12">
-        <ProgressCandidate title="Courses Completed" />
-      </div>
-      <div className="ui-block col-xl-3 col-lg-6 col-md-6 col-sm-12">
-        <ProgressCandidate title="Assessments Completed" />
+      <div className="row">
+        <div className="ui-block col-lg-6 ">
+          <ProgressCandidate title="Courses Completed" />
+        </div>
+        <div className="ui-block col-lg-6 ">
+          <ProgressCandidate title="Assessments Completed" />
+        </div>
       </div>
     </>
   );

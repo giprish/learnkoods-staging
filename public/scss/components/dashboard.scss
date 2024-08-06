@@ -465,6 +465,7 @@ Graph widget
 
 .graph-widget .widget-content {
   padding-top: 80px;
+  flex-grow: 1;
 }
 
 .graph-widget .tab-buttons {
@@ -1780,6 +1781,33 @@ Chat Widget
   margin-right: 30px;
   padding: 7px 0;
 }
+.ls-widget .widget-title-skill {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  background: transparent;
+  padding: 2px 30px 10px;
+  min-height: 60px;
+}
+
+.ls-widget .widget-title-skill h4 {
+  position: relative;
+  font-size: 18px;
+  line-height: 30px;
+  color: #1b2032;
+  font-weight: 500;
+  margin-right: 30px;
+  padding: 7px 0;
+}
 
 .ls-widget .widget-title h4 .icon {
   position: absolute;
@@ -1870,7 +1898,7 @@ Chat Widget
 
 .ls-widget .widget-content {
   position: relative;
-  padding: 0px 30px 10px;
+  padding: 0px 30px 0px;
 }
 
 .ls-widget .widget-content p {

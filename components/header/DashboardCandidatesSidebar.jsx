@@ -101,7 +101,9 @@ const DashboardCandidatesSidebar = () => {
                 <Image
                   alt="avatar"
                   className=""
-                  src={user?.data?.profile_image || "/images/about-img-1.webp"}
+                  src={
+                    user?.data?.profile_image || "/images/resource/ads-bg-4.png"
+                  }
                   width={50}
                   height={50}
                 />

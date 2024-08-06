@@ -1,91 +1,346 @@
-import candidatesData from "../../../../../data/candidates";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import Link from "next/link";
+import Select from "react-select";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 const WidgetContentBox = () => {
+  const [jobId, setJobdId] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [access, setAccess] = useState(null);
+  const [applicants, setApplicants] = useState([]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setAccess(window.localStorage.getItem("access"));
+    }
+  }, []);
+
+  const fetchJobs = async () => {
+    const response = await axios.get(`${process.env.GLOBAL_API}/job-user/`, {
+      headers: {
+        Authorization: `Bearer ${access}`,
+      },
+    });
+    return response.data;
+  };
+
+  const { data: Jobs } = useQuery({
+    queryKey: ["AllJobs"],
+    queryFn: () => fetchJobs(),
+
+    enabled: !!access,
+  });
+
+  const JobOptions = Jobs?.data.map((job) => {
+    return { value: job.job_id, label: job.job_title };
+  });
+
+  const handleJob = (selectedOption) => {
+    setSelectedOption(selectedOption);
+    setJobdId(selectedOption.value);
+  };
+
+  const fetchAppliedCandidates = async () => {
+    const response = await axios.get(
+      `${process.env.GLOBAL_API}/usr_job_applied/${jobId}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
+  const { data: AppliedCandidates } = useQuery({
+    queryKey: ["AppliedCandidates", jobId],
+    queryFn: () => fetchAppliedCandidates(),
+    enabled: !!jobId && !!access,
+  });
+
+  console.log(AppliedCandidates, "applied candidates");
+  const fetchApplicantStatus = async () => {
+    const response = await axios.get(
+      `${process.env.GLOBAL_API}/single_job_applied/${jobId}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
+  const { data: ApplicantStatus } = useQuery({
+    queryKey: ["ApplicantStatus", jobId],
+    queryFn: () => fetchApplicantStatus(),
+
+    enabled: !!jobId && !!access,
+  });
+
+  console.log(ApplicantStatus, "applicant status");
+
+  const mergedArray = AppliedCandidates?.data.map((item) => {
+    const matchingProfile = AppliedCandidates?.profile.find(
+      (profile) => profile.profile_id === item.student.id
+    );
+
+    const matchingStatus = ApplicantStatus?.data.find(
+      (status) => status.student.id === item.student.id
+    );
+    if (matchingProfile) {
+      return {
+        ...item,
+        ...matchingStatus,
+        student: {
+          ...item.student,
+          ...matchingProfile,
+        },
+      };
+    }
+    return item;
+  });
+
+  useEffect(() => {
+    if (mergedArray) {
+      setApplicants(mergedArray);
+    }
+  }, [AppliedCandidates]);
+
+  console.log(applicants, "merged array");
+
+  const toggleApplicantState = (id, key) => {
+    setApplicants((prevApplicants) =>
+      prevApplicants.map((applicant) => {
+        if (applicant.id === id) {
+          const newApplicantState = { ...applicant, [key]: !applicant[key] };
+
+          // Handle special case for is_rejected
+          if (key === "is_rejected" && newApplicantState[key]) {
+            newApplicantState.is_shortlist = false;
+            newApplicantState.is_interview = false;
+            newApplicantState.is_approved = false;
+          }
+
+          // Validate interdependencies
+          if (key !== "is_rejected") {
+            // If any state other than is_rejected is true, is_rejected must be false
+            if (
+              newApplicantState.is_shortlist ||
+              newApplicantState.is_interview ||
+              newApplicantState.is_approved
+            ) {
+              newApplicantState.is_rejected = false;
+            }
+            // If is_approved is true, set is_shortlist and is_interview to true
+            if (newApplicantState.is_approved) {
+              newApplicantState.is_shortlist = true;
+              newApplicantState.is_interview = true;
+            }
+          }
+
+          return newApplicantState;
+        }
+        return applicant;
+      })
+    );
+  };
+
+  const updateApplicant = async (updatedApplicant) => {
+    const response = await axios.put(
+      `${process.env.GLOBAL_API}/shortlist/${updatedApplicant.application_id}/`,
+      {
+        // job_applicant: updatedApplicant.student.id,
+        employer: updatedApplicant.job_employer.id,
+        is_approved: updatedApplicant.is_approved,
+        is_interview: updatedApplicant.is_interview,
+        is_rejected: updatedApplicant.is_rejected,
+        is_shortlist: updatedApplicant.is_shortlist,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
+  const { mutate } = useMutation({
+    mutationFn: updateApplicant,
+    onSuccess: (data) => {
+      console.log("Applicant updated successfully:", data);
+      // setApplicants((prevApplicants) =>
+      //   prevApplicants.map((applicant) =>
+      //     applicant.id === data.id ? data : applicant
+      //   )
+      // );
+      toast.success("Applicant Status Updated", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+    onError: (error) => {
+      console.error("Error updating applicant:", error);
+      toast.error("Could Not Update Applicant Status", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+  });
+
+  const handleUpdate = (id) => {
+    console.log(id, "url id");
+    const updatedApplicant = applicants.find(
+      (applicant) => applicant.student.id === id
+    );
+    console.log(updatedApplicant, "updated applicant");
+    mutate(updatedApplicant);
+  };
+
   return (
     <div className="widget-content">
       <div className="tabs-box">
         <Tabs>
-          <div className="aplicants-upper-bar">
-            <h6>Senior Product Designer</h6>
-
-            <TabList className="aplicantion-status tab-buttons clearfix">
-              <Tab className="tab-btn totals"> Total(s): 6</Tab>
-              <Tab className="tab-btn approved"> Approved: 2</Tab>
-              <Tab className="tab-btn rejected"> Rejected(s): 4</Tab>
-            </TabList>
+          <div className="d-flex aplicants-upper-bar">
+            {/* <h6>Senior Product Designer</h6> */}
+            <div className="form-group col-6">
+              <Select
+                options={JobOptions}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={handleJob}
+                value={selectedOption}
+              />
+            </div>
+            <div className="col-6">
+              <TabList className="aplicantion-status tab-buttons clearfix">
+                <Tab className="tab-btn totals"> Total(s): 6</Tab>
+                <Tab className="tab-btn approved"> Approved: 2</Tab>
+                <Tab className="tab-btn rejected"> Rejected(s): 4</Tab>
+              </TabList>
+            </div>
           </div>
 
           <div className="tabs-content">
             <TabPanel>
               <div className="row">
-                {candidatesData.slice(17, 23).map((candidate) => (
+                {applicants?.map((student) => (
                   <div
                     className="candidate-block-three col-lg-6 col-md-12 col-sm-12"
-                    key={candidate.id}
+                    key={student.student.id}
                   >
                     <div className="inner-box">
                       <div className="content">
                         <figure className="image">
-                          <img src={candidate.avatar} alt="candidates" />
+                          <img
+                            src={student.student.profile_image}
+                            alt="candidates"
+                          />
                         </figure>
                         <h4 className="name">
-                          <Link href={`/candidates-single-v1/${candidate.id}`}>
-                            {candidate.name}
+                          <Link
+                            href={`/candidates-single-v1/${student.student.id}`}
+                          >
+                            {student.student.name}
                           </Link>
                         </h4>
 
                         <ul className="candidate-info">
                           <li className="designation">
-                            {candidate.designation}
+                            {student.student.designation || "null"}
                           </li>
                           <li>
                             <span className="icon flaticon-map-locator"></span>{" "}
-                            {candidate.location}
+                            {student.student.city?.name || "null"}
                           </li>
                           <li>
                             <span className="icon flaticon-money"></span> $
-                            {candidate.hourlyRate} / hour
+                            {student.student.hourlyRate || "null"} / hour
                           </li>
                         </ul>
-                        {/* End candidate-info */}
-
                         <ul className="post-tags">
-                          {candidate.tags.map((val, i) => (
-                            <li key={i}>
-                              <a href="#">{val}</a>
+                          {student.student.skills.map((val, i) => (
+                            <li key={i} className="my-2">
+                              <a href="#">{val.data}</a>
                             </li>
                           ))}
                         </ul>
                       </div>
-                      {/* End content */}
 
                       <div className="option-box">
                         <ul className="option-list">
                           <li>
-                            <button data-text="View Aplication">
+                            <button
+                              data-text="ShortList Aplication"
+                              onClick={() =>
+                                toggleApplicantState(student.id, "is_shortlist")
+                              }
+                              style={{
+                                backgroundColor: student.is_shortlist
+                                  ? "#83da83"
+                                  : "#f3a9a9",
+                              }}
+                            >
                               <span className="la la-eye"></span>
                             </button>
                           </li>
                           <li>
-                            <button data-text="Approve Aplication">
+                            <button
+                              data-text="Approve Aplication"
+                              onClick={() =>
+                                toggleApplicantState(student.id, "is_approved")
+                              }
+                              style={{
+                                backgroundColor: student.is_approved
+                                  ? "#83da83"
+                                  : "#f3a9a9",
+                              }}
+                            >
                               <span className="la la-check"></span>
                             </button>
                           </li>
                           <li>
-                            <button data-text="Reject Aplication">
+                            <button
+                              data-text="Interview Aplication"
+                              onClick={() =>
+                                toggleApplicantState(student.id, "is_interview")
+                              }
+                              style={{
+                                backgroundColor: student.is_interview
+                                  ? "#83da83"
+                                  : "#f3a9a9",
+                              }}
+                            >
+                              <span className="la la-briefcase"></span>
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              data-text="Reject Aplication"
+                              onClick={() =>
+                                toggleApplicantState(student.id, "is_rejected")
+                              }
+                              style={{
+                                backgroundColor: student.is_rejected
+                                  ? "#83da83"
+                                  : "#f3a9a9",
+                              }}
+                            >
                               <span className="la la-times-circle"></span>
                             </button>
                           </li>
                           <li>
-                            <button data-text="Delete Aplication">
-                              <span className="la la-trash"></span>
+                            <button
+                              data-text="Update Application"
+                              onClick={() => handleUpdate(student.student.id)}
+                            >
+                              <span className="la la-angle-double-up"></span>
                             </button>
                           </li>
                         </ul>
                       </div>
-                      {/* End admin options box */}
                     </div>
                   </div>
                 ))}
@@ -93,7 +348,7 @@ const WidgetContentBox = () => {
             </TabPanel>
             {/* End total applicants */}
 
-            <TabPanel>
+            {/* <TabPanel>
               <div className="row">
                 {candidatesData.slice(17, 19).map((candidate) => (
                   <div
@@ -124,7 +379,6 @@ const WidgetContentBox = () => {
                             {candidate.hourlyRate} / hour
                           </li>
                         </ul>
-                        {/* End candidate-info */}
 
                         <ul className="post-tags">
                           {candidate.tags.map((val, i) => (
@@ -134,7 +388,6 @@ const WidgetContentBox = () => {
                           ))}
                         </ul>
                       </div>
-                      {/* End content */}
 
                       <div className="option-box">
                         <ul className="option-list">
@@ -160,15 +413,14 @@ const WidgetContentBox = () => {
                           </li>
                         </ul>
                       </div>
-                      {/* End admin options box */}
                     </div>
                   </div>
                 ))}
               </div>
-            </TabPanel>
+            </TabPanel> */}
             {/* End approved applicants */}
 
-            <TabPanel>
+            {/* <TabPanel>
               <div className="row">
                 {candidatesData.slice(17, 21).map((candidate) => (
                   <div
@@ -199,7 +451,7 @@ const WidgetContentBox = () => {
                             {candidate.hourlyRate} / hour
                           </li>
                         </ul>
-                        {/* End candidate-info */}
+                        
 
                         <ul className="post-tags">
                           {candidate.tags.map((val, i) => (
@@ -209,7 +461,7 @@ const WidgetContentBox = () => {
                           ))}
                         </ul>
                       </div>
-                      {/* End content */}
+                     
 
                       <div className="option-box">
                         <ul className="option-list">
@@ -235,12 +487,12 @@ const WidgetContentBox = () => {
                           </li>
                         </ul>
                       </div>
-                      {/* End admin options box */}
+                      
                     </div>
                   </div>
                 ))}
               </div>
-            </TabPanel>
+            </TabPanel> */}
             {/* End rejected applicants */}
           </div>
         </Tabs>

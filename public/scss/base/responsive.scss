@@ -1,5 +1,14 @@
 /* LearnKoods | Just another HTML Template  */
 
+.skill-div {
+  padding-bottom: 20px;
+}
+
+.coming-section {
+  margin: 20%;
+  text-align: center;
+}
+
 @media only screen and (max-width: 1600px) {
   .main-menu .navigation > li {
     margin-right: 35px;
@@ -20,10 +29,9 @@
     .info_block_four {
       transform: scale(0.8);
     }
+    background-color: #001d25;
 
-    background-image: url(/images/resource/blob-design-shape-with-transpare.png);
-    background-size: 100%;
-    background-position: center -348px;
+    background-image: url(../../images/resource/shape-2.png);
     background-repeat: no-repeat;
   }
 
@@ -33,10 +41,29 @@
 
   .banner-section {
     .content-column h3 {
-      font-size: 50px;
-      line-height: 1.2em;
+      color: white;
+      font-size: 80px;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.8px;
+      font-family: "Manrope", sans-serif;
+    }
+    .content-column p {
+      font-size: 18px;
+      max-width: 590px;
+      padding-top: 20px;
+      padding-bottom: 50px;
+      color: #b3c0c4;
     }
 
+    .title-box .red {
+      color: #ff3158;
+      font-size: 80px;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.8px;
+      font-family: "Manrope", sans-serif;
+    }
     .image-column .image-box {
       margin-right: -40px;
       padding-left: 0;
@@ -56,6 +83,9 @@
       }
 
       .info_block {
+        left: -100px;
+      }
+      .info_block_discover {
         left: -100px;
       }
     }
@@ -282,6 +312,12 @@
 
   .banner-section .content-column .inner-column {
     padding: 220px 0 50px;
+    position: relative;
+  }
+  .banner-section .content-column .inner-column .star {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
   .banner-section-two .content-column .inner-column {
@@ -437,6 +473,7 @@
 
   .about-section .content-column .inner-column {
     padding-left: 0;
+    background-color: #f8f7f3;
   }
 
   .banner-section-two {

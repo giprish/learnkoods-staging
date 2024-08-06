@@ -14,7 +14,7 @@ const ChatBox = () => {
   return (
     <div className="row">
       <div
-        className="contacts_column col-xl-4 col-lg-5 col-md-12 col-sm-12 chat"
+        className="contacts_column col-xl-5 col-lg-5 col-md-12 col-sm-12 chat"
         id="chat_contacts"
       >
         <div className="card contacts_card">
@@ -40,7 +40,7 @@ const ChatBox = () => {
       </div>
       {/* End chat_contact */}
 
-      <div className=" col-xl-8 col-lg-7 col-md-12 col-sm-12 chat">
+      <div className=" col-xl-7 col-lg-7 col-md-12 col-sm-12 chat">
         <ContentField />
       </div>
       {/* chatbox-field-content */}

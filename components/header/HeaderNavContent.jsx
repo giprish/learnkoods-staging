@@ -48,7 +48,7 @@ const HeaderNavContent = () => {
     }
   }, [user]);
 
-  console.log(Id, "user id local");
+  // console.log(Id, "user id local");
   const dispatch = useDispatch();
 
   const handleUserType = (type) => {
@@ -93,7 +93,7 @@ const HeaderNavContent = () => {
           <ul className="navigation" id="navbar">
             {/* current dropdown */}
             <li>
-              <a href="/">
+              <a href="/upskill">
                 <span>Upskill</span>
               </a>
             </li>
@@ -106,7 +106,7 @@ const HeaderNavContent = () => {
             </li>
 
             <li>
-              <a href="">
+              <a href="/mentorship">
                 <span>Mentorship</span>
               </a>
             </li>
@@ -123,7 +123,7 @@ const HeaderNavContent = () => {
               <li className="nav-item dropdown">
                 <a
                   href="#"
-                  className="theme-btn btn-style-new dropdown-toggle"
+                  className="theme-btn btn-style-blue dropdown-toggle"
                   id="loginDropdown"
                   role="button"
                   data-bs-toggle="dropdown"
@@ -160,7 +160,7 @@ const HeaderNavContent = () => {
               <li className="nav-item dropdown">
                 <a
                   href="#"
-                  className="theme-btn btn-style-new dropdown-toggle"
+                  className="theme-btn btn-style-blue dropdown-toggle"
                   id="registerDropdown"
                   role="button"
                   data-bs-toggle="dropdown"
@@ -202,7 +202,7 @@ const HeaderNavContent = () => {
               <li>
                 <a
                   href="#"
-                  className="theme-btn btn-style-new"
+                  className="theme-btn btn-style-blue"
                   onClick={unifiedLogout}
                 >
                   Logout
@@ -213,7 +213,13 @@ const HeaderNavContent = () => {
             {accessToken && (
               <>
                 <li>
-                  <a href="/candidates-dashboard/messages">
+                  <a
+                    href={
+                      student === "true"
+                        ? "/candidates-dashboard/messages"
+                        : "/employers-dashboard/messages"
+                    }
+                  >
                     <button className="menu-btn">
                       <span className="count">1</span>
                       <span className="icon la la-comment"></span>
@@ -221,7 +227,13 @@ const HeaderNavContent = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="/candidates-dashboard">
+                  <a
+                    href={
+                      student === "true"
+                        ? "/candidates-dashboard"
+                        : "/employers-dashboard"
+                    }
+                  >
                     <button className="menu-btn">
                       <span className="icon la la-bell"></span>
                     </button>

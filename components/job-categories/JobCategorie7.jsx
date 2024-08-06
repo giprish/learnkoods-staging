@@ -11,7 +11,12 @@ const JobCategorie7 = () => {
         >
           <div className="auto-container">
             <div className="sec-title text-center">
-              <h2>Job Categories</h2>
+              <h2>Find out by popular Categories</h2>
+              <p className="mt-4">
+                We offer a brand new approach to the most basic learning
+                paradigms. Choose from a wide range of
+                <br /> learning options and gain new skills! Our school is know.
+              </p>
             </div>
 
             {/* <div className="row custom-row row-1">

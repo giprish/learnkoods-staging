@@ -73,7 +73,8 @@ module.exports = [
     blogSingleTitle:
       "Online business toward the sunshine - and shadows will fall behind you.",
     blogText: `of learners remain long-term with their employer`,
-    backgroundColor: "#4C59BD",
+    backgroundColor: "#ddfc9d",
+    color: "#000000",
   },
   {
     id: 9,
@@ -88,7 +89,8 @@ module.exports = [
     blogSingleTitle:
       "Advertising for your toward the sunshine - and shadows will fall behind you.",
     blogText: `companies across the US & UK trust Multiverse`,
-    backgroundColor: "#34BACA",
+    backgroundColor: "#3b3b3a",
+    color: "#ddfc9d",
   },
   {
     id: 10,
@@ -103,7 +105,8 @@ module.exports = [
     blogSingleTitle:
       "Free advertising for your toward the sunshine - and shadows will fall behind you.",
     blogText: `tracked return-on-investment for our customers to date`,
-    backgroundColor: "#9D4DBF",
+    backgroundColor: "#d2d7fc",
+    color: "#000000",
   },
   // home 10 blog
   {

@@ -25,9 +25,31 @@ const index = () => {
   const [access, setAccess] = useState(null);
   const [companyid, setCompanyId] = useState(null);
   const [companyname, setCompanyName] = useState(null);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState({
+    file: null,
+    url: "",
+  });
+  const [cover, setCover] = useState({
+    file: null,
+    url: "",
+  });
   const [previousImage, setPreviousImage] = useState(null);
   const [userId, setUserId] = useState(null);
+
+  const handleImage = (e) => {
+    setImage((prev) => ({
+      ...prev,
+      file: e.target.files[0],
+    }));
+    console.log(image.file, "image file");
+  };
+  const handleCover = (e) => {
+    setCover((prev) => ({
+      ...prev,
+      file: e.target.files[0],
+    }));
+    console.log(cover.file, "image file");
+  };
 
   useEffect(() => {
     const access = window.localStorage.getItem("access");
@@ -71,10 +93,21 @@ const index = () => {
     methods.setValue("address", company?.data.address);
 
     // Set the image from the company data
-    setImage(company?.data?.logo);
     // Keep track of the previous image
-    setPreviousImage(company?.data?.logo);
+    if (typeof company !== "undefined") {
+      setPreviousImage(company?.data?.logo);
+      setImage((prev) => ({
+        ...prev,
+        url: company?.data?.logo,
+      }));
 
+      if (typeof company?.data?.cover !== "undefined") {
+        setCover((prev) => ({
+          ...prev,
+          url: company?.data?.cover,
+        }));
+      }
+    }
     console.log(company, "company data");
   }, [company]);
 
@@ -107,11 +140,6 @@ const index = () => {
       });
     },
   });
-
-  const handelImage = (e) => {
-    console.log(e.target.files[0], "image");
-    setImage(e.target.files[0]);
-  };
 
   const onSubmit = (data) => {
     console.log(dirtyFields, "dirtyfields");
@@ -199,8 +227,11 @@ const index = () => {
                     </div>
                     <MyProfile
                       onSubmit={onSubmit}
-                      handelImage={handelImage}
+                      handleCover={handleCover}
                       company={company}
+                      handleImage={handleImage}
+                      image={image}
+                      cover={cover}
                     />
                   </div>
                 </div>

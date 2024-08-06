@@ -72,6 +72,8 @@ const AIJobListingsTable = () => {
     }
   };
 
+  console.log(aiJobs, "ai jbs");
+
   return (
     <div className="tabs-box">
       <div className="widget-title">
@@ -91,6 +93,9 @@ const AIJobListingsTable = () => {
             <thead>
               <tr>
                 <th>Job Title</th>
+                <th>Company</th>
+                <th>City</th>
+                <th>Job Type</th>
               </tr>
             </thead>
             <tbody>
@@ -100,6 +105,15 @@ const AIJobListingsTable = () => {
                     <Link href={`/job-single-v1/${item?.id}`}>
                       <h5>{item.job_title}</h5>
                     </Link>
+                  </td>
+                  <td>
+                    <h5>{item.company}</h5>
+                  </td>
+                  <td>
+                    <h5>{item.city}</h5>
+                  </td>
+                  <td>
+                    <h5>{item.job_type}</h5>
                   </td>
                 </tr>
               ))}

@@ -20,6 +20,7 @@ import Blog4 from "../blog/Blog4";
 import Discover from "../Discover/Discover";
 import Discover2 from "../Discover/Discover2";
 import LeverageAi from "../ai/LeverageAi";
+import Info from "../info/Info";
 
 const index = () => {
   return (
@@ -35,17 +36,26 @@ const index = () => {
 
       <Hero1 />
       {/* End Hero Section */}
-      <BrowseInternship />
+      <section className="about-section">
+        <div className="auto-container">
+          <div className="row">
+            <span className="btn-sol">Our Solution</span>
+            <About3 />
+          </div>
+        </div>
+      </section>
+      {/* <BrowseInternship /> */}
 
       <JobCategorie7 />
 
-      <section className="about-section">
+      {/* <section className="about-section">
         <div className="auto-container">
           <div className="row">
             <About3 />
           </div>
         </div>
-      </section>
+      </section> */}
+
       {/* <!-- End About Section --> */}
 
       <section className="news-section">
@@ -58,7 +68,14 @@ const index = () => {
           </div>
         </div>
       </section>
-      <section className="discover-section">
+      <section className="info-section">
+        <div className="auto-container">
+          <div className="row">
+            <Info />
+          </div>
+        </div>
+      </section>
+      <section className="discover-section my-4">
         <div className="auto-container">
           <div
             className="row "

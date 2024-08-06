@@ -1,10 +1,23 @@
 import FormInfoBox from "./FormInfoBox";
 import LogoCoverUploader from "./LogoCoverUploader";
 
-const index = ({ onSubmit, handelImage, company }) => {
+const index = ({
+  onSubmit,
+  handleCover,
+  handleImage,
+  image,
+  cover,
+  company,
+}) => {
   return (
     <div className="widget-content">
-      <LogoCoverUploader onSubmit={onSubmit} handelImage={handelImage} />
+      <LogoCoverUploader
+        onSubmit={onSubmit}
+        handleImage={handleImage}
+        handleCover={handleCover}
+        image={image}
+        cover={cover}
+      />
       {/* End logo and cover photo components */}
 
       <FormInfoBox onSubmit={onSubmit} company={company} />

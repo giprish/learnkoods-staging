@@ -11,6 +11,18 @@ About Section
   padding: 100px 55px 0 55px;
 }
 
+.btn-sol {
+  background-color: #ddfc9d;
+  border: 0px solid;
+  border-radius: 3px;
+  width: 140px;
+  padding: 5px 17px;
+  font-size: 18px;
+  font-weight: 600;
+  flex-wrap: nowrap;
+  margin: 0px 0px 10px 0px;
+}
+
 .about-section .content-column {
   position: relative;
   margin-bottom: 50px;
@@ -20,7 +32,7 @@ About Section
 
 .about-section .content-column .inner-column {
   position: relative;
-  padding-left: 70px;
+  background-color: #f8f7f3;
 }
 
 .about-section .sec-title {
@@ -46,13 +58,64 @@ About Section
 
 .about-section .image-column {
   position: relative;
-  // text-align: center;
-  margin-bottom: 50px;
+}
+.about-section .image-column .ai {
+  position: absolute;
+}
+.about-section .image-column .statistic {
+  position: absolute;
+}
+.about-section .image-column .agile {
+  position: absolute;
 }
 
 .about-section .image-column .image {
   position: relative;
   margin-bottom: 0;
+}
+
+.info-section .info-heading {
+  font-weight: 400;
+  font-size: 53px;
+  line-height: 1.226em;
+  font-family: "Unna", serif;
+}
+
+.info-section .text {
+  font-size: 18px;
+  line-height: 1.5em;
+  font-weight: 500;
+}
+.info-section.content-column {
+  margin-top: 50px;
+}
+
+.info-section .content-column h3 {
+  color: #18333b;
+  padding: 0;
+  margin: 0 0 20px 0;
+  font-family: "Unna", serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.167em;
+}
+.info-section .content-column p {
+  font-size: 16px;
+  line-height: 1.563em;
+  font-weight: 400;
+  font-family: "Roboto", sans-serif;
+  color: #67797e;
+}
+.info-section .content-column .info-div {
+  margin-right: 35px;
+}
+.info-section .content-column svg {
+  height: 60px;
+  width: 60px;
+  padding: 15px;
+  margin-bottom: 22px;
+  background-color: #f7f7f7;
+  border-radius: 50%;
 }
 
 @media (max-width: 992px) {
@@ -479,23 +542,29 @@ About Section Three
 }
 
 .about-section .about-heading {
-  font-size: 21px;
+  font-size: 38px;
   font-weight: 600;
   margin-bottom: 1rem;
 }
 .about-section .text {
-  font-size: 15px;
+  font-size: 20px;
+  color: black;
 }
 
 .about-section .about3-img {
   border-radius: 30px;
 }
 .about-section .service-title {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 1.75rem;
+  font-weight: 570;
+  line-height: 1.2;
+  letter-spacing: -0.01rem;
 }
 .about-section .service-details {
-  font-size: 14px;
-  font-weight: 600;
-  padding: 0px 0px 10px 30px;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  font-weight: 400;
+  letter-spacing: 0.026em;
+  margin-left: 17px;
+  margin-bottom: 15px;
 }

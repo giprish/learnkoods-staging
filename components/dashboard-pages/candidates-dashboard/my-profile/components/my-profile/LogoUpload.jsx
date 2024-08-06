@@ -5,8 +5,8 @@ import { useFormContext } from "react-hook-form";
 const LogoUpload = ({ handelImage, handelResume, image, resume }) => {
   return (
     <>
-      <div className="uploading-outer-profile">
-        <div>
+      <div className="row justify-content-around">
+        <div className="col-lg-6 col-sm-12 mb-4">
           {image ? (
             <div className="d-flex flex-column uploadButton justify-content-center align-items-center">
               {image.url.length > 2 && !image.file && (
@@ -77,11 +77,11 @@ const LogoUpload = ({ handelImage, handelResume, image, resume }) => {
             </div>
           )}
 
-          <div className="text">
+          <div className="text text-center">
             Max file size is 1MB, Suitable files are .jpg & .png
           </div>
         </div>
-        <div>
+        <div className="col-lg-6 col-sm-12">
           {resume ? (
             <>
               <div className="uploadButton d-flex flex-column align-items-center">
@@ -146,7 +146,7 @@ const LogoUpload = ({ handelImage, handelResume, image, resume }) => {
             </>
           )}
 
-          <div className="text">
+          <div className="text text-center">
             Max file size is 1MB, Suitable files are .docx & .pdf
           </div>
         </div>

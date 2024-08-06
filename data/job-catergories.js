@@ -57,6 +57,13 @@ module.exports = [
   },
   {
     id: 9,
+    icon: "flaticon-puzzle",
+    catTitle: "UI/UX design",
+    jobNumber: "25",
+    bgColor: "#FDEDAD",
+  },
+  {
+    id: 10,
     icon: "flaticon-car",
     catTitle: "Explore all",
     jobNumber: "92",

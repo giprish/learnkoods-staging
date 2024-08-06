@@ -48,11 +48,33 @@ const Index = () => {
           <MenuToggler />
           {/* Collapsible sidebar button */}
 
-          <div className="row">
-            {/* <TopCardBlock /> */}
-            <ProfileBlock />
-            <AssessmentBlock />
+          <div className="row d-flex">
+            <div className="col-xl-4 col-lg-4 ">
+              {/* <!-- Graph widget --> */}
+              <div className="graph-widget ls-widget flex-grow-1">
+                <div className="widget-title-skill">
+                  <h4>Skills</h4>
+                </div>
+                <div className="widget-content "></div>
+                <ProfileBlock />
+              </div>
+              {/* End profile chart */}
+            </div>
+            {/* End .col */}
+
+            <div className="col-xl-8 col-lg-8">
+              {/* <!-- Notification Widget --> */}
+              <div className="notification-widget ls-widget flex-grow-1">
+                <div className="widget-title-skill">
+                  <h4>Assessment</h4>
+                </div>
+                <div className="widget-content">
+                  <AssessmentBlock />
+                </div>
+              </div>
+            </div>
           </div>
+
           {/* End .row top card block */}
 
           <div className="row">
