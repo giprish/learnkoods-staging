@@ -51,6 +51,7 @@
     font-weight: 400;
     font-size: 16px;
     color: #4a5355;
+    font-family: sans-serif;
   }
   ul li {
     font-size: 18px;
@@ -252,14 +253,14 @@
   margin: 0 auto;
   border-radius: 8px;
   padding: 60px 40px;
-  background-color: #002935;
+  background-color: #001d25;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   gap: 50px;
 }
 .leverage-section .testimonial_content .text {
-  color: white;
+  color: #fff;
   font-family: "Manrope", sans-serif;
   font-size: 22px;
   font-weight: 800;
@@ -281,11 +282,11 @@
     object-fit: cover;
   }
   p {
-    color: #b3c0c4;
+    color: #fff;
   }
 }
 .leverage-section .testimonial_info .name {
-  color: white;
+  color: #fff;
   font-size: 18px;
   font-weight: 800;
   line-height: 1.5;
@@ -390,9 +391,11 @@
     line-height: 50px;
     font-size: 38px;
     margin-bottom: 20px;
+    font-family: "Manrope", sans-serif;
   }
   p {
     margin-bottom: 15px;
+    font-family: sans-serif;
   }
 
   ul li {

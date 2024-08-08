@@ -81,8 +81,6 @@ const WidgetContentBox = () => {
     enabled: !!jobId && !!access,
   });
 
-  console.log(ApplicantStatus, "applicant status");
-
   const mergedArray = AppliedCandidates?.data.map((item) => {
     const matchingProfile = AppliedCandidates?.profile.find(
       (profile) => profile.profile_id === item.student.id
@@ -115,32 +113,8 @@ const WidgetContentBox = () => {
   const toggleApplicantState = (id, key) => {
     setApplicants((prevApplicants) =>
       prevApplicants.map((applicant) => {
-        if (applicant.id === id) {
+        if (applicant.applicant_id === id) {
           const newApplicantState = { ...applicant, [key]: !applicant[key] };
-
-          // Handle special case for is_rejected
-          if (key === "is_rejected" && newApplicantState[key]) {
-            newApplicantState.is_shortlist = false;
-            newApplicantState.is_interview = false;
-            newApplicantState.is_approved = false;
-          }
-
-          // Validate interdependencies
-          if (key !== "is_rejected") {
-            // If any state other than is_rejected is true, is_rejected must be false
-            if (
-              newApplicantState.is_shortlist ||
-              newApplicantState.is_interview ||
-              newApplicantState.is_approved
-            ) {
-              newApplicantState.is_rejected = false;
-            }
-            // If is_approved is true, set is_shortlist and is_interview to true
-            if (newApplicantState.is_approved) {
-              newApplicantState.is_shortlist = true;
-              newApplicantState.is_interview = true;
-            }
-          }
 
           return newApplicantState;
         }
@@ -193,7 +167,7 @@ const WidgetContentBox = () => {
   const handleUpdate = (id) => {
     console.log(id, "url id");
     const updatedApplicant = applicants.find(
-      (applicant) => applicant.student.id === id
+      (applicant) => applicant.application_id === id
     );
     console.log(updatedApplicant, "updated applicant");
     mutate(updatedApplicant);
@@ -229,7 +203,7 @@ const WidgetContentBox = () => {
                 {applicants?.map((student) => (
                   <div
                     className="candidate-block-three col-lg-6 col-md-12 col-sm-12"
-                    key={student.student.id}
+                    key={student.applicant_id}
                   >
                     <div className="inner-box">
                       <div className="content">
@@ -275,7 +249,10 @@ const WidgetContentBox = () => {
                             <button
                               data-text="ShortList Aplication"
                               onClick={() =>
-                                toggleApplicantState(student.id, "is_shortlist")
+                                toggleApplicantState(
+                                  student.applicant_id,
+                                  "is_shortlist"
+                                )
                               }
                               style={{
                                 backgroundColor: student.is_shortlist
@@ -290,7 +267,10 @@ const WidgetContentBox = () => {
                             <button
                               data-text="Approve Aplication"
                               onClick={() =>
-                                toggleApplicantState(student.id, "is_approved")
+                                toggleApplicantState(
+                                  student.applicant_id,
+                                  "is_approved"
+                                )
                               }
                               style={{
                                 backgroundColor: student.is_approved
@@ -305,7 +285,10 @@ const WidgetContentBox = () => {
                             <button
                               data-text="Interview Aplication"
                               onClick={() =>
-                                toggleApplicantState(student.id, "is_interview")
+                                toggleApplicantState(
+                                  student.applicant_id,
+                                  "is_interview"
+                                )
                               }
                               style={{
                                 backgroundColor: student.is_interview
@@ -320,7 +303,10 @@ const WidgetContentBox = () => {
                             <button
                               data-text="Reject Aplication"
                               onClick={() =>
-                                toggleApplicantState(student.id, "is_rejected")
+                                toggleApplicantState(
+                                  student.applicant_id,
+                                  "is_rejected"
+                                )
                               }
                               style={{
                                 backgroundColor: student.is_rejected
@@ -334,7 +320,9 @@ const WidgetContentBox = () => {
                           <li>
                             <button
                               data-text="Update Application"
-                              onClick={() => handleUpdate(student.student.id)}
+                              onClick={() =>
+                                handleUpdate(student.application_id)
+                              }
                             >
                               <span className="la la-angle-double-up"></span>
                             </button>

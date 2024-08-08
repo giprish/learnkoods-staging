@@ -51,14 +51,14 @@ const LeverageAi = () => {
               </div>
             </div>
           </div>
-          <div className="testimonial_btn">
+          {/* <div className="testimonial_btn">
             <button className="testimonial_btn-rev">
               <i className="la-arrow-right"></i>
             </button>
             <button className="testimonial_btn-next">
               <i className="la-arrow-left"></i>
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
       {/* <div className="content-column row  py-4">

@@ -35,7 +35,7 @@ const Discover2 = () => {
               Find the right instructor for you
             </li>
           </ul>
-          <button className="theme-btn btn-style-purple d-inline-block">
+          <button className="theme-btn btn-style-new d-inline-block mt-4">
             View All courses <i className="ti-arrow-top-right"></i>
           </button>
         </div>

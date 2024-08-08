@@ -139,7 +139,7 @@ const HeaderNavContent = () => {
                       data-bs-toggle="modal"
                       data-bs-target="#loginPopupModal"
                     >
-                      Student
+                      User
                     </a>
                   </li>
                   <li>
@@ -180,7 +180,7 @@ const HeaderNavContent = () => {
                       data-bs-target="#registerModal"
                       onClick={() => handleUserType("candidate")}
                     >
-                      Student
+                      User
                     </a>
                   </li>
                   <li>

@@ -20,10 +20,11 @@ const JobListingsTable = () => {
     return response.data;
   };
 
-  const { data: Jobs } = useQuery({
+  const { data: Jobs, refetch } = useQuery({
     queryKey: ["AllJobs"],
     queryFn: () => fetchJobs(),
   });
+
   const fetchAppliedCandidates = async () => {
     const response = await axios.get(
       `${process.env.GLOBAL_API}/usr_job_applied/${jobId}/`,
@@ -36,7 +37,7 @@ const JobListingsTable = () => {
     return response.data;
   };
 
-  const { data: AppliedCandidates, refetch } = useQuery({
+  const { data: AppliedCandidates } = useQuery({
     queryKey: ["AllJobs", jobId],
     queryFn: () => fetchAppliedCandidates(),
   });
@@ -45,10 +46,10 @@ const JobListingsTable = () => {
     setJobdId(id);
   };
 
-  console.log(AppliedCandidates);
   const deleteJob = async (job_id) => {
     const response = await axios.delete(
       `${process.env.GLOBAL_API}/job_api/${job_id}/`,
+
       {
         headers: {
           Authorization: `Bearer ${access}`,
@@ -74,10 +75,49 @@ const JobListingsTable = () => {
       });
     },
   });
+  const publishJob = async (job) => {
+    const response = await axios.put(
+      `${process.env.GLOBAL_API}/job_api/${job.job_id}/`,
+      { is_published: job.is_published },
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+          "Content-type": "multipart/form-data",
+        },
+      }
+    );
+    return response.data;
+  };
+
+  // Setup the mutation with react-query
+  const { mutate: publish } = useMutation({
+    mutationFn: publishJob,
+    onSuccess: (data) => {
+      console.log(data, "data from successful publish");
+      toast.success("Job published", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      refetch();
+    },
+    onError: (data) => {
+      console.log(data, "error message");
+      toast.error("Publishing Unsuccessful", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+  });
 
   // Define the handleDelete function to call mutate with job_id
   const handleDelete = (job_id) => {
     mutate(job_id);
+  };
+  const handlePublish = ({ checked, job }) => {
+    const dataToSend = {
+      is_published: checked,
+      job_id: job.job_id,
+    };
+    console.log(dataToSend, "console toggle");
+    publish(dataToSend);
   };
 
   return (
@@ -156,8 +196,30 @@ const JobListingsTable = () => {
                     October 27, 2017 <br />
                     April 25, 2011
                   </td>
-                  <td className="status">
+                  <td
+                    className=""
+                    style={{ color: item.is_published ? "green" : "red" }}
+                  >
                     {item?.is_published ? "Active" : "Inactive"}
+                    <ul className="switchbox">
+                      <li>
+                        <label className="switch">
+                          <input
+                            type="checkbox"
+                            value={item?.is_published}
+                            checked={item.is_published}
+                            onChange={(e) =>
+                              handlePublish({
+                                checked: e.target.checked,
+                                job: item,
+                              })
+                            }
+                          />
+                          <span className="slider round"></span>
+                          {/* <span className="title">{item.name}</span> */}
+                        </label>
+                      </li>
+                    </ul>
                   </td>
                   <td>
                     <div className="option-box">
@@ -191,6 +253,22 @@ const JobListingsTable = () => {
                             <span className="la la-trash"></span>
                           </button>
                         </li>
+                        {/* <li
+                          style={{
+                            backgroundColor: item.is_published
+                              ? "#83da83"
+                              : "#f3a9a9",
+                          }}
+                        >
+                          <button
+                            data-text="Publish Job"
+                            onClick={() => {
+                              handlePublish(item);
+                            }}
+                          >
+                            <span className="la la-upload"></span>
+                          </button>
+                        </li> */}
                       </ul>
                     </div>
                   </td>

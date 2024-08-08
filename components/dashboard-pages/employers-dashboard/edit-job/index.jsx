@@ -188,7 +188,7 @@ const index = () => {
     // Submit only dirtyData to your API
   };
   return (
-    <div className="page-wrapper dashboard">
+    <div className="page-wrapper-employer page-wrapper dashboard ">
       <span className="header-span"></span>
       {/* <!-- Header Span for hight --> */}
 

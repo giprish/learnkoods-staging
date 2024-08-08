@@ -38,7 +38,7 @@ const index = () => {
 
               <div className="d-flex flex-row">
                 <Link href={"/job-list/job-list-v1"}>
-                  <button className="theme-btn btn-style-new">
+                  <button className="theme-btn btn-style-new ">
                     Get a Job
                     <img
                       src="/images/resource/arrow.png"

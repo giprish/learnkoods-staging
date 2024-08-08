@@ -6,6 +6,7 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import { fireauth } from "@/app/firebase";
+import { toast } from "react-toastify";
 
 const AuthContext = createContext({
   user: null,
@@ -25,9 +26,16 @@ export const AuthContextProvider = ({ children }) => {
     const provider = new GoogleAuthProvider();
     try {
       setLoading(true); // Set loading to true when starting sign-in process
-      await signInWithPopup(fireauth, provider);
+      const result = await signInWithPopup(fireauth, provider);
+      console.log("User info:", result); // Log user information
+      toast.success("User logged in successfully", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     } catch (error) {
       console.error("Google sign-in error:", error);
+      toast.error("Failed to log in. Please try again.", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     } finally {
       setLoading(false); // Set loading to false after sign-in process
     }
@@ -38,8 +46,14 @@ export const AuthContextProvider = ({ children }) => {
       setLoading(true); // Set loading to true when starting log-out process
       await signOut(fireauth);
       setFetchedUser(null); // Clear fetched user data on logout
+      toast.success("User logged out successfully", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     } catch (error) {
       console.error("Sign-out error:", error);
+      toast.error("Failed to log out. Please try again.", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     } finally {
       setLoading(false); // Set loading to false after log-out process
     }

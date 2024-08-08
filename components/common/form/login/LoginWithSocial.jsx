@@ -1,18 +1,14 @@
 import { UserAuth } from "@/context/AuthContext";
-import $ from "jquery";
 import { toast } from "react-toastify";
 
 const LoginWithSocial = ({ hideModal }) => {
-  const { user, googleSignin, logout } = UserAuth();
+  const { googleSignin, loading } = UserAuth();
 
   const handleSignin = async () => {
     console.log("handle signin clicked");
     try {
-      await googleSignin();
+      googleSignin();
       hideModal();
-      toast.success("user logged in successfully", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
     } catch (error) {
       console.log(error);
     }
@@ -29,6 +25,7 @@ const LoginWithSocial = ({ hideModal }) => {
         <a
           className="theme-btn social-btn-two google-btn"
           onClick={handleSignin}
+          disabled={loading}
         >
           <i className="fab fa-google"></i> Log In via Gmail
         </a>
