@@ -311,7 +311,7 @@ const PostBoxForm = ({
         </div>
 
         {/* <!-- Input --> */}
-        <div className="form-group col-lg-12 col-md-12">
+        <div className="form-group col-lg-6 col-md-12">
           <label>Complete Address</label>
           <input
             type="text"
@@ -325,39 +325,39 @@ const PostBoxForm = ({
         </div>
 
         {/* <!-- Input --> */}
-        <div className="form-group col-lg-6 col-md-12">
+        {/* <div className="form-group col-lg-6 col-md-12">
           <label>Find On Map</label>
           <input
             type="text"
             name="name"
             placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia."
           />
-        </div>
+        </div> */}
 
         {/* <!-- Input --> */}
-        <div className="form-group col-lg-3 col-md-12">
+        {/* <div className="form-group col-lg-3 col-md-12">
           <label>Latitude</label>
           <input type="text" name="name" placeholder="Melbourne" />
-        </div>
+        </div> */}
 
         {/* <!-- Input --> */}
-        <div className="form-group col-lg-3 col-md-12">
+        {/* <div className="form-group col-lg-3 col-md-12">
           <label>Longitude</label>
           <input type="text" name="name" placeholder="Melbourne" />
-        </div>
+        </div> */}
 
         {/* <!-- Input --> */}
-        <div className="form-group col-lg-12 col-md-12">
+        {/* <div className="form-group col-lg-12 col-md-12">
           <button className="theme-btn btn-style-three">Search Location</button>
-        </div>
-
+        </div> */}
+        {/* 
         <div className="form-group col-lg-12 col-md-12">
           <div className="map-outer">
             <div style={{ height: "420px", width: "100%" }}>
               <Map />
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-12 col-md-12 text-right">

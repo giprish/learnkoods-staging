@@ -63,23 +63,36 @@ const WidgetContentBox = () => {
 
   console.log(AppliedCandidates, "applied candidates");
   const fetchApplicantStatus = async () => {
-    const response = await axios.get(
-      `${process.env.GLOBAL_API}/single_job_applied/${jobId}/`,
-      {
-        headers: {
-          Authorization: `Bearer ${access}`,
-        },
-      }
-    );
-    return response.data;
+    try {
+      const response = await axios.get(
+        `${process.env.GLOBAL_API}/single_job_applied/${jobId}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      // You can throw an error or return a specific value if you want to handle it in the query
+      throw new Error("Failed to fetch applicant status");
+    }
   };
 
-  const { data: ApplicantStatus } = useQuery({
+  const { data: ApplicantStatus, isError } = useQuery({
     queryKey: ["ApplicantStatus", jobId],
-    queryFn: () => fetchApplicantStatus(),
-
-    enabled: !!jobId && !!access,
+    queryFn: fetchApplicantStatus, // No need to wrap in an arrow function
+    enabled: !!jobId && !!access, // Only enable query if jobId and access are available
+    staleTime: Infinity, // Prevents refetching until the component is unmounted or cache is invalidated manually
+    cacheTime: Infinity, // Keeps the data in cache indefinitely
   });
+  useEffect(() => {
+    if (isError) {
+      toast.error("No Data found", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  }, [isError]);
 
   const mergedArray = AppliedCandidates?.data.map((item) => {
     const matchingProfile = AppliedCandidates?.profile.find(

@@ -33,7 +33,7 @@ const PostJobSteps = ({ setTab, currentTab }) => {
         </button>
       </div>
 
-      <div>
+      {/* <div>
         <button
           onClick={() => setTab("step4")}
           aria-label="Confirmation"
@@ -42,7 +42,7 @@ const PostJobSteps = ({ setTab, currentTab }) => {
           <span className="icon flaticon-checked"></span>
           <h5>Confirmation</h5>
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

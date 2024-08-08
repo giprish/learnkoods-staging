@@ -142,49 +142,55 @@ const index = () => {
   });
 
   const onSubmit = (data) => {
-    console.log(dirtyFields, "dirtyfields");
-    const Company = {
-      ...data,
-      address: data.address,
-      city: data.city.value,
-      description: data.description,
-      email: data.email,
-      industry: data.industry.value, // Ensuring industry is an array of labels
-      name: data.name,
-      phone_number: data.phone_number,
-      website: data.website,
-      user: userId,
-    };
-    const formData = new FormData();
-    const imageChanged = image !== previousImage;
+    if (companyid === null) {
+      toast.error("please select a company", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else {
+      console.log(dirtyFields, "dirtyfields");
+      const Company = {
+        ...data,
+        address: data.address,
+        city: data.city.value,
+        description: data.description,
+        email: data.email,
+        industry: data.industry.value, // Ensuring industry is an array of labels
+        name: data.name,
+        phone_number: data.phone_number,
+        website: data.website,
+        user: userId,
+      };
+      const formData = new FormData();
+      const imageChanged = image !== previousImage;
 
-    const dirtyData = Object.keys(Company).reduce((acc, key) => {
-      if (dirtyFields[key]) {
-        acc[key] = Company[key];
+      const dirtyData = Object.keys(Company).reduce((acc, key) => {
+        if (dirtyFields[key]) {
+          acc[key] = Company[key];
+        }
+        return acc;
+      }, {});
+
+      console.log("Dirty Data:", dirtyData);
+
+      // Append the dirty Data to the formData
+      Object.keys(dirtyData).forEach((key) => {
+        if (key === "logo_img" && !imageChanged) {
+          // If the image hasn't changed and it's the logo_img field, skip appending it
+          return;
+        }
+        formData.append(key, Company[key]);
+      });
+      if (imageChanged) {
+        formData.append("logo_img", image?.file);
       }
-      return acc;
-    }, {});
-
-    console.log("Dirty Data:", dirtyData);
-
-    // Append the dirty Data to the formData
-    Object.keys(dirtyData).forEach((key) => {
-      if (key === "logo_img" && !imageChanged) {
-        // If the image hasn't changed and it's the logo_img field, skip appending it
-        return;
+      console.log("FormData entries:");
+      for (let pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
       }
-      formData.append(key, Company[key]);
-    });
-    if (imageChanged) {
-      formData.append("logo_img", image);
-    }
-    console.log("FormData entries:");
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-    }
 
-    mutate(formData);
-    // Submit only dirtyData to your API
+      mutate(formData);
+      // Submit only dirtyData to your API
+    }
   };
 
   return (
@@ -237,17 +243,17 @@ const index = () => {
                 </div>
                 {/* <!-- Ls widget --> */}
 
-                <div className="ls-widget">
+                {/* <div className="ls-widget">
                   <div className="tabs-box">
                     <div className="widget-title">
                       <h4>Social Network</h4>
                     </div>
-                    {/* End .widget-title */}
+                    
                     <div className="widget-content">
                       <SocialNetworkBox />
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* <!-- Ls widget --> */}
 
                 <div className="ls-widget">

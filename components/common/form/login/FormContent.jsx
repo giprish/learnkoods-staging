@@ -180,11 +180,11 @@ const FormContent = ({ hideModal }) => {
           </Link>
         </div>
 
-        <div className="divider">
+        {/* <div className="divider">
           <span>or</span>
-        </div>
+        </div> */}
 
-        <LoginWithSocial hideModal={hideModal} />
+        {/* <LoginWithSocial hideModal={hideModal} /> */}
       </div>
       {/* End bottom-box LoginWithSocial */}
     </div>

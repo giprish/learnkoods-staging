@@ -179,7 +179,7 @@ const UpdateStepThree = ({ setTab }) => {
 
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
-      <div className="row border p-2 rounded-4 mb-4">
+      <div className="row border p-2 rounded-4 mb-4 mx-1">
         <h4 className="border-bottom p-2 mb-3">Receive qualified applicants</h4>
         <span className="p-2">Applicant collection</span>
         <div className="form-group col-lg-4 col-md-6">
@@ -195,7 +195,7 @@ const UpdateStepThree = ({ setTab }) => {
         </div>
       </div>
       <div>
-        <div className="w-100">
+        <div>
           <h5>Screening Question</h5>
           <span>
             we recommend adding 3 or more questions.Applicants must answer each
@@ -205,8 +205,8 @@ const UpdateStepThree = ({ setTab }) => {
             return (
               <div className="border rounded-4 mb-3">
                 <div className="d-flex flex-col flex-lg-row align-items-center justify-content-between">
-                  <div className="d-flex flex-row col-10 ">
-                    <label className="p-2 pt-2.5 mt-1">Ques.</label>
+                  <div className="d-flex flex-row col-10 mt-3 mx-2">
+                    <label className="p-2 pt-2.5 mt-1">Ques :</label>
                     <input
                       // key={element.id}
                       type="text"
@@ -217,56 +217,49 @@ const UpdateStepThree = ({ setTab }) => {
                       Recommended
                     </span>
                   </div>
-                  <div className="px-4">
+                  <div className="px-4 mt-3">
                     <button onClick={() => remove(index)} type="button">
                       <i className="la la-times font-weight-bold"></i>
                     </button>
                   </div>
                 </div>
-                <div className="form-group pt-2 d-flex mb-1">
+                <div className="m-3">
                   <input
                     type="checkbox"
                     {...register(`questions.${index}.must_have`)}
                     className="checkbox"
                   />
-                  <label>Must Have</label>
+                  <label className="mx-1">Must Have</label>
                 </div>
-                {/* <input
-                  type="hidden"
-                  {...register(`questions.${index}.id`)}
-                  defaultValue={element.id}
-                />
-                <div className="d-flex justify-content-end delete-button">
-                  <button
-                    data-text="Delete Aplication"
-                    onClick={() => {
-                      handleDelete(element.id);
-                    }}
-                    className="border border-danger m-2 rounded-2 btn btn-danger"
-                    type="button"
-                  >
-                    <span className="la la-trash"></span>
-                  </button>
-                </div> */}
               </div>
             );
           })}
         </div>
-        <div className="mt-4 mx-4">
+        <div className="mt-4">
           <h6>Add Screening Questions</h6>
           <div className="d-flex flex-wrap">
             <button
               type="button"
-              className={`btn border rounded-4 p-1 px-2 m-2 ${""}`}
+              className={`theme-btn small border rounded-3 p-2 px-2 my-2 bg-success text-white   ${""}`}
               onClick={addEntry}
             >
               Add Question
             </button>
           </div>
         </div>
-        <button className="theme-btn btn-style-one" type="submit">
-          Submit
-        </button>
+        <div className="form-group col-lg-12 col-md-6 text-right d-flex justify-content-between py-4">
+          <button
+            className="theme-btn btn-style-one"
+            type="button"
+            onClick={() => setTab("step2")}
+          >
+            Previous
+          </button>
+
+          <button className="theme-btn btn-style-one" type="submit">
+            Submit
+          </button>
+        </div>
       </div>
     </form>
   );

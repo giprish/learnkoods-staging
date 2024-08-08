@@ -10,7 +10,6 @@ const RegisterLogoCoverUploader = ({
     <>
       <div className="uploading-outer-profile">
         <div>
-          Upload logo
           {logo ? (
             <div className="d-flex flex-column uploadButton justify-content-center align-items-center">
               {logo.url.length > 2 && !logo.file && (
@@ -84,7 +83,7 @@ const RegisterLogoCoverUploader = ({
             Max file size is 1MB, Suitable files are .jpg & .png
           </div>
         </div>
-        <div>
+        {/* <div>
           Upload Cover
           {cover ? (
             <div className="d-flex flex-column uploadButton justify-content-center align-items-center">
@@ -151,14 +150,14 @@ const RegisterLogoCoverUploader = ({
                 )}
               </label>
               <span className="uploadButton-file-name">
-                {/* <img src={logImg} width={200} height={200} /> */}
+               
               </span>
             </div>
           )}
           <div className="text">
             Max file size is 1MB, Suitable files are .jpg & .png
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

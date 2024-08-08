@@ -51,17 +51,17 @@ module.exports = [
   {
     id: 8,
     name: "Create Courses",
-    icon: "la-bookmark-o",
+    icon: "la-book-reader",
     routePath: "/employers-dashboard/create-courses",
     active: "",
   },
-  {
-    id: 9,
-    name: "Packages",
-    icon: "la-box",
-    routePath: "/employers-dashboard/packages",
-    active: "",
-  },
+  // {
+  //   id: 9,
+  //   name: "Packages",
+  //   icon: "la-box",
+  //   routePath: "/employers-dashboard/packages",
+  //   active: "",
+  // },
   {
     id: 10,
     name: "Messages",
@@ -69,13 +69,13 @@ module.exports = [
     routePath: "/employers-dashboard/messages",
     active: "",
   },
-  {
-    id: 11,
-    name: "Resume Alerts",
-    icon: "la-bell",
-    routePath: "/employers-dashboard/resume-alerts",
-    active: "",
-  },
+  // {
+  //   id: 11,
+  //   name: "Resume Alerts",
+  //   icon: "la-bell",
+  //   routePath: "/employers-dashboard/resume-alerts",
+  //   active: "",
+  // },
   {
     id: 12,
     name: "Change Password",
@@ -90,11 +90,11 @@ module.exports = [
     routePath: "/",
     active: "",
   },
-  {
-    id: 14,
-    name: "Delete Profile",
-    icon: "la-trash",
-    routePath: "/",
-    active: "",
-  },
+  // {
+  //   id: 14,
+  //   name: "Delete Profile",
+  //   icon: "la-trash",
+  //   routePath: "/",
+  //   active: "",
+  // },
 ];

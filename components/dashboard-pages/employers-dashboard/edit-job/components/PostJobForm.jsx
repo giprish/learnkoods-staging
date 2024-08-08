@@ -13,6 +13,7 @@ const PostjobForm = ({
   setCat,
   subcat,
   setSubCat,
+  setTab,
 }) => {
   const { register, handleSubmit, control, resetField } = useFormContext();
   const access = window.localStorage.getItem("access");
@@ -89,7 +90,6 @@ const PostjobForm = ({
           <label>Workplace Type</label>
           <select
             className="chosen-single form-select"
-            required
             {...register("workplace_type")}
           >
             <option value="">Select</option>
@@ -209,13 +209,13 @@ const PostjobForm = ({
         </div>
 
         {/* <!-- Input --> */}
-        <div className="form-group col-lg-6 col-md-12">
+        {/* <div className="form-group col-lg-6 col-md-12">
           <label>Country</label>
           <select className="chosen-single form-select">
             <option>Select</option>
             <option value="uk">United Kindom</option>
           </select>
-        </div>
+        </div> */}
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
@@ -255,44 +255,48 @@ const PostjobForm = ({
         </div>
 
         {/* <!-- Input --> */}
-        <div className="form-group col-lg-6 col-md-12">
+        {/* <div className="form-group col-lg-6 col-md-12">
           <label>Find On Map</label>
           <input
             type="text"
             name="name"
             placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia."
           />
-        </div>
+        </div> */}
 
         {/* <!-- Input --> */}
-        <div className="form-group col-lg-3 col-md-12">
+        {/* <div className="form-group col-lg-3 col-md-12">
           <label>Latitude</label>
           <input type="text" name="name" placeholder="Melbourne" />
-        </div>
+        </div> */}
 
         {/* <!-- Input --> */}
-        <div className="form-group col-lg-3 col-md-12">
+        {/* <div className="form-group col-lg-3 col-md-12">
           <label>Longitude</label>
           <input type="text" name="name" placeholder="Melbourne" />
-        </div>
+        </div> */}
 
         {/* <!-- Input --> */}
-        <div className="form-group col-lg-12 col-md-12">
+        {/* <div className="form-group col-lg-12 col-md-12">
           <button className="theme-btn btn-style-three">Search Location</button>
-        </div>
+        </div> */}
 
-        <div className="form-group col-lg-12 col-md-12">
+        {/* <div className="form-group col-lg-12 col-md-12">
           <div className="map-outer">
             <div style={{ height: "420px", width: "100%" }}>
               <Map />
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-12 col-md-12 text-right">
-          <button className="theme-btn btn-style-one" type="submit">
-            Submit
+          <button
+            className="theme-btn btn-style-one"
+            type="button"
+            onClick={() => setTab("step2")}
+          >
+            Next
           </button>
         </div>
       </div>

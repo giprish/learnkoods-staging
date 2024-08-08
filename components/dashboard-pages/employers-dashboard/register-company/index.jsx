@@ -153,7 +153,7 @@ const index = () => {
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <ComapnyBreadCrumb title="Company Profile!" />
+          <ComapnyBreadCrumb title="Register Company!" />
           {/* breadCrumb */}
 
           <MenuToggler />
@@ -177,17 +177,17 @@ const index = () => {
                 </div>
                 {/* <!-- Ls widget --> */}
 
-                <div className="ls-widget">
+                {/* <div className="ls-widget">
                   <div className="tabs-box">
                     <div className="widget-title">
                       <h4>Social Network</h4>
                     </div>
-                    {/* End .widget-title */}
+                    
                     <div className="widget-content">
                       <RegisterSocialnetworkBox onSubmit={onSubmit} />
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* <!-- Ls widget --> */}
 
                 <div className="ls-widget">

@@ -109,12 +109,17 @@ const UpdateStepTwo = ({ setTab, onSubmit }) => {
           <button
             className="theme-btn btn-style-one"
             onClick={() => setTab("step1")}
+            type="button"
           >
             Previous
           </button>
         </div>
         <div className="form-group col-lg-6 col-md-6 text-right d-flex justify-content-end">
-          <button className="theme-btn btn-style-one" type="submit">
+          <button
+            className="theme-btn btn-style-one"
+            type="button"
+            onClick={() => setTab("step3")}
+          >
             Next
           </button>
         </div>

@@ -94,7 +94,7 @@ const FormContent = ({ hideModal }) => {
     formData.append("resume", resume || null);
 
     console.log(userdata, "form data");
-    // mutate(formData); // Assuming mutate accepts formData
+    mutate(formData); // Assuming mutate accepts formData
   };
 
   return (

@@ -36,20 +36,32 @@ const ComapnyBreadCrumb = ({
   });
 
   // console.log(company);
-  const options = company?.data?.map((option) => ({
-    value: option.id,
-    label: option.name,
-  }));
+  const options =
+    company?.data?.map((option) => ({
+      value: option.id,
+      label: option.name,
+    })) || [];
+
   return (
     <div className="upper-title-box">
       <h3>{title}</h3>
-      <h3>{companyname ? companyname : ""}</h3>
+      {/* <h3>{companyname ? companyname : ""}</h3> */}
       {(router.pathname === "/employers-dashboard/company-profile" ||
         router.pathname === "/employers-dashboard/post-jobs") && (
         <>
-          <div className="text">Ready to jump back in?</div>
+          <div className="">
+            {router.pathname === "/employers-dashboard/company-profile" ||
+            router.pathname === "/employers-dashboard/post-jobs" ? (
+              <h5 className="mb-2">
+                <b>Select Company</b>
+              </h5>
+            ) : (
+              "Ready to jump back in?"
+            )}
+          </div>
           <Select
             name="colors"
+            defaultValue={options[0]}
             options={options}
             className="basic-multi-select"
             classNamePrefix="select"
@@ -57,6 +69,7 @@ const ComapnyBreadCrumb = ({
               setCompanyId(e.value);
               setComanyName(e.label);
             }}
+            required
           />
         </>
       )}

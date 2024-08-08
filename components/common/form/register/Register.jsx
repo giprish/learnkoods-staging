@@ -60,10 +60,10 @@ const Register = ({ hideModal }) => {
             LogIn
           </Link>
         </div>
-        <div className="divider">
+        {/* <div className="divider">
           <span>or</span>
-        </div>
-        <SigninWithSocial />
+        </div> */}
+        {/* <SigninWithSocial /> */}
       </div>
       {/* End bottom-box LoginWithSocial */}
     </div>

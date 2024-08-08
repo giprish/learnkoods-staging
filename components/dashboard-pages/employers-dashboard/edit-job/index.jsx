@@ -241,6 +241,7 @@ const index = () => {
                           setCat={setCat}
                           subcat={subcat}
                           setSubCat={setSubCat}
+                          setTab={setTab}
                         />
                       )}
                       {tab === "step2" && (

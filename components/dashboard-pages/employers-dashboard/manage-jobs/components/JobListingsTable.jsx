@@ -25,6 +25,8 @@ const JobListingsTable = () => {
     queryFn: () => fetchJobs(),
   });
 
+  console.log(Jobs, "jobs of different");
+
   const fetchAppliedCandidates = async () => {
     const response = await axios.get(
       `${process.env.GLOBAL_API}/usr_job_applied/${jobId}/`,
@@ -128,11 +130,9 @@ const JobListingsTable = () => {
         <div className="chosen-outer">
           {/* <!--Tabs Box--> */}
           <select className="chosen-single form-select">
-            <option>Last 6 Months</option>
-            <option>Last 12 Months</option>
-            <option>Last 16 Months</option>
-            <option>Last 24 Months</option>
-            <option>Last 5 year</option>
+            <option>Select</option>
+            <option>Active</option>
+            <option>InActive</option>
           </select>
         </div>
       </div>
@@ -163,7 +163,11 @@ const JobListingsTable = () => {
                             <Image
                               width={50}
                               height={49}
-                              src={`${process.env.GLOBAL_API}${item.job_image}`}
+                              src={
+                                item.job_image
+                                  ? `${item.job_image}`
+                                  : "/images/resource/richard.png"
+                              }
                               alt="logo"
                             />
                           </span>

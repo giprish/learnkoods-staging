@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const LogoCoverUploader = ({ handleImage, handleCover, image, cover }) => {
   console.log(image, "image in company logo uploader");
-  console.log(cover, "cover in company logo uploader");
+  // console.log(cover, "cover in company logo uploader");
   return (
     <>
       {/* <div className="uploading-outer">
@@ -126,7 +126,7 @@ const LogoCoverUploader = ({ handleImage, handleCover, image, cover }) => {
             Max file size is 1MB, Suitable files are .jpg & .png
           </div>
         </div>
-        <div className="col-lg-6 col-sm-12 mb-4">
+        {/* <div className="col-lg-6 col-sm-12 mb-4">
           {cover ? (
             <div className="d-flex flex-column uploadButton justify-content-center align-items-center">
               {cover.url.length > 2 && !cover.file && (
@@ -190,7 +190,7 @@ const LogoCoverUploader = ({ handleImage, handleCover, image, cover }) => {
                 )}
               </label>
               <span className="uploadButton-file-name">
-                {/* <img src={logImg} width={200} height={200} /> */}
+                
               </span>
             </div>
           )}
@@ -198,7 +198,7 @@ const LogoCoverUploader = ({ handleImage, handleCover, image, cover }) => {
           <div className="text text-center">
             Max file size is 1MB, Suitable files are .jpg & .png
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
