@@ -107,7 +107,7 @@ const HeaderNavContent = () => {
 
             <li>
               <a href="/mentorship">
-                <span>Mentorship</span>
+                <span>Assessment</span>
               </a>
             </li>
 

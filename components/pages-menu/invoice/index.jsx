@@ -55,7 +55,7 @@ const index = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="invoice@LearnKoods.com">invoice@LearnKoods.com</a>
+                  <a href="invoice@SkillThrive.com">invoice@SkillThrive.com</a>
                 </li>
                 <li>
                   <a href="tel:123123456">(123) 123-456</a>

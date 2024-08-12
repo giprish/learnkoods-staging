@@ -23,8 +23,8 @@ const SidebarFooter = () => {
             329 Queensberry Street, North Melbourne VIC <br />
             3051, Australia.
           </span>
-          <a href="mailto:support@LearnKoods.com" className="email">
-            support@LearnKoods.com
+          <a href="mailto:support@SkillThrive.com" className="email">
+            support@SkillThrive.com
           </a>
         </div>
         {/* End .contact-info */}

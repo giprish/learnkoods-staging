@@ -147,7 +147,7 @@ const LogoUpload = ({ handelImage, handelResume, image, resume }) => {
           )}
 
           <div className="text text-center">
-            Max file size is 1MB, Suitable files are .docx & .pdf
+            Max file size is 3MB, Suitable files are .docx & .pdf
           </div>
         </div>
       </div>

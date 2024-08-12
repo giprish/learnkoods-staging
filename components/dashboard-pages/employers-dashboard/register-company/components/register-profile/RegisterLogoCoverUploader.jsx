@@ -79,9 +79,7 @@ const RegisterLogoCoverUploader = ({
               </span>
             </div>
           )}
-          <div className="text">
-            Max file size is 1MB, Suitable files are .jpg & .png
-          </div>
+          <div className="text">Max file size is 1MB</div>
         </div>
         {/* <div>
           Upload Cover
@@ -155,7 +153,7 @@ const RegisterLogoCoverUploader = ({
             </div>
           )}
           <div className="text">
-            Max file size is 1MB, Suitable files are .jpg & .png
+            Max file size is 1MB
           </div>
         </div> */}
       </div>

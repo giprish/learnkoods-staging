@@ -78,7 +78,7 @@ const Discover = () => {
             </div>
             <button className="theme-btn btn-style-new">
               <span className="">Explore More</span>
-              <img src="/images/resource/arrow.png" className="ml-2" />
+              <img src="/images/resource/arrow.png" className="" />
             </button>
           </div>
         </div>

@@ -1,7 +1,7 @@
 const IntroDescriptions = () => {
   return (
     <div className="text-box">
-      <h4>About Learnkoods</h4>
+      <h4>About SkillThrive</h4>
       <p>
         Far much that one rank beheld bluebird after outside ignobly allegedly
         more when oh arrogantly vehement irresistibly fussy penguin insect

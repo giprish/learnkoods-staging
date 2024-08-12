@@ -41,11 +41,9 @@ const index = () => {
               <div className="ls-widget">
                 <div className="tabs-box">
                   <div className="widget-title">
-                    <h4>Applicant</h4>
+                    <h4>Select Job </h4>
                     <WidgetTopFilterBox />
                   </div>
-                  {/* End top widget filter bar */}
-
                   <WidgetContentBox />
                   {/* End widget-content */}
                 </div>
@@ -56,9 +54,6 @@ const index = () => {
         </div>
         {/* End dashboard-outer */}
       </section>
-      {/* <!-- End Dashboard --> */}
-
-      {/* <!-- End Copyright --> */}
     </div>
     // End page-wrapper
   );

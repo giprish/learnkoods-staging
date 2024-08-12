@@ -27,7 +27,7 @@ const index = () => {
   const [companyname, setCompanyName] = useState(null);
   const [image, setImage] = useState({
     file: null,
-    url: "",
+    url: null,
   });
   const [cover, setCover] = useState({
     file: null,

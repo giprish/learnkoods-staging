@@ -23,28 +23,28 @@ const FormContent = ({ hideModal }) => {
   //   }
   // }, []);
 
-  const fetchData = async () => {
-    const response = await axios.get(`${GLOBAL_API}/usr_pro_id/${id}/`, {
-      headers: {
-        Authorization: `Bearer ${access}`,
-      },
-    });
-    return response.data;
-  };
+  // const fetchData = async () => {
+  //   const response = await axios.get(`${GLOBAL_API}/usr_pro_id/${id}/`, {
+  //     headers: {
+  //       Authorization: `Bearer ${access}`,
+  //     },
+  //   });
+  //   return response.data;
+  // };
 
-  const { data: user, isSuccess } = useQuery({
-    queryKey: ["user", access, id],
-    queryFn: () => fetchData(),
-  });
+  // const { data: user, isSuccess } = useQuery({
+  //   queryKey: ["user", access, id],
+  //   queryFn: () => fetchData(),
+  // });
 
-  useEffect(() => {
-    if (typeof window !== "undefined" && isSuccess) {
-      console.log(user);
-      window.localStorage.setItem("profile_image", user?.data?.profile_image);
-      window.localStorage.setItem("resume", user?.data?.resume);
-      window.localStorage.setItem("skills", JSON.stringify(user?.data?.skills));
-    }
-  }, [user, isSuccess]);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined" && isSuccess) {
+  //     console.log(user);
+  //     window.localStorage.setItem("profile_image", user?.data?.profile_image);
+  //     window.localStorage.setItem("resume", user?.data?.resume);
+  //     window.localStorage.setItem("skills", JSON.stringify(user?.data?.skills));
+  //   }
+  // }, [user, isSuccess]);
 
   const loginUser = async (data) => {
     const { data: response } = await axios.post(
@@ -106,7 +106,7 @@ const FormContent = ({ hideModal }) => {
   };
   return (
     <div className="form-inner">
-      <h3>Login to Learnkoods</h3>
+      <h3>Login to SkillThrive</h3>
 
       {/* <!--Login Form--> */}
       <form method="post" onSubmit={handleSubmit(onSubmit)}>

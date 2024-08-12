@@ -11,6 +11,13 @@
   }
 }
 
+#loginDropdown::after {
+  display: none;
+}
+#registerDropdown::after {
+  display: none;
+}
+
 .banner-section-three.-type-12 {
   .bg-image {
     position: absolute;

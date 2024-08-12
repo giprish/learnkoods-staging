@@ -55,7 +55,7 @@ const DashboardHeader = () => {
                                         priority
                                     /> */}
                   <h2>
-                    <strong>Learnkoods</strong>
+                    <strong>SkillThrive</strong>
                   </h2>
                 </Link>
               </div>

@@ -5,6 +5,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import allApplicants from "@/pages/employers-dashboard/all-applicants";
 
 const WidgetContentBox = () => {
   const [jobId, setJobdId] = useState(null);
@@ -17,6 +18,26 @@ const WidgetContentBox = () => {
       setAccess(window.localStorage.getItem("access"));
     }
   }, []);
+  const fetchAllApplicants = async () => {
+    const response = await axios.get(
+      `${process.env.GLOBAL_API}/all-shortlist/`,
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
+  const { data: Allapplicants } = useQuery({
+    queryKey: ["Allapplicants"],
+    queryFn: () => fetchAllApplicants(),
+
+    enabled: !!access,
+  });
+
+  console.log(Allapplicants, "all shortlist");
 
   const fetchJobs = async () => {
     const response = await axios.get(`${process.env.GLOBAL_API}/job-user/`, {
@@ -61,7 +82,8 @@ const WidgetContentBox = () => {
     enabled: !!jobId && !!access,
   });
 
-  console.log(AppliedCandidates, "applied candidates");
+  console.log(AppliedCandidates, "applied candidates usr_job_applied");
+
   const fetchApplicantStatus = async () => {
     try {
       const response = await axios.get(
@@ -86,6 +108,8 @@ const WidgetContentBox = () => {
     staleTime: Infinity, // Prevents refetching until the component is unmounted or cache is invalidated manually
     cacheTime: Infinity, // Keeps the data in cache indefinitely
   });
+
+  console.log(ApplicantStatus, "applicant status single_job_applied");
   useEffect(() => {
     if (isError) {
       toast.error("No Data found", {
@@ -94,34 +118,33 @@ const WidgetContentBox = () => {
     }
   }, [isError]);
 
-  const mergedArray = AppliedCandidates?.data.map((item) => {
-    const matchingProfile = AppliedCandidates?.profile.find(
-      (profile) => profile.profile_id === item.student.id
-    );
-
-    const matchingStatus = ApplicantStatus?.data.find(
-      (status) => status.student.id === item.student.id
-    );
-    if (matchingProfile) {
-      return {
-        ...item,
-        ...matchingStatus,
-        student: {
-          ...item.student,
-          ...matchingProfile,
-        },
-      };
-    }
-    return item;
-  });
-
   useEffect(() => {
+    const mergedArray = AppliedCandidates?.data.map((item) => {
+      const matchingProfile = AppliedCandidates?.profile.find(
+        (profile) => profile.profile_id === item.student.id
+      );
+
+      const matchingStatus = ApplicantStatus?.data.find(
+        (status) => status.student.id === item.student.id
+      );
+      if (matchingProfile) {
+        return {
+          ...item,
+          ...matchingStatus,
+          student: {
+            ...item.student,
+            ...matchingProfile,
+          },
+        };
+      }
+      return item;
+    });
     if (mergedArray) {
       setApplicants(mergedArray);
     }
-  }, [AppliedCandidates]);
+  }, [AppliedCandidates, ApplicantStatus]);
 
-  console.log(applicants, "merged array");
+  console.log(applicants, "merged arrays");
 
   const toggleApplicantState = (id, key) => {
     setApplicants((prevApplicants) =>
@@ -333,9 +356,10 @@ const WidgetContentBox = () => {
                           <li>
                             <button
                               data-text="Update Application"
-                              onClick={() =>
-                                handleUpdate(student.application_id)
-                              }
+                              onClick={() => {
+                                handleUpdate(student.application_id);
+                                console.log(student.application_id);
+                              }}
                             >
                               <span className="la la-angle-double-up"></span>
                             </button>

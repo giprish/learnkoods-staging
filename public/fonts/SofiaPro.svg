@@ -312,9 +312,9 @@ d="M246 1352h516v-164h-516v164z" />
 d="M111 1159q0 110 79 189t189 79t189 -79t79 -189t-79 -189t-189 -79t-189 79t-79 189zM252 1159q0 -54 36.5 -90.5t90.5 -36.5t90.5 36.5t36.5 90.5t-36.5 90.5t-90.5 36.5t-90.5 -36.5t-36.5 -90.5z" />
     <glyph glyph-name="plusminus" unicode="&#xb1;" horiz-adv-x="1110" 
 d="M465 745v293h178v-293h326v-178h-326v-297h-178v297h-324v178h324zM969 0h-828v168h828v-168z" />
-    <glyph glyph-name="twoLearnKoodsr" unicode="&#xb2;" horiz-adv-x="655" 
+    <glyph glyph-name="twoSkillThriver" unicode="&#xb2;" horiz-adv-x="655" 
 d="M76 938l323 391q56 70 56 125q0 54 -39.5 89.5t-96.5 35.5q-55 0 -95 -36t-50 -97l-108 29q17 101 87.5 161t165.5 60q107 0 180.5 -68t73.5 -174q0 -115 -88 -209l-206 -244h296v-120h-499v57z" />
-    <glyph glyph-name="threeLearnKoodsr" unicode="&#xb3;" horiz-adv-x="655" 
+    <glyph glyph-name="threeSkillThriver" unicode="&#xb3;" horiz-adv-x="655" 
 d="M178 1511l-82 66q36 58 97.5 89.5t134.5 27.5q97 -4 161.5 -69.5t59.5 -151.5q0 -26 -6 -50q-21 -71 -88 -110q62 -24 97 -85.5t30 -129.5q-7 -103 -94 -169.5t-199 -58.5q-78 6 -142.5 52t-97.5 116l98 54q20 -43 61 -75t89 -36h-2q66 -5 120 34t54 97q2 57 -44.5 100
 t-109.5 43h-92v107h92q42 0 72.5 26.5t38.5 65.5q11 48 -14 82q-12 20 -37.5 32.5t-55.5 14.5q-87 8 -141 -72z" />
     <glyph glyph-name="acute" unicode="&#xb4;" horiz-adv-x="1048" 
