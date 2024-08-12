@@ -139,7 +139,7 @@ const Index = () => {
       </Sidebar>
       {/* </ProSidebarProvider> */}
 
-      {/* <SidebarFooter /> */}
+      {/* <SidebarFooter />  */}
     </div>
   );
 };
