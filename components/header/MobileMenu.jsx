@@ -110,7 +110,7 @@ const MobileMenu = () => {
             )} */}
 
             {!accessToken && (
-              <li className="nav-item dropdown ">
+              <li className="nav-item dropdown signin-menu">
                 <a
                   href="#"
                   className="theme-btn btn-style-blue dropdown-toggle"
