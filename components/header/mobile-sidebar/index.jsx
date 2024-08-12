@@ -23,12 +23,13 @@ import { menuToggle } from "@/features/toggle/toggleSlice";
 import candidatesMenuData from "@/data/candidatesMenuData";
 import employerMenuData from "@/data/employerMenuData";
 import { useEffect, useState } from "react";
+import noLoginData from "@/data/noLoginData";
 
 const Index = () => {
   const router = useRouter();
   const { menu } = useSelector((state) => state.toggle);
   const [accessToken, setAccessToken] = useState(null);
-  const [student, setStudent] = useState(null);
+  const [student, setStudent] = useState("none");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -71,6 +72,7 @@ const Index = () => {
     router.push("/");
   };
 
+  console.log(student, "student mobile sidebar");
   return (
     <div
       className="offcanvas offcanvas-start mobile_menu-contnet"
@@ -84,8 +86,8 @@ const Index = () => {
       {/* <ProSidebarProvider> */}
       <Sidebar>
         <Menu>
-          {student === "true" &&
-            candidatesMenuData.map((item) => (
+          {student == null ? (
+            noLoginData.map((item) => (
               <MenuItem
                 className={
                   isActiveLink(item.routePath, router.asPath)
@@ -98,34 +100,41 @@ const Index = () => {
                   <Link href={item.routePath} onClick={unifiedLogout}>
                     {item?.name}
                   </Link>
-                ) : item.name === "My Resume" ? (
-                  <Link
-                    href={`${user?.data?.resume}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {item?.name}
-                  </Link>
                 ) : (
                   <Link href={item.routePath}>{item?.name}</Link>
                 )}
               </MenuItem>
-            ))}
-          {student === "false" &&
-            employerMenuData.map((item) => (
-              <Link href={item.routePath}>
-                <MenuItem
-                  className={
-                    isActiveLink(item.routePath, router.asPath)
-                      ? "menu-active-link"
-                      : ""
-                  }
-                  key={item.id}
-                >
-                  {item.name}
-                </MenuItem>
-              </Link>
-            ))}
+            ))
+          ) : (
+            <>
+              {student === "true" &&
+                candidatesMenuData.map((item) => (
+                  <MenuItem
+                    className={
+                      isActiveLink(item.routePath, router.asPath)
+                        ? "menu-active-link"
+                        : ""
+                    }
+                    key={item.id}
+                  >
+                    <Link href={item.routePath}>{item?.name}</Link>
+                  </MenuItem>
+                ))}
+              {student === "false" &&
+                employerMenuData.map((item) => (
+                  <MenuItem
+                    className={
+                      isActiveLink(item.routePath, router.asPath)
+                        ? "menu-active-link"
+                        : ""
+                    }
+                    key={item.id}
+                  >
+                    <Link href={item.routePath}>{item?.name}</Link>
+                  </MenuItem>
+                ))}
+            </>
+          )}
         </Menu>
       </Sidebar>
       {/* </ProSidebarProvider> */}

@@ -38,15 +38,15 @@ const UpdateProfileDynamicV1 = () => {
 
   const fetchData = async () => {
     console.log("apitest");
-    // const response = await axios.get(
-    //   `${process.env.GLOBAL_API}/usr_pro_id/${id}/`,
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${accessToken}`,
-    //     },
-    //   }
-    // );
-    // return response.data;
+    const response = await axios.get(
+      `${process.env.GLOBAL_API}/usr_pro_id/${id}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response.data;
   };
 
   const {

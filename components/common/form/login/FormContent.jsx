@@ -16,12 +16,12 @@ const FormContent = ({ hideModal }) => {
   const [id, setId] = useState(null);
   const [access, setAccess] = useState(null);
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     setId(window.localStorage.getItem("id"));
-  //     setAccess(window.localStorage.getItem("access"));
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setId(window.localStorage.getItem("id"));
+      setAccess(window.localStorage.getItem("access"));
+    }
+  }, []);
 
   const fetchData = async () => {
     const response = await axios.get(`${GLOBAL_API}/usr_pro_id/${id}/`, {
@@ -39,7 +39,7 @@ const FormContent = ({ hideModal }) => {
 
   useEffect(() => {
     if (typeof window !== "undefined" && isSuccess) {
-      console.log(user);
+      // console.log(user, "form content");
       window.localStorage.setItem("profile_image", user?.data?.profile_image);
       window.localStorage.setItem("resume", user?.data?.resume);
       window.localStorage.setItem("skills", JSON.stringify(user?.data?.skills));

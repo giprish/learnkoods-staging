@@ -109,6 +109,9 @@ const index = () => {
       }
     }
     console.log(company, "company data");
+    // if (typeof window !== "undefined") {
+    //   window.localStorage.setItem("profile_image", company?.data?.logo);
+    // }
   }, [company]);
 
   const updateCompany = async (formdata) => {

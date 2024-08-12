@@ -46,6 +46,8 @@ const DashboardCandidatesSidebar = () => {
     queryFn: () => fetchData(),
   });
 
+  // console.log(user, "candidate sidebar");
+
   const { menu } = useSelector((state) => state.toggle);
   const router = useRouter();
 

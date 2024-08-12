@@ -28,7 +28,6 @@ const ProfileBlock = () => {
     queryKey: ["user", access, userId],
     queryFn: () => fetchData(),
   });
-  console.log(user?.data?.skills);
   return (
     <>
       <div className="skill-div">

@@ -63,6 +63,8 @@ const index = () => {
     queryFn: () => fetchData(),
   });
 
+  // console.log(user, "candidate dashboard");
+
   useEffect(() => {
     if (user) {
       let array = user?.data?.skills.map((s1) => ({

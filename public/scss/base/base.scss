@@ -190,3 +190,10 @@ li {
     }
   }
 }
+
+#loginDropdown::after {
+  display: none;
+}
+#registerDropdown::after {
+  display: none;
+}
