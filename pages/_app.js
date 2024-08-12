@@ -65,6 +65,8 @@ const skipRoutes = [
   "/login",
   "/register",
   "/password-reset-confirm/[uidb64]/[token]",
+  "/upskill",
+  "/mentorship",
 ];
 
 export default withAuth(MyApp, skipRoutes);
