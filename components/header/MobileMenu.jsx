@@ -110,7 +110,7 @@ const MobileMenu = () => {
             )} */}
 
             {!accessToken && (
-              <li className="nav-item dropdown">
+              <li className="nav-item dropdown ">
                 <a
                   href="#"
                   className="theme-btn btn-style-blue dropdown-toggle"
@@ -119,7 +119,7 @@ const MobileMenu = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Login
+                  <i className="las la-sign-in-alt "></i>
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="loginDropdown">
                   <li>
@@ -156,7 +156,7 @@ const MobileMenu = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Register
+                  <i className="las la-user-plus"></i>
                 </a>
                 <ul
                   className="dropdown-menu"
