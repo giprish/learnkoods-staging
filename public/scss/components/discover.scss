@@ -60,6 +60,7 @@
     color: #4a5355;
     padding-left: 20px;
     position: relative;
+    font-family: sans-serif;
   }
   ul li::before {
     position: absolute;
@@ -261,7 +262,7 @@
 }
 .leverage-section .testimonial_content .text {
   color: #fff;
-  font-family: "Manrope", sans-serif;
+  font-family: sans-serif;
   font-size: 22px;
   font-weight: 800;
   line-height: 1.5;
@@ -402,6 +403,7 @@
     color: #0b104a;
     font-weight: 600;
     line-height: 40px;
+    font-family: sans-serif;
   }
 
   ul li span {

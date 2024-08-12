@@ -133,11 +133,11 @@ const Info = () => {
           <span className=" btn-sol">Our Values</span>
           <h2 className="info-heading mt-4">Building lasting value</h2>
         </div>
-        <div className="col-lg-6 mt-4 mb-4">
+        <p className="col-lg-6 mt-4 mb-4">
           Adipiscing elit, sed do euismod tempor incidunt ut labore et dolore
           magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
           ullamco.
-        </div>
+        </p>
       </div>
 
       <div className="d-flex flex-wrap content-column order-2 justify-content-around mb-4">
