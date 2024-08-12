@@ -140,7 +140,7 @@ const Info = () => {
         </p>
       </div>
 
-      <div className="d-flex flex-wrap content-column order-2 justify-content-around mb-4">
+      <div className="d-flex flex-wrap content-column order-2 justify-content-md-around mb-4">
         {items.map((item) => {
           return (
             <div
