@@ -9,8 +9,8 @@ const nextConfig = {
       "learnkoods.us-east-2.elasticbeanstalk.comundefined",
       "learnkoods-bucket.s3.amazonaws.com",
       "learnkoods.us-east-2.elasticbeanstalk.com",
-      "api.vealo.io",
-      "api.vealo.iohttps",
+      // "api.vealo.io",
+      // "api.vealo.iohttps",
     ],
     remotePatterns: [
       {
