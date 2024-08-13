@@ -13,6 +13,7 @@ const GLOBAL_API = process.env.GLOBAL_API;
 
 const FormContent = ({ hideModal }) => {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
   const [id, setId] = useState(null);
   const [access, setAccess] = useState(null);
 
@@ -125,7 +126,7 @@ const FormContent = ({ hideModal }) => {
         <div className="form-group">
           <label>Password</label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
             placeholder="Password"
             required
@@ -133,15 +134,29 @@ const FormContent = ({ hideModal }) => {
           />
         </div>
         {/* password */}
-
         <div className="form-group">
           <div className="field-outer">
             <div className="input-group checkboxes square">
+              <input
+                type="checkbox"
+                id="showPassword"
+                onChange={() => setShowPassword((prev) => !prev)}
+              />
+              <label htmlFor="showPassword" className="showPassword">
+                <span className="custom-checkbox"></span> Show Password
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div className="form-group">
+          <div className="field-outer">
+            {/* <div className="input-group checkboxes square">
               <input type="checkbox" name="remember-me" id="remember" />
               <label htmlFor="remember" className="remember">
                 <span className="custom-checkbox"></span> Remember me
               </label>
-            </div>
+            </div> */}
             <Link
               href="#"
               className="call-modal signup"

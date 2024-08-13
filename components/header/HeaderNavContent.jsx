@@ -230,8 +230,8 @@ const HeaderNavContent = () => {
                   <a
                     href={
                       student === "true"
-                        ? "/candidates-dashboard"
-                        : "/employers-dashboard"
+                        ? "/candidates-dashboard/dashboard"
+                        : "/employers-dashboard/dashboard"
                     }
                   >
                     <button className="menu-btn">
