@@ -13,18 +13,39 @@ import GalleryBox from "../../components/candidates-single-pages/shared-componen
 import Social from "../../components/candidates-single-pages/social/Social";
 import JobSkills from "../../components/candidates-single-pages/shared-components/JobSkills";
 import AboutVideo from "../../components/candidates-single-pages/shared-components/AboutVideo";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const CandidateSingleDynamicV1 = () => {
   const router = useRouter();
-  const [candidate, setCandidates] = useState({});
   const id = router.query.id;
 
-  useEffect(() => {
-    if (!id) <h1>Loading...</h1>;
-    else setCandidates(candidates.find((item) => item.id == id));
+  const [access, setAccess] = useState(null);
 
-    return () => {};
-  }, [id]);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setAccess(window.localStorage.getItem("access"));
+    }
+  }, []);
+
+  const fetchData = async () => {
+    const response = await axios.get(
+      `${process.env.GLOBAL_API}/single-profile/${id}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
+  const { data: candidate } = useQuery({
+    queryKey: ["user", access, id],
+    queryFn: () => fetchData(),
+  });
+
+  console.log(candidate, "fetched from api");
 
   return (
     <>
@@ -50,19 +71,21 @@ const CandidateSingleDynamicV1 = () => {
               <div className="inner-box">
                 <div className="content">
                   <figure className="image">
-                    <img src={candidate?.avatar} alt="avatar" />
+                    <img src={candidate?.data?.profile_image} alt="avatar" />
                   </figure>
-                  <h4 className="name">{candidate?.name}</h4>
+                  <h4 className="name">{candidate?.user?.username}</h4>
 
                   <ul className="candidate-info">
-                    <li className="designation">{candidate?.designation}</li>
+                    <li className="designation">
+                      {candidate?.user?.designation}
+                    </li>
                     <li>
                       <span className="icon flaticon-map-locator"></span>
-                      {candidate?.location}
+                      {candidate?.data?.city?.name || "null"}
                     </li>
                     <li>
                       <span className="icon flaticon-money"></span> $
-                      {candidate?.hourlyRate} / hour
+                      {candidate?.data?.hourlyRate || "null"} / hour
                     </li>
                     <li>
                       <span className="icon flaticon-clock"></span> Member
@@ -71,8 +94,8 @@ const CandidateSingleDynamicV1 = () => {
                   </ul>
 
                   <ul className="post-tags">
-                    {candidate?.tags?.map((val, i) => (
-                      <li key={i}>{val}</li>
+                    {candidate?.data?.skills.map((val, i) => (
+                      <li key={i}>{val.data}</li>
                     ))}
                   </ul>
                 </div>
@@ -80,14 +103,14 @@ const CandidateSingleDynamicV1 = () => {
                 <div className="btn-box">
                   <a
                     className="theme-btn btn-style-one"
-                    href="/images/sample.pdf"
+                    href={candidate?.data?.resume}
                     download
                   >
                     Download CV
                   </a>
-                  <button className="bookmark-btn">
+                  {/* <button className="bookmark-btn">
                     <i className="flaticon-bookmark"></i>
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
@@ -103,68 +126,93 @@ const CandidateSingleDynamicV1 = () => {
                 <div className="job-detail">
                   <div className="video-outer">
                     <h4>Candidates About</h4>
-                    <AboutVideo />
+                    {candidate?.data?.profile_desc}
+                    {/* <AboutVideo /> */}
                   </div>
                   {/* <!-- About Video Box --> */}
-                  <p>
-                    Hello my name is Nicole Wells and web developer from
-                    Portland. In pharetra orci dignissim, blandit mi semper,
-                    ultricies diam. Suspendisse malesuada suscipit nunc non
-                    volutpat. Sed porta nulla id orci laoreet tempor non
-                    consequat enim. Sed vitae aliquam velit. Aliquam ante erat,
-                    blandit at pretium et, accumsan ac est. Integer vehicula
-                    rhoncus molestie. Morbi ornare ipsum sed sem condimentum, et
-                    pulvinar tortor luctus. Suspendisse condimentum lorem ut
-                    elementum aliquam.
-                  </p>
-                  <p>
-                    Mauris nec erat ut libero vulputate pulvinar. Aliquam ante
-                    erat, blandit at pretium et, accumsan ac est. Integer
-                    vehicula rhoncus molestie. Morbi ornare ipsum sed sem
-                    condimentum, et pulvinar tortor luctus. Suspendisse
-                    condimentum lorem ut elementum aliquam. Mauris nec erat ut
-                    libero vulputate pulvinar.
-                  </p>
 
                   {/* <!-- Portfolio --> */}
-                  <div className="portfolio-outer">
+                  {/* <div className="portfolio-outer">
                     <div className="row">
                       <GalleryBox />
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* <!-- Candidate Resume Start --> */}
-                  {candidateResume.map((resume) => (
-                    <div
-                      className={`resume-outer ${resume.themeColor}`}
-                      key={resume.id}
-                    >
-                      <div className="upper-title">
-                        <h4>{resume?.title}</h4>
-                      </div>
 
-                      {/* <!-- Start Resume BLock --> */}
-                      {resume?.blockList?.map((item) => (
-                        <div className="resume-block" key={item.id}>
+                  <div className={`resume-outer `}>
+                    <div className="upper-title">
+                      <h4>Education</h4>
+                    </div>
+
+                    {candidate?.education?.map((education) => {
+                      // Convert start_date and end_date to year
+                      const startYear = new Date(
+                        education.start_date
+                      ).getFullYear();
+                      const endYear = education.end_date
+                        ? new Date(education.end_date).getFullYear()
+                        : "";
+
+                      return (
+                        <div className="resume-block" key={education.id}>
                           <div className="inner">
-                            <span className="name">{item.meta}</span>
+                            <span className="name">{education?.id}</span>
                             <div className="title-box">
                               <div className="info-box">
-                                <h3>{item.name}</h3>
-                                <span>{item.industry}</span>
+                                <h3>{education.degree}</h3>
+                                <span>{education.institution_name}</span>
                               </div>
                               <div className="edit-box">
-                                <span className="year">{item.year}</span>
+                                <span className="year">
+                                  {startYear}-{endYear}
+                                </span>
                               </div>
                             </div>
-                            <div className="text">{item.text}</div>
+                            <div className="text">{education.description}</div>
                           </div>
                         </div>
-                      ))}
-
-                      {/* <!-- End Resume BLock --> */}
+                      );
+                    })}
+                  </div>
+                  <div className={`resume-outer theme-blue`}>
+                    <div className="upper-title">
+                      <h4>Experience</h4>
                     </div>
-                  ))}
+
+                    {candidate?.experience?.map((experience, index) => {
+                      // Convert start_date and end_date to year
+                      const startYear = new Date(
+                        experience.start_date
+                      ).getFullYear();
+                      const endYear = experience.end_date
+                        ? new Date(experience.end_date).getFullYear()
+                        : "";
+
+                      return (
+                        <div className="resume-block" key={experience.id}>
+                          <div className="inner">
+                            <span className="name">{index}</span>
+                            <div className="title-box">
+                              <div className="info-box">
+                                <h3>{experience?.company_name}</h3>
+                                <span>{experience?.title}</span>
+                              </div>
+                              <div className="edit-box">
+                                <span className="year">
+                                  {startYear}-{endYear || "current"}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="text">
+                              {experience?.description}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
                   {/* <!-- Candidate Resume End --> */}
                 </div>
               </div>
@@ -178,77 +226,85 @@ const CandidateSingleDynamicV1 = () => {
                         <li>
                           <i className="icon icon-calendar"></i>
                           <h5>Experience:</h5>
-                          <span>0-2 Years</span>
+                          <span>
+                            {candidate?.data?.experience_level || "null"} Years
+                          </span>
                         </li>
 
                         <li>
                           <i className="icon icon-expiry"></i>
                           <h5>Age:</h5>
-                          <span>28-33 Years</span>
+                          <span>{candidate?.data?.age || "null"} Years</span>
                         </li>
 
                         <li>
                           <i className="icon icon-rate"></i>
                           <h5>Current Salary:</h5>
-                          <span>11K - 15K</span>
+                          <span>
+                            {candidate?.data?.current_salary || "null"}
+                          </span>
                         </li>
 
                         <li>
                           <i className="icon icon-salary"></i>
                           <h5>Expected Salary:</h5>
-                          <span>26K - 30K</span>
+                          <span>
+                            {candidate?.data?.expected_salary || "null"}
+                          </span>
                         </li>
 
                         <li>
                           <i className="icon icon-user-2"></i>
                           <h5>Gender:</h5>
-                          <span>Female</span>
+                          <span>{candidate?.data?.gender || "null"}</span>
                         </li>
 
                         <li>
                           <i className="icon icon-language"></i>
                           <h5>Language:</h5>
-                          <span>English, German, Spanish</span>
+                          <span>{candidate?.data?.languages || "null"}</span>
                         </li>
 
                         <li>
                           <i className="icon icon-degree"></i>
                           <h5>Education Level:</h5>
-                          <span>Master Degree</span>
+                          <span>
+                            {candidate?.data?.education_level || "null"}
+                          </span>
                         </li>
                       </ul>
                     </div>
                   </div>
                   {/* End .sidebar-widget conadidate overview */}
 
-                  <div className="sidebar-widget social-media-widget">
+                  {/* <div className="sidebar-widget social-media-widget">
                     <h4 className="widget-title">Social media</h4>
                     <div className="widget-content">
                       <div className="social-links">
                         <Social />
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   {/* End .sidebar-widget social-media-widget */}
 
                   <div className="sidebar-widget">
                     <h4 className="widget-title">Professional Skills</h4>
                     <div className="widget-content">
                       <ul className="job-skills">
-                        <JobSkills />
+                        <JobSkills skills={candidate?.data?.skills} />
                       </ul>
                     </div>
                   </div>
                   {/* End .sidebar-widget skill widget */}
 
-                  <div className="sidebar-widget contact-widget">
+                  {/* <div className="sidebar-widget contact-widget">
                     <h4 className="widget-title">Contact Us</h4>
                     <div className="widget-content">
                       <div className="default-form">
                         <Contact />
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   {/* End .sidebar-widget contact-widget */}
                 </aside>
                 {/* End .sidebar */}

@@ -30,11 +30,15 @@ const Header = () => {
               <div className="logo">
                 <Link href="/" className="noSticky">
                   {/* <img src="/images/logo-2.svg" alt="logo" title="brand" /> */}
-                  <h2 className="text-white"><strong>Learnkoods</strong></h2>
+                  <h2 className="text-white">
+                    <strong>SkillThrive</strong>
+                  </h2>
                 </Link>
                 <Link href="/" className="isSticky">
                   {/* <img src="/images/logo.svg" alt="logo" title="brand" /> */}
-                  <h2><strong>Learnkoods</strong></h2>
+                  <h2>
+                    <strong>SkillThrive</strong>
+                  </h2>
                 </Link>
               </div>
             </div>

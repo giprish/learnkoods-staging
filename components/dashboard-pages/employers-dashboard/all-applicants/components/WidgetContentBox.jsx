@@ -62,6 +62,7 @@ const WidgetContentBox = () => {
   });
 
   console.log(AppliedCandidates, "applied candidates");
+
   const fetchApplicantStatus = async () => {
     try {
       const response = await axios.get(
@@ -86,6 +87,9 @@ const WidgetContentBox = () => {
     staleTime: Infinity, // Prevents refetching until the component is unmounted or cache is invalidated manually
     cacheTime: Infinity, // Keeps the data in cache indefinitely
   });
+
+  console.log(ApplicantStatus, "applicant status");
+
   useEffect(() => {
     if (isError) {
       toast.error("No Data found", {
@@ -94,32 +98,31 @@ const WidgetContentBox = () => {
     }
   }, [isError]);
 
-  const mergedArray = AppliedCandidates?.data.map((item) => {
-    const matchingProfile = AppliedCandidates?.profile.find(
-      (profile) => profile.profile_id === item.student.id
-    );
-
-    const matchingStatus = ApplicantStatus?.data.find(
-      (status) => status.student.id === item.student.id
-    );
-    if (matchingProfile) {
-      return {
-        ...item,
-        ...matchingStatus,
-        student: {
-          ...item.student,
-          ...matchingProfile,
-        },
-      };
-    }
-    return item;
-  });
-
   useEffect(() => {
+    const mergedArray = AppliedCandidates?.data.map((item) => {
+      const matchingProfile = AppliedCandidates?.profile.find(
+        (profile) => profile.profile_id === item.student.id
+      );
+
+      const matchingStatus = ApplicantStatus?.data.find(
+        (status) => status.student.id === item.student.id
+      );
+      if (matchingProfile) {
+        return {
+          ...item,
+          ...matchingStatus,
+          student: {
+            ...item.student,
+            ...matchingProfile,
+          },
+        };
+      }
+      return item;
+    });
     if (mergedArray) {
       setApplicants(mergedArray);
     }
-  }, [AppliedCandidates]);
+  }, [AppliedCandidates, ApplicantStatus]);
 
   console.log(applicants, "merged array");
 

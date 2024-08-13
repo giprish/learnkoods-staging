@@ -72,7 +72,7 @@ const MobileMenu = () => {
               <div className="logo">
                 <Link href="/">
                   <h2 className="mx-4">
-                    <strong>Learnkoods</strong>
+                    <strong>SkillThrive</strong>
                   </h2>
                 </Link>
               </div>

@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 const Register = ({ hideModal }) => {
   return (
     <div className="form-inner">
-      <h3>Create a Free LearnKoods Account</h3>
+      <h3>Create a Free SkillThrive Account</h3>
 
       <Tabs>
         {/* <div className="form-group register-dual">

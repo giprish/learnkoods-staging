@@ -21,7 +21,7 @@ const index = ({ footerStyle = "" }) => {
                 <div className="logo">
                   <a href="#">
                     <h2>
-                      <b>Learnkoods</b>
+                      <b>SkillThrive</b>
                     </h2>
                   </a>
                 </div>
@@ -33,7 +33,7 @@ const index = ({ footerStyle = "" }) => {
                   329 Queensberry Street, North Melbourne VIC
                   <br /> 3051, Australia. <br />
                   <a href="#" className="email">
-                    support@learnkoods.com
+                    support@SkillThrive.com
                   </a>
                 </p>
                 <div className="social-links">

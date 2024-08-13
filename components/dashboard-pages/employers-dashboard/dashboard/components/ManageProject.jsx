@@ -5,7 +5,7 @@ const ManageProject = () => {
         <div className="col-xl-7 col-sm-7">
           <h2 className="my-4">Manage your project in one touch</h2>
           <span className="">
-            Let Learnkoods manage your project automatically with our best AI
+            Let SkillThrive manage your project automatically with our best AI
             systems
           </span>
           <button className="try-btn">Try Free Now</button>

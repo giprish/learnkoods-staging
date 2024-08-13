@@ -15,7 +15,7 @@ export default function Document() {
         />
         <meta
           name="description"
-          content="LearnKoods - Job Borad React NextJS Template"
+          content="SkillThrive - Job Borad React NextJS Template"
         />
         <meta name="ibthemes" content="ATFN" />
 

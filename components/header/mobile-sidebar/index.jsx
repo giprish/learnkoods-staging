@@ -72,7 +72,6 @@ const Index = () => {
     router.push("/");
   };
 
-  console.log(student, "student mobile sidebar");
   return (
     <div
       className="offcanvas offcanvas-start mobile_menu-contnet"

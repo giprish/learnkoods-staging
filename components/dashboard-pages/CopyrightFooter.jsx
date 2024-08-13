@@ -2,7 +2,7 @@ const CopyrightFooter = () => {
   return (
     <div className="copyright-text">
       <p>
-        © {new Date().getFullYear()} LearnKoods by{" "}
+        © {new Date().getFullYear()} SkillThrive by{" "}
         <a
           href="https://themeforest.net/user/ib-themes"
           target="_blank"

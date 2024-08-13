@@ -5,7 +5,7 @@ const SidebarHeader = () => {
     <div className="pro-header">
       <Link href="/">
         <h2>
-          <strong>Learnkoods</strong>
+          <strong>SkillThrive</strong>
         </h2>
       </Link>
       {/* End logo */}

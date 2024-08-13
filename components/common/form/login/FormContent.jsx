@@ -106,7 +106,7 @@ const FormContent = ({ hideModal }) => {
   };
   return (
     <div className="form-inner">
-      <h3>Login to Learnkoods</h3>
+      <h3>Login to SkillThrive</h3>
 
       {/* <!--Login Form--> */}
       <form method="post" onSubmit={handleSubmit(onSubmit)}>
