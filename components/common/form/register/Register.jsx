@@ -12,8 +12,8 @@ const Register = ({ hideModal }) => {
     <div className="form-inner">
       <h3>Create a Free SkillThrive Account</h3>
 
-      <Tabs>
-        {/* <div className="form-group register-dual">
+      {/* <Tabs> */}
+      {/* <div className="form-group register-dual">
           <TabList className="btn-box row">
             <Tab className="col-lg-6 col-md-12">
               <button
@@ -35,16 +35,16 @@ const Register = ({ hideModal }) => {
           </TabList>
         </div> */}
 
-        <TabPanel>
-          <Form hideModal={hideModal} />
-        </TabPanel>
-        {/* End cadidates Form */}
+      {/* <TabPanel> */}
+      <Form hideModal={hideModal} />
+      {/* </TabPanel> */}
+      {/* End cadidates Form */}
 
-        <TabPanel>
+      {/* <TabPanel>
           <Form hideModal={hideModal} />
-        </TabPanel>
-        {/* End Employer Form */}
-      </Tabs>
+        </TabPanel> */}
+      {/* End Employer Form */}
+      {/* </Tabs> */}
       {/* End form-group */}
 
       <div className="bottom-box">

@@ -40,6 +40,7 @@ const HeaderNavContent = () => {
   const { data: user } = useQuery({
     queryKey: ["user", accessToken],
     queryFn: () => fetchData(),
+    enabled: !!accessToken,
   });
 
   useEffect(() => {

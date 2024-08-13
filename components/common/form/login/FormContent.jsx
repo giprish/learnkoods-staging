@@ -36,6 +36,7 @@ const FormContent = ({ hideModal }) => {
   const { data: user, isSuccess } = useQuery({
     queryKey: ["user", access, id],
     queryFn: () => fetchData(),
+    enabled: !!access,
   });
 
   useEffect(() => {

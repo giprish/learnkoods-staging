@@ -70,11 +70,11 @@ const MobileMenu = () => {
           <div className="nav-outer">
             <div className="logo-box">
               <div className="logo">
-                <Link href="/">
+                <a href="/">
                   <h2 className="mx-4">
                     <strong>SkillThrive</strong>
                   </h2>
-                </Link>
+                </a>
               </div>
             </div>
             {/* End .logo-box */}
@@ -111,8 +111,7 @@ const MobileMenu = () => {
 
             {!accessToken && (
               <li className="nav-item dropdown signin-menu">
-                <a
-                  href="#"
+                <div
                   className="theme-btn btn-style-blue dropdown-toggle"
                   id="loginDropdown"
                   role="button"
@@ -120,7 +119,7 @@ const MobileMenu = () => {
                   aria-expanded="false"
                 >
                   <i className="las la-sign-in-alt "></i>
-                </a>
+                </div>
                 <ul className="dropdown-menu" aria-labelledby="loginDropdown">
                   <li>
                     <a
@@ -148,8 +147,7 @@ const MobileMenu = () => {
 
             {!accessToken && (
               <li className="nav-item dropdown">
-                <a
-                  href="#"
+                <div
                   className="theme-btn btn-style-blue dropdown-toggle"
                   id="registerDropdown"
                   role="button"
@@ -157,7 +155,7 @@ const MobileMenu = () => {
                   aria-expanded="false"
                 >
                   <i className="las la-user-plus"></i>
-                </a>
+                </div>
                 <ul
                   className="dropdown-menu"
                   aria-labelledby="registerDropdown"
