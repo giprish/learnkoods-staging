@@ -18,14 +18,7 @@ export default function Document() {
         />
         {/* <!-- End Google Tag Manager --> */}
         {/* <!-- Google Tag Manager (noscript) --> */}
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-P5HQTHJB"
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          ></iframe>
-        </noscript>
+
         {/* <!-- End Google Tag Manager (noscript) --> */}
         <meta
           name="google-site-verification"
@@ -49,6 +42,14 @@ export default function Document() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <body>
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-P5HQTHJB"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          ></iframe>
+        </noscript>
         <Main />
         <NextScript />
       </body>
