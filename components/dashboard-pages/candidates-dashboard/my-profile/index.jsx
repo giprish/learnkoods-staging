@@ -89,14 +89,18 @@ const index = () => {
       methods.setValue("languages", user?.data?.languages);
       methods.setValue("city", { label: user?.data?.city?.name });
       methods.setValue("address", user?.data?.address);
-      setImage((prev) => ({
-        ...prev,
-        url: user?.data?.profile_image,
-      }));
-      setResume((prev) => ({
-        ...prev,
-        url: user?.data?.resume,
-      }));
+      if (user?.data?.profile_image !== null) {
+        setImage((prev) => ({
+          ...prev,
+          url: user?.data?.profile_image,
+        }));
+      }
+      if (user?.data?.resume !== null) {
+        setResume((prev) => ({
+          ...prev,
+          url: user?.data?.resume,
+        }));
+      }
     }
   }, [user]);
 

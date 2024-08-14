@@ -9,7 +9,7 @@ const LogoUpload = ({ handelImage, handelResume, image, resume }) => {
         <div className="col-lg-6 col-sm-12 mb-4">
           {image ? (
             <div className="d-flex flex-column uploadButton justify-content-center align-items-center">
-              {image.url.length > 2 && !image.file && (
+              {image?.url.length > 2 && !image.file && (
                 <Image
                   src={`${image?.url}`}
                   width={150}

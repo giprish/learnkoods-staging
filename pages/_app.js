@@ -34,12 +34,7 @@ function MyApp({ Component, pageProps }) {
     <AuthContextProvider>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
-          <Head>
-            <meta
-              name="google-site-verification"
-              content="xIphQfk3UnKmaP945VxSRwuT1wYZlLomfY6_VVBthnA"
-            />
-          </Head>
+          <Head></Head>
           <div className="page-wrapper">
             <Component {...pageProps} />
 
