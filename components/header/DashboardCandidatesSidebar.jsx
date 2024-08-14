@@ -96,20 +96,23 @@ const DashboardCandidatesSidebar = () => {
       <div className="sidebar-inner">
         <ul className="navigation">
           {accessToken && (
-            <div className="sidebar-image">
-              <Link href="" className="">
-                <Image
-                  alt="avatar"
-                  className=""
-                  src={
-                    user?.data?.profile_image || "/images/resource/ads-bg-4.png"
-                  }
-                  width={50}
-                  height={50}
-                />
-              </Link>
-              <span className="p-2">{user?.user?.username}</span>
-            </div>
+            <>
+              <div className="sidebar-image">
+                <Link href="" className="">
+                  <Image
+                    alt="avatar"
+                    className=""
+                    src={
+                      user?.data?.profile_image ||
+                      "/images/resource/ads-bg-4.png"
+                    }
+                    width={50}
+                    height={50}
+                  />
+                </Link>
+                {/* <span className="pt-4">{user?.user?.username}</span> */}
+              </div>
+            </>
           )}
 
           {candidatesuData.map((item) => {

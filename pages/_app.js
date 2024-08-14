@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 import { persistor, store } from "../app/store.js";
 import withAuth from "../auth/auth";
 import { AuthContextProvider } from "@/context/AuthContext";
+import Head from "next/head";
 
 // Conditional import for Bootstrap JavaScript
 if (typeof window !== "undefined") {
@@ -33,6 +34,12 @@ function MyApp({ Component, pageProps }) {
     <AuthContextProvider>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
+          <Head>
+            <meta
+              name="google-site-verification"
+              content="xIphQfk3UnKmaP945VxSRwuT1wYZlLomfY6_VVBthnA"
+            />
+          </Head>
           <div className="page-wrapper">
             <Component {...pageProps} />
 

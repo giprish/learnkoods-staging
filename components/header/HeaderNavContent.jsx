@@ -42,8 +42,10 @@ const HeaderNavContent = () => {
     queryFn: () => fetchData(),
   });
 
+  console.log(user);
+
   useEffect(() => {
-    if (user) {
+    if (user && user?.data?.profile_image !== null) {
       setProfileImage(user?.data?.profile_image);
     }
   }, [user]);
