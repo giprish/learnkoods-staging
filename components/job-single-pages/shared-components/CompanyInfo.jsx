@@ -37,10 +37,10 @@ const CompanyInfo = ({ jobDetails }) => {
       <li>
         Location: <span>London, UK</span>
       </li>
-      <li>
+      {/* <li>
         Social media:
         <Social />
-      </li>
+      </li> */}
     </ul>
   );
 };

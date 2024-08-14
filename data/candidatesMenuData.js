@@ -99,7 +99,7 @@ module.exports = [
     active: "",
   },
   {
-    id: 12,
+    id: 14,
     name: "Logout",
     icon: "la-sign-out",
     routePath: "/",

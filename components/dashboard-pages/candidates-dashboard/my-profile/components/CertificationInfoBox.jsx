@@ -354,7 +354,7 @@ const CertificationInfoBox = () => {
           <span className="mx-2">Delete Entry</span>
         </button> */}
       </div>
-      <div className="form-group col-lg-12 col-md-12">
+      <div className="m-0 pb-4 form-group col-lg-12 col-md-12">
         <button type="submit" className="theme-btn btn-style-one">
           Save
         </button>

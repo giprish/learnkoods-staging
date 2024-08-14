@@ -8,8 +8,6 @@ import {
   SubMenu,
 } from "react-pro-sidebar";
 
-import mobileMenuData from "../../../data/mobileMenuData";
-import SidebarFooter from "./SidebarFooter";
 import SidebarHeader from "./SidebarHeader";
 import {
   isActiveLink,

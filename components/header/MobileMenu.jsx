@@ -70,11 +70,11 @@ const MobileMenu = () => {
           <div className="nav-outer">
             <div className="logo-box">
               <div className="logo">
-                <a href="/">
+                <Link href="/">
                   <h2 className="mx-4">
                     <strong>SkillThrive</strong>
                   </h2>
-                </a>
+                </Link>
               </div>
             </div>
             {/* End .logo-box */}

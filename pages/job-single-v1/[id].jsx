@@ -78,6 +78,8 @@ const JobSingleDynamicV1 = () => {
     enabled: !!jobId, // Ensure jobId is defined before fetching
   });
 
+  console.log(job, "job fetched");
+
   useEffect(() => {
     if (job && student_id && access) {
       checkIfApplied(student_id, jobId, access).then((result) => {
@@ -130,10 +132,7 @@ const JobSingleDynamicV1 = () => {
               <div className="inner-box">
                 <div className="content">
                   <span className="job?.data?.data-logo">
-                    <img
-                      src={`${process.env.GLOBAL_API}${job?.job_image}`}
-                      alt="logo"
-                    />
+                    <img src={`${job?.job_image}`} alt="logo" />
                   </span>
                   <h4>{job?.job_title}</h4>
 
@@ -155,8 +154,8 @@ const JobSingleDynamicV1 = () => {
                     {/* time info */}
                     <li>
                       <span className="icon flaticon-money"></span>{" "}
-                      {job?.min_salary}$-
-                      {job?.max_salary}$
+                      {job?.min_salary || "null"} $ -{" "}
+                      {job?.max_salary || "null"} $
                     </li>
                     {/* salary info */}
                   </ul>
@@ -164,7 +163,7 @@ const JobSingleDynamicV1 = () => {
 
                   <ul className="job-other-info">
                     {job?.skills_req?.map((val, i) => (
-                      <li key={i} className={`${val?.styleClass}`}>
+                      <li key={i} className={`border`}>
                         {val?.data}
                       </li>
                     ))}
@@ -253,25 +252,25 @@ const JobSingleDynamicV1 = () => {
                 <JobDetailsDescriptions details={job?.job_des} />
                 {/* End jobdetails content */}
 
-                <div className="other-options">
+                {/* <div className="other-options">
                   <div className="social-share">
                     <h5>Share this job</h5>
                     <SocialTwo />
                   </div>
-                </div>
+                </div> */}
                 {/* <!-- Other Options --> */}
 
-                <div className="related-jobs">
-                  <div className="title-box">
-                    <h3>Related Jobs</h3>
-                    <div className="text">
-                      2020 jobs live - 293 added today.
+                {/* <div className="related-jobs">
+                    <div className="title-box">
+                      <h3>Related Jobs</h3>
+                      <div className="text">
+                        2020 jobs live - 293 added today.
+                      </div>
                     </div>
-                  </div>
-                  {/* End title box */}
+                    
 
-                  <RelatedJobs />
-                </div>
+                    <RelatedJobs />
+                  </div> */}
                 {/* <!-- Related Jobs --> */}
               </div>
               {/* End .content-column */}
@@ -284,17 +283,17 @@ const JobSingleDynamicV1 = () => {
                     <JobOverView jobDetails={job} />
 
                     {/* <!-- Map Widget --> */}
-                    <h4 className="widget-title mt-5">Job Location</h4>
+                    {/* <h4 className="widget-title mt-5">Job Location</h4>
                     <div className="widget-content">
                       <div className="map-outer">
                         <div style={{ height: "300px", width: "100%" }}>
                           <MapJobFinder />
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                     {/* <!--  Map Widget --> */}
 
-                    <h4 className="widget-title">Job Skills</h4>
+                    <h4 className="widget-title mt-4">Job Skills</h4>
                     <div className="widget-content">
                       <JobSkills jobDetails={job} />
                     </div>
@@ -308,7 +307,9 @@ const JobSingleDynamicV1 = () => {
                         <div className="job?.data?.data-logo">
                           <img src={job?.logo} alt="resource" />
                         </div>
-                        <h5 className="job?.data?.data-name">{job?.name}</h5>
+                        <h5 className="job?.data?.data-name">
+                          {job?.name || "null"}
+                        </h5>
                         {/* <a href="#" className="profile-link">
                           View job?.data?.data profile
                         </a> */}
@@ -317,7 +318,7 @@ const JobSingleDynamicV1 = () => {
 
                       <CompnayInfo jobDetails={job} />
 
-                      <div className="btn-box">
+                      {/* <div className="btn-box">
                         <a
                           href="#"
                           target="_blank"
@@ -326,7 +327,7 @@ const JobSingleDynamicV1 = () => {
                         >
                           {job?.link}
                         </a>
-                      </div>
+                      </div> */}
                       {/* End btn-box */}
                     </div>
                   </div>
