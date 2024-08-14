@@ -10,8 +10,18 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const FormContent = ({ hideModal }) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    getValues,
+  } = useForm();
   const [resume, setResume] = useState();
   const [url, setUrl] = useState("");
+  const [showOtp, setShowOtp] = useState(false);
+  const [showVerifyEmail, setShowVerifyEmail] = useState(true);
+  const [showRegister, setShowRegister] = useState(false);
   const router = useRouter();
 
   const usertype = useSelector((state) => state.user.userType);
@@ -24,6 +34,85 @@ const FormContent = ({ hideModal }) => {
     }
   }, [usertype]);
 
+  const otp = async (otpdata) => {
+    const { data: response } = await axios.post(
+      `${process.env.GLOBAL_API}/register-user-otp/`,
+      otpdata,
+      {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+      }
+    );
+    return response;
+  };
+  const { mutate: otpMutate } = useMutation({
+    mutationFn: otp,
+    onSuccess: (data) => {
+      console.log(data, "data from successful otp send");
+      toast.success("otp send successfully", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      if (typeof window !== "undefined") {
+        localStorage.setItem("otp_key", data?.key);
+      }
+      setShowOtp(true);
+    },
+    onError: (error) => {
+      console.log(error, "error message");
+      toast.error(`${error?.response?.data?.message}Could not send otp`, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+  });
+  const verifyemail = async (verifydata) => {
+    const { data: response } = await axios.post(
+      `${process.env.GLOBAL_API}/verify-register-user-otp/`,
+      verifydata,
+      {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+      }
+    );
+    return response;
+  };
+  const { mutate: verifyMutate } = useMutation({
+    mutationFn: verifyemail,
+    onSuccess: (data) => {
+      console.log(data, "data from successful email verify");
+      toast.success("email verified successfully", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setShowRegister(true);
+      setShowVerifyEmail(false);
+      setShowOtp(false);
+    },
+    onError: (error) => {
+      console.log(error, "error message");
+      toast.error(`${error?.response?.data?.message}Could not verify mail`, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+  });
+
+  const sendOtp = () => {
+    let email = { email: getValues("email") };
+    console.log(email);
+    otpMutate(email);
+  };
+
+  const verify = () => {
+    if (typeof window !== "undefined") {
+      let data = {
+        otp: getValues("otp"),
+        otp_key: localStorage.getItem("otp_key"),
+      };
+      console.log(data);
+      verifyMutate(data);
+    }
+  };
+
   const registerUser = async (userdata) => {
     const { data: response } = await axios.post(url, userdata, {
       headers: {
@@ -32,13 +121,6 @@ const FormContent = ({ hideModal }) => {
     });
     return response;
   };
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
 
   const { mutate, isLoading } = useMutation({
     mutationFn: registerUser,
@@ -51,6 +133,7 @@ const FormContent = ({ hideModal }) => {
         localStorage.setItem("access", data.access);
         localStorage.setItem("refresh", data.refresh);
         localStorage.setItem("student", data?.student);
+        localStorage.removeItem("otp_key");
         if (usertype === "candidate") {
           localStorage.setItem("id", data?.payload?.id);
           localStorage.setItem("user", data.payload.username);
@@ -61,7 +144,7 @@ const FormContent = ({ hideModal }) => {
           localStorage.setItem("user", data.payload.username);
           // router.push("/employers-dashboard/dashboard");
         }
-        // window.location.reload();
+        window.location.reload();
       }
 
       hideModal();
@@ -80,20 +163,30 @@ const FormContent = ({ hideModal }) => {
   };
 
   const onSubmit = (userdata) => {
+    const { otp, ...updateduserdata } = userdata;
+    const datatosend = {
+      ...updateduserdata,
+      otp_key:
+        typeof window !== "undefined" ? localStorage.getItem("otp_key") : "",
+    };
     const formData = new FormData();
 
-    // Iterate through userdata keys
-    Object.keys(userdata).forEach((key) => {
+    // Iterate through datatosend keys
+    Object.keys(datatosend).forEach((key) => {
       // If the value is not null, not empty, and not 'resume', append to formData
-      if (userdata[key] !== null && userdata[key] !== "" && key !== "resume") {
-        formData.append(key, userdata[key]);
+      if (
+        datatosend[key] !== null &&
+        datatosend[key] !== "" &&
+        key !== "resume"
+      ) {
+        formData.append(key, datatosend[key]);
       }
     });
 
     // Append resume if it exists, or append null if it doesn't
     formData.append("resume", resume || null);
 
-    console.log(userdata, "form data");
+    console.log(datatosend, "form data");
     mutate(formData); // Assuming mutate accepts formData
   };
 
@@ -149,7 +242,42 @@ const FormContent = ({ hideModal }) => {
           {...register("email")}
         />
       </div>
+      {showVerifyEmail && (
+        <div className="form-group">
+          <button
+            className="theme-btn btn-style-one"
+            type="button"
+            onClick={sendOtp}
+          >
+            Verify Email
+          </button>
+        </div>
+      )}
+
       {/* email */}
+      {showOtp && (
+        <>
+          <div className="form-group">
+            <label>OTP</label>
+            <input
+              id="otp-field"
+              type="text"
+              name="otp"
+              placeholder="OTP"
+              {...register("otp")}
+            />
+          </div>
+          <div className="form-group">
+            <button
+              className="theme-btn btn-style-one"
+              type="button"
+              onClick={verify}
+            >
+              Verify Otp
+            </button>
+          </div>
+        </>
+      )}
 
       <div className="form-group">
         <label>Password</label>
@@ -182,13 +310,15 @@ const FormContent = ({ hideModal }) => {
       )}
 
       {/* password */}
+      {showRegister && (
+        <div className="form-group">
+          <button className="theme-btn btn-style-one" type="submit">
+            Register
+          </button>
+        </div>
+      )}
 
-      <div className="form-group">
-        <button className="theme-btn btn-style-one" type="submit">
-          Register
-        </button>
-      </div>
-      {/* login */}
+      {/* register */}
     </form>
   );
 };

@@ -114,7 +114,7 @@ const JobCategorie7 = () => {
           </div>
         </div>
         <div className="explore-pill">
-          <Link href="/job-list/job-list-v8" className="icon-item -type-3 ">
+          <Link href="/job-list/job-list-v1" className="icon-item -type-3 ">
             <div className="icon-wrap" style={{ backgroundColor: `wheat` }}>
               <div className={`icon flaticon-car`}></div>
             </div>
