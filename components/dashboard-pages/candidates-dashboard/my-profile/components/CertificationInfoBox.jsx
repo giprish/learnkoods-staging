@@ -343,7 +343,7 @@ const CertificationInfoBox = () => {
           className="theme-btn btn-style-one"
         >
           <i className="la la-plus "></i>
-          <span className="mx-2">Add Entry</span>
+          <span className="mx-2">Add </span>
         </button>
         {/* <button
           type="button"

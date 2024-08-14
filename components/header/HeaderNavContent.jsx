@@ -44,7 +44,7 @@ const HeaderNavContent = () => {
   });
 
   useEffect(() => {
-    if (user) {
+    if (user && user?.data?.profile_image !== null) {
       setProfileImage(user?.data?.profile_image);
     }
   }, [user]);

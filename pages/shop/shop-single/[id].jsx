@@ -23,8 +23,9 @@ const ShopSingleDyanmic = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!id) <h1>Loading...</h1>;
-    else setProducts(shopItems.find((item) => item.id == id));
+    if (!id) {
+      <LoadingSpinner />;
+    } else setProducts(shopItems.find((item) => item.id == id));
 
     return () => {};
   }, [id]);

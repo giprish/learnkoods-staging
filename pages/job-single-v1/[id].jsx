@@ -21,6 +21,7 @@ import { useQuery } from "@tanstack/react-query";
 import { UserAuth } from "@/context/AuthContext";
 import $ from "jquery";
 import { toast } from "react-toastify";
+import LoadingSpinner from "@/components/loader";
 
 const checkIfApplied = async (student_id, jobId, access) => {
   try {
@@ -89,7 +90,7 @@ const JobSingleDynamicV1 = () => {
     }
   }, [job, student_id, jobId, access]);
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <LoadingSpinner />;
   }
 
   if (isError) {

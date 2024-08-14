@@ -110,9 +110,11 @@ const DashboardCandidatesSidebar = () => {
                   height={50}
                 />
               </Link>
-              <span className="p-2">{user?.user?.username}</span>
             </div>
           )}
+          <div className="text-center ">
+            <span>{user?.user?.username}</span>
+          </div>
 
           {candidatesuData.map((item) => {
             return (
