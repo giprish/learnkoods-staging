@@ -17,7 +17,7 @@ const JobOverView = ({ jobDetails }) => {
         <li>
           <i className="icon icon-location"></i>
           <h5>Location:</h5>
-          <span>{jobDetails?.city?.label}</span>
+          <span>{jobDetails?.city?.name}</span>
         </li>
         <li>
           <i className="icon icon-user-2"></i>
@@ -29,7 +29,8 @@ const JobOverView = ({ jobDetails }) => {
           <i className="icon icon-salary"></i>
           <h5>Salary:</h5>
           <span>
-            ${jobDetails?.min_salary} - ${jobDetails?.max_salary}
+            $ {jobDetails?.min_salary || "null"} - ${" "}
+            {jobDetails?.max_salary || "null"}
           </span>
         </li>
       </ul>

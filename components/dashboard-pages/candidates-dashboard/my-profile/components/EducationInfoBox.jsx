@@ -1,16 +1,55 @@
-import { Controller, useFieldArray, useFormContext } from "react-hook-form";
+"use client";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import Map from "../../../Map";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Select from "react-select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-const EducationInfoBox = ({ onSubmit }) => {
-  const { register, handleSubmit, control } = useFormContext();
+const EducationInfoBox = () => {
+  const [userId, setUserId] = useState("");
+  const [access, setAccess] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUserId(localStorage.getItem("id"));
+      setAccess(localStorage.getItem("access"));
+    }
+  }, []);
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { dirtyFields, errors },
+  } = useForm();
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "education",
   });
+
+  const fetchEducation = async () => {
+    const response = await axios.get(
+      `${process.env.GLOBAL_API}/educations-list/${userId}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
+  const { data: userEducation } = useQuery({
+    queryKey: ["userEducation", access],
+    queryFn: () => fetchEducation(),
+  });
+
+  useEffect(() => {
+    reset({ education: userEducation?.data });
+  }, [userEducation]);
 
   const [workingState, setWorkingState] = useState({});
 
@@ -25,6 +64,120 @@ const EducationInfoBox = ({ onSubmit }) => {
     }));
   };
 
+  const createOrUpdateEducation = async ({ data, dirtyFields }) => {
+    const createPromises = [];
+    const updatePromises = [];
+
+    data?.education.forEach((education, index) => {
+      if (education.id) {
+        // Update existing education
+        const dirtyFieldsForEducation = dirtyFields.education?.[index]
+          ? Object.keys(dirtyFields.education[index])
+          : [];
+        if (dirtyFieldsForEducation.length > 0) {
+          const filteredEducation = dirtyFieldsForEducation.reduce(
+            (acc, field) => {
+              acc[field] = education[field];
+              return acc;
+            },
+            {}
+          );
+
+          updatePromises.push(
+            axios.put(
+              `${process.env.GLOBAL_API}/educations/${education.id}/`,
+              { ...filteredEducation },
+              {
+                headers: {
+                  Authorization: `Bearer ${access}`,
+                },
+              }
+            )
+          );
+        }
+      } else {
+        // Create new education
+        createPromises.push(
+          axios.post(
+            `${process.env.GLOBAL_API}/educations/`,
+            { ...education, user_profile: userId },
+            {
+              headers: {
+                Authorization: `Bearer ${access}`,
+              },
+            }
+          )
+        );
+      }
+    });
+
+    // Wait for all promises to complete
+    await Promise.all([...createPromises, ...updatePromises]);
+  };
+
+  const { mutate } = useMutation({
+    mutationFn: createOrUpdateEducation,
+    onSuccess: (data) => {
+      console.log(data, "data from sucessful education update");
+      toast.success("Profile updated successfully", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+    onError: (error) => {
+      console.log(error, "error message");
+      toast.error("education update Unsuccessful", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+  });
+
+  const onSubmit = (data) => {
+    console.log(data, "education data");
+    console.log(dirtyFields);
+    mutate({ data, dirtyFields });
+  };
+
+  const deleteFieldAPI = async (fieldId) => {
+    const response = await axios.delete(
+      `${process.env.GLOBAL_API}/educations/${fieldId}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      }
+    );
+
+    return response;
+  };
+  const deleteMutation = useMutation({
+    mutationFn: deleteFieldAPI,
+    onSuccess: (data) => {
+      console.log(data, "data from sucessful education delete");
+      toast.success("education deleted successfully", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+    onError: (error) => {
+      console.log(error, "data from sucessful education delete");
+      toast.error("education deletion successfully", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+  });
+
+  const handleDelete = async (index) => {
+    const fieldId = userEducation?.data[index]?.id;
+    if (fieldId) {
+      deleteMutation.mutate(fieldId, {
+        onSuccess: () => {
+          remove(index);
+        },
+      });
+    } else {
+      remove(index);
+    }
+  };
+
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
       {fields.map((item, index) => (
@@ -32,64 +185,83 @@ const EducationInfoBox = ({ onSubmit }) => {
           <div className="form-group col-lg-12 col-md-12 d-flex flex-row-reverse">
             <button
               type="button"
-              onClick={() => remove(index)}
+              onClick={() => handleDelete(index)}
               className="border p-2 rounded-4 theme-btn btn-style-one"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="Delete"
             >
-              <i className="la la-times font-weight-bold"></i>
+              <i className="la la-trash font-weight-bold"></i>
             </button>
           </div>
           <div className="form-group col-lg-12 col-md-12">
             <label>School or Institute Name</label>
             <input
               type="text"
-              name={`experience[${index}].title`}
+              name={`education[${index}].title`}
               placeholder="University of Pennsylvania"
-              {...register(`experience[${index}].institute`)}
+              {...register(`education[${index}].institution_name`)}
             />
           </div>
           <div className="form-group col-lg-6 col-md-12">
-            <label>Course Name</label>
+            <label>Field of Study</label>
             <input
               type="text"
-              name={`experience[${index}].employment_type`}
+              name={`education[${index}].employment_type`}
               placeholder="Btech"
-              {...register(`experience[${index}].course`)}
+              {...register(`education[${index}].field_of_study`)}
             />
           </div>
           <div className="form-group col-lg-6 col-md-12">
-            <label>Department</label>
-            <input
-              type="text"
-              name={`experience[${index}].company_name`}
-              placeholder="School of Engineering"
-              {...register(`experience[${index}].department`)}
-            />
+            <label>Degree</label>
+
+            <select
+              className="chosen-single form-select"
+              {...register(`education[${index}].degree`)}
+            >
+              <option value="">Select</option>
+              <option value="HS">High School</option>
+              <option value="AD">Associate Degree</option>
+              <option value="BD">Bachelor's Degree</option>
+              <option value="MD">Master's Degree</option>
+              <option value="PHD">Doctorate</option>
+              <option value="OT">Other</option>
+            </select>
           </div>
           <div className="form-group col-lg-6 col-md-12">
             <label>Location</label>
             <input
               type="text"
-              name={`experience[${index}].location`}
+              name={`education[${index}].location`}
               placeholder="Location"
-              {...register(`experience[${index}].location`)}
+              {...register(`education[${index}].location`)}
             />
           </div>
           <div className="form-group col-lg-6 col-md-12">
-            <label>Location Type</label>
+            <label>Grade</label>
             <input
               type="text"
-              name={`experience[${index}].location_type`}
+              name={`education[${index}].location_type`}
               placeholder="Location Type"
-              {...register(`experience[${index}].location_type`)}
+              {...register(`education[${index}].grade`)}
+            />
+          </div>
+          <div className="form-group col-lg-12 col-md-12">
+            <label>Description</label>
+            <input
+              type="text"
+              name={`education[${index}].location_type`}
+              placeholder="Location Type"
+              {...register(`education[${index}].description`)}
             />
           </div>
           <div className="form-group-date col-lg-6 col-md-12 ">
             <label className="">Start Date</label>
             <input
               type="date"
-              name={`experience[${index}].start_date`}
+              name={`education[${index}].start_date`}
               placeholder="Additional Field 1"
-              {...register(`experience[${index}].start_date`)}
+              {...register(`education[${index}].start_date`)}
               className="border p-3 rounded-3"
             />
           </div>
@@ -100,9 +272,9 @@ const EducationInfoBox = ({ onSubmit }) => {
                 <label>End Date</label>
                 <input
                   type="date"
-                  name={`experience[${index}].end_date`}
+                  name={`education[${index}].end_date`}
                   placeholder="Additional Field 2"
-                  {...register(`experience[${index}].end_date`)}
+                  {...register(`education[${index}].end_date`)}
                   className="border p-3 rounded-3"
                 />
               </div>
@@ -112,7 +284,7 @@ const EducationInfoBox = ({ onSubmit }) => {
             <input
               type="checkbox"
               placeholder="creativelayers"
-              {...register(`experience[${index}].working`)}
+              {...register(`education[${index}].working`)}
               className="mx-4"
               onChange={() => handleWorkingChange(index)}
             />
@@ -126,10 +298,10 @@ const EducationInfoBox = ({ onSubmit }) => {
           onClick={addEntry}
           className="theme-btn btn-style-one"
         >
-          Add Entry
+          Add
         </button>
       </div>
-      <div className="form-group col-lg-12 col-md-12">
+      <div className="m-0 pb-4 form-group col-lg-12 col-md-12">
         <button type="submit" className="theme-btn btn-style-one">
           Save
         </button>

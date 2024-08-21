@@ -8,6 +8,7 @@ import blogs from "../../data/blogs";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Seo from "../../components/common/Seo";
+import LoadingSpinner from "@/components/loader";
 
 const BlogDetailsDynamic = () => {
   const router = useRouter();
@@ -15,8 +16,9 @@ const BlogDetailsDynamic = () => {
   const id = router.query.id;
 
   useEffect(() => {
-    if (!id) <h1>Loading...</h1>;
-    else setBlogItem(blogs.find((item) => item.id == id));
+    if (!id) {
+      <LoadingSpinner />;
+    } else setBlogItem(blogs.find((item) => item.id == id));
 
     return () => {};
   }, [id]);

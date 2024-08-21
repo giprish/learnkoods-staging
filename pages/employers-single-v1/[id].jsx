@@ -12,6 +12,7 @@ import RelatedJobs from "../../components/employer-single-pages/related-jobs/Rel
 import MapJobFinder from "../../components/job-listing-pages/components/MapJobFinder";
 import Social from "../../components/employer-single-pages/social/Social";
 import PrivateMessageBox from "../../components/employer-single-pages/shared-components/PrivateMessageBox";
+import LoadingSpinner from "@/components/loader";
 
 const EmployersSingleV1 = () => {
   const router = useRouter();
@@ -19,8 +20,9 @@ const EmployersSingleV1 = () => {
   const id = router.query.id;
 
   useEffect(() => {
-    if (!id) <h1>Loading...</h1>;
-    else setEmployersInfo(employersInfo.find((item) => item.id == id));
+    if (!id) {
+      <LoadingSpinner />;
+    } else setEmployersInfo(employersInfo.find((item) => item.id == id));
 
     return () => {};
   }, [id]);

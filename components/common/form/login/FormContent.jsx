@@ -13,15 +13,16 @@ const GLOBAL_API = process.env.GLOBAL_API;
 
 const FormContent = ({ hideModal }) => {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
   const [id, setId] = useState(null);
   const [access, setAccess] = useState(null);
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     setId(window.localStorage.getItem("id"));
-  //     setAccess(window.localStorage.getItem("access"));
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setId(window.localStorage.getItem("id"));
+      setAccess(window.localStorage.getItem("access"));
+    }
+  }, []);
 
   // const fetchData = async () => {
   //   const response = await axios.get(`${GLOBAL_API}/usr_pro_id/${id}/`, {
@@ -32,19 +33,20 @@ const FormContent = ({ hideModal }) => {
   //   return response.data;
   // };
 
-  // const { data: user, isSuccess } = useQuery({
-  //   queryKey: ["user", access, id],
-  //   queryFn: () => fetchData(),
-  // });
+  const { data: user, isSuccess } = useQuery({
+    queryKey: ["user", access, id],
+    queryFn: () => fetchData(),
+    enabled: !!access,
+  });
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined" && isSuccess) {
-  //     console.log(user);
-  //     window.localStorage.setItem("profile_image", user?.data?.profile_image);
-  //     window.localStorage.setItem("resume", user?.data?.resume);
-  //     window.localStorage.setItem("skills", JSON.stringify(user?.data?.skills));
-  //   }
-  // }, [user, isSuccess]);
+  useEffect(() => {
+    if (typeof window !== "undefined" && isSuccess) {
+      // console.log(user, "form content");
+      window.localStorage.setItem("profile_image", user?.data?.profile_image);
+      window.localStorage.setItem("resume", user?.data?.resume);
+      window.localStorage.setItem("skills", JSON.stringify(user?.data?.skills));
+    }
+  }, [user, isSuccess]);
 
   const loginUser = async (data) => {
     const { data: response } = await axios.post(
@@ -125,7 +127,7 @@ const FormContent = ({ hideModal }) => {
         <div className="form-group">
           <label>Password</label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
             placeholder="Password"
             required
@@ -133,15 +135,29 @@ const FormContent = ({ hideModal }) => {
           />
         </div>
         {/* password */}
-
         <div className="form-group">
           <div className="field-outer">
             <div className="input-group checkboxes square">
+              <input
+                type="checkbox"
+                id="showPassword"
+                onChange={() => setShowPassword((prev) => !prev)}
+              />
+              <label htmlFor="showPassword" className="showPassword">
+                <span className="custom-checkbox"></span> Show Password
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div className="form-group">
+          <div className="field-outer">
+            {/* <div className="input-group checkboxes square">
               <input type="checkbox" name="remember-me" id="remember" />
               <label htmlFor="remember" className="remember">
                 <span className="custom-checkbox"></span> Remember me
               </label>
-            </div>
+            </div> */}
             <Link
               href="#"
               className="call-modal signup"

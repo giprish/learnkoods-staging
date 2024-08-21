@@ -22,7 +22,7 @@ const withAuth = (WrappedComponent, skipRoutes) => {
       const refreshToken = window.localStorage.getItem("refresh");
       const student = window.localStorage.getItem("student");
       const currentRoute = router.pathname;
-      console.log(currentRoute);
+      // console.log(currentRoute);
 
       if (skipRoutes.includes(currentRoute)) {
         console.log("auth exiting early");
@@ -31,7 +31,7 @@ const withAuth = (WrappedComponent, skipRoutes) => {
 
       if (!accessToken || !refreshToken) {
         // If either access token or refresh token is missing, redirect to login
-        console.log("User is not authenticated or tokens are missing");
+        // console.log("User is not authenticated or tokens are missing");
         router.push("/");
         return;
       }

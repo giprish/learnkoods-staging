@@ -92,24 +92,22 @@ const JobCategorie7 = () => {
 
           <div className="grid-container container-1">
             {jobCatContent.map((item) => (
-              <>
-                <div key={item.id}>
-                  <Link
-                    href="/job-list/job-list-v8"
-                    className="icon-item -type-3 "
+              <div key={item.id}>
+                <Link
+                  href="/job-list/job-list-v8"
+                  className="icon-item -type-3 "
+                >
+                  <div
+                    className="icon-wrap"
+                    style={{ backgroundColor: `${item?.bgColor}` }}
                   >
-                    <div
-                      className="icon-wrap"
-                      style={{ backgroundColor: `${item?.bgColor}` }}
-                    >
-                      <div className={`icon ${item.icon}`}></div>
-                    </div>
-                    <div className="content">
-                      <h4>{item.catTitle}</h4>
-                    </div>
-                  </Link>
-                </div>
-              </>
+                    <div className={`icon ${item.icon}`}></div>
+                  </div>
+                  <div className="content">
+                    <h4>{item.catTitle}</h4>
+                  </div>
+                </Link>
+              </div>
             ))}
           </div>
         </div>

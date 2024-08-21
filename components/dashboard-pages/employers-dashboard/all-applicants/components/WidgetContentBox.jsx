@@ -82,7 +82,7 @@ const WidgetContentBox = () => {
     enabled: !!jobId && !!access,
   });
 
-  console.log(AppliedCandidates, "applied candidates usr_job_applied");
+  console.log(AppliedCandidates, "applied candidates");
 
   const fetchApplicantStatus = async () => {
     try {
@@ -109,7 +109,8 @@ const WidgetContentBox = () => {
     cacheTime: Infinity, // Keeps the data in cache indefinitely
   });
 
-  console.log(ApplicantStatus, "applicant status single_job_applied");
+  console.log(ApplicantStatus, "applicant status");
+
   useEffect(() => {
     if (isError) {
       toast.error("No Data found", {

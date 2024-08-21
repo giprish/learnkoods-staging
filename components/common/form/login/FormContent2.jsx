@@ -35,8 +35,6 @@ const FormContent2 = () => {
     queryFn: () => fetchData(),
   });
 
-  // console.log(user, "user profile api after successful login");
-
   useEffect(() => {
     if (typeof window !== "undefined" && isSuccess) {
       window.localStorage.setItem("profile_image", user?.data?.profile_image);

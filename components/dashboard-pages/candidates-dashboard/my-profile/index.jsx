@@ -63,6 +63,8 @@ const index = () => {
     queryFn: () => fetchData(),
   });
 
+  // console.log(user, "candidate dashboard");
+
   useEffect(() => {
     if (user) {
       let array = user?.data?.skills.map((s1) => ({
@@ -319,18 +321,18 @@ const index = () => {
                 </div>
                 {/* <!-- Ls widget --> */}
 
-                <div className="ls-widget">
+                {/* <div className="ls-widget">
                   <div className="tabs-box">
                     <div className="widget-title">
                       <h4>Social Network</h4>
                     </div>
-                    {/* End widget-title */}
+                    
 
                     <div className="widget-content">
                       <SocialNetworkBox />
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* <!-- Ls widget --> */}
               </div>
             </div>

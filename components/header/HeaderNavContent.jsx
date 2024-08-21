@@ -40,6 +40,7 @@ const HeaderNavContent = () => {
   const { data: user } = useQuery({
     queryKey: ["user", accessToken],
     queryFn: () => fetchData(),
+    enabled: !!accessToken,
   });
 
   console.log(user);
@@ -232,8 +233,8 @@ const HeaderNavContent = () => {
                   <a
                     href={
                       student === "true"
-                        ? "/candidates-dashboard"
-                        : "/employers-dashboard"
+                        ? "/candidates-dashboard/dashboard"
+                        : "/employers-dashboard/dashboard"
                     }
                   >
                     <button className="menu-btn">

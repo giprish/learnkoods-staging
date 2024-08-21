@@ -125,7 +125,6 @@ const Info = () => {
     },
   ];
 
-  console.log(items[0].image);
   return (
     <>
       <div className="justify-content-between">
@@ -139,8 +138,8 @@ const Info = () => {
           ullamco.
         </p>
       </div>
-
-      <div className="d-flex flex-wrap content-column order-2 justify-content-around mb-4">
+      {/* added deployement check */}
+      <div className="d-flex flex-wrap content-column order-2 justify-content-md-around mb-4">
         {items.map((item) => {
           return (
             <div
