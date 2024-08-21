@@ -161,52 +161,44 @@ const index = () => {
           <MenuToggler />
           {/* Collapsible sidebar button */}
 
-          <div className="row">
-            <div className="col-lg-12">
-              {/* <!-- Ls widget --> */}
-              <div className="ls-widget">
-                <div className="tabs-box">
-                  <div className="widget-title">
-                    <h4>Post Job</h4>
-                  </div>
-
-                  <FormProvider {...methods}>
-                    <div className="widget-content">
-                      <PostJobSteps setTab={setTab} currentTab={tab} />
-                      {/* End job steps form */}
-                      {tab === "step1" && (
-                        <PostBoxForm
-                          companyname={companyname}
-                          companyId={companyId}
-                          onSubmit={onSubmit}
-                          // onError={onError}
-                          setJobImage={setJobImage}
-                          setTab={setTab}
-                        />
-                      )}
-                      {tab === "step2" && (
-                        <StepTwo setTab={setTab} onSubmit={onSubmit} />
-                      )}
-                      {tab === "step3" && (
-                        <StepThree setTab={setTab} onSubmit={onSubmit} />
-                      )}
-
-                      {/* End post box form */}
+          {companyname !== null && (
+            <div className="row">
+              <div className="col-lg-12">
+                <div className="ls-widget">
+                  <div className="tabs-box">
+                    <div className="widget-title">
+                      <h4>Post Job</h4>
                     </div>
-                  </FormProvider>
+
+                    <FormProvider {...methods}>
+                      <div className="widget-content">
+                        <PostJobSteps setTab={setTab} currentTab={tab} />
+
+                        {tab === "step1" && (
+                          <PostBoxForm
+                            companyname={companyname}
+                            companyId={companyId}
+                            onSubmit={onSubmit}
+                            setJobImage={setJobImage}
+                            setTab={setTab}
+                          />
+                        )}
+                        {tab === "step2" && (
+                          <StepTwo setTab={setTab} onSubmit={onSubmit} />
+                        )}
+                        {tab === "step3" && (
+                          <StepThree setTab={setTab} onSubmit={onSubmit} />
+                        )}
+                      </div>
+                    </FormProvider>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          {/* End .row */}
+          )}
         </div>
-        {/* End dashboard-outer */}
       </section>
-      {/* <!-- End Dashboard --> */}
-
-      {/* <!-- End Copyright --> */}
     </div>
-    // End page-wrapper
   );
 };
 

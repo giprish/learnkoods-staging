@@ -21,7 +21,7 @@ import { companySchema } from "@/validation/validation";
 
 const index = () => {
   const methods = useForm({
-    dirtyFields: true, // Set to true to trigger isDirty on the first change
+    dirtyFields: true,
     resolver: zodResolver(companySchema),
   });
   const [access, setAccess] = useState(null);
@@ -51,7 +51,6 @@ const index = () => {
   };
 
   useEffect(() => {
-    const user = window.localStorage.getItem("user");
     const access = window.localStorage.getItem("access");
     const id = window.localStorage.getItem("id");
     setAccess(access);
@@ -107,15 +106,9 @@ const index = () => {
     // Append the company data to the formData
     Object.keys(Company).forEach((key) => {
       const value = Company[key];
-      // Check if the value is an object and not null (excluding arrays and null)
-      // if (value && typeof value === "object" && !Array.isArray(value)) {
-      //   formData.append(key, JSON.stringify(value));
-      // } else {
-      formData.append(key, value);
-      // }
-    });
 
-    // Print the FormData entries
+      formData.append(key, value);
+    });
 
     // Append the logo if it exists
     if (logo) {
@@ -127,45 +120,33 @@ const index = () => {
     for (let pair of formData.entries()) {
       console.log(pair[0], pair[1]);
     }
-    // Debugging: Log formData entries to ensure correct data is being appended
 
     mutate(formData);
-    // Submit only dirtyData to your API
   };
 
   return (
     <div className="page-wrapper-employer dashboard">
       <span className="header-span"></span>
-      {/* <!-- Header Span for hight --> */}
 
       <LoginPopup />
-      {/* End Login Popup Modal */}
 
       <DashboardHeader />
-      {/* End Header */}
 
       <MobileMenu />
-      {/* End MobileMenu */}
 
       <DashboardEmployerSidebar />
-      {/* <!-- End User Sidebar Menu --> */}
 
-      {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <ComapnyBreadCrumb title="Register Company!" />
-          {/* breadCrumb */}
+          <ComapnyBreadCrumb title="Register New Company!" />
 
           <MenuToggler />
-          {/* Collapsible sidebar button */}
+
           <FormProvider {...methods}>
             <div className="row">
               <div className="col-lg-12">
                 <div className="ls-widget">
                   <div className="tabs-box">
-                    <div className="widget-title">
-                      <h4>My Profile</h4>
-                    </div>
                     <RegisterProfile
                       onSubmit={onSubmit}
                       handelLogo={handelLogo}
@@ -175,44 +156,11 @@ const index = () => {
                     />
                   </div>
                 </div>
-                {/* <!-- Ls widget --> */}
-
-                {/* <div className="ls-widget">
-                  <div className="tabs-box">
-                    <div className="widget-title">
-                      <h4>Social Network</h4>
-                    </div>
-                    
-                    <div className="widget-content">
-                      <RegisterSocialnetworkBox onSubmit={onSubmit} />
-                    </div>
-                  </div>
-                </div> */}
-                {/* <!-- Ls widget --> */}
-
-                <div className="ls-widget">
-                  <div className="tabs-box">
-                    <div className="widget-title">
-                      <h4>Contact Information</h4>
-                    </div>
-                    {/* End .widget-title */}
-
-                    <div className="widget-content">
-                      <RegisterContactInfoBox onSubmit={onSubmit} />
-                    </div>
-                  </div>
-                </div>
-                {/* <!-- Ls widget --> */}
               </div>
             </div>
           </FormProvider>
-          {/* End .row */}
         </div>
-        {/* End dashboard-outer */}
       </section>
-      {/* <!-- End Dashboard --> */}
-
-      {/* <!-- End Copyright --> */}
     </div>
     // End page-wrapper
   );

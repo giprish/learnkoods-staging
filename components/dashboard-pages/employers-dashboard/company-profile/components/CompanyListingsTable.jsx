@@ -8,9 +8,25 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import appliedJobs from "@/pages/candidates-dashboard/applied-jobs/index.js";
 
-const JobListingsTable = () => {
+const CompanyListingsTable = () => {
   const [jobId, setJobdId] = useState(null);
   const access = window.localStorage.getItem("access");
+
+  const fetchCompany = async () => {
+    const response = await axios.get(`${process.env.GLOBAL_API}/comp-user/`, {
+      headers: {
+        Authorization: `Bearer ${access}`,
+      },
+    });
+    return response.data;
+  };
+
+  const { data: companies } = useQuery({
+    queryKey: ["companyList", access],
+    queryFn: () => fetchCompany(),
+  });
+
+  console.log(companies, "list of companies");
   const fetchJobs = async () => {
     const response = await axios.get(`${process.env.GLOBAL_API}/job-user/`, {
       headers: {
@@ -24,8 +40,6 @@ const JobListingsTable = () => {
     queryKey: ["AllJobs"],
     queryFn: () => fetchJobs(),
   });
-
-  console.log(Jobs, "jobs of different");
 
   const fetchAppliedCandidates = async () => {
     const response = await axios.get(
@@ -123,7 +137,7 @@ const JobListingsTable = () => {
   return (
     <div className="tabs-box">
       <div className="widget-title">
-        <h4>My Job Listings</h4>
+        <h4>My Company Listings</h4>
 
         <div className="chosen-outer">
           <select className="chosen-single form-select">
@@ -140,16 +154,16 @@ const JobListingsTable = () => {
             <thead>
               <tr>
                 <th>Title</th>
-                <th>Applications</th>
-                <th>Created & Expired</th>
-                <th>Status</th>
+                <th>Website</th>
+                <th>Industry</th>
+                <th>Size</th>
                 <th>Action</th>
               </tr>
             </thead>
 
             <tbody>
-              {Jobs?.data.map((item) => (
-                <tr key={item.job_id}>
+              {companies?.data.map((item) => (
+                <tr key={item.id}>
                   <td>
                     <div className="job-block">
                       <div className="inner-box">
@@ -159,16 +173,18 @@ const JobListingsTable = () => {
                               width={50}
                               height={49}
                               src={
-                                item.job_image
-                                  ? `${item.job_image}`
+                                item.logo
+                                  ? `${item.logo}`
                                   : "/images/resource/richard.png"
                               }
                               alt="logo"
                             />
                           </span>
                           <h4>
-                            <Link href={`/job-single-v1/${item.job_id}`}>
-                              {item.job_title}
+                            <Link
+                              href={`/employers-dashboard/edit-companies/${item.id}`}
+                            >
+                              {item.name}
                             </Link>
                           </h4>
                           <ul className="job-info">
@@ -186,51 +202,15 @@ const JobListingsTable = () => {
                     </div>
                   </td>
                   <td className="applied">
-                    <a href="#" onClick={() => callApplied(item?.job_id)}>
-                      {" "}
-                      Applied
-                    </a>
+                    <a href="#"> {item.website}</a>
                   </td>
-                  <td>
-                    October 27, 2017 <br />
-                    April 25, 2011
-                  </td>
-                  <td
-                    className=""
-                    style={{ color: item.is_published ? "green" : "red" }}
-                  >
-                    {item?.is_published ? "Active" : "Inactive"}
-                    <ul className="switchbox">
-                      <li>
-                        <label className="switch">
-                          <input
-                            type="checkbox"
-                            value={item?.is_published}
-                            checked={item.is_published}
-                            onChange={(e) =>
-                              handlePublish({
-                                checked: e.target.checked,
-                                job: item,
-                              })
-                            }
-                          />
-                          <span className="slider round"></span>
-                        </label>
-                      </li>
-                    </ul>
-                  </td>
+                  <td>{item?.industry?.name}</td>
+                  <td className="">{item?.team_size}</td>
                   <td>
                     <div className="option-box">
                       <ul className="option-list">
-                        <Link href={`/job-single-v1/${item.job_id}`}>
-                          <li>
-                            <button data-text="View Aplication">
-                              <span className="la la-eye"></span>
-                            </button>
-                          </li>
-                        </Link>
                         <Link
-                          href={`/employers-dashboard/edit-job/${item.job_id}`}
+                          href={`/employers-dashboard/edit-companies/${item.id}`}
                         >
                           <li>
                             <button data-text="Edit Aplication">
@@ -241,9 +221,9 @@ const JobListingsTable = () => {
                         <li>
                           <button
                             data-text="Delete Aplication"
-                            onClick={() => {
-                              handleDelete(item.job_id);
-                            }}
+                            // onClick={() => {
+                            //   handleDelete(item.id);
+                            // }}
                           >
                             <span className="la la-trash"></span>
                           </button>
@@ -261,4 +241,4 @@ const JobListingsTable = () => {
   );
 };
 
-export default JobListingsTable;
+export default CompanyListingsTable;

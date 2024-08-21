@@ -256,7 +256,7 @@ const EducationInfoBox = () => {
             />
           </div>
           <div className="form-group-date col-lg-6 col-md-12 ">
-            <label className="">Start Date</label>
+            <label className=""></label>
             <input
               type="date"
               name={`education[${index}].start_date`}

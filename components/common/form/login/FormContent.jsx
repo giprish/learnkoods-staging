@@ -152,12 +152,6 @@ const FormContent = ({ hideModal }) => {
 
         <div className="form-group">
           <div className="field-outer">
-            {/* <div className="input-group checkboxes square">
-              <input type="checkbox" name="remember-me" id="remember" />
-              <label htmlFor="remember" className="remember">
-                <span className="custom-checkbox"></span> Remember me
-              </label>
-            </div> */}
             <Link
               href="#"
               className="call-modal signup"

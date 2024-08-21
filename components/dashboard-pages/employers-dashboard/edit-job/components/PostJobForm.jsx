@@ -234,11 +234,11 @@ const PostjobForm = ({
           />
         </div>
         <div className="form-group col-lg-6 col-md-12">
-          <label>Pincode</label>
+          <label>Zipcode</label>
           <input
             type="number"
             name="pincode"
-            placeholder="PinCode"
+            placeholder="Zipcode"
             {...register("pincode")}
           />
         </div>

@@ -12,12 +12,6 @@ const ComapnyBreadCrumb = ({
   setComanyName,
   companyname,
 }) => {
-  // return (
-  //   <div className="upper-title-box">
-  //     <h3>{title}</h3>
-  //     <div className="text">Ready to jump back in?</div>
-  //   </div>
-  // );
   const access = window.localStorage.getItem("access");
   const router = useRouter();
 

@@ -65,7 +65,6 @@ const Register = ({ hideModal }) => {
         </div> */}
         {/* <SigninWithSocial /> */}
       </div>
-      {/* End bottom-box LoginWithSocial */}
     </div>
   );
 };

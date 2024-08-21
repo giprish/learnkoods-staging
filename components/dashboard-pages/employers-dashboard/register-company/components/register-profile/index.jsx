@@ -13,7 +13,7 @@ const index = ({ onSubmit, handelLogo, handleCover, cover, logo }) => {
       />
       {/* End logo and cover photo components */}
 
-      <RegisterFormInfoBox onSubmit={onSubmit} />
+      <RegisterFormInfoBox onSubmit={onSubmit} handelLogo={handelLogo} />
       {/* compnay info box */}
     </div>
   );

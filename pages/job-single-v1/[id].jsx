@@ -22,6 +22,7 @@ import { UserAuth } from "@/context/AuthContext";
 import $ from "jquery";
 import { toast } from "react-toastify";
 import LoadingSpinner from "@/components/loader";
+import Image from "next/image";
 
 const checkIfApplied = async (student_id, jobId, access) => {
   try {
@@ -131,45 +132,51 @@ const JobSingleDynamicV1 = () => {
           <div className="auto-container">
             <div className="job-block-seven">
               <div className="inner-box">
-                <div className="content">
-                  <span className="job?.data?.data-logo">
-                    <img src={`${job?.job_image}`} alt="logo" />
-                  </span>
-                  <h4>{job?.job_title}</h4>
+                <div className="d-flex align-items-center">
+                  <div className="mx-4">
+                    <Image
+                      src={`${job?.job_image}`}
+                      alt="logo"
+                      width={200}
+                      height={200}
+                    />
+                  </div>
+                  <div>
+                    <h4>{job?.job_title}</h4>
 
-                  <ul className="job-info">
-                    <li>
-                      <span className="icon flaticon-briefcase"></span>
-                      {job?.job_type}
-                    </li>
-                    {/* compnay info */}
-                    <li>
-                      <span className="icon flaticon-map-locator"></span>
-                      {job?.city?.name}
-                    </li>
-                    {/* location info */}
-                    <li>
-                      <span className="icon flaticon-clock-3"></span>
-                      {localDate}
-                    </li>
-                    {/* time info */}
-                    <li>
-                      <span className="icon flaticon-money"></span>{" "}
-                      {job?.min_salary || "null"} $ -{" "}
-                      {job?.max_salary || "null"} $
-                    </li>
-                    {/* salary info */}
-                  </ul>
-                  {/* End .job-info */}
-
-                  <ul className="job-other-info">
-                    {job?.skills_req?.map((val, i) => (
-                      <li key={i} className={`border`}>
-                        {val?.data}
+                    <ul className="job-info">
+                      <li>
+                        <span className="icon flaticon-briefcase"></span>
+                        {job?.job_type}
                       </li>
-                    ))}
-                  </ul>
-                  {/* End .job-other-info */}
+                      {/* compnay info */}
+                      <li>
+                        <span className="icon flaticon-map-locator"></span>
+                        {job?.city?.name}
+                      </li>
+                      {/* location info */}
+                      <li>
+                        <span className="icon flaticon-clock-3"></span>
+                        {localDate}
+                      </li>
+                      {/* time info */}
+                      <li>
+                        <span className="icon flaticon-money"></span>{" "}
+                        {job?.min_salary || "null"} $ -{" "}
+                        {job?.max_salary || "null"} $
+                      </li>
+                      {/* salary info */}
+                    </ul>
+                    {/* End .job-info */}
+
+                    <ul className="job-other-info">
+                      {job?.skills_req?.map((val, i) => (
+                        <li key={i} className={`border`}>
+                          {val?.data}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
                 {/* End .content */}
 
