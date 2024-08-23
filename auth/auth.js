@@ -4,14 +4,16 @@ import { useEffect, useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import jwt from "jsonwebtoken";
 import { UserAuth } from "@/context/AuthContext";
+import LoadingSpinner from "@/components/loader";
 
 const ACCESS_TOKEN_SECRET = process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET;
 
 const withAuth = (WrappedComponent, skipRoutes) => {
   return (props) => {
     const router = useRouter();
-    const { user, loading } = UserAuth();
+    const { user, loading: authLoading } = UserAuth();
     const [isRefreshing, setIsRefreshing] = useState(false); // Track token refresh state
+    const [loading, setLoading] = useState(true); // Track the overall loading state
 
     const verifyToken = useCallback(async () => {
       const accessToken = window.localStorage.getItem("access");
@@ -21,6 +23,7 @@ const withAuth = (WrappedComponent, skipRoutes) => {
 
       if (skipRoutes.includes(currentRoute)) {
         console.log("Auth exiting early");
+        setLoading(false); // No need to show loader if skipping auth check
         return;
       }
 
@@ -97,12 +100,21 @@ const withAuth = (WrappedComponent, skipRoutes) => {
           setIsRefreshing(false); // Reset the refreshing flag after the process completes
         }
       }
+
+      // Once the token is verified or the user is redirected, hide the loader
+      setLoading(false);
     }, [router.pathname, isRefreshing]);
 
     useEffect(() => {
       verifyToken();
     }, []);
 
+    if (loading || authLoading) {
+      // Render a loader while the authentication checks are in progress
+      return <LoadingSpinner />; // Replace with your preferred loader component
+    }
+
+    // Render the wrapped component when loading is complete
     return <WrappedComponent {...props} />;
   };
 };

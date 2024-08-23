@@ -12,6 +12,7 @@ import { UserAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
 
 const FormContent2 = () => {
+  const GLOBAL_API = process.env.GLOBAL_API;
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [id, setId] = useState(null);
@@ -92,7 +93,7 @@ const FormContent2 = () => {
           .then(() => window.location.reload());
       }
 
-      hideModal();
+      // hideModal();
     },
     onError: (data) => {
       console.log(data, "error message");
@@ -157,7 +158,7 @@ const FormContent2 = () => {
         <div className="form-group">
           <label>Password</label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
             placeholder="Password"
             required

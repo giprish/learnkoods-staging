@@ -22,6 +22,7 @@ const Register2 = () => {
   const [showOtp, setShowOtp] = useState(false);
   const [showVerifyEmail, setShowVerifyEmail] = useState(true);
   const [showRegister, setShowRegister] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   // const usertype = useSelector((state) => state.user.userType);
@@ -152,7 +153,7 @@ const Register2 = () => {
         window.location.reload();
       }
 
-      hideModal();
+      // hideModal();
     },
     onError: (error) => {
       console.log(error, "error message");
@@ -324,11 +325,25 @@ const Register2 = () => {
           <label>Password</label>
           <input
             id="password-field"
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
             placeholder="Password"
             {...register("password")}
           />
+        </div>
+        <div className="form-group">
+          <div className="field-outer">
+            <div className="input-group checkboxes square">
+              <input
+                type="checkbox"
+                id="showPassword"
+                onChange={() => setShowPassword((prev) => !prev)}
+              />
+              <label htmlFor="showPassword" className="showPassword">
+                <span className="custom-checkbox"></span> Show Password
+              </label>
+            </div>
+          </div>
         </div>
         {usertype === "candidate" ? (
           <div className="form-group">

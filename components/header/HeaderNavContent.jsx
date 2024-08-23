@@ -130,12 +130,12 @@ const HeaderNavContent = () => {
                     <span>Upskill</span>
                   </a>
                 </li>
-
+*/}
                 <li>
-                  <a href="/job-list/job-list-v1">
-                    <span>Find Jobs</span>
+                  <a href="/pricing">
+                    <span>Pricing</span>
                   </a>
-                </li> */}
+                </li>
 
                 <li>
                   <a href="/mentorship">
