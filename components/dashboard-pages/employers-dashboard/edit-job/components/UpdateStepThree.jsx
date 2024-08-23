@@ -4,7 +4,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { element } from "prop-types";
 import { useEffect, useState } from "react";
 import {
   Controller,
@@ -13,7 +12,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 import "react-quill/dist/quill.snow.css";
-import Select from "react-select";
+
 import { toast } from "react-toastify";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });

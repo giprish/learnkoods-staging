@@ -20,8 +20,12 @@ const PostBoxForm = ({
     control,
     resetField,
     formState: { errors },
+    setValue,
   } = useFormContext();
   const [catId, setCatId] = useState(null);
+  const [countryId, setCountryId] = useState(null);
+  const [stateId, setStateId] = useState(null);
+
   const [selectedsubcat, setSelectedSubCat] = useState(null);
 
   const access = window.localStorage.getItem("access");
@@ -51,9 +55,20 @@ const PostBoxForm = ({
     queryKey: ["skillData"],
     queryFn: () => fetch(`${process.env.GLOBAL_API}/skill_api/`),
   });
+  const { data: country } = useQuery({
+    queryKey: ["countryData"],
+    queryFn: () => fetch(`${process.env.GLOBAL_API}/country/`),
+  });
+
+  const { data: state } = useQuery({
+    queryKey: ["stateData", countryId],
+    queryFn: () =>
+      fetch(`${process.env.GLOBAL_API}/state/${countryId?.value}/`),
+  });
+
   const { data: city } = useQuery({
-    queryKey: ["cityData"],
-    queryFn: () => fetch(`${process.env.GLOBAL_API}/city/`),
+    queryKey: ["cityData", stateId],
+    queryFn: () => fetch(`${process.env.GLOBAL_API}/city/${stateId?.value}/`),
   });
 
   const options = (optiondata) => {
@@ -270,30 +285,67 @@ const PostBoxForm = ({
           <input type="text" name="name" placeholder="06.04.2020" />
         </div>
 
+        {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Country</label>
-          <select className="chosen-single form-select">
-            <option>Select</option>
-            <option value="uk">United Kindom</option>
-          </select>
+          <Controller
+            name="country"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={options(country)}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={(selectedOption) => {
+                  field.onChange(selectedOption); // Update React Hook Form state
+                  setCountryId({
+                    value: selectedOption.value, // Set the selected country value
+                    label: selectedOption.label, // Set the selected country label
+                  }); // Set the selected country ID
+                  setValue("state", null);
+                  setValue("city", null);
+                }}
+              />
+            )}
+          />
+        </div>
+        <div className="form-group col-lg-6 col-md-12">
+          <label>State</label>
+          <Controller
+            name="state"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={options(state)}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={(selectedOption) => {
+                  field.onChange(selectedOption); // Update React Hook Form state
+                  setStateId({
+                    value: selectedOption.value, // Set the selected country value
+                    label: selectedOption.label, // Set the selected country label
+                  });
+                  setValue("city", null);
+                }}
+              />
+            )}
+          />
         </div>
 
-        {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>City</label>
           <Controller
             name="city"
             control={control}
-            render={({ field, fieldState: { error } }) => (
-              <>
-                <Select
-                  {...field}
-                  options={options(city)}
-                  className="basic-multi-select"
-                  classNamePrefix="select"
-                />
-                {error && <p className="error text-danger">{error.message}</p>}
-              </>
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={options(city)}
+                className="basic-multi-select"
+                classNamePrefix="select"
+              />
             )}
           />
         </div>

@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import jwt from "jsonwebtoken";
 import { UserAuth } from "@/context/AuthContext";
 import LoadingSpinner from "@/components/loader";
+import { FALSE } from "sass";
 
 const ACCESS_TOKEN_SECRET = process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET;
 
@@ -13,7 +14,7 @@ const withAuth = (WrappedComponent, skipRoutes) => {
     const router = useRouter();
     const { user, loading: authLoading } = UserAuth();
     const [isRefreshing, setIsRefreshing] = useState(false); // Track token refresh state
-    const [loading, setLoading] = useState(true); // Track the overall loading state
+    const [loading, setLoading] = useState(false); // Track the overall loading state
 
     const verifyToken = useCallback(async () => {
       const accessToken = window.localStorage.getItem("access");

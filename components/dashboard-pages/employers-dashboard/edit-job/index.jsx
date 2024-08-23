@@ -31,6 +31,14 @@ const index = () => {
     value: 0,
     label: "",
   });
+  const [countryId, setCountryId] = useState({
+    value: 0,
+    label: "",
+  });
+  const [stateId, setStateId] = useState({
+    value: 0,
+    label: "",
+  });
 
   const [selectedsubcat, setSelectedSubCat] = useState(null);
   const [jobImage, setJobImage] = useState(null);
@@ -75,9 +83,33 @@ const index = () => {
         value: job?.data?.sub_category?.id,
         label: job?.data?.sub_category?.name,
       });
+      methods.setValue("country", {
+        value: job?.data?.country?.id,
+        label: job?.data?.country?.name,
+      });
+      methods.setValue("state", {
+        value: job?.data?.state?.id,
+        label: job?.data?.state?.name,
+      });
+      methods.setValue("city", {
+        value: job?.data?.city?.id,
+        label: job?.data?.city?.name,
+      });
+      setCountryId({
+        value: job?.data?.country?.id,
+        label: job?.data?.country?.name,
+      });
+      setStateId({
+        value: job?.data?.state?.id,
+        label: job?.data?.state?.name,
+      });
       console.log(job, "fetched job data");
     }
   }, [job]);
+
+  console.log(stateId, "state from job fetched");
+  console.log(countryId, "country from job fetched");
+  console.log(subcat, "subcat from job fetched");
 
   const updateJob = async (formData) => {
     const { data: response } = await axios.put(
@@ -111,6 +143,7 @@ const index = () => {
 
   const onSubmit = (data) => {
     // Debugging: Log dirtyFields to ensure it's being populated correctly
+    console.log(data, "original data");
     console.log("Dirty Fields:", dirtyFields);
     if (dirtyFields.category) {
       delete dirtyFields.category;
@@ -241,6 +274,10 @@ const index = () => {
                           setCat={setCat}
                           subcat={subcat}
                           setSubCat={setSubCat}
+                          countryId={countryId}
+                          setCountryId={setCountryId}
+                          stateId={stateId}
+                          setStateId={setStateId}
                           setTab={setTab}
                         />
                       )}

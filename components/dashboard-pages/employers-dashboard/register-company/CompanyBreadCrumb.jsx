@@ -30,11 +30,13 @@ const ComapnyBreadCrumb = ({
   });
 
   // console.log(company);
-  const options =
-    company?.data?.map((option) => ({
+  const options = [
+    { value: "", label: "Select", isDisabled: true }, // Disabled "Select" option
+    ...(company?.data?.map((option) => ({
       value: option.id,
       label: option.name,
-    })) || [];
+    })) || []),
+  ];
 
   return (
     <div className="upper-title-box">
@@ -55,8 +57,7 @@ const ComapnyBreadCrumb = ({
           </div>
           <Select
             name="colors"
-            defaultValue={options[0]}
-            options={options}
+            options={options} // Adding the "Select" default option
             className="basic-multi-select"
             classNamePrefix="select"
             onChange={(e) => {

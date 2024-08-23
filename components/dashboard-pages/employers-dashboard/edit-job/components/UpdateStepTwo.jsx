@@ -104,7 +104,11 @@ const UpdateStepTwo = ({ setTab, onSubmit }) => {
         </div>
 
         {/* <!-- Input --> */}
-
+        <div className="form-group col-lg-12 col-md-6 text-right">
+          <button className="theme-btn btn-style-one" type="submit">
+            Save
+          </button>
+        </div>
         <div className="form-group col-lg-6 col-md-6 text-right">
           <button
             className="theme-btn btn-style-one"
@@ -114,6 +118,7 @@ const UpdateStepTwo = ({ setTab, onSubmit }) => {
             Previous
           </button>
         </div>
+
         <div className="form-group col-lg-6 col-md-6 text-right d-flex justify-content-end">
           <button
             className="theme-btn btn-style-one"

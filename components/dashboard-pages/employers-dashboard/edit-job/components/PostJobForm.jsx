@@ -14,8 +14,13 @@ const PostjobForm = ({
   subcat,
   setSubCat,
   setTab,
+  countryId,
+  setCountryId,
+  stateId,
+  setStateId,
 }) => {
-  const { register, handleSubmit, control, resetField } = useFormContext();
+  const { register, handleSubmit, control, resetField, getValues, setValue } =
+    useFormContext();
   const access = window.localStorage.getItem("access");
   const [selectedsubcat, setSelectedSubCat] = useState(null);
 
@@ -35,16 +40,20 @@ const PostjobForm = ({
       fetch(`${process.env.GLOBAL_API}/sub_cat_id-api/${cat.value}/`),
   });
 
-  useEffect(() => {
-    setSubCat({
-      value: 0,
-      label: "",
-    });
-  }, [cat.value]);
+  const { data: country } = useQuery({
+    queryKey: ["countryData"],
+    queryFn: () => fetch(`${process.env.GLOBAL_API}/country/`),
+  });
+
+  const { data: state } = useQuery({
+    queryKey: ["stateData", countryId],
+    queryFn: () =>
+      fetch(`${process.env.GLOBAL_API}/state/${countryId?.value}/`),
+  });
 
   const { data: city } = useQuery({
-    queryKey: ["cityData"],
-    queryFn: () => fetch(`${process.env.GLOBAL_API}/city/`),
+    queryKey: ["cityData", stateId],
+    queryFn: () => fetch(`${process.env.GLOBAL_API}/city/${stateId?.value}/`),
   });
 
   const options = (optiondata) => {
@@ -115,7 +124,7 @@ const PostjobForm = ({
             <option value="">Select</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
-            <option value="Other">Other</option>
+            <option value="All">All</option>
           </select>
         </div>
 
@@ -153,13 +162,16 @@ const PostjobForm = ({
             render={({ field }) => (
               <Select
                 {...field}
-                value={cat}
                 options={options(category)}
                 className="basic-multi-select"
                 classNamePrefix="select"
-                onChange={(e) => {
-                  setCat(e);
-                  field.onChange(e);
+                onChange={(selectedOption) => {
+                  setCat({
+                    value: selectedOption.value, // Set the selected country value
+                    label: selectedOption.label, // Set the selected country label
+                  });
+                  field.onChange(selectedOption);
+                  setValue("sub_category", null);
                 }}
               />
             )}
@@ -175,14 +187,16 @@ const PostjobForm = ({
               <>
                 <Select
                   {...field}
-                  value={subcat}
-                  onChange={(selectedOption) => {
-                    setSubCat(selectedOption);
-                    field.onChange(selectedOption);
-                  }}
                   options={options(subCategory)}
                   className="basic-multi-select"
                   classNamePrefix="select"
+                  onChange={(selectedOption) => {
+                    setSubCat({
+                      value: selectedOption.value, // Set the selected country value
+                      label: selectedOption.label, // Set the selected country label
+                    });
+                    field.onChange(selectedOption);
+                  }}
                 />
                 {error && <p className="error">{error.message}</p>}
               </>
@@ -207,17 +221,54 @@ const PostjobForm = ({
           <label>Application Deadline Date</label>
           <input type="text" name="name" placeholder="06.04.2020" />
         </div>
-
-        {/* <!-- Input --> */}
-        {/* <div className="form-group col-lg-6 col-md-12">
+        <div className="form-group col-lg-6 col-md-12">
           <label>Country</label>
-          <select className="chosen-single form-select">
-            <option>Select</option>
-            <option value="uk">United Kindom</option>
-          </select>
-        </div> */}
+          <Controller
+            name="country"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={options(country)}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={(selectedOption) => {
+                  field.onChange(selectedOption); // Update React Hook Form state
+                  setCountryId({
+                    value: selectedOption.value, // Set the selected country value
+                    label: selectedOption.label, // Set the selected country label
+                  }); // Set the selected country ID
+                  setValue("state", null);
+                  setValue("city", null);
+                }}
+              />
+            )}
+          />
+        </div>
+        <div className="form-group col-lg-6 col-md-12">
+          <label>State</label>
+          <Controller
+            name="state"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={options(state)}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={(selectedOption) => {
+                  field.onChange(selectedOption); // Update React Hook Form state
+                  setStateId({
+                    value: selectedOption.value, // Set the selected country value
+                    label: selectedOption.label, // Set the selected country label
+                  });
+                  setValue("city", null);
+                }}
+              />
+            )}
+          />
+        </div>
 
-        {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>City</label>
           <Controller
@@ -290,7 +341,10 @@ const PostjobForm = ({
         </div> */}
 
         {/* <!-- Input --> */}
-        <div className="form-group col-lg-12 col-md-12 text-right">
+        <div className="form-group col-lg-12 col-md-12 text-right d-flex justify-content-between ">
+          <button className="theme-btn btn-style-one" type="submit">
+            Save
+          </button>
           <button
             className="theme-btn btn-style-one"
             type="button"
