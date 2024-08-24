@@ -24,30 +24,21 @@ const index = () => {
   const router = useRouter();
   const companyid = router.query.id;
   const [companyname, setCompanyName] = useState(null);
-  const [image, setImage] = useState({
-    file: null,
-    url: null,
-  });
-  const [cover, setCover] = useState({
+
+  const [logo, setLogo] = useState({
     file: null,
     url: "",
   });
+
   const [previousImage, setPreviousImage] = useState(null);
   const [userId, setUserId] = useState(null);
 
-  const handleImage = (e) => {
-    setImage((prev) => ({
+  const handleLogo = (e) => {
+    setLogo((prev) => ({
       ...prev,
       file: e.target.files[0],
     }));
-    console.log(image.file, "image file");
-  };
-  const handleCover = (e) => {
-    setCover((prev) => ({
-      ...prev,
-      file: e.target.files[0],
-    }));
-    console.log(cover.file, "image file");
+    console.log(logo.file, "image file");
   };
 
   useEffect(() => {
@@ -91,26 +82,14 @@ const index = () => {
     methods.setValue("website", company?.data.website);
     methods.setValue("address", company?.data.address);
 
-    // Set the image from the company data
-    // Keep track of the previous image
     if (typeof company !== "undefined") {
       setPreviousImage(company?.data?.logo);
-      setImage((prev) => ({
+      setLogo((prev) => ({
         ...prev,
         url: company?.data?.logo,
       }));
-
-      if (typeof company?.data?.cover !== "undefined") {
-        setCover((prev) => ({
-          ...prev,
-          url: company?.data?.cover,
-        }));
-      }
     }
     console.log(company, "company data");
-    // if (typeof window !== "undefined") {
-    //   window.localStorage.setItem("profile_image", company?.data?.logo);
-    // }
   }, [company]);
 
   const updateCompany = async (formdata) => {
@@ -154,6 +133,8 @@ const index = () => {
         ...data,
         address: data.address,
         city: data.city.value,
+        country: data.country.value,
+        state: data.state.value,
         description: data.description,
         email: data.email,
         industry: data.industry.value, // Ensuring industry is an array of labels
@@ -163,7 +144,7 @@ const index = () => {
         user: userId,
       };
       const formData = new FormData();
-      const imageChanged = image !== previousImage;
+      const imageChanged = logo?.file !== null;
 
       const dirtyData = Object.keys(Company).reduce((acc, key) => {
         if (dirtyFields[key]) {
@@ -183,13 +164,14 @@ const index = () => {
         formData.append(key, Company[key]);
       });
       if (imageChanged) {
-        formData.append("logo_img", image?.file);
+        formData.append("logo_img", logo?.file);
       }
       console.log("FormData entries:");
       for (let pair of formData.entries()) {
         console.log(pair[0], pair[1]);
       }
 
+      // console.log(formData);
       mutate(formData);
       // Submit only dirtyData to your API
     }
@@ -222,15 +204,13 @@ const index = () => {
                 <div className="ls-widget">
                   <div className="tabs-box">
                     <div className="widget-title">
-                      <h4>Company Logo</h4>
+                      <h4>{""}</h4>
                     </div>
                     <MyProfile
                       onSubmit={onSubmit}
-                      handleCover={handleCover}
                       company={company}
-                      handleImage={handleImage}
-                      image={image}
-                      cover={cover}
+                      handleLogo={handleLogo}
+                      logo={logo}
                     />
                   </div>
                 </div>

@@ -1,59 +1,69 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Image from "next/image";
+import { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import Select from "react-select";
 
-const FormInfoBox = ({ onSubmit }) => {
-  const fetchIndustry = async () => {
-    const response = await axios.get(`${process.env.GLOBAL_API}/industry_api/`);
+const FormInfoBox = ({ onSubmit, logo, handleLogo }) => {
+  const { register, handleSubmit, control, setValue } = useFormContext();
+  const [countryId, setCountryId] = useState({
+    value: 0,
+    label: "",
+  });
+  const [stateId, setStateId] = useState({
+    value: 0,
+    label: "",
+  });
+  const fetch = async (url) => {
+    const response = await axios.get(url);
     return response.data;
   };
-
   const { data: positions } = useQuery({
     queryKey: ["industryData"],
-    queryFn: () => fetchIndustry(),
+    queryFn: () => fetch(`${process.env.GLOBAL_API}/industry_api/`),
   });
-
-  const fetchSkill = async () => {
-    const response = await axios.get(`${process.env.GLOBAL_API}/skill_api/`);
-    return response.data;
-  };
 
   const { data: skills } = useQuery({
     queryKey: ["skillData"],
-    queryFn: () => fetchSkill(),
+    queryFn: () => fetch(`${process.env.GLOBAL_API}/skill_api/`),
   });
 
-  const options = positions?.data?.map((option) => ({
-    value: option.id,
-    label: option.name,
-  }));
-  const skillOption = skills?.data?.map((option) => ({
-    value: option.id,
-    label: option.data,
-  }));
-  const fetchCity = async () => {
-    const response = await axios.get(` ${process.env.GLOBAL_API}/city/`);
-    return response.data;
+  const { data: country } = useQuery({
+    queryKey: ["countryData"],
+    queryFn: () => fetch(`${process.env.GLOBAL_API}/country/`),
+  });
+
+  const { data: state } = useQuery({
+    queryKey: ["stateData", countryId],
+    queryFn: () =>
+      fetch(`${process.env.GLOBAL_API}/state/${countryId?.value}/`),
+  });
+
+  const { data: city } = useQuery({
+    queryKey: ["cityData", stateId],
+    queryFn: () => fetch(`${process.env.GLOBAL_API}/city/${stateId?.value}/`),
+  });
+
+  const options = (optiondata) => {
+    if (optiondata?.message) {
+      return optiondata?.message?.map((option) => ({
+        value: option.id,
+        label: option.data || option.name,
+      }));
+    }
+    return optiondata?.data?.map((option) => ({
+      value: option.id,
+      label: option.data || option.name,
+    }));
   };
-
-  const { data: cities } = useQuery({
-    queryKey: ["cityData"],
-    queryFn: () => fetchCity(),
-  });
-
-  const cityoptions = cities?.data?.map((option) => ({
-    value: option.id,
-    label: option.name,
-  }));
-  const { register, handleSubmit, control } = useFormContext();
 
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
       <div className="row">
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
-          <label>Company name (optional)</label>
+          <label>Company name </label>
           <input
             type="text"
             name="name"
@@ -64,7 +74,7 @@ const FormInfoBox = ({ onSubmit }) => {
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
-          <label>Email address</label>
+          <label>Email </label>
           <input
             type="email"
             name="name"
@@ -133,27 +143,128 @@ const FormInfoBox = ({ onSubmit }) => {
             render={({ field }) => (
               <Select
                 {...field}
-                options={options}
+                options={options(skills)}
                 className="basic-multi-select"
                 classNamePrefix="select"
               />
             )}
           />
         </div>
+        <div className="form-group col-lg-6 col-md-12">
+          <label className="" for="job_image">
+            Company Logo
+          </label>
+          {logo ? (
+            <div className="d-flex flex-row uploadButton justify-content-center align-items-center">
+              <input
+                className=" form-control py-3 logo-input"
+                type="file"
+                name="profile_image"
+                accept="image/*"
+                id="upload"
+                required={!(logo.url.length > 2 || logo.file)}
+                onChange={(e) => {
+                  handleLogo(e);
+                }}
+              />
+              {logo.url.length > 2 && !logo.file && (
+                <Image
+                  src={`${logo?.url}`}
+                  width={50}
+                  height={50}
+                  alt="profile image"
+                  className="rounded-circle "
+                />
+              )}
+              {logo.file && (
+                <img
+                  src={URL.createObjectURL(logo.file)}
+                  alt="preview"
+                  width="50"
+                  height="50"
+                  className="uploadedImage rounded-circle"
+                />
+              )}
+            </div>
+          ) : (
+            <>
+              {" "}
+              <label className="" for="job_image">
+                Company Logo
+              </label>
+              <input
+                className="form-control py-3 "
+                type="file"
+                name="profile_image"
+                accept="image/*"
+                id="upload"
+                required
+                onChange={(e) => {
+                  handleLogo(e);
+                }}
+              />
+            </>
+          )}
+        </div>
 
         {/* <!-- Input --> */}
+        <div className="form-group col-lg-6 col-md-12">
+          <label>Country</label>
+          <Controller
+            name="country"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={options(country)}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={(selectedOption) => {
+                  field.onChange(selectedOption); // Update React Hook Form state
+                  setCountryId({
+                    value: selectedOption.value, // Set the selected country value
+                    label: selectedOption.label, // Set the selected country label
+                  }); // Set the selected country ID
+                  setValue("state", null);
+                  setValue("city", null);
+                }}
+              />
+            )}
+          />
+        </div>
+        <div className="form-group col-lg-6 col-md-12">
+          <label>State</label>
+          <Controller
+            name="state"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={options(state)}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={(selectedOption) => {
+                  field.onChange(selectedOption); // Update React Hook Form state
+                  setStateId({
+                    value: selectedOption.value, // Set the selected country value
+                    label: selectedOption.label, // Set the selected country label
+                  });
+                  setValue("city", null);
+                }}
+              />
+            )}
+          />
+        </div>
+
         <div className="form-group col-lg-6 col-md-12">
           <label>City</label>
           <Controller
             name="city"
             control={control}
-            // defaultValue={[]}
-            rules={{ required: "Please select city" }}
             render={({ field }) => (
               <Select
                 {...field}
-                name="city"
-                options={cityoptions}
+                options={options(city)}
                 className="basic-multi-select"
                 classNamePrefix="select"
               />

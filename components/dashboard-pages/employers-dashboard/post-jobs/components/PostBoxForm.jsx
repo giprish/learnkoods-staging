@@ -43,6 +43,7 @@ const PostBoxForm = ({
   const { data: subCategory } = useQuery({
     queryKey: ["SubCategorydata", catId],
     queryFn: () => fetch(`${process.env.GLOBAL_API}/sub_cat_id-api/${catId}/`),
+    enabled: !!catId,
   });
 
   useEffect(() => {
@@ -51,10 +52,6 @@ const PostBoxForm = ({
     resetField("sub_category"); // or any default value
   }, [subCategory]);
 
-  const { data: skills } = useQuery({
-    queryKey: ["skillData"],
-    queryFn: () => fetch(`${process.env.GLOBAL_API}/skill_api/`),
-  });
   const { data: country } = useQuery({
     queryKey: ["countryData"],
     queryFn: () => fetch(`${process.env.GLOBAL_API}/country/`),
@@ -64,11 +61,13 @@ const PostBoxForm = ({
     queryKey: ["stateData", countryId],
     queryFn: () =>
       fetch(`${process.env.GLOBAL_API}/state/${countryId?.value}/`),
+    enabled: !!countryId?.value,
   });
 
   const { data: city } = useQuery({
     queryKey: ["cityData", stateId],
     queryFn: () => fetch(`${process.env.GLOBAL_API}/city/${stateId?.value}/`),
+    enabled: !!stateId?.value,
   });
 
   const options = (optiondata) => {
@@ -151,7 +150,7 @@ const PostBoxForm = ({
             <option>Select</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
-            <option value="Other">Other</option>
+            <option value="All">All</option>
           </select>
           {errors.gender?.message && (
             <p className="text-danger">{errors.gender?.message}</p>
@@ -247,7 +246,6 @@ const PostBoxForm = ({
               <>
                 <Select
                   {...field}
-                  value={selectedsubcat}
                   onChange={(selectedOption) => {
                     setSelectedSubCat(selectedOption);
                     field.onChange(selectedOption);

@@ -21,16 +21,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { jobPostSchema } from "@/validation/validation.js";
 
 const index = () => {
-  const methods = useForm({
-    mode: "onChange",
-    resolver: zodResolver(jobPostSchema),
-  });
+  const methods = useForm();
+  //   {
+  //   mode: "onChange",
+  //   resolver: zodResolver(jobPostSchema),
+  // }
 
   const [jobImage, setJobImage] = useState(null);
   const [companyId, setCompanyId] = useState(null);
   const [companyname, setComanyName] = useState(null);
   const [tab, setTab] = useState("step1");
   const access = window.localStorage.getItem("access");
+  const userId = window.localStorage.getItem("id");
 
   const registerJob = async (formData) => {
     const { data: response } = await axios.post(
@@ -61,16 +63,60 @@ const index = () => {
       });
     },
   });
-  const onSubmit = (data) => {
-    if (!companyname) {
-      toast.error("select company", {
+  const createQuestion = async ({ questions, job_id }) => {
+    const createPromises = [];
+
+    questions.forEach((question) => {
+      // Create new question with job_id and employer
+      createPromises.push(
+        axios.post(
+          `${process.env.GLOBAL_API}/questions/`,
+          { ...question, employer: userId, job: job_id },
+          {
+            headers: {
+              Authorization: `Bearer ${access}`,
+            },
+          }
+        )
+      );
+    });
+
+    // Wait for all promises to complete
+    await Promise.all(createPromises);
+  };
+
+  const { mutate: questionMutate } = useMutation({
+    mutationFn: createQuestion,
+    onSuccess: (data) => {
+      console.log(data, "data from sucessful question update");
+      toast.success("Profile updated successfully", {
         position: toast.POSITION.TOP_RIGHT,
       });
+    },
+    onError: (error) => {
+      console.log(error, "error message");
+      toast.error("question update Unsuccessful", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+  });
+  const onSubmit = (data) => {
+    console.log(data, "data");
+    console.log(data.questions, "questions");
+    if (!companyname) {
+      toast.error("Select company", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
     }
+
     const Job = {
       ...data,
+      category: data?.category?.value,
       sub_category: data?.sub_category?.value,
       city: data?.city?.value,
+      country: data?.country?.value,
+      state: data?.state?.value,
       company: companyname,
       user: window.localStorage.getItem("user"),
     };
@@ -80,54 +126,48 @@ const index = () => {
     const postData = Object.keys(Job).reduce((acc, key) => {
       if (key === "skills_req" && Array.isArray(Job[key])) {
         acc[key] = Job[key].map((option) => ({ data: option.label }));
-      } else {
+      } else if (key !== "questions") {
         acc[key] = Job[key];
       }
       return acc;
     }, {});
 
-    console.log(postData, "post data");
-
-    // Print the FormData entries
     for (const key in postData) {
       if (key === "skills_req" && Array.isArray(postData[key])) {
         postData[key].forEach((element, index) => {
           formData.append(`skills_req[${index}]data`, element.data);
         });
-        // formData.append(key, JSON.stringify(postData[key]));
-      }
-      if (key === "questions" && Array.isArray(postData[key])) {
-        postData[key].forEach((element, index) => {
-          formData.append(
-            `questions[${index}]question_name`,
-            element.question_name
-          );
-          formData.append(`questions[${index}]must_have`, element.must_have);
-        });
       } else {
         formData.append(key, postData[key]);
       }
     }
+
     if (!jobImage) {
-      toast.error("add job image file", {
+      toast.error("Add job image file", {
         position: toast.POSITION.TOP_RIGHT,
       });
       return;
     }
-    if (jobImage) {
-      formData.append("job_image", jobImage);
-    }
 
-    for (let pair of formData.entries()) {
-      console.log(
-        pair[0],
-        Array.isArray(pair[1])
-          ? pair[1].map((obj) => JSON.stringify(obj))
-          : pair[1]
-      );
-    }
+    formData.append("job_image", jobImage);
 
-    mutate(formData);
+    // Call the job creation mutation
+
+    mutate(formData, {
+      onSuccess: (jobData) => {
+        // Extract job_id from the job creation response
+        const job_id = jobData.Data.job_id;
+
+        // Check if there are any questions to create
+        if (data.questions && data.questions.length > 0) {
+          // Pass only the questions and job_id to the questionMutate function
+          questionMutate({
+            questions: data.questions,
+            job_id,
+          });
+        }
+      },
+    });
   };
 
   return (
