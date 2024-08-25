@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import Link from "next/link";
 
 const Register2 = () => {
   const {
@@ -411,18 +412,18 @@ const Register2 = () => {
         
       </Tabs> */}
 
-      {/* <div className="bottom-box">
+      <div className="bottom-box">
         <div className="text">
           Already have an account?{" "}
           <Link href="/login" className="call-modal login">
             LogIn
           </Link>
         </div>
-        <div className="divider">
+        {/* <div className="divider">
           <span>or</span>
         </div>
-        <LoginWithSocial />
-      </div> */}
+        <LoginWithSocial /> */}
+      </div>
     </div>
   );
 };

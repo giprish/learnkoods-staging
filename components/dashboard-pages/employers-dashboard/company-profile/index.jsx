@@ -33,7 +33,7 @@ const index = () => {
 
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <BreadCrumb title="Manage Your companies!" text="  " />
+          <BreadCrumb title="Manage Your Companies!" text="  " />
 
           <MenuToggler />
 

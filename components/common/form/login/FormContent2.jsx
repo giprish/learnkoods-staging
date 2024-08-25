@@ -182,6 +182,18 @@ const FormContent2 = () => {
           </div>
         </div>
 
+        {/* forgot password */}
+
+        <div className="form-group">
+          <button
+            className="theme-btn btn-style-one"
+            type="submit"
+            name="log-in"
+          >
+            Log In
+          </button>
+        </div>
+
         <div className="form-group">
           <div className="field-outer">
             <Link
@@ -194,32 +206,21 @@ const FormContent2 = () => {
             </Link>
           </div>
         </div>
-        {/* forgot password */}
-
-        <div className="form-group">
-          <button
-            className="theme-btn btn-style-one"
-            type="submit"
-            name="log-in"
-          >
-            Log In
-          </button>
-        </div>
         {/* login */}
       </form>
       {/* End form */}
 
-      {/* <div className="bottom-box">
+      <div className="bottom-box">
         <div className="text">
           Don&apos;t have an account? <Link href="/register">Signup</Link>
         </div>
 
-        <div className="divider">
+        {/* <div className="divider">
           <span>or</span>
         </div>
 
-        <LoginWithSocial />
-      </div> */}
+        <LoginWithSocial /> */}
+      </div>
     </div>
   );
 };

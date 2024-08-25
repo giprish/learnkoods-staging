@@ -89,13 +89,13 @@ const index = () => {
     mutationFn: createQuestion,
     onSuccess: (data) => {
       console.log(data, "data from sucessful question update");
-      toast.success("Profile updated successfully", {
+      toast.success("Questions added successfully", {
         position: toast.POSITION.TOP_RIGHT,
       });
     },
     onError: (error) => {
       console.log(error, "error message");
-      toast.error("question update Unsuccessful", {
+      toast.error("question addditon unsuccessful", {
         position: toast.POSITION.TOP_RIGHT,
       });
     },

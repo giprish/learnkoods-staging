@@ -138,7 +138,7 @@ const index = () => {
 
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <ComapnyBreadCrumb title="Register New Company!" />
+          <ComapnyBreadCrumb title="Add New Company!" />
 
           <MenuToggler />
 

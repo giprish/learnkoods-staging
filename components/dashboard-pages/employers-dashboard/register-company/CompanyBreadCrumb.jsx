@@ -40,7 +40,7 @@ const ComapnyBreadCrumb = ({
 
   return (
     <div className="upper-title-box">
-      <h3>{title}</h3>
+      <h3 className="mb-3">{title}</h3>
       {/* <h3>{companyname ? companyname : ""}</h3> */}
       {(router.pathname === "/employers-dashboard/company-profile" ||
         router.pathname === "/employers-dashboard/post-jobs") && (
@@ -48,11 +48,11 @@ const ComapnyBreadCrumb = ({
           <div className="">
             {router.pathname === "/employers-dashboard/company-profile" ||
             router.pathname === "/employers-dashboard/post-jobs" ? (
-              <h5 className="mb-2">
+              <h5 className="mb-4">
                 <b>Select Company</b>
               </h5>
             ) : (
-              "Ready to jump back in?"
+              " "
             )}
           </div>
           <Select

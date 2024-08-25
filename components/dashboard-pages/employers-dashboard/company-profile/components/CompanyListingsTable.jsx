@@ -137,7 +137,7 @@ const CompanyListingsTable = () => {
   return (
     <div className="tabs-box">
       <div className="widget-title">
-        <h4>My Company Listings</h4>
+        <h4>Company Listings</h4>
 
         <div className="chosen-outer">
           <select className="chosen-single form-select">
@@ -213,14 +213,14 @@ const CompanyListingsTable = () => {
                           href={`/employers-dashboard/edit-companies/${item.id}`}
                         >
                           <li>
-                            <button data-text="Edit Aplication">
+                            <button data-text="Edit">
                               <span className="la la-pencil"></span>
                             </button>
                           </li>
                         </Link>
                         <li>
                           <button
-                            data-text="Delete Aplication"
+                            data-text="Delete"
                             // onClick={() => {
                             //   handleDelete(item.id);
                             // }}

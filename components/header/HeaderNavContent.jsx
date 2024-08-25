@@ -131,11 +131,13 @@ const HeaderNavContent = () => {
                   </a>
                 </li>
 */}
-                <li>
-                  <a href="/pricing">
-                    <span>Pricing</span>
-                  </a>
-                </li>
+                {router.pathname === "/" && (
+                  <li>
+                    <a href="/pricing">
+                      <span>Pricing</span>
+                    </a>
+                  </li>
+                )}
 
                 <li>
                   <a href="/mentorship">
@@ -270,7 +272,7 @@ const HeaderNavContent = () => {
                     </button>
                   </a>
                 </li> */}
-                <li className="nav-item dropdown">
+                <li className="nav-item dropdown text-center">
                   <div className="dashboard-option">
                     <Link
                       href="#"
@@ -287,9 +289,11 @@ const HeaderNavContent = () => {
                       />
                     </Link>
                     <ul
-                      className="dropdown-menu"
+                      className="dropdown-menu text-center"
                       aria-labelledby="dashboardDropdown"
                     >
+                      {/* Dropdown items */}
+
                       <li>
                         <a className="dropdown-item" href={href()}>
                           Dashboard
