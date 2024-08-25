@@ -8,12 +8,7 @@ const Contact = () => {
         {/* End .col */}
 
         <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-          <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            required
-          />
+          <input type="email" name="email" placeholder="Email" required />
         </div>
         {/* End .col */}
 

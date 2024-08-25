@@ -1,7 +1,16 @@
 import FormInfoBox from "./FormInfoBox";
 import LogoCoverUploader from "./LogoCoverUploader";
 
-const index = ({ onSubmit, logo, handleLogo, company }) => {
+const index = ({
+  onSubmit,
+  logo,
+  handleLogo,
+  company,
+  countryId,
+  setCountryId,
+  stateId,
+  setStateId,
+}) => {
   return (
     <div className="widget-content">
       <LogoCoverUploader />
@@ -12,6 +21,10 @@ const index = ({ onSubmit, logo, handleLogo, company }) => {
         company={company}
         handleLogo={handleLogo}
         logo={logo}
+        countryId={countryId}
+        setCountryId={setCountryId}
+        stateId={stateId}
+        setStateId={setStateId}
       />
       {/* compnay info box */}
     </div>

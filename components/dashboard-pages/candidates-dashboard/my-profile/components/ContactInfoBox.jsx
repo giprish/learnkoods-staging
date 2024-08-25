@@ -4,27 +4,54 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Select from "react-select";
 import { error } from "jquery";
-const ContactInfoBox = ({ onSubmit }) => {
+const ContactInfoBox = ({
+  onSubmit,
+  countryId,
+  setCountryId,
+  stateId,
+  setStateId,
+}) => {
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
+    setValue,
   } = useFormContext();
-  const fetchCity = async () => {
-    const response = await axios.get(` ${process.env.GLOBAL_API}/city/`);
+
+  const fetch = async (url) => {
+    const response = await axios.get(url);
     return response.data;
   };
 
-  const { data: cities } = useQuery({
-    queryKey: ["cityData"],
-    queryFn: () => fetchCity(),
+  const { data: country } = useQuery({
+    queryKey: ["countryData"],
+    queryFn: () => fetch(`${process.env.GLOBAL_API}/country/`),
   });
 
-  const options = cities?.data?.map((option) => ({
-    value: option.id,
-    label: option.name,
-  }));
+  const { data: state } = useQuery({
+    queryKey: ["stateData", countryId],
+    queryFn: () =>
+      fetch(`${process.env.GLOBAL_API}/state/${countryId?.value}/`),
+  });
+
+  const { data: city } = useQuery({
+    queryKey: ["cityData", stateId],
+    queryFn: () => fetch(`${process.env.GLOBAL_API}/city/${stateId?.value}/`),
+  });
+
+  const options = (optiondata) => {
+    if (optiondata?.message) {
+      return optiondata?.message?.map((option) => ({
+        value: option.id,
+        label: option.data || option.name,
+      }));
+    }
+    return optiondata?.data?.map((option) => ({
+      value: option.id,
+      label: option.data || option.name,
+    }));
+  };
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
       <div className="row">
@@ -44,7 +71,7 @@ const ContactInfoBox = ({ onSubmit }) => {
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
-          <label>Email address</label>
+          <label>Email</label>
           <input
             type="email"
             name="email"
@@ -57,35 +84,76 @@ const ContactInfoBox = ({ onSubmit }) => {
         </div>
         <div className="form-group col-lg-6 col-md-12">
           <label>Country</label>
-          <select className="chosen-single form-select">
-            <option>UK</option>
-          </select>
-        </div>
-
-        {/* <!-- Input --> */}
-        <div className="form-group col-lg-6 col-md-12">
-          <label>City</label>
-
           <Controller
-            name="city"
+            name="country"
             control={control}
-            rules={{ required: "Please select city" }}
             render={({ field }) => (
               <Select
                 {...field}
-                name="city"
-                options={options}
+                options={options(country)}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={(selectedOption) => {
+                  field.onChange(selectedOption); // Update React Hook Form state
+                  setCountryId({
+                    value: selectedOption.value, // Set the selected country value
+                    label: selectedOption.label, // Set the selected country label
+                  }); // Set the selected country ID
+                  setValue("state", null);
+                  setValue("city", null);
+                }}
+              />
+            )}
+          />
+        </div>
+        <div className="form-group col-lg-6 col-md-12">
+          <label>State</label>
+          <Controller
+            name="state"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={options(state)}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={(selectedOption) => {
+                  field.onChange(selectedOption); // Update React Hook Form state
+                  setStateId({
+                    value: selectedOption.value, // Set the selected country value
+                    label: selectedOption.label, // Set the selected country label
+                  });
+                  setValue("city", null);
+                }}
+              />
+            )}
+          />
+        </div>
+
+        <div className="form-group col-lg-6 col-md-12">
+          <label>City</label>
+          <Controller
+            name="city"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={options(city)}
                 className="basic-multi-select"
                 classNamePrefix="select"
               />
             )}
           />
-          {errors.email && (
-            <p className="text-danger">{errors.email.message}</p>
-          )}
         </div>
-
-        {/* <!-- Input --> */}
+        <div className="form-group col-lg-6 col-md-12">
+          <label>Address Line 1</label>
+          <input
+            type="text"
+            name="address1"
+            placeholder="329 Queensberry Street."
+            {...register("address1")}
+          />
+        </div>
         <div className="form-group col-lg-12 col-md-12">
           <label>Complete Address</label>
           <input

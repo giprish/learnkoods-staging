@@ -6,7 +6,7 @@ const BreadCrumb = ({ title, text }) => {
     <div className="row">
       <div className="upper-title-box col-sm-6 col-md-9 col-lg-10">
         <h3>{title}</h3>
-        <div className="text">{text || "Ready to jump back in?"}</div>
+        <div className="text">{text || " "}</div>
 
         {(router.pathname === "/employers-dashboard/messages" ||
           router.pathname === "/candidates-dashboard/messages") && (

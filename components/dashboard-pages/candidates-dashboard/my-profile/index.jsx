@@ -38,6 +38,14 @@ const index = () => {
     file: null,
     url: "",
   });
+  const [countryId, setCountryId] = useState({
+    value: 0,
+    label: "",
+  });
+  const [stateId, setStateId] = useState({
+    value: 0,
+    label: "",
+  });
 
   useEffect(() => {
     const access = window.localStorage.getItem("access");
@@ -91,6 +99,26 @@ const index = () => {
       methods.setValue("languages", user?.data?.languages);
       methods.setValue("city", { label: user?.data?.city?.name });
       methods.setValue("address", user?.data?.address);
+      methods.setValue("country", {
+        value: user?.data?.country?.id,
+        label: user?.data?.country?.name,
+      });
+      methods.setValue("state", {
+        value: user?.data?.state?.id,
+        label: user?.data?.state?.name,
+      });
+      methods.setValue("city", {
+        value: user?.data?.city?.id,
+        label: user?.data?.city?.name,
+      });
+      setCountryId({
+        value: user?.data?.country?.id,
+        label: user?.data?.country?.name,
+      });
+      setStateId({
+        value: user?.data?.state?.id,
+        label: user?.data?.state?.name,
+      });
       if (user?.data?.profile_image !== null) {
         setImage((prev) => ({
           ...prev,
@@ -282,7 +310,13 @@ const index = () => {
                     </div>
                     {/* End widget-title */}
                     <div className="widget-content">
-                      <ContactInfoBox onSubmit={onSubmit} />
+                      <ContactInfoBox
+                        onSubmit={onSubmit}
+                        countryId={countryId}
+                        setCountryId={setCountryId}
+                        stateId={stateId}
+                        setStateId={setStateId}
+                      />
                     </div>
                   </div>
                 </div>

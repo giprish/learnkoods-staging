@@ -295,6 +295,18 @@ const HeaderNavContent = () => {
                       {/* Dropdown items */}
 
                       <li>
+                        <a
+                          className="dropdown-item"
+                          href={
+                            student === "true"
+                              ? "/candidates-dashboard/my-profile"
+                              : "/employers-dashboard/my-profile"
+                          }
+                        >
+                          My Profile
+                        </a>
+                      </li>
+                      <li>
                         <a className="dropdown-item" href={href()}>
                           Dashboard
                         </a>

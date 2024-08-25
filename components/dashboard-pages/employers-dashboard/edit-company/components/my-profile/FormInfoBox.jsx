@@ -5,28 +5,25 @@ import { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import Select from "react-select";
 
-const FormInfoBox = ({ onSubmit, logo, handleLogo }) => {
+const FormInfoBox = ({
+  onSubmit,
+  logo,
+  handleLogo,
+  countryId,
+  setCountryId,
+  stateId,
+  setStateId,
+}) => {
   const { register, handleSubmit, control, setValue } = useFormContext();
-  const [countryId, setCountryId] = useState({
-    value: 0,
-    label: "",
-  });
-  const [stateId, setStateId] = useState({
-    value: 0,
-    label: "",
-  });
+
   const fetch = async (url) => {
     const response = await axios.get(url);
     return response.data;
   };
-  const { data: positions } = useQuery({
-    queryKey: ["industryData"],
-    queryFn: () => fetch(`${process.env.GLOBAL_API}/industry_api/`),
-  });
 
-  const { data: skills } = useQuery({
-    queryKey: ["skillData"],
-    queryFn: () => fetch(`${process.env.GLOBAL_API}/skill_api/`),
+  const { data: industry } = useQuery({
+    queryKey: ["industryData"],
+    queryFn: () => fetchIndustry(),
   });
 
   const { data: country } = useQuery({
@@ -63,57 +60,68 @@ const FormInfoBox = ({ onSubmit, logo, handleLogo }) => {
       <div className="row">
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
-          <label>Company name </label>
+          <label>
+            Company name <span style={{ color: "red" }}>*</span>
+          </label>
           <input
             type="text"
             name="name"
-            placeholder="Example Pvt. Ltd."
+            placeholder="Example pvt. Ltd."
+            required
             {...register("name")}
           />
         </div>
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
-          <label>Email </label>
+          <label>
+            Email <span style={{ color: "red" }}>*</span>
+          </label>
           <input
             type="email"
-            name="name"
+            name="email"
             placeholder="example@mail.com"
+            required
             {...register("email")}
           />
         </div>
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
-          <label>Phone</label>
+          <label>
+            Phone <span style={{ color: "red" }}>*</span>
+          </label>
           <input
-            type="text"
-            name="name"
+            type="number"
+            name="phone_number"
             placeholder="0 123 456 7890"
+            required
             {...register("phone_number")}
           />
         </div>
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
-          <label>Website</label>
+          <label>
+            Company Website <span style={{ color: "red" }}>*</span>
+          </label>
           <input
-            type="text"
-            name="name"
+            type="url"
+            name="website"
             placeholder="www.example.com"
+            required
             {...register("website")}
           />
         </div>
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
-          <label>Est. Since</label>
+          <label>Established Since</label>
           <input
             type="date"
             name="established"
-            placeholder="06.04.2020"
             className="form-control py-3"
-            // {...register("established")}
+            {...register("since")}
           />
         </div>
 
@@ -122,37 +130,42 @@ const FormInfoBox = ({ onSubmit, logo, handleLogo }) => {
           <label>Team Size</label>
           <select
             className="chosen-single form-select"
-
-            // {...register("team_size")}
+            {...register("team_size")}
           >
-            <option>50 - 100</option>
-            <option>100 - 150</option>
-            <option>200 - 250</option>
-            <option>300 - 350</option>
-            <option>500 - 1000</option>
+            <option value="">Select</option>
+            <option value="50-100">50-100</option>
+            <option value="100-150">100-150</option>
+            <option value="150-200">150-200</option>
+            <option value="200-250">200-250</option>
+            <option value="250-300">250-300</option>
+            <option value="300-500">300-500</option>
+            <option value="500+">500+</option>
           </select>
         </div>
 
         {/* <!-- Search Select --> */}
         <div className="form-group col-lg-6 col-md-12">
-          <label>Industry </label>
-
+          <label>
+            Industry <span style={{ color: "red" }}>*</span>
+          </label>
           <Controller
             name="industry"
             control={control}
             render={({ field }) => (
               <Select
                 {...field}
-                options={options(skills)}
+                options={options(industry)}
                 className="basic-multi-select"
                 classNamePrefix="select"
               />
             )}
           />
         </div>
+
+        {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label className="" for="job_image">
-            Company Logo
+            Company Logo <span style={{ color: "red" }}>*</span>
           </label>
           {logo ? (
             <div className="d-flex flex-row uploadButton justify-content-center align-items-center">
@@ -190,7 +203,7 @@ const FormInfoBox = ({ onSubmit, logo, handleLogo }) => {
             <>
               {" "}
               <label className="" for="job_image">
-                Company Logo
+                Company Logo <span style={{ color: "red" }}>*</span>
               </label>
               <input
                 className="form-control py-3 "
@@ -206,8 +219,6 @@ const FormInfoBox = ({ onSubmit, logo, handleLogo }) => {
             </>
           )}
         </div>
-
-        {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Country</label>
           <Controller
@@ -271,9 +282,23 @@ const FormInfoBox = ({ onSubmit, logo, handleLogo }) => {
             )}
           />
         </div>
+        <div className="form-group col-lg-6 col-md-12">
+          <label>
+            Address Line 1 <span style={{ color: "red" }}>*</span>
+          </label>
+          <input
+            type="text"
+            name="address1"
+            placeholder="329 Queensberry Street."
+            required
+            {...register("address1")}
+          />
+        </div>
 
         <div className="form-group col-lg-6 col-md-12">
-          <label>Complete Address</label>
+          <label>
+            Complete Address <span style={{ color: "red" }}>*</span>
+          </label>
           <input
             type="text"
             name="name"

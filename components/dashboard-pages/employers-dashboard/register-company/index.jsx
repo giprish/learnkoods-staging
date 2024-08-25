@@ -20,34 +20,32 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { companySchema } from "@/validation/validation";
 
 const index = () => {
-  const methods = useForm({
-    dirtyFields: true,
-    resolver: zodResolver(companySchema),
-  });
+  const methods = useForm();
+  //   {
+  //   dirtyFields: true,
+  //   resolver: zodResolver(companySchema),
+  // }
   const [access, setAccess] = useState(null);
   const [id, setId] = useState();
   const [logo, setLogo] = useState({
     file: null,
     url: "",
   });
-  const [cover, setCover] = useState({
-    file: null,
-    url: "",
+  const [countryId, setCountryId] = useState({
+    value: null,
+    label: "",
+  });
+  const [stateId, setStateId] = useState({
+    value: null,
+    label: "",
   });
 
-  const handelLogo = (e) => {
+  const handleLogo = (e) => {
     setLogo((prev) => ({
       ...prev,
       file: e.target.files[0],
     }));
     console.log(logo.file, "image file");
-  };
-  const handleCover = (e) => {
-    setCover((prev) => ({
-      ...prev,
-      file: e.target.files[0],
-    }));
-    console.log(cover.file, "image file");
   };
 
   useEffect(() => {
@@ -92,6 +90,8 @@ const index = () => {
       ...data,
       address: data.address,
       city: data?.city?.value,
+      country: data?.country?.value,
+      state: data?.state?.value,
       description: data.description,
       email: data.email,
       industry: data?.industry?.value,
@@ -101,6 +101,7 @@ const index = () => {
       user: id,
     };
 
+    console.log(data, "company register data");
     const formData = new FormData();
 
     // Append the company data to the formData
@@ -114,9 +115,7 @@ const index = () => {
     if (logo) {
       formData.append("logo_img", logo.file);
     }
-    if (cover) {
-      formData.append("cover_img", cover.file);
-    }
+
     for (let pair of formData.entries()) {
       console.log(pair[0], pair[1]);
     }
@@ -149,10 +148,12 @@ const index = () => {
                   <div className="tabs-box">
                     <RegisterProfile
                       onSubmit={onSubmit}
-                      handelLogo={handelLogo}
-                      handleCover={handleCover}
-                      cover={cover}
+                      handleLogo={handleLogo}
                       logo={logo}
+                      countryId={countryId}
+                      setCountryId={setCountryId}
+                      stateId={stateId}
+                      setStateId={setStateId}
                     />
                   </div>
                 </div>

@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-const UpdateStepThree = ({ setTab, onSubmit }) => {
+const UpdateStepThree = ({ setTab }) => {
   const {
     register,
     handleSubmit,
@@ -25,7 +25,7 @@ const UpdateStepThree = ({ setTab, onSubmit }) => {
     reset,
     formState: { dirtyFields },
     setValue,
-  } = useFormContext();
+  } = useForm();
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
       control, // control props comes from useForm (optional: if you are using FormProvider)

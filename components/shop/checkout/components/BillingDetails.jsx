@@ -98,7 +98,7 @@ const BillingDetails = () => {
 
         {/* <!--Form Group--> */}
         <div className="form-group col-lg-12 col-md-12 col-sm-12">
-          <div className="field-label">Email Address</div>
+          <div className="field-label"></div>
           <input type="text" name="field-name" placeholder="" />
         </div>
 

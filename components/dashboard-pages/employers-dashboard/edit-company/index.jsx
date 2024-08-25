@@ -29,6 +29,14 @@ const index = () => {
     file: null,
     url: "",
   });
+  const [countryId, setCountryId] = useState({
+    value: 0,
+    label: "",
+  });
+  const [stateId, setStateId] = useState({
+    value: 0,
+    label: "",
+  });
 
   const [previousImage, setPreviousImage] = useState(null);
   const [userId, setUserId] = useState(null);
@@ -77,16 +85,38 @@ const index = () => {
       value: company?.data?.industry?.id,
       label: company?.data?.industry?.name,
     });
+    methods.setValue("country", {
+      value: company?.data?.country?.id,
+      label: company?.data?.country?.name,
+    });
+    methods.setValue("state", {
+      value: company?.data?.state?.id,
+      label: company?.data?.state?.name,
+    });
+
     methods.setValue("name", company?.data.name);
     methods.setValue("phone_number", company?.data.phone_number);
     methods.setValue("website", company?.data.website);
     methods.setValue("address", company?.data.address);
+    methods.setValue("team_size", company?.data.team_size);
+    methods.setValue("since", company?.data.since);
+    methods.setValue("address1", company?.data.address1);
 
     if (typeof company !== "undefined") {
       setPreviousImage(company?.data?.logo);
       setLogo((prev) => ({
         ...prev,
         url: company?.data?.logo,
+      }));
+      setStateId((prev) => ({
+        ...prev,
+        value: company?.data?.state?.id,
+        label: company?.data?.state?.name,
+      }));
+      setCountryId((prev) => ({
+        ...prev,
+        value: company?.data?.country?.id,
+        label: company?.data?.country?.name,
       }));
     }
     console.log(company, "company data");
@@ -131,16 +161,16 @@ const index = () => {
       console.log(dirtyFields, "dirtyfields");
       const Company = {
         ...data,
-        address: data.address,
-        city: data.city.value,
-        country: data.country.value,
-        state: data.state.value,
-        description: data.description,
-        email: data.email,
-        industry: data.industry.value, // Ensuring industry is an array of labels
-        name: data.name,
-        phone_number: data.phone_number,
-        website: data.website,
+        address: data?.address,
+        city: data?.city?.value,
+        country: data?.country?.value,
+        state: data?.state?.value,
+        description: data?.description,
+        email: data?.email,
+        industry: data?.industry?.value, // Ensuring industry is an array of labels
+        name: data?.name,
+        phone_number: data?.phone_number,
+        website: data?.website,
         user: userId,
       };
       const formData = new FormData();
@@ -211,6 +241,10 @@ const index = () => {
                       company={company}
                       handleLogo={handleLogo}
                       logo={logo}
+                      countryId={countryId}
+                      setCountryId={setCountryId}
+                      stateId={stateId}
+                      setStateId={setStateId}
                     />
                   </div>
                 </div>

@@ -3,8 +3,20 @@ import axios from "axios";
 import { Controller, useFormContext } from "react-hook-form";
 import Select from "react-select";
 
-const RegisterFormInfoBox = ({ onSubmit, handelLogo }) => {
-  const { register, handleSubmit, control } = useFormContext();
+const RegisterFormInfoBox = ({
+  onSubmit,
+  logo,
+  handleLogo,
+  countryId,
+  setCountryId,
+  stateId,
+  setStateId,
+}) => {
+  const { register, handleSubmit, control, setValue } = useFormContext();
+  const fetch = async (url) => {
+    const response = await axios.get(url);
+    return response.data;
+  };
   const fetchIndustry = async () => {
     const response = await axios.get(`${process.env.GLOBAL_API}/industry_api/`);
     return response.data;
@@ -15,26 +27,36 @@ const RegisterFormInfoBox = ({ onSubmit, handelLogo }) => {
     queryFn: () => fetchIndustry(),
   });
 
-  const options = industry?.data?.map((option) => ({
-    value: option.id,
-    label: option.name,
-  }));
-
-  const fetchCity = async () => {
-    const response = await axios.get(` ${process.env.GLOBAL_API}/city/`);
-    return response.data;
-  };
-
-  const { data: cities } = useQuery({
-    queryKey: ["cityData"],
-    queryFn: () => fetchCity(),
+  const { data: country } = useQuery({
+    queryKey: ["countryData"],
+    queryFn: () => fetch(`${process.env.GLOBAL_API}/country/`),
   });
 
-  const cityoptions = cities?.data?.map((option) => ({
-    value: option.id,
-    label: option.name,
-  }));
-  // console.log(industry, "industry");
+  const { data: state } = useQuery({
+    queryKey: ["stateData", countryId],
+    queryFn: () =>
+      fetch(`${process.env.GLOBAL_API}/state/${countryId?.value}/`),
+    enabled: !!countryId?.value,
+  });
+
+  const { data: city } = useQuery({
+    queryKey: ["cityData", stateId],
+    queryFn: () => fetch(`${process.env.GLOBAL_API}/city/${stateId?.value}/`),
+    enabled: !!countryId?.value,
+  });
+
+  const options = (optiondata) => {
+    if (optiondata?.message) {
+      return optiondata?.message?.map((option) => ({
+        value: option.id,
+        label: option.data || option.name,
+      }));
+    }
+    return optiondata?.data?.map((option) => ({
+      value: option.id,
+      label: option.data || option.name,
+    }));
+  };
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
       <div className="row">
@@ -55,7 +77,7 @@ const RegisterFormInfoBox = ({ onSubmit, handelLogo }) => {
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>
-            Email address <span style={{ color: "red" }}>*</span>
+            Email <span style={{ color: "red" }}>*</span>
           </label>
           <input
             type="email"
@@ -96,13 +118,12 @@ const RegisterFormInfoBox = ({ onSubmit, handelLogo }) => {
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
-          <label>Est. Since</label>
+          <label>Established Since</label>
           <input
             type="date"
             name="established"
-            placeholder="06.04.2020"
             className="form-control py-3"
-            // {...register("established")}
+            {...register("since")}
           />
         </div>
 
@@ -111,14 +132,16 @@ const RegisterFormInfoBox = ({ onSubmit, handelLogo }) => {
           <label>Team Size</label>
           <select
             className="chosen-single form-select"
-
-            // {...register("team_size")}
+            {...register("team_size")}
           >
-            <option>50 - 100</option>
-            <option>100 - 150</option>
-            <option>200 - 250</option>
-            <option>300 - 350</option>
-            <option>500 - 1000</option>
+            <option value="">Select</option>
+            <option value="50-100">50-100</option>
+            <option value="100-150">100-150</option>
+            <option value="150-200">150-200</option>
+            <option value="200-250">200-250</option>
+            <option value="250-300">250-300</option>
+            <option value="300-500">300-500</option>
+            <option value="500+">500+</option>
           </select>
         </div>
 
@@ -130,15 +153,10 @@ const RegisterFormInfoBox = ({ onSubmit, handelLogo }) => {
           <Controller
             name="industry"
             control={control}
-            // defaultValue={[]}
-            rules={{ required: "Please select industry" }}
             render={({ field }) => (
               <Select
                 {...field}
-                // defaultValue={[]}
-                // isMulti
-                name="industry"
-                options={options}
+                options={options(industry)}
                 className="basic-multi-select"
                 classNamePrefix="select"
               />
@@ -151,36 +169,131 @@ const RegisterFormInfoBox = ({ onSubmit, handelLogo }) => {
           <label className="" for="job_image">
             Company Logo <span style={{ color: "red" }}>*</span>
           </label>
-          <input
-            className="form-control py-3 "
-            type="file"
-            name="profile_image"
-            accept="image/*"
-            id="upload"
-            required
-            onChange={(e) => {
-              handelLogo(e);
-            }}
-          />
+          {logo ? (
+            <div className="d-flex flex-row uploadButton justify-content-center align-items-center">
+              <input
+                className=" form-control py-3 logo-input"
+                type="file"
+                name="profile_image"
+                accept="image/*"
+                id="upload"
+                required={!(logo.url.length > 2 || logo.file)}
+                onChange={(e) => {
+                  handleLogo(e);
+                }}
+              />
+              {logo.url.length > 2 && !logo.file && (
+                <Image
+                  src={`${logo?.url}`}
+                  width={50}
+                  height={50}
+                  alt="profile image"
+                  className="rounded-circle "
+                />
+              )}
+              {logo.file && (
+                <img
+                  src={URL.createObjectURL(logo.file)}
+                  alt="preview"
+                  width="50"
+                  height="50"
+                  className="uploadedImage rounded-circle"
+                />
+              )}
+            </div>
+          ) : (
+            <>
+              {" "}
+              <label className="" for="job_image">
+                Company Logo <span style={{ color: "red" }}>*</span>
+              </label>
+              <input
+                className="form-control py-3 "
+                type="file"
+                name="profile_image"
+                accept="image/*"
+                id="upload"
+                required
+                onChange={(e) => {
+                  handleLogo(e);
+                }}
+              />
+            </>
+          )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
-          <label>
-            City <span style={{ color: "red" }}>*</span>
-          </label>
+          <label>Country</label>
           <Controller
-            name="city"
+            name="country"
             control={control}
-            // defaultValue={[]}
-            rules={{ required: "Please select city" }}
             render={({ field }) => (
               <Select
                 {...field}
-                name="city"
-                options={cityoptions}
+                options={options(country)}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={(selectedOption) => {
+                  field.onChange(selectedOption); // Update React Hook Form state
+                  setCountryId({
+                    value: selectedOption.value, // Set the selected country value
+                    label: selectedOption.label, // Set the selected country label
+                  }); // Set the selected country ID
+                  setValue("state", null);
+                  setValue("city", null);
+                }}
+              />
+            )}
+          />
+        </div>
+        <div className="form-group col-lg-6 col-md-12">
+          <label>State</label>
+          <Controller
+            name="state"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={options(state)}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={(selectedOption) => {
+                  field.onChange(selectedOption); // Update React Hook Form state
+                  setStateId({
+                    value: selectedOption.value, // Set the selected country value
+                    label: selectedOption.label, // Set the selected country label
+                  });
+                  setValue("city", null);
+                }}
+              />
+            )}
+          />
+        </div>
+
+        <div className="form-group col-lg-6 col-md-12">
+          <label>City</label>
+          <Controller
+            name="city"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={options(city)}
                 className="basic-multi-select"
                 classNamePrefix="select"
               />
             )}
+          />
+        </div>
+        <div className="form-group col-lg-6 col-md-12">
+          <label>
+            Address Line 1 <span style={{ color: "red" }}>*</span>
+          </label>
+          <input
+            type="text"
+            name="address1"
+            placeholder="329 Queensberry Street."
+            required
+            {...register("address1")}
           />
         </div>
 

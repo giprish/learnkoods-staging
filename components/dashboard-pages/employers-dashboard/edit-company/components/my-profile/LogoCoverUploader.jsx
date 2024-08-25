@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 const LogoCoverUploader = ({ handleImage, handleCover, image, cover }) => {
-  console.log(image, "image in company logo uploader");
+  // console.log(image, "image in company logo uploader");
   //
   return (
     <>
