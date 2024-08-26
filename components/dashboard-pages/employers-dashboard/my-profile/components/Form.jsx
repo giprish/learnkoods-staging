@@ -1,6 +1,6 @@
 import { Controller, useFormContext } from "react-hook-form";
 
-const FormInfoBox = ({ onSubmit, onError }) => {
+const Form = ({ onSubmit, onError }) => {
   const {
     register,
     handleSubmit,
@@ -65,4 +65,4 @@ const FormInfoBox = ({ onSubmit, onError }) => {
   );
 };
 
-export default FormInfoBox;
+export default Form;
