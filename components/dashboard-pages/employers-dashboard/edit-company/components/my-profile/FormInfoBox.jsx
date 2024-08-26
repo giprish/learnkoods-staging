@@ -154,7 +154,7 @@ const FormInfoBox = ({
             <option value="200-250">200-250</option>
             <option value="250-300">250-300</option>
             <option value="300-500">300-500</option>
-            <option value="500+">500+</option>
+            <option value="`500+`">500+</option>
           </select>
         </div>
 
