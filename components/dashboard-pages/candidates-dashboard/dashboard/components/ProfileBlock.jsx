@@ -32,7 +32,7 @@ const ProfileBlock = () => {
     <>
       <div className="skill-div">
         {user?.data?.skills.map((item, index) => (
-          <div className="theme-btn btn-style-new mt-2 mx-2" key={index}>
+          <div className="theme-btn btn-style-new-skill mt-2 mx-2" key={index}>
             {item.data}
           </div>
         ))}

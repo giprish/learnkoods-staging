@@ -82,7 +82,7 @@ const JobListingsTable = () => {
                             <div className="content">
                               <span className="company-logo">
                                 <img
-                                  src={`${process.env.GLOBAL_API}${item.job_image}`}
+                                  src={`${item?.company?.logo}`}
                                   alt="logo"
                                 />
                               </span>
@@ -118,12 +118,12 @@ const JobListingsTable = () => {
                         <div className="option-box">
                           <ul className="option-list">
                             <li>
-                              <button data-text="View Aplication">
+                              <button data-text="View">
                                 <span className="la la-eye"></span>
                               </button>
                             </li>
                             <li>
-                              <button data-text="Delete Aplication">
+                              <button data-text="Delete">
                                 <span className="la la-trash"></span>
                               </button>
                             </li>

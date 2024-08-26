@@ -15,13 +15,6 @@ module.exports = [
   },
 
   {
-    id: 3,
-    name: "Messages",
-    icon: "la-comment-o",
-    routePath: "/candidates-dashboard/messages",
-    active: "",
-  },
-  {
     id: 4,
     name: "Applied Jobs",
     icon: "la-briefcase",
@@ -40,6 +33,13 @@ module.exports = [
     name: "Shortlisted Jobs",
     icon: "la-bookmark-o",
     routePath: "/candidates-dashboard/short-listed-jobs",
+    active: "",
+  },
+  {
+    id: 12,
+    name: "Skill Assessment",
+    icon: "la la-file-invoice",
+    routePath: "/candidates-dashboard/skill-assessment",
     active: "",
   },
   // {
@@ -84,11 +84,12 @@ module.exports = [
     routePath: "/candidates-dashboard/ai-courses",
     active: "",
   },
+
   {
-    id: 12,
-    name: "Skill Assessment",
-    icon: "la la-file-invoice",
-    routePath: "/candidates-dashboard/skill-assessment",
+    id: 3,
+    name: "Messages",
+    icon: "la-comment-o",
+    routePath: "/candidates-dashboard/messages",
     active: "",
   },
   {

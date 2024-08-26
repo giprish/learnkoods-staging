@@ -67,6 +67,11 @@ const index = () => {
       });
       methods.reset(job?.data);
       methods.setValue("skills_req", skills);
+      methods.setValue(
+        "is_published",
+        job?.data?.is_published ? "true" : "false"
+      );
+      methods.setValue("is_closed", job?.data?.is_closed ? "true" : "false");
       setCat({
         value: job?.category?.id,
         label: job?.category?.name,
@@ -107,10 +112,6 @@ const index = () => {
     }
   }, [job]);
 
-  console.log(stateId, "state from job fetched");
-  console.log(countryId, "country from job fetched");
-  console.log(subcat, "subcat from job fetched");
-
   const updateJob = async (formData) => {
     const { data: response } = await axios.put(
       `${process.env.GLOBAL_API}/job_api/${id}/`,
@@ -135,9 +136,53 @@ const index = () => {
     },
     onError: (error) => {
       console.log(error, "error message");
-      toast.error("Job updating Unsuccessful", {
-        position: toast.POSITION.TOP_RIGHT,
+      const errorFields = [
+        "city",
+        "company",
+        "country",
+        "created_at",
+        "exp_required",
+        "gender",
+        "is_closed",
+        "is_published",
+        "job_des",
+        "job_id",
+        "job_title",
+        "job_type",
+        "location",
+        "location1",
+        "max_salary",
+        "min_salary",
+        "pincode",
+        "recruitment_timeline",
+        "skills_req",
+        "state",
+        "sub_category",
+        "url",
+        "user",
+        "workplace_type",
+      ];
+
+      let errorHandled = false;
+
+      errorFields.forEach((field) => {
+        if (error.response.data[field]) {
+          const errorMessage = Array.isArray(error.response.data[field])
+            ? error.response.data[field][0]
+            : error.response.data[field].error || error.response.data[field];
+
+          toast.error(`${field}: ${errorMessage}`, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+          errorHandled = true;
+        }
       });
+      // Handle errors not in the errorFields array
+      if (!errorHandled) {
+        toast.error("An unexpected error occurred. Please try again.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
     },
   });
 

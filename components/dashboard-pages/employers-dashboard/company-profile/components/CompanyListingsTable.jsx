@@ -188,13 +188,13 @@ const CompanyListingsTable = () => {
                             </Link>
                           </h4>
                           <ul className="job-info">
-                            <li>
+                            {/* <li>
                               <span className="icon flaticon-briefcase"></span>
-                              {item?.job_type}
-                            </li>
+                              {item?.industry?.name}
+                            </li> */}
                             <li>
                               <span className="icon flaticon-map-locator"></span>
-                              {item?.city?.name}, UK
+                              {item?.city?.name}, {item?.country?.name}
                             </li>
                           </ul>
                         </div>

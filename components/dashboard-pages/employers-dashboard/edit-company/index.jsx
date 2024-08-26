@@ -54,7 +54,6 @@ const index = () => {
     const userid = window.localStorage.getItem("id");
     setAccess(access);
     setUserId(userid);
-    console.log(access);
   }, [companyid]);
 
   const fetchData = async () => {
@@ -146,9 +145,44 @@ const index = () => {
     },
     onError: (error) => {
       console.log(error, "error message");
-      toast.error("Company details update Unsuccessful", {
-        position: toast.POSITION.TOP_RIGHT,
+
+      const errorFields = [
+        "email",
+        "name",
+        "email",
+        "phone_number",
+        "website",
+        "since",
+        "team_size",
+        "industry",
+        "country",
+        "state",
+        "city",
+        "address1",
+        "address",
+        "description",
+      ];
+      let errorHandled = false;
+
+      errorFields.forEach((field) => {
+        if (error.response.data[field]) {
+          const errorMessage = Array.isArray(error.response.data[field])
+            ? error.response.data[field][0]
+            : error.response.data[field].error || error.response.data[field];
+
+          toast.error(`${field}: ${errorMessage}`, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+          errorHandled = true;
+        }
       });
+
+      // Handle errors not in the errorFields array
+      if (!errorHandled) {
+        toast.error("An unexpected error occurred. Please try again.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
     },
   });
 

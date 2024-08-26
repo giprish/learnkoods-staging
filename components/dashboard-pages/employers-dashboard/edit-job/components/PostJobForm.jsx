@@ -101,7 +101,7 @@ const PostjobForm = ({
             className="chosen-single form-select"
             {...register("workplace_type")}
           >
-            <option value="">Select</option>
+            <option disabled>Select</option>
             <option value="On-site">On-site</option>
             <option value="Hybrid">Hybrid</option>
             <option value="Remote">Remote</option>
@@ -133,26 +133,33 @@ const PostjobForm = ({
           <input type="url" name="url" placeholder="Url" {...register("url")} />
         </div>
 
-        <div className="form-group col-lg-6 col-md-12 ">
-          <label className="" for="job_image">
-            Job Image
-          </label>
-          <input
-            id="job_image"
-            type="file"
-            name="job_image"
-            placeholder="Image"
-            onChange={(e) => setJobImage(e.target.files[0])}
-            className="form-control py-3 "
-          />
-        </div>
         <div className="form-group col-lg-6 col-md-12">
           <label>Is published</label>
-          <input {...register("is_published")} type="checkbox" />
+          <select
+            className="chosen-single form-select"
+            {...register("is_published")}
+          >
+            <option disabled>Select</option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+          {/* {errors.is_published?.message && (
+            <p className="text-danger">{errors.is_published?.message}</p>
+          )} */}
         </div>
         <div className="form-group col-lg-6 col-md-12">
           <label>Is Closed</label>
-          <input {...register("is_closed")} type="checkbox" />
+          <select
+            className="chosen-single form-select"
+            {...register("is_closed")}
+          >
+            <option disabled>Select</option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+          {/* {errors.is_closed?.message && (
+            <p className="text-danger">{errors.is_closed?.message}</p>
+          )} */}
         </div>
         <div className="form-group col-lg-6 col-md-12">
           <label>Category</label>
@@ -295,6 +302,15 @@ const PostjobForm = ({
         </div>
 
         {/* <!-- Input --> */}
+        <div className="form-group col-lg-6 col-md-12">
+          <label>Address Line 1</label>
+          <input
+            type="text"
+            name="name"
+            placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia."
+            {...register("location1")}
+          />
+        </div>
         <div className="form-group col-lg-12 col-md-12">
           <label>Complete Address</label>
           <input

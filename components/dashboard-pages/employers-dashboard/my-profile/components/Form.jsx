@@ -53,7 +53,21 @@ const Form = ({ onSubmit, onError }) => {
               <p className="text-danger">{errors.username.message}</p>
             )}
           </div>
-
+          <div className="form-group col-lg-6 col-md-12">
+            <label>
+              Email <span style={{ color: "red" }}>*</span>
+            </label>
+            <input
+              type="email"
+              name="email"
+              placeholder="example@mail.com"
+              required
+              {...register("email")}
+            />
+            {errors.email && (
+              <p className="text-danger">{errors.email.message}</p>
+            )}
+          </div>
           <div className="form-group col-lg-12 col-md-12">
             <button type="submit" className="theme-btn btn-style-one">
               Save

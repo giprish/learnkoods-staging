@@ -243,6 +243,22 @@ Buttons Styles
     margin-right: 11px;
   }
 }
+.btn-style-new-skill {
+  color: white;
+  font-size: 12px;
+  font-weight: 600 !important;
+  line-height: 1.5;
+  border-radius: 6px;
+  padding: 10px 15px;
+  font-weight: 400;
+  display: inline-block;
+  border: 1px solid #ff3158;
+  background-color: #ff3158;
+
+  span {
+    margin-right: 11px;
+  }
+}
 .btn-style-new-two {
   color: white;
   font-size: 16px;

@@ -159,8 +159,8 @@ const JobListingsTable = () => {
                               width={50}
                               height={49}
                               src={
-                                item.job_image
-                                  ? `${item.job_image}`
+                                item.company
+                                  ? `${item.company?.logo}`
                                   : "/images/resource/richard.png"
                               }
                               alt="logo"
@@ -224,7 +224,7 @@ const JobListingsTable = () => {
                       <ul className="option-list">
                         <Link href={`/job-single-v1/${item.job_id}`}>
                           <li>
-                            <button data-text="View Aplication">
+                            <button data-text="View">
                               <span className="la la-eye"></span>
                             </button>
                           </li>
@@ -233,14 +233,14 @@ const JobListingsTable = () => {
                           href={`/employers-dashboard/edit-job/${item.job_id}`}
                         >
                           <li>
-                            <button data-text="Edit Aplication">
+                            <button data-text="Edit">
                               <span className="la la-pencil"></span>
                             </button>
                           </li>
                         </Link>
                         <li>
                           <button
-                            data-text="Delete Aplication"
+                            data-text="Delete"
                             onClick={() => {
                               handleDelete(item.job_id);
                             }}

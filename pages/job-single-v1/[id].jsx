@@ -134,8 +134,8 @@ const JobSingleDynamicV1 = () => {
               <div className="inner-box">
                 <div className="d-flex align-items-center">
                   <div className="mx-4">
-                    <Image
-                      src={`${job?.job_image}`}
+                    <img
+                      src={`${job?.company?.logo}` || "/images/logo.svg"}
                       alt="logo"
                       width={200}
                       height={200}

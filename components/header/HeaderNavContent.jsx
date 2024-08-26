@@ -259,19 +259,6 @@ const HeaderNavContent = () => {
                     </button>
                   </a>
                 </li>
-                {/* <li>
-                  <a
-                    href={
-                      student === "true"
-                        ? "/candidates-dashboard/dashboard"
-                        : "/employers-dashboard/dashboard"
-                    }
-                  >
-                    <button className="menu-btn">
-                      <span className="icon la la-bell"></span>
-                    </button>
-                  </a>
-                </li> */}
                 <li className="nav-item dropdown text-center">
                   <div className="dashboard-option">
                     <Link
