@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import Select from "react-select";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 const FormInfoBox = ({
   onSubmit,
@@ -14,7 +16,13 @@ const FormInfoBox = ({
   stateId,
   setStateId,
 }) => {
-  const { register, handleSubmit, control, setValue } = useFormContext();
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
 
   const fetch = async (url) => {
     const response = await axios.get(url);
@@ -91,13 +99,20 @@ const FormInfoBox = ({
           <label>
             Phone <span style={{ color: "red" }}>*</span>
           </label>
-          <input
-            type="number"
+          <Controller
             name="phone_number"
-            placeholder="0 123 456 7890"
-            required
-            {...register("phone_number")}
+            control={control}
+            rules={{ required: "Phone number is required" }}
+            render={({ field }) => (
+              <PhoneInput
+                country={"us"} // Default country
+                value={field.value}
+                onChange={field.onChange}
+                inputStyle={{ width: "100%", padding: "28px 5 0px" }}
+              />
+            )}
           />
+          {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
         </div>
 
         {/* <!-- Input --> */}
