@@ -20,6 +20,7 @@ import CertificationInfoBox from "./components/CertificationInfoBox";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema } from "@/validation/validation";
+import ProfileTabs from "./components/profileTabs/ProfileTabs";
 
 const index = () => {
   const methods = useForm({
@@ -29,6 +30,7 @@ const index = () => {
 
   const dirtyFields = methods.formState.dirtyFields;
   const [access, setAccess] = useState(null);
+  const [tab, setTab] = useState("step1");
   const [id, setId] = useState(null);
   const [image, setImage] = useState({
     file: null,
@@ -71,34 +73,38 @@ const index = () => {
     queryFn: () => fetchData(),
   });
 
-  // console.log(user, "candidate dashboard");
+  console.log(user, "candidate dashboard");
 
   useEffect(() => {
     if (user) {
       let array = user?.data?.skills.map((s1) => ({
         label: s1.data,
       }));
-      methods.setValue("created_at", user?.data?.created_at);
-      methods.setValue("gender", user?.data?.gender);
-      methods.setValue("institution", user?.data?.institution);
-      methods.setValue("phone", user?.data?.phone);
-      methods.setValue("position", { label: user?.data?.position });
-      methods.setValue("profile_desc", user?.data?.profile_desc);
+      methods.reset(user?.data);
+      // methods.setValue("created_at", user?.data?.created_at);
+      // methods.setValue("gender", user?.data?.gender);
+      // methods.setValue("institution", user?.data?.institution);
+      // methods.setValue("phone", user?.data?.phone);
+      //
+      // methods.setValue("profile_desc", user?.data?.profile_desc);
+      //
+      // methods.setValue("updated_at", user?.data?.updated_at);
+      // methods.setValue("work_at", user?.data?.work_at);
+
+      // methods.setValue("current_salary", user?.data?.current_salary);
+      // methods.setValue("expected_salary", user?.data?.expected_salary);
+      // methods.setValue("experience_level", user?.data?.experience_level);
+      // methods.setValue("age", user?.data?.age);
+      // methods.setValue("education_level", user?.data?.education_level);
+      // methods.setValue("languages", user?.data?.languages);
+      // methods.setValue("city", { label: user?.data?.city?.name });
+      // methods.setValue("address", user?.data?.address);
       methods.setValue("skills", array);
-      methods.setValue("updated_at", user?.data?.updated_at);
-      methods.setValue("work_at", user?.data?.work_at);
+      methods.setValue("position", { label: user?.data?.position });
       methods.setValue("username", user?.user?.username);
       methods.setValue("email", user?.user?.email);
       methods.setValue("first_name", user?.user?.first_name);
       methods.setValue("last_name", user?.user?.last_name);
-      methods.setValue("current_salary", user?.data?.current_salary);
-      methods.setValue("expected_salary", user?.data?.expected_salary);
-      methods.setValue("experience_level", user?.data?.experience_level);
-      methods.setValue("age", user?.data?.age);
-      methods.setValue("education_level", user?.data?.education_level);
-      methods.setValue("languages", user?.data?.languages);
-      methods.setValue("city", { label: user?.data?.city?.name });
-      methods.setValue("address", user?.data?.address);
       methods.setValue("country", {
         value: user?.data?.country?.id,
         label: user?.data?.country?.name,
@@ -156,11 +162,51 @@ const index = () => {
       });
       // window.location.reload();
     },
-    onError: (data) => {
-      console.log(data, "error message");
-      toast.error("profile update Unsuccessful", {
-        position: toast.POSITION.TOP_RIGHT,
+    onError: (error) => {
+      console.log(error, "error message");
+      const errorFields = [
+        "first_name",
+        "last_name",
+        "username",
+        "gender",
+        "position",
+        "current_salary",
+        "expected_salary",
+        "experience_level",
+        "age",
+        "education_level",
+        "languages",
+        "skills",
+        "profile_desc",
+        "phone",
+        "email",
+        "country",
+        "state",
+        "city",
+        "ddress1",
+        "address",
+      ];
+      let errorHandled = false;
+
+      errorFields.forEach((field) => {
+        if (error.response.data[field]) {
+          const errorMessage = Array.isArray(error.response.data[field])
+            ? error.response.data[field][0]
+            : error.response.data[field].error || error.response.data[field];
+
+          toast.error(`${field}: ${errorMessage}`, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+          errorHandled = true;
+        }
       });
+
+      // Handle errors not in the errorFields array
+      if (!errorHandled) {
+        toast.error("An unexpected error occurred. Please try again.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
     },
   });
 
@@ -275,84 +321,109 @@ const index = () => {
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <BreadCrumb title="My Profile!" />
+          <BreadCrumb title="" />
           {/* breadCrumb */}
 
           <MenuToggler />
           {/* Collapsible sidebar button */}
 
+          <ProfileTabs setTab={setTab} currentTab={tab} />
+
           <FormProvider {...methods}>
             <div className="row">
               <div className="col-lg-12">
-                <div className="ls-widget">
-                  <div className="tabs-box ">
-                    <div className="widget-title">
-                      <h4>My Profile</h4>
+                {tab === "step1" && (
+                  <>
+                    <div className="ls-widget">
+                      <div className="tabs-box ">
+                        <div className="widget-title">
+                          <h4>My Profile</h4>
+                        </div>
+                        <MyProfile
+                          onSubmit={onSubmit}
+                          onError={onError}
+                          handelImage={handelImage}
+                          user={user}
+                          handelResume={handelResume}
+                          image={image}
+                          resume={resume}
+                        />
+                      </div>
                     </div>
-                    <MyProfile
-                      onSubmit={onSubmit}
-                      onError={onError}
-                      handelImage={handelImage}
-                      user={user}
-                      handelResume={handelResume}
-                      image={image}
-                      resume={resume}
-                    />
-                  </div>
-                </div>
+                  </>
+                )}
+
+                {tab === "step2" && (
+                  <>
+                    <div className="ls-widget">
+                      <div className="tabs-box">
+                        <div className="widget-title">
+                          <h4>Contact Information</h4>
+                        </div>
+                        {/* End widget-title */}
+                        <div className="widget-content">
+                          <ContactInfoBox
+                            onSubmit={onSubmit}
+                            countryId={countryId}
+                            setCountryId={setCountryId}
+                            stateId={stateId}
+                            setStateId={setStateId}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
 
                 {/* <!-- Ls widget --> */}
+                {tab === "step3" && (
+                  <>
+                    <div className="ls-widget">
+                      <div className="tabs-box">
+                        <div className="widget-title">
+                          <h4>Education</h4>
+                        </div>
+                        {/* End widget-title */}
+                        <div className="widget-content">
+                          <EducationInfoBox onSubmit={onSubmit} />
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
 
-                <div className="ls-widget">
-                  <div className="tabs-box">
-                    <div className="widget-title">
-                      <h4>Contact Information</h4>
+                {tab === "step4" && (
+                  <>
+                    <div className="ls-widget">
+                      <div className="tabs-box">
+                        <div className="widget-title">
+                          <h4>Experience</h4>
+                        </div>
+                        {/* End widget-title */}
+                        <div className="widget-content">
+                          <ExperienceInfoBox onSubmit={onSubmit} />
+                        </div>
+                      </div>
                     </div>
-                    {/* End widget-title */}
-                    <div className="widget-content">
-                      <ContactInfoBox
-                        onSubmit={onSubmit}
-                        countryId={countryId}
-                        setCountryId={setCountryId}
-                        stateId={stateId}
-                        setStateId={setStateId}
-                      />
+                  </>
+                )}
+
+                {tab == "step5" && (
+                  <>
+                    <div className="ls-widget">
+                      <div className="tabs-box">
+                        <div className="widget-title">
+                          <h4>Certification</h4>
+                        </div>
+                        {/* End widget-title */}
+                        <div className="widget-content">
+                          <CertificationInfoBox onSubmit={onSubmit} />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="ls-widget">
-                  <div className="tabs-box">
-                    <div className="widget-title">
-                      <h4>Experience</h4>
-                    </div>
-                    {/* End widget-title */}
-                    <div className="widget-content">
-                      <ExperienceInfoBox onSubmit={onSubmit} />
-                    </div>
-                  </div>
-                </div>
-                <div className="ls-widget">
-                  <div className="tabs-box">
-                    <div className="widget-title">
-                      <h4>Education</h4>
-                    </div>
-                    {/* End widget-title */}
-                    <div className="widget-content">
-                      <EducationInfoBox onSubmit={onSubmit} />
-                    </div>
-                  </div>
-                </div>
-                <div className="ls-widget">
-                  <div className="tabs-box">
-                    <div className="widget-title">
-                      <h4>Certification</h4>
-                    </div>
-                    {/* End widget-title */}
-                    <div className="widget-content">
-                      <CertificationInfoBox onSubmit={onSubmit} />
-                    </div>
-                  </div>
-                </div>
+                  </>
+                )}
+
                 {/* <!-- Ls widget --> */}
 
                 {/* <div className="ls-widget">

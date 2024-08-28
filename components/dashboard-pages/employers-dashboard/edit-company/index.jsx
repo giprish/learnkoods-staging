@@ -16,9 +16,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 
 const index = () => {
-  const methods = useForm({
-    mode: "onChange",
-  });
+  const methods = useForm();
   const dirtyFields = methods.formState.dirtyFields;
   const [access, setAccess] = useState(null);
   const router = useRouter();
@@ -207,6 +205,8 @@ const index = () => {
         website: data?.website,
         user: userId,
       };
+
+      console.log(Company, "update data");
       const formData = new FormData();
       const imageChanged = logo?.file !== null;
 

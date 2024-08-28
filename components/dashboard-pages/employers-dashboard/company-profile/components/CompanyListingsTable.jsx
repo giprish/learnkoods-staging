@@ -139,13 +139,13 @@ const CompanyListingsTable = () => {
       <div className="widget-title">
         <h4>Company Listings</h4>
 
-        <div className="chosen-outer">
+        {/* <div className="chosen-outer">
           <select className="chosen-single form-select">
             <option>Select</option>
             <option>Active</option>
             <option>InActive</option>
           </select>
-        </div>
+        </div> */}
       </div>
 
       <div className="widget-content">

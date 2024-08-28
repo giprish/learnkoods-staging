@@ -70,13 +70,13 @@ module.exports = [
     routePath: "/candidates-dashboard/trending-it",
     active: "",
   },
-  {
-    id: 10,
-    name: "My Resume",
-    icon: "la la-file-invoice",
-    routePath: "/candidates-dashboard/my-resume",
-    active: "",
-  },
+  // {
+  //   id: 10,
+  //   name: "My Resume",
+  //   icon: "la la-file-invoice",
+  //   routePath: "/candidates-dashboard/my-resume",
+  //   active: "",
+  // },
   {
     id: 11,
     name: "AI Recommended courses",

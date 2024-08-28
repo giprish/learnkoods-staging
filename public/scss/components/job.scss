@@ -412,10 +412,10 @@ Job Section
   transition: all 300ms ease;
 }
 
-.job-block .inner-box:hover {
-  -webkit-box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
-  box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
-}
+// .job-block .inner-box:hover {
+//   -webkit-box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
+//   box-shadow: 0px 7px 18px rgba(64, 79, 104, 0.05);
+// }
 
 .job-block .content {
   position: relative;
@@ -453,7 +453,7 @@ Job Section
   color: var(--primary-color);
 }
 
-.job-block .job-info {
+.job-info {
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;

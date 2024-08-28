@@ -178,7 +178,7 @@ const UpdateStepThree = ({ setTab }) => {
 
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
-      <div className="row border p-2 rounded-4 mb-4 mx-1">
+      {/* <div className="row border p-2 rounded-4 mb-4 mx-1">
         <h4 className="border-bottom p-2 mb-3">Receive qualified applicants</h4>
         <span className="p-2">Applicant collection</span>
         <div className="form-group col-lg-4 col-md-6">
@@ -192,7 +192,7 @@ const UpdateStepThree = ({ setTab }) => {
           <label>By Email</label>
           <input type="email" name="email" placeholder="john@mail.com" />
         </div>
-      </div>
+      </div> */}
       <div>
         <div>
           <h5>Screening Question</h5>
@@ -203,32 +203,37 @@ const UpdateStepThree = ({ setTab }) => {
           {fields.map((element, index) => {
             return (
               <div className="border rounded-4 mb-3">
-                <div className="d-flex flex-col flex-lg-row align-items-center justify-content-between">
-                  <div className="d-flex flex-row col-10 mt-3 mx-2">
-                    <label className="p-2 pt-2.5 mt-1">Ques :</label>
-                    <input
-                      // key={element.id}
-                      type="text"
-                      className="border w-75 m-2 rounded-2 px-2"
-                      {...register(`questions.${index}.question_name`)}
-                    />
-                    <span className="border rounded-4 p-1 px-2 m-2 bg-success text-white">
-                      Recommended
-                    </span>
-                  </div>
-                  <div className="px-4 mt-3">
-                    <button onClick={() => remove(index)} type="button">
-                      <i className="la la-times font-weight-bold"></i>
-                    </button>
-                  </div>
+                <div className="d-flex justify-content-between ">
+                  <label className="p-2 mx-4">Question {index + 1} :</label>
+                  <button
+                    onClick={() => {
+                      remove(index);
+                      console.log(element.id);
+                    }}
+                    type="button"
+                    className="mx-3"
+                  >
+                    <i className="la la-times font-weight-bold"></i>
+                  </button>
                 </div>
-                <div className="m-3">
+                <div className="d-flex col-10 ">
                   <input
-                    type="checkbox"
-                    {...register(`questions.${index}.must_have`)}
-                    className="checkbox"
+                    // key={element.id}
+                    type="text"
+                    className="border w-75 m-2 rounded-2 px-2"
+                    {...register(`questions.${index}.question_name`)}
                   />
-                  <label className="mx-1">Must Have</label>
+                  {/* <span className="border rounded-4 p-1 px-2 m-2 bg-success text-white">
+                      Recommended
+                    </span> */}
+
+                  <div className="px-4 mt-3">
+                    <input
+                      type="checkbox"
+                      {...register(`questions.${index}.must_have`)}
+                    />
+                    <label className="mx-1">Mandatory</label>
+                  </div>
                 </div>
               </div>
             );

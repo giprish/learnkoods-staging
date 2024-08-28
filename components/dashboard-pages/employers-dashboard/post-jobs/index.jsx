@@ -3,8 +3,6 @@ import MobileMenu from "../../../header/MobileMenu";
 import DashboardHeader from "../../../header/DashboardHeader";
 import LoginPopup from "../../../common/form/login/LoginPopup";
 import DashboardEmployerSidebar from "../../../header/DashboardEmployerSidebar";
-import BreadCrumb from "../../BreadCrumb";
-
 import PostJobSteps from "./components/PostJobSteps";
 import PostBoxForm from "./components/PostBoxForm";
 import MenuToggler from "../../MenuToggler";
@@ -141,15 +139,6 @@ const index = () => {
         formData.append(key, postData[key]);
       }
     }
-
-    if (!jobImage) {
-      toast.error("Add job image file", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      return;
-    }
-
-    formData.append("job_image", jobImage);
 
     // Call the job creation mutation
 

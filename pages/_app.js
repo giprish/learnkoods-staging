@@ -41,9 +41,9 @@ function MyApp({ Component, pageProps }) {
             {/* Toastify for notifications */}
             <ToastContainer
               position="top-right"
-              autoClose={5000}
+              autoClose={3000}
               hideProgressBar={false}
-              newestOnTop={false}
+              newestOnTop={true}
               closeOnClick
               rtl={false}
               pauseOnFocusLoss

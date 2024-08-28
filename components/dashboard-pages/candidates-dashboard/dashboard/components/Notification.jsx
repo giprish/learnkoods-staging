@@ -35,14 +35,7 @@ const Notification = () => {
         <strong>Wade Warren</strong> applied for a job
         <span className="colored"> Web Developer</span>
       </li>
-      {/* End li */}
 
-      <li className="success">
-        <span className="icon flaticon-briefcase"></span>
-        <strong>Michel Arian</strong>
-        applied for a job
-        <span className="colored"> Software Engineer</span>
-      </li>
       {/* End li */}
     </ul>
   );

@@ -5,6 +5,7 @@ import Select from "react-select";
 import { useQuery } from "@tanstack/react-query";
 import { Controller, useForm, useFormContext } from "react-hook-form";
 import { useEffect, useState } from "react";
+import Tooltip from "@/components/tooltip/ToolTip";
 
 const PostBoxForm = ({
   companyname,
@@ -106,7 +107,7 @@ const PostBoxForm = ({
             className="chosen-single form-select"
             {...register("job_type")}
           >
-            <option>Select</option>
+            <option disabled>Select</option>
             <option value="Full Time">Full Time</option>
             <option value="Part Time">Part Time</option>
             <option value="Internship">Internship</option>
@@ -121,7 +122,7 @@ const PostBoxForm = ({
             className="chosen-single form-select"
             {...register("workplace_type")}
           >
-            <option>Select</option>
+            <option disabled>Select</option>
             <option value="On-site">On-site</option>
             <option value="Hybrid">Hybrid</option>
             <option value="Remote">Remote</option>
@@ -132,13 +133,29 @@ const PostBoxForm = ({
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
-          <label>Experience</label>
-          <input
+          <label>Experience Required</label>
+          {/* <input
             type="text"
             name="exp_required"
             placeholder=""
             {...register("exp_required")}
-          />
+          /> */}
+
+          <select
+            className="chosen-single form-select"
+            {...register("exp_required")}
+          >
+            <option disabled>Select</option>
+            <option value="1-2 years">1-2 years</option>
+            <option value="2-3 years">2-3 years</option>
+            <option value="3-5 years">3-5 years</option>
+            <option value="5-7 years">5-7 years</option>
+            <option value="7-9 years">7-9 years</option>
+            <option value="9-11 years">9-11 years</option>
+            <option value="11-13 years">11-13 years</option>
+            <option value="13-15 years">13-15 years</option>
+            <option value="15+ above years">15+ above years</option>
+          </select>
           {errors.exp_required?.message && (
             <p className="text-danger">{errors.exp_required?.message}</p>
           )}
@@ -147,7 +164,7 @@ const PostBoxForm = ({
         <div className="form-group col-lg-6 col-md-12">
           <label>Gender</label>
           <select className="chosen-single form-select" {...register("gender")}>
-            <option>Select</option>
+            <option disabled>Select</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
             <option value="All">All</option>
@@ -158,14 +175,22 @@ const PostBoxForm = ({
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
-          <label>Url</label>
+          <label>
+            Url {` (optional)`}{" "}
+            <Tooltip
+              title={"Job posting url"}
+              text={
+                "If you have posted job on your website place your url here"
+              }
+            />
+          </label>
           <input type="url" name="url" placeholder="Url" {...register("url")} />
           {errors.url?.message && (
             <p className="text-danger">{errors.url?.message}</p>
           )}
         </div>
 
-        <div className="form-group col-lg-6 col-md-12 ">
+        {/* <div className="form-group col-lg-6 col-md-12 ">
           <label className="" for="job_image">
             Job Image
           </label>
@@ -178,14 +203,14 @@ const PostBoxForm = ({
             className="form-control py-3"
             accept=".jpg, .png, .jgeg"
           />
-        </div>
+        </div> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Is published</label>
           <select
             className="chosen-single form-select"
             {...register("is_published")}
           >
-            <option>Select</option>
+            <option disabled>Select</option>
             <option value="True">True</option>
             <option value="False">False</option>
           </select>
@@ -199,7 +224,7 @@ const PostBoxForm = ({
             className="chosen-single form-select"
             {...register("is_closed")}
           >
-            <option>Select</option>
+            <option disabled>Select</option>
             <option value="True">True</option>
             <option value="False">False</option>
           </select>
@@ -265,22 +290,18 @@ const PostBoxForm = ({
             className="chosen-single form-select"
             {...register("recruitment_timeline")}
           >
-            <option value="">Select</option>
-            <option value="1 to 3 days">1 to 3 days</option>
-            <option value="3 to 7 days">3 to 7 days</option>
-            <option value="1 to 2 weeks">1 to 2 weeks</option>
-            <option value="2 to 4 weeks">2 to 4 weeks</option>
-            <option value="More than 4 weeks">More than 4 weeks</option>
+            <option disabled>Select</option>
+            <option value="1-7 days">1-7 days</option>
+            <option value="8-15 days">8-15 days</option>
+            <option value="16-30 days">16-30 days</option>
+            <option value="31-60 days">31-60 days</option>
           </select>
+
           {errors.recruitment_timeline?.message && (
             <p className="text-danger">
               {errors.recruitment_timeline?.message}
             </p>
           )}
-        </div>
-        <div className="form-group col-lg-6 col-md-12">
-          <label>Application Deadline Date</label>
-          <input type="text" name="name" placeholder="06.04.2020" />
         </div>
 
         {/* <!-- Input --> */}
@@ -374,7 +395,7 @@ const PostBoxForm = ({
           )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
-          <label>Complete Address</label>
+          <label>Address Line 2</label>
           <input
             type="text"
             name="location"

@@ -12,6 +12,9 @@ const WidgetContentBox = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [access, setAccess] = useState(null);
   const [applicants, setApplicants] = useState([]);
+  const [total, setTotal] = useState([]);
+  const [approved, setApproved] = useState([]);
+  const [rejected, setRejected] = useState([]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -36,8 +39,6 @@ const WidgetContentBox = () => {
 
     enabled: !!access,
   });
-
-  console.log(Allapplicants, "all shortlist");
 
   const fetchJobs = async () => {
     const response = await axios.get(`${process.env.GLOBAL_API}/job-user/`, {
@@ -82,8 +83,6 @@ const WidgetContentBox = () => {
     enabled: !!jobId && !!access,
   });
 
-  console.log(AppliedCandidates, "applied candidates");
-
   const fetchApplicantStatus = async () => {
     try {
       const response = await axios.get(
@@ -108,8 +107,6 @@ const WidgetContentBox = () => {
     staleTime: Infinity, // Prevents refetching until the component is unmounted or cache is invalidated manually
     cacheTime: Infinity, // Keeps the data in cache indefinitely
   });
-
-  console.log(ApplicantStatus, "applicant status");
 
   useEffect(() => {
     if (isError) {
@@ -146,6 +143,17 @@ const WidgetContentBox = () => {
   }, [AppliedCandidates, ApplicantStatus]);
 
   console.log(applicants, "merged arrays");
+
+  useEffect(() => {
+    if (applicants) {
+      setApproved(
+        applicants.filter((applicant) => applicant.is_approved === true)
+      );
+      setRejected(
+        applicants.filter((applicant) => applicant.is_rejected === true)
+      );
+    }
+  }, [applicants]);
 
   const toggleApplicantState = (id, key) => {
     setApplicants((prevApplicants) =>
@@ -202,11 +210,9 @@ const WidgetContentBox = () => {
   });
 
   const handleUpdate = (id) => {
-    console.log(id, "url id");
     const updatedApplicant = applicants.find(
       (applicant) => applicant.application_id === id
     );
-    console.log(updatedApplicant, "updated applicant");
     mutate(updatedApplicant);
   };
 
@@ -227,9 +233,18 @@ const WidgetContentBox = () => {
             </div>
             <div className="col-6">
               <TabList className="aplicantion-status tab-buttons clearfix">
-                <Tab className="tab-btn totals"> Total(s): 6</Tab>
-                <Tab className="tab-btn approved"> Approved: 2</Tab>
-                <Tab className="tab-btn rejected"> Rejected(s): 4</Tab>
+                <Tab className="tab-btn totals">
+                  {" "}
+                  Total(s): {applicants.length}
+                </Tab>
+                <Tab className="tab-btn approved">
+                  {" "}
+                  Approved: {approved.length}
+                </Tab>
+                <Tab className="tab-btn rejected">
+                  {" "}
+                  Rejected(s): {rejected.length}
+                </Tab>
               </TabList>
             </div>
           </div>
@@ -359,7 +374,6 @@ const WidgetContentBox = () => {
                               data-text="Update Application"
                               onClick={() => {
                                 handleUpdate(student.application_id);
-                                console.log(student.application_id);
                               }}
                             >
                               <span className="la la-angle-double-up"></span>
@@ -374,42 +388,46 @@ const WidgetContentBox = () => {
             </TabPanel>
             {/* End total applicants */}
 
-            {/* <TabPanel>
+            <TabPanel>
               <div className="row">
-                {candidatesData.slice(17, 19).map((candidate) => (
+                {approved?.map((student) => (
                   <div
                     className="candidate-block-three col-lg-6 col-md-12 col-sm-12"
-                    key={candidate.id}
+                    key={student.applicant_id}
                   >
                     <div className="inner-box">
                       <div className="content">
                         <figure className="image">
-                          <img src={candidate.avatar} alt="candidates" />
+                          <img
+                            src={student.student.profile_image}
+                            alt="candidates"
+                          />
                         </figure>
                         <h4 className="name">
-                          <Link href={`/candidates-single-v1/${candidate.id}`}>
-                            {candidate.name}
+                          <Link
+                            href={`/candidates-single-v1/${student.student.id}`}
+                          >
+                            {student.student.name}
                           </Link>
                         </h4>
 
                         <ul className="candidate-info">
                           <li className="designation">
-                            {candidate.designation}
+                            {student.student.designation || "null"}
                           </li>
                           <li>
                             <span className="icon flaticon-map-locator"></span>{" "}
-                            {candidate.location}
+                            {student.student.city?.name || "null"}
                           </li>
                           <li>
                             <span className="icon flaticon-money"></span> $
-                            {candidate.hourlyRate} / hour
+                            {student.student.hourlyRate || "null"} / hour
                           </li>
                         </ul>
-
                         <ul className="post-tags">
-                          {candidate.tags.map((val, i) => (
-                            <li key={i}>
-                              <a href="#">{val}</a>
+                          {student.student.skills.map((val, i) => (
+                            <li key={i} className="my-2">
+                              <a href="#">{val.data}</a>
                             </li>
                           ))}
                         </ul>
@@ -418,23 +436,85 @@ const WidgetContentBox = () => {
                       <div className="option-box">
                         <ul className="option-list">
                           <li>
-                            <button data-text="View Aplication">
+                            <button
+                              data-text="ShortList Aplication"
+                              onClick={() =>
+                                toggleApplicantState(
+                                  student.applicant_id,
+                                  "is_shortlist"
+                                )
+                              }
+                              style={{
+                                backgroundColor: student.is_shortlist
+                                  ? "#83da83"
+                                  : "#f3a9a9",
+                              }}
+                            >
                               <span className="la la-eye"></span>
                             </button>
                           </li>
                           <li>
-                            <button data-text="Approve Aplication">
+                            <button
+                              data-text="Approve Aplication"
+                              onClick={() =>
+                                toggleApplicantState(
+                                  student.applicant_id,
+                                  "is_approved"
+                                )
+                              }
+                              style={{
+                                backgroundColor: student.is_approved
+                                  ? "#83da83"
+                                  : "#f3a9a9",
+                              }}
+                            >
                               <span className="la la-check"></span>
                             </button>
                           </li>
                           <li>
-                            <button data-text="Reject Aplication">
+                            <button
+                              data-text="Interview Aplication"
+                              onClick={() =>
+                                toggleApplicantState(
+                                  student.applicant_id,
+                                  "is_interview"
+                                )
+                              }
+                              style={{
+                                backgroundColor: student.is_interview
+                                  ? "#83da83"
+                                  : "#f3a9a9",
+                              }}
+                            >
+                              <span className="la la-briefcase"></span>
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              data-text="Reject Aplication"
+                              onClick={() =>
+                                toggleApplicantState(
+                                  student.applicant_id,
+                                  "is_rejected"
+                                )
+                              }
+                              style={{
+                                backgroundColor: student.is_rejected
+                                  ? "#83da83"
+                                  : "#f3a9a9",
+                              }}
+                            >
                               <span className="la la-times-circle"></span>
                             </button>
                           </li>
                           <li>
-                            <button data-text="Delete Aplication">
-                              <span className="la la-trash"></span>
+                            <button
+                              data-text="Update Application"
+                              onClick={() => {
+                                handleUpdate(student.application_id);
+                              }}
+                            >
+                              <span className="la la-angle-double-up"></span>
                             </button>
                           </li>
                         </ul>
@@ -443,83 +523,143 @@ const WidgetContentBox = () => {
                   </div>
                 ))}
               </div>
-            </TabPanel> */}
-            {/* End approved applicants */}
-
-            {/* <TabPanel>
+            </TabPanel>
+            <TabPanel>
               <div className="row">
-                {candidatesData.slice(17, 21).map((candidate) => (
+                {rejected?.map((student) => (
                   <div
                     className="candidate-block-three col-lg-6 col-md-12 col-sm-12"
-                    key={candidate.id}
+                    key={student.applicant_id}
                   >
                     <div className="inner-box">
                       <div className="content">
                         <figure className="image">
-                          <img src={candidate.avatar} alt="candidates" />
+                          <img
+                            src={student.student.profile_image}
+                            alt="candidates"
+                          />
                         </figure>
                         <h4 className="name">
-                          <Link href={`/candidates-single-v1/${candidate.id}`}>
-                            {candidate.name}
+                          <Link
+                            href={`/candidates-single-v1/${student.student.id}`}
+                          >
+                            {student.student.name}
                           </Link>
                         </h4>
 
                         <ul className="candidate-info">
                           <li className="designation">
-                            {candidate.designation}
+                            {student.student.designation || "null"}
                           </li>
                           <li>
                             <span className="icon flaticon-map-locator"></span>{" "}
-                            {candidate.location}
+                            {student.student.city?.name || "null"}
                           </li>
                           <li>
                             <span className="icon flaticon-money"></span> $
-                            {candidate.hourlyRate} / hour
+                            {student.student.hourlyRate || "null"} / hour
                           </li>
                         </ul>
-                        
-
                         <ul className="post-tags">
-                          {candidate.tags.map((val, i) => (
-                            <li key={i}>
-                              <a href="#">{val}</a>
+                          {student.student.skills.map((val, i) => (
+                            <li key={i} className="my-2">
+                              <a href="#">{val.data}</a>
                             </li>
                           ))}
                         </ul>
                       </div>
-                     
 
                       <div className="option-box">
                         <ul className="option-list">
                           <li>
-                            <button data-text="View Aplication">
+                            <button
+                              data-text="ShortList Aplication"
+                              onClick={() =>
+                                toggleApplicantState(
+                                  student.applicant_id,
+                                  "is_shortlist"
+                                )
+                              }
+                              style={{
+                                backgroundColor: student.is_shortlist
+                                  ? "#83da83"
+                                  : "#f3a9a9",
+                              }}
+                            >
                               <span className="la la-eye"></span>
                             </button>
                           </li>
                           <li>
-                            <button data-text="Approve Aplication">
+                            <button
+                              data-text="Approve Aplication"
+                              onClick={() =>
+                                toggleApplicantState(
+                                  student.applicant_id,
+                                  "is_approved"
+                                )
+                              }
+                              style={{
+                                backgroundColor: student.is_approved
+                                  ? "#83da83"
+                                  : "#f3a9a9",
+                              }}
+                            >
                               <span className="la la-check"></span>
                             </button>
                           </li>
                           <li>
-                            <button data-text="Reject Aplication">
+                            <button
+                              data-text="Interview Aplication"
+                              onClick={() =>
+                                toggleApplicantState(
+                                  student.applicant_id,
+                                  "is_interview"
+                                )
+                              }
+                              style={{
+                                backgroundColor: student.is_interview
+                                  ? "#83da83"
+                                  : "#f3a9a9",
+                              }}
+                            >
+                              <span className="la la-briefcase"></span>
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              data-text="Reject Aplication"
+                              onClick={() =>
+                                toggleApplicantState(
+                                  student.applicant_id,
+                                  "is_rejected"
+                                )
+                              }
+                              style={{
+                                backgroundColor: student.is_rejected
+                                  ? "#83da83"
+                                  : "#f3a9a9",
+                              }}
+                            >
                               <span className="la la-times-circle"></span>
                             </button>
                           </li>
                           <li>
-                            <button data-text="Delete Aplication">
-                              <span className="la la-trash"></span>
+                            <button
+                              data-text="Update Application"
+                              onClick={() => {
+                                handleUpdate(student.application_id);
+                              }}
+                            >
+                              <span className="la la-angle-double-up"></span>
                             </button>
                           </li>
                         </ul>
                       </div>
-                      
                     </div>
                   </div>
                 ))}
               </div>
-            </TabPanel> */}
-            {/* End rejected applicants */}
+            </TabPanel>
           </div>
         </Tabs>
       </div>

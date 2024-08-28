@@ -48,10 +48,10 @@ const Index = () => {
           <MenuToggler />
           {/* Collapsible sidebar button */}
 
-          <div className="row d-flex">
+          <div className="row d-flex mb-4">
             <div className="col-xl-4 col-lg-4 ">
               {/* <!-- Graph widget --> */}
-              <div className="graph-widget ls-widget flex-grow-1">
+              <div className="skill-widget ls-widget flex-grow-1">
                 <div className="widget-title-skill">
                   <h4>Skills</h4>
                 </div>
@@ -64,7 +64,7 @@ const Index = () => {
 
             <div className="col-xl-8 col-lg-8">
               {/* <!-- Notification Widget --> */}
-              <div className="notification-widget ls-widget flex-grow-1">
+              <div className="assessment-widget ls-widget flex-grow-1">
                 <div className="widget-title-skill">
                   <h4>Assessment</h4>
                 </div>

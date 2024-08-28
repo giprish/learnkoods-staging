@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import dynamic from "next/dynamic";
+
 import { useEffect, useState } from "react";
 import { Controller, useForm, useFormContext } from "react-hook-form";
 import "react-quill/dist/quill.snow.css";
@@ -9,7 +10,14 @@ import Select from "react-select";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const UpdateStepTwo = ({ setTab, onSubmit }) => {
-  const { register, handleSubmit, control, setValue, watch } = useFormContext();
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useFormContext();
   const [jobDesc, setJobDesc] = useState("");
 
   const fetch = async (url) => {
@@ -28,15 +36,6 @@ const UpdateStepTwo = ({ setTab, onSubmit }) => {
     };
   });
 
-  useEffect(() => {
-    register("job_des", { required: true, minLength: 11 });
-  }, [register]);
-
-  const onEditorStateChange = (editorState) => {
-    setValue("job_des", editorState);
-  };
-  const editorContent = watch("job_des");
-
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
       <div className="row">
@@ -45,15 +44,25 @@ const UpdateStepTwo = ({ setTab, onSubmit }) => {
         {/* <!-- About Company --> */}
         <div className="form-group col-lg-12 col-md-12">
           <label>Job Description</label>
-
-          <ReactQuill
-            theme="snow"
-            value={editorContent || ""}
-            onChange={onEditorStateChange}
+          <Controller
+            name="job_des"
+            control={control}
+            rules={{ required: "Description is required" }}
+            render={({ field }) => (
+              <ReactQuill
+                {...field}
+                theme="snow"
+                onChange={(content) => field.onChange(content)}
+              />
+            )}
           />
+
+          {errors.description && (
+            <p style={{ color: "red" }}>{errors.description.message}</p>
+          )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
-          <label>Skills </label>
+          <label>Desired Skills</label>
           <Controller
             name="skills_req"
             control={control}
@@ -71,25 +80,27 @@ const UpdateStepTwo = ({ setTab, onSubmit }) => {
 
         <div className=" row">
           <div className="form-group col-lg-4 col-md-12">
-            <label>Max Salary</label>
-
-            <input
-              type="number"
-              name="max_salary"
-              placeholder=""
-              step="0.01"
-              {...register("max_salary")}
-            />
-          </div>
-          <div className="form-group col-lg-4 col-md-12">
             <label>Minimum Salary</label>
             <input
               type="number"
               name="min_salary"
-              placeholder=""
+              placeholder="Minimum Salary"
               step="0.01"
               {...register("min_salary")}
             />
+          </div>
+          <div className="form-group col-lg-4 col-md-12">
+            <label>Maximum Salary</label>
+            <input
+              type="number"
+              name="max_salary"
+              placeholder="Maximum Salary"
+              step="0.01"
+              {...register("max_salary")}
+            />
+            {errors?.max_salary && (
+              <p className="text-danger">{errors?.max_salary?.message}</p>
+            )}
           </div>
           <div className="form-group col-lg-4 col-md-12">
             <label>Rate</label>

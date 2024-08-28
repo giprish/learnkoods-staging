@@ -3,8 +3,6 @@ import MobileMenu from "../../../header/MobileMenu";
 import DashboardHeader from "../../../header/DashboardHeader";
 import LoginPopup from "../../../common/form/login/LoginPopup";
 import DashboardEmployerSidebar from "../../../header/DashboardEmployerSidebar";
-import BreadCrumb from "../../BreadCrumb";
-
 import MenuToggler from "../../MenuToggler";
 import PostJobForm from "./components/PostJobForm";
 import { useEffect, useState } from "react";
@@ -265,6 +263,7 @@ const index = () => {
     mutate(formData);
     // Submit only dirtyData to your API
   };
+
   return (
     <div className="page-wrapper-employer page-wrapper dashboard ">
       <span className="header-span"></span>

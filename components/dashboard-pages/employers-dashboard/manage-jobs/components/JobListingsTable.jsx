@@ -5,11 +5,15 @@ import Image from "next/image.js";
 import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import appliedJobs from "@/pages/candidates-dashboard/applied-jobs/index.js";
+import { event } from "jquery";
 
 const JobListingsTable = () => {
   const [jobId, setJobdId] = useState(null);
+  const [jobStatus, setJobStatus] = useState("");
+  const [filteredJobs, setFilteredJobs] = useState([]);
+
   const access = window.localStorage.getItem("access");
   const fetchJobs = async () => {
     const response = await axios.get(`${process.env.GLOBAL_API}/job-user/`, {
@@ -25,7 +29,23 @@ const JobListingsTable = () => {
     queryFn: () => fetchJobs(),
   });
 
-  console.log(Jobs, "jobs of different");
+  useEffect(() => {
+    if (Jobs) {
+      if (jobStatus === "active") {
+        // Filter jobs where is_published is true (active jobs)
+        setFilteredJobs(Jobs?.data.filter((job) => job.is_published === true));
+      } else if (jobStatus === "inactive") {
+        // Filter jobs where is_published is false (inactive jobs)
+        setFilteredJobs(Jobs?.data.filter((job) => job.is_published === false));
+      } else {
+        // If no status is selected, show all jobs
+        setFilteredJobs(Jobs?.data);
+      }
+    }
+  }, [Jobs, jobStatus]);
+
+  console.log(Jobs, "from api");
+  console.log(filteredJobs, "filtered jobs");
 
   const fetchAppliedCandidates = async () => {
     const response = await axios.get(
@@ -42,6 +62,7 @@ const JobListingsTable = () => {
   const { data: AppliedCandidates } = useQuery({
     queryKey: ["AllJobs", jobId],
     queryFn: () => fetchAppliedCandidates(),
+    enabled: !!jobId,
   });
 
   const callApplied = (id) => {
@@ -120,16 +141,26 @@ const JobListingsTable = () => {
     publish(dataToSend);
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
   return (
     <div className="tabs-box">
       <div className="widget-title">
         <h4>My Job Listings</h4>
 
         <div className="chosen-outer">
-          <select className="chosen-single form-select">
-            <option>Select</option>
-            <option>Active</option>
-            <option>InActive</option>
+          <select
+            className="chosen-single form-select"
+            onChange={(event) => setJobStatus(event.target.value)}
+          >
+            <option>All</option>
+            <option value="active">Active</option>
+            <option value="inactive">InActive</option>
           </select>
         </div>
       </div>
@@ -140,15 +171,15 @@ const JobListingsTable = () => {
             <thead>
               <tr>
                 <th>Title</th>
-                <th>Applications</th>
-                <th>Created & Expired</th>
+                <th>Applicants</th>
+                <th>Created On</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
 
             <tbody>
-              {Jobs?.data.map((item) => (
+              {filteredJobs.map((item) => (
                 <tr key={item.job_id}>
                   <td>
                     <div className="job-block">
@@ -186,15 +217,15 @@ const JobListingsTable = () => {
                     </div>
                   </td>
                   <td className="applied">
-                    <a href="#" onClick={() => callApplied(item?.job_id)}>
+                    <a
+                      href="/employers-dashboard/all-applicants"
+                      onClick={() => callApplied(item?.job_id)}
+                    >
                       {" "}
                       Applied
                     </a>
                   </td>
-                  <td>
-                    October 27, 2017 <br />
-                    April 25, 2011
-                  </td>
+                  <td>{formatDate(item?.created_at)}</td>
                   <td
                     className=""
                     style={{ color: item.is_published ? "green" : "red" }}

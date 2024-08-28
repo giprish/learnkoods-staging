@@ -311,7 +311,7 @@ const CertificationInfoBox = () => {
             </p>
           </div>
           <div className="form-group col-lg-6 col-md-12">
-            <label>Skills Acquired</label>
+            <label>Gained Skills</label>
             <Controller
               name={`certificate[${index}].skills_acquired`}
               control={control}

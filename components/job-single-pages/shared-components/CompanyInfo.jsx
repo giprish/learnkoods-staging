@@ -1,8 +1,13 @@
 import axios from "axios";
 import Social from "../social/Social";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 const CompanyInfo = ({ jobDetails }) => {
+  const access =
+    typeof window !== "undefined"
+      ? window.localStorage.getItem("access")
+      : null;
   const fetchCompany = async (url) => {
     const response = await axios.get(url, {
       headers: {
@@ -14,28 +19,38 @@ const CompanyInfo = ({ jobDetails }) => {
   const { data: Company } = useQuery({
     queryKey: ["company", jobDetails?.company?.id],
     queryFn: () =>
-      fetchCompany(`${process.env.GLOBAL_API}/${jobDetails?.company?.id}/`),
+      fetchCompany(
+        `${process.env.GLOBAL_API}/comp/${jobDetails?.company?.id}/`
+      ),
   });
+
+  console.log(Company);
 
   return (
     <ul className="company-info">
       <li>
-        Primary industry: <span>Software</span>
+        <h5 className="my-2">{Company?.data?.name || "null"}</h5>
       </li>
       <li>
-        Company size: <span>501-1,000</span>
+        Primary industry: <span>{Company?.data?.industry?.name}</span>
       </li>
       <li>
-        Founded in: <span>2011</span>
+        Company size: <span>{Company?.data?.team_size}</span>
       </li>
       <li>
+        Established On: <span>{Company?.data?.since}</span>
+      </li>
+      {/* <li>
         Phone: <span>123 456 7890</span>
+      </li> */}
+      <li>
+        Email: <span>{Company?.data?.email}</span>
       </li>
       <li>
-        Email: <span>info@joio.com</span>
-      </li>
-      <li>
-        Location: <span>London, UK</span>
+        Location:{" "}
+        <span>
+          {Company?.data?.city?.name}, {Company?.data?.country?.name}
+        </span>
       </li>
       {/* <li>
         Social media:

@@ -143,6 +143,9 @@ const JobSingleDynamicV1 = () => {
                   </div>
                   <div>
                     <h4>{job?.job_title}</h4>
+                    <a href={job?.url} target="_blank">
+                      <h5 className="mb-3">{job?.company?.name}</h5>
+                    </a>
 
                     <ul className="job-info">
                       <li>
@@ -170,11 +173,25 @@ const JobSingleDynamicV1 = () => {
                     {/* End .job-info */}
 
                     <ul className="job-other-info">
-                      {job?.skills_req?.map((val, i) => (
+                      {job?.skills_req?.slice(0, 3).map((val, i) => (
                         <li key={i} className={`border`}>
                           {val?.data}
                         </li>
                       ))}
+                      {job?.skills_req?.length > 3 ? (
+                        // Render this if there are more than 3 items
+                        <li className="border">
+                          <a
+                            data-bs-toggle="modal"
+                            data-bs-target="#skillModal"
+                          >
+                            Show more ...
+                          </a>
+                        </li>
+                      ) : (
+                        // Render this if there are 3 or fewer items
+                        <></>
+                      )}
                     </ul>
                   </div>
                 </div>
@@ -233,14 +250,39 @@ const JobSingleDynamicV1 = () => {
                       </div>
                       {/* End modal-header */}
 
-                      {job?.job_title && (
-                        <ApplyJobModalContent
-                          closeModal={closeModal}
-                          jobName={job?.job_title}
-                        />
-                      )}
-
                       {/* End PrivateMessageBox */}
+                    </div>
+                    {/* End .send-private-message-wrapper */}
+                  </div>
+                </div>
+                <div
+                  className="modal fade"
+                  id="skillModal"
+                  tabIndex="-1"
+                  aria-hidden="true"
+                >
+                  <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered ">
+                    <div className="apply-modal-content modal-content">
+                      <div className="text-center">
+                        <h3 className="title">Desired Skills For Job</h3>
+                        <button
+                          type="button"
+                          className="closed-modal"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      {/* End modal-header */}
+
+                      <div className="modal-body">
+                        <ul>
+                          {job?.skills_req?.map((val, i) => (
+                            <li key={i} className="border rounded-2 my-2">
+                              <span className="p-3">{val?.data}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                     {/* End .send-private-message-wrapper */}
                   </div>
@@ -311,13 +353,15 @@ const JobSingleDynamicV1 = () => {
 
                   <div className="sidebar-widget job?.data?.data-widget">
                     <div className="widget-content">
-                      <div className="job?.data?.data-title">
-                        <div className="job?.data?.data-logo">
-                          <img src={job?.logo} alt="resource" />
+                      <div className="text-center">
+                        <div className="">
+                          <img
+                            src={job?.company?.logo}
+                            alt="resource"
+                            width={100}
+                            height={100}
+                          />
                         </div>
-                        <h5 className="job?.data?.data-name">
-                          {job?.name || "null"}
-                        </h5>
                         {/* <a href="#" className="profile-link">
                           View job?.data?.data profile
                         </a> */}

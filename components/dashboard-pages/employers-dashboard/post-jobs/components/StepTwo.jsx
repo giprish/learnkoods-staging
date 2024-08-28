@@ -63,7 +63,7 @@ const StepTwo = ({ setTab, onSubmit }) => {
           )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
-          <label>Skills </label>
+          <label>Desired Skills</label>
           <Controller
             name="skills_req"
             control={control}
@@ -84,29 +84,29 @@ const StepTwo = ({ setTab, onSubmit }) => {
 
         <div className=" row">
           <div className="form-group col-lg-4 col-md-12">
-            <label>Max Salary</label>
-            <input
-              type="number"
-              name="max_salary"
-              placeholder=""
-              step="0.01"
-              {...register("max_salary")}
-            />
-            {errors?.max_salary && (
-              <p className="text-danger">{errors?.max_salary?.message}</p>
-            )}
-          </div>
-          <div className="form-group col-lg-4 col-md-12">
             <label>Minimum Salary</label>
             <input
               type="number"
               name="min_salary"
-              placeholder=""
+              placeholder="Minimum Salary"
               step="0.01"
               {...register("min_salary")}
             />
             {errors?.min_salary && (
               <p className="text-danger">{errors?.min_salary?.message}</p>
+            )}
+          </div>
+          <div className="form-group col-lg-4 col-md-12">
+            <label>Maximum Salary</label>
+            <input
+              type="number"
+              name="max_salary"
+              placeholder="Maximum Salary"
+              step="0.01"
+              {...register("max_salary")}
+            />
+            {errors?.max_salary && (
+              <p className="text-danger">{errors?.max_salary?.message}</p>
             )}
           </div>
           <div className="form-group col-lg-4 col-md-12">

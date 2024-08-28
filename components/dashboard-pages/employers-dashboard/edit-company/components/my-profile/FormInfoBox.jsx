@@ -6,6 +6,12 @@ import { Controller, useFormContext } from "react-hook-form";
 import Select from "react-select";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import "react-quill/dist/quill.snow.css";
+import dynamic from "next/dynamic";
+import { useEffect } from "react";
+import Tooltip from "@/components/tooltip/ToolTip";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const FormInfoBox = ({
   onSubmit,
@@ -22,6 +28,7 @@ const FormInfoBox = ({
     control,
     setValue,
     formState: { errors },
+    watch,
   } = useFormContext();
 
   const fetch = async (url) => {
@@ -31,9 +38,9 @@ const FormInfoBox = ({
 
   const { data: industry } = useQuery({
     queryKey: ["industryData"],
-    queryFn: () => fetchIndustry(),
+    queryFn: () => fetch(`${process.env.GLOBAL_API}/industry_api/`),
   });
-
+  console.log(industry, "industry");
   const { data: country } = useQuery({
     queryKey: ["countryData"],
     queryFn: () => fetch(`${process.env.GLOBAL_API}/country/`),
@@ -63,6 +70,14 @@ const FormInfoBox = ({
     }));
   };
 
+  // useEffect(() => {
+  //   register("description", { required: true, minLength: 11 });
+  // }, [register]);
+
+  // const onEditorStateChange = (editorState) => {
+  //   setValue("description", editorState);
+  // };
+  // const editorContent = watch("description");
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
       <div className="row">
@@ -185,6 +200,7 @@ const FormInfoBox = ({
         <div className="form-group col-lg-6 col-md-12">
           <label className="" for="job_image">
             Company Logo <span style={{ color: "red" }}>*</span>
+            <Tooltip title={"Resolution"} text={""} />
           </label>
           {logo ? (
             <div className="d-flex flex-row uploadButton justify-content-center align-items-center">
@@ -205,7 +221,7 @@ const FormInfoBox = ({
                   width={50}
                   height={50}
                   alt="profile image"
-                  className="rounded-circle "
+                  className="rounded-circle border"
                 />
               )}
               {logo.file && (
@@ -214,7 +230,7 @@ const FormInfoBox = ({
                   alt="preview"
                   width="50"
                   height="50"
-                  className="uploadedImage rounded-circle"
+                  className="uploadedImage rounded-circle border"
                 />
               )}
             </div>
@@ -239,66 +255,97 @@ const FormInfoBox = ({
           )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
-          <label>Country</label>
+          <label>
+            Country <span style={{ color: "red" }}>*</span>
+          </label>
           <Controller
             name="country"
             control={control}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={options(country)}
-                className="basic-multi-select"
-                classNamePrefix="select"
-                onChange={(selectedOption) => {
-                  field.onChange(selectedOption); // Update React Hook Form state
-                  setCountryId({
-                    value: selectedOption.value, // Set the selected country value
-                    label: selectedOption.label, // Set the selected country label
-                  }); // Set the selected country ID
-                  setValue("state", null);
-                  setValue("city", null);
-                }}
-              />
+            rules={{ required: "Country is required" }}
+            render={({ field, fieldState: { error } }) => (
+              <>
+                <Select
+                  {...field}
+                  options={options(country)}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                  onChange={(selectedOption) => {
+                    field.onChange(selectedOption); // Update React Hook Form state
+                    setCountryId({
+                      value: selectedOption.value, // Set the selected country value
+                      label: selectedOption.label, // Set the selected country label
+                    }); // Set the selected country ID
+                    setValue("state", null);
+                    setValue("city", null);
+                  }}
+                />
+                {error && <p className="text-danger">{error.message}</p>}{" "}
+                {/* Display error */}
+              </>
             )}
           />
         </div>
         <div className="form-group col-lg-6 col-md-12">
-          <label>State</label>
+          <label>
+            State <span style={{ color: "red" }}>*</span>
+          </label>
           <Controller
             name="state"
             control={control}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={options(state)}
-                className="basic-multi-select"
-                classNamePrefix="select"
-                onChange={(selectedOption) => {
-                  field.onChange(selectedOption); // Update React Hook Form state
-                  setStateId({
-                    value: selectedOption.value, // Set the selected country value
-                    label: selectedOption.label, // Set the selected country label
-                  });
-                  setValue("city", null);
-                }}
-              />
+            rules={{ required: "Country is required" }}
+            render={({ field, fieldState: { error } }) => (
+              <>
+                <Select
+                  {...field}
+                  options={options(state)}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                  onChange={(selectedOption) => {
+                    field.onChange(selectedOption); // Update React Hook Form state
+                    setStateId({
+                      value: selectedOption.value, // Set the selected country value
+                      label: selectedOption.label, // Set the selected country label
+                    });
+                    setValue("city", null);
+                  }}
+                />
+                {error && <p className="text-danger">{error.message}</p>}{" "}
+              </>
             )}
           />
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
-          <label>City</label>
+          <label>
+            City <span style={{ color: "red" }}>*</span>
+          </label>
           <Controller
             name="city"
             control={control}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={options(city)}
-                className="basic-multi-select"
-                classNamePrefix="select"
-              />
+            rules={{ required: "Country is required" }}
+            render={({ field, fieldState: { error } }) => (
+              <>
+                <Select
+                  {...field}
+                  options={options(city)}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                />
+                {error && <p className="text-danger">{error.message}</p>}{" "}
+              </>
             )}
+          />
+        </div>
+        <div className="form-group col-lg-6 col-md-12">
+          <label>
+            Zipcode <span style={{ color: "red" }}>*</span>
+          </label>
+          <input
+            type="text"
+            name="pincode"
+            placeholder="101010"
+            // required
+            // {...register("pincode")}
           />
         </div>
         <div className="form-group col-lg-6 col-md-12">
@@ -316,7 +363,7 @@ const FormInfoBox = ({
 
         <div className="form-group col-lg-6 col-md-12">
           <label>
-            Complete Address <span style={{ color: "red" }}>*</span>
+            Address Line 2 <span style={{ color: "red" }}>*</span>
           </label>
           <input
             type="text"
@@ -328,18 +375,38 @@ const FormInfoBox = ({
         </div>
 
         {/* <!-- About Company --> */}
-        <div className="form-group col-lg-12 col-md-12">
+        {/* <div className="form-group col-lg-12 col-md-12">
           <label>About Company</label>
           <textarea
             placeholder="Welcome to [Company Name], where innovation meets excellence. Founded in [Year], we are dedicated to delivering top-quality [products/services] that make a difference in people's lives. Our mission is to [brief mission statement or core goal], and we strive to achieve this through [brief mention of strategy or values].At [Company Name], our team of passionate professionals is committed to [mention unique selling points, e.g., customer satisfaction, sustainable practices, cutting-edge technology, etc.]. We believe in continuous improvement and are always looking for new ways to innovate and grow.Join us on our journey as we aim to shape the future of [industry or field] and provide unmatched value to our customers."
             {...register("description")}
           ></textarea>
+        </div> */}
+        <div className="form-group col-lg-12 col-md-12">
+          <label>About Company</label>
+
+          <Controller
+            name="description"
+            control={control}
+            rules={{ required: "Description is required" }}
+            render={({ field }) => (
+              <ReactQuill
+                {...field}
+                theme="snow"
+                onChange={(content) => field.onChange(content)}
+              />
+            )}
+          />
+
+          {errors.description && (
+            <p style={{ color: "red" }}>{errors.description.message}</p>
+          )}
         </div>
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <button className="theme-btn btn-style-one" type="submit">
-            Save
+            Update
           </button>
         </div>
       </div>

@@ -79,9 +79,44 @@ const index = () => {
     },
     onError: (error) => {
       console.log(error, "error message");
-      toast.error("Company registration Unsuccessful", {
-        position: toast.POSITION.TOP_RIGHT,
+
+      const errorFields = [
+        "email",
+        "name",
+        "email",
+        "phone_number",
+        "website",
+        "since",
+        "team_size",
+        "industry",
+        "country",
+        "state",
+        "city",
+        "address1",
+        "address",
+        "description",
+      ];
+      let errorHandled = false;
+
+      errorFields.forEach((field) => {
+        if (error.response.data[field]) {
+          const errorMessage = Array.isArray(error.response.data[field])
+            ? error.response.data[field][0]
+            : error.response.data[field].error || error.response.data[field];
+
+          toast.error(`${field}: ${errorMessage}`, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+          errorHandled = true;
+        }
       });
+
+      // Handle errors not in the errorFields array
+      if (!errorHandled) {
+        toast.error("An unexpected error occurred. Please try again.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
     },
   });
 
@@ -96,7 +131,7 @@ const index = () => {
       email: data.email,
       industry: data?.industry?.value,
       name: data.name,
-      phone_number: "+44 " + data.phone_number,
+      phone_number: data.phone_number,
       website: data.website,
       user: id,
     };

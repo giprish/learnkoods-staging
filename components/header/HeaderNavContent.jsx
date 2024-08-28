@@ -129,8 +129,7 @@ const HeaderNavContent = () => {
                   <a href="/upskill">
                     <span>Upskill</span>
                   </a>
-                </li>
-*/}
+                </li>*/}
                 {router.pathname === "/" && (
                   <li>
                     <a href="/pricing">
@@ -231,18 +230,6 @@ const HeaderNavContent = () => {
               </li>
             )}
 
-            {accessToken && student === "true" && (
-              <li>
-                <a
-                  href="#"
-                  className="theme-btn btn-style-blue"
-                  onClick={unifiedLogout}
-                >
-                  Logout
-                </a>
-              </li>
-            )}
-
             {accessToken && (
               <>
                 <li>
@@ -293,6 +280,20 @@ const HeaderNavContent = () => {
                           My Profile
                         </a>
                       </li>
+                      {accessToken && student === "true" && (
+                        <>
+                          <li>
+                            <a
+                              className="dropdown-item"
+                              href={`${user?.data?.resume}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              My Resume
+                            </a>
+                          </li>
+                        </>
+                      )}
                       <li>
                         <a className="dropdown-item" href={href()}>
                           Dashboard

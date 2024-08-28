@@ -19,8 +19,15 @@ const PostjobForm = ({
   stateId,
   setStateId,
 }) => {
-  const { register, handleSubmit, control, resetField, getValues, setValue } =
-    useFormContext();
+  const {
+    register,
+    handleSubmit,
+    control,
+    resetField,
+    getValues,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
   const access = window.localStorage.getItem("access");
   const [selectedsubcat, setSelectedSubCat] = useState(null);
 
@@ -110,12 +117,30 @@ const PostjobForm = ({
 
         <div className="form-group col-lg-6 col-md-12">
           <label>Experience</label>
-          <input
+          {/* <input
             type="text"
             name="exp_required"
             placeholder=""
             {...register("exp_required")}
-          />
+          /> */}
+          <select
+            className="chosen-single form-select"
+            {...register("exp_required")}
+          >
+            <option disabled>Select</option>
+            <option value="1-2 years">1-2 years</option>
+            <option value="2-3 years">2-3 years</option>
+            <option value="3-5 years">3-5 years</option>
+            <option value="5-7 years">5-7 years</option>
+            <option value="7-9 years">7-9 years</option>
+            <option value="9-11 years">9-11 years</option>
+            <option value="11-13 years">11-13 years</option>
+            <option value="13-15 years">13-15 years</option>
+            <option value="15+ above years">15+ above years</option>
+          </select>
+          {errors.exp_required?.message && (
+            <p className="text-danger">{errors.exp_required?.message}</p>
+          )}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
@@ -216,18 +241,14 @@ const PostjobForm = ({
             className="chosen-single form-select"
             {...register("recruitment_timeline")}
           >
-            <option value="">Select</option>
-            <option value="1 to 3 days">1 to 3 days</option>
-            <option value="3 to 7 days">3 to 7 days</option>
-            <option value="1 to 2 weeks">1 to 2 weeks</option>
-            <option value="2 to 4 weeks">2 to 4 weeks</option>
-            <option value="More than 4 weeks">More than 4 weeks</option>
+            <option disabled>Select</option>
+            <option value="1-7 days">1-7 days</option>
+            <option value="8-15 days">8-15 days</option>
+            <option value="16-30 days">16-30 days</option>
+            <option value="31-60 days">31-60 days</option>
           </select>
         </div>
-        <div className="form-group col-lg-6 col-md-12">
-          <label>Application Deadline Date</label>
-          <input type="text" name="name" placeholder="06.04.2020" />
-        </div>
+
         <div className="form-group col-lg-6 col-md-12">
           <label>Country</label>
           <Controller
@@ -311,14 +332,17 @@ const PostjobForm = ({
             {...register("location1")}
           />
         </div>
-        <div className="form-group col-lg-12 col-md-12">
-          <label>Complete Address</label>
+        <div className="form-group col-lg-6 col-md-12">
+          <label>Address Line 2</label>
           <input
             type="text"
-            name="name"
+            name="location"
             placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia."
             {...register("location")}
           />
+          {errors.location?.message && (
+            <p className="text-danger">{errors.location?.message}</p>
+          )}
         </div>
 
         {/* <!-- Input --> */}

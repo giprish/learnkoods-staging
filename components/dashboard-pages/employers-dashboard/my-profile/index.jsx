@@ -77,13 +77,35 @@ const index = () => {
       toast.success("Profile updated successfully", {
         position: toast.POSITION.TOP_RIGHT,
       });
+      if (typeof window !== "undefined") {
+        localStorage.setItem("user", data?.data?.username);
+      }
       // window.location.reload();
     },
-    onError: (data) => {
-      console.log(data, "error message");
-      toast.error("profile update Unsuccessful", {
-        position: toast.POSITION.TOP_RIGHT,
+    onError: (error) => {
+      console.log(error, "error message");
+      const errorFields = ["first_name", "last_name", "email", "username"];
+      let errorHandled = false;
+
+      errorFields.forEach((field) => {
+        if (error.response.data[field]) {
+          const errorMessage = Array.isArray(error.response.data[field])
+            ? error.response.data[field][0]
+            : error.response.data[field].error || error.response.data[field];
+
+          toast.error(`${field}: ${errorMessage}`, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+          errorHandled = true;
+        }
       });
+
+      // Handle errors not in the errorFields array
+      if (!errorHandled) {
+        toast.error("An unexpected error occurred. Please try again.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
     },
   });
 

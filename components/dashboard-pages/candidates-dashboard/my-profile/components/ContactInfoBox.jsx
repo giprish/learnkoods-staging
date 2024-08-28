@@ -4,6 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Select from "react-select";
 import { error } from "jquery";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+
 const ContactInfoBox = ({
   onSubmit,
   countryId,
@@ -58,11 +61,22 @@ const ContactInfoBox = ({
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Phone</label>
-          <input
-            type="text"
+          <Controller
             name="phone"
-            placeholder="0 123 456 7890"
-            {...register("phone")}
+            control={control}
+            rules={{ required: "Phone number is required" }}
+            render={({ field }) => (
+              <PhoneInput
+                country={"us"} // Default country
+                value={field.value}
+                onChange={(phone) => field.onChange(phone)}
+                inputStyle={{
+                  width: "100%",
+                  padding: "28px 50px",
+                  borderRadius: "8px",
+                }}
+              />
+            )}
           />
           {errors.phone && (
             <p className="text-danger">{errors.phone.message}</p>
@@ -155,7 +169,7 @@ const ContactInfoBox = ({
           />
         </div>
         <div className="form-group col-lg-12 col-md-12">
-          <label>Complete Address</label>
+          <label>Address Line 2</label>
           <input
             type="text"
             name="name"

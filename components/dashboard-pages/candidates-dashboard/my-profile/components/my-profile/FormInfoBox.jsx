@@ -3,6 +3,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import Select from "react-select";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import "react-quill/dist/quill.snow.css";
+import dynamic from "next/dynamic";
+import Tooltip from "@/components/tooltip/ToolTip";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const FormInfoBox = ({ onSubmit, onError }) => {
   const {
@@ -74,7 +81,7 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
-          <label>User Name</label>
+          <label>Username</label>
           <input
             type="text"
             name="username"
@@ -101,7 +108,7 @@ const FormInfoBox = ({ onSubmit, onError }) => {
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
-          <label>Position </label>
+          <label>Currently working as </label>
 
           <Controller
             name="position"
@@ -153,14 +160,24 @@ const FormInfoBox = ({ onSubmit, onError }) => {
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Experience</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="5-10 Years"
+
+          <select
+            className="chosen-single form-select"
             {...register("experience_level")}
-          />
-          {errors.experience_level && (
-            <p className="text-danger">{errors.experience_level.message}</p>
+          >
+            <option disabled>Select</option>
+            <option value="1-2 years">1-2 years</option>
+            <option value="2-3 years">2-3 years</option>
+            <option value="3-5 years">3-5 years</option>
+            <option value="5-7 years">5-7 years</option>
+            <option value="7-9 years">7-9 years</option>
+            <option value="9-11 years">9-11 years</option>
+            <option value="11-13 years">11-13 years</option>
+            <option value="13-15 years">13-15 years</option>
+            <option value="15+ above years">15+ above years</option>
+          </select>
+          {errors.experience_level?.message && (
+            <p className="text-danger">{errors.experience_level?.message}</p>
           )}
         </div>
 
@@ -227,22 +244,20 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           )}
         </div>
 
-        {/* <!-- Input --> */}
-        {/* <div className="form-group col-lg-6 col-md-12">
-          <label>Allow In Search & Listing</label>
-          <select className="chosen-single form-select">
-            <option>Yes</option>
-            <option>No</option>
-          </select>
-        </div> */}
-
-        {/* <!-- About Company --> */}
         <div className="form-group col-lg-12 col-md-12">
-          <label>Description</label>
-          <textarea
-            placeholder="Spent several years working on sheep on Wall Street. Had moderate success investing in Yugo's on Wall Street. Managed a small team buying and selling Pogo sticks for farmers. Spent several years licensing licorice in West Palm Beach, FL. Developed several new methods for working it banjos in the aftermarket. Spent a weekend importing banjos in West Palm Beach, FL.In this position, the Software Engineer collaborates with Evention's Development team to continuously enhance our current software solutions as well as create new solutions to eliminate the back-office operations and management challenges present"
-            {...register("profile_desc")}
-          ></textarea>
+          <label>About Me</label>
+          <Controller
+            name="profile_desc"
+            control={control}
+            rules={{ required: "Description is required" }}
+            render={({ field }) => (
+              <ReactQuill
+                {...field}
+                theme="snow"
+                onChange={(content) => field.onChange(content)}
+              />
+            )}
+          />
         </div>
 
         {/* <!-- Input --> */}

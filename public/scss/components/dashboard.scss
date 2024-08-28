@@ -463,6 +463,12 @@ Dashboard
 Graph widget
 ============================*/
 
+.skill-widget {
+  height: 100%;
+}
+.assessment-widget {
+  height: 100%;
+}
 .graph-widget .widget-content {
   padding-top: 80px;
   flex-grow: 1;
@@ -1898,7 +1904,7 @@ Chat Widget
 
 .ls-widget .widget-content {
   position: relative;
-  padding: 0px 30px 0px;
+  padding: 0px 30px 1px;
 }
 
 .ls-widget .widget-content p {

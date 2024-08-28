@@ -22,7 +22,8 @@ const Form = ({ onSubmit, onError }) => {
             <input
               type="text"
               name="first_name"
-              placeholder="Jerome"
+              placeholder="Enter first name"
+              required
               {...register("first_name")}
             />
             {errors.first_name && (
@@ -34,7 +35,8 @@ const Form = ({ onSubmit, onError }) => {
             <input
               type="text"
               name="last_name"
-              placeholder="kumar"
+              placeholder="Enter last name"
+              required
               {...register("last_name")}
             />
             {errors.last_name && (
@@ -46,7 +48,8 @@ const Form = ({ onSubmit, onError }) => {
             <input
               type="text"
               name="username"
-              placeholder="John Doe"
+              placeholder="Enter your username"
+              required
               {...register("username")}
             />
             {errors.username && (
@@ -54,9 +57,7 @@ const Form = ({ onSubmit, onError }) => {
             )}
           </div>
           <div className="form-group col-lg-6 col-md-12">
-            <label>
-              Email <span style={{ color: "red" }}>*</span>
-            </label>
+            <label>Email</label>
             <input
               type="email"
               name="email"
