@@ -17,6 +17,7 @@ const withAuth = (WrappedComponent, skipRoutes) => {
     const [loading, setLoading] = useState(false); // Track the overall loading state
 
     const verifyToken = useCallback(async () => {
+      setLoading(true);
       const accessToken = window.localStorage.getItem("access");
       const refreshToken = window.localStorage.getItem("refresh");
       const student = window.localStorage.getItem("student");
@@ -30,6 +31,7 @@ const withAuth = (WrappedComponent, skipRoutes) => {
 
       if (!accessToken || !refreshToken) {
         router.push("/");
+        setLoading(false);
         return;
       }
 
@@ -42,6 +44,7 @@ const withAuth = (WrappedComponent, skipRoutes) => {
           currentRoute.startsWith("/employers-dashboard")
         ) {
           router.push("/");
+          setLoading(false);
           return;
         }
 
@@ -50,6 +53,7 @@ const withAuth = (WrappedComponent, skipRoutes) => {
           currentRoute.startsWith("/candidates-dashboard")
         ) {
           router.push("/");
+          setLoading(false);
           return;
         }
       } catch (error) {
@@ -99,6 +103,7 @@ const withAuth = (WrappedComponent, skipRoutes) => {
           router.push("/");
         } finally {
           setIsRefreshing(false); // Reset the refreshing flag after the process completes
+          setLoading(false);
         }
       }
 

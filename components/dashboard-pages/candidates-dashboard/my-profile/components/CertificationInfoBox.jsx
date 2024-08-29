@@ -57,6 +57,7 @@ const CertificationInfoBox = () => {
     value: option.id,
     label: option.data,
   }));
+
   const fetchCertificates = async () => {
     const response = await axios.get(
       `${process.env.GLOBAL_API}/cert-pro/${userId}/`,

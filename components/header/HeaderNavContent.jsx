@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -89,39 +90,40 @@ const HeaderNavContent = () => {
     }
   };
 
+  console.log("header nav student", typeof student);
+
   return (
     <>
       <div>
         <nav className="nav main-menu">
           <ul className="navigation" id="navbar">
             {/* current dropdown */}
-            {student === "true" ||
-              (student == null && (
-                <>
-                  <li>
-                    <a href="/upskill">
-                      <span>Upskill</span>
-                    </a>
-                  </li>
+            {(student === "true" || student == null) && (
+              <>
+                <li>
+                  <a href="/upskill">
+                    <span>Upskill</span>
+                  </a>
+                </li>
 
-                  <li>
-                    <a href="/job-list/job-list-v1">
-                      <span>Find Jobs</span>
-                    </a>
-                  </li>
+                <li>
+                  <a href="/job-list/job-list-v1">
+                    <span>Find Jobs</span>
+                  </a>
+                </li>
 
-                  <li>
-                    <a href="/mentorship">
-                      <span>Assessment</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/employers-dashboard/dashboard">
-                      <span>Employers</span>
-                    </a>
-                  </li>
-                </>
-              ))}
+                <li>
+                  <a href="/mentorship">
+                    <span>Assessment</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="/employers-dashboard/dashboard">
+                    <span>Employers</span>
+                  </a>
+                </li>
+              </>
+            )}
 
             {student === "false" && (
               <>

@@ -1,22 +1,22 @@
 "use client";
 import Link from "next/link";
-import jobs from "../../../../../data/job-featured.js";
 import Image from "next/image.js";
 import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import appliedJobs from "@/pages/candidates-dashboard/applied-jobs/index.js";
-import { event } from "jquery";
+import Select from "react-select";
 
 const JobListingsTable = () => {
   const [jobId, setJobdId] = useState(null);
+  const [companyId, setCompanyId] = useState(null);
+  const [selectedCompany, setSelectedCompany] = useState(null);
   const [jobStatus, setJobStatus] = useState("");
   const [filteredJobs, setFilteredJobs] = useState([]);
 
   const access = window.localStorage.getItem("access");
-  const fetchJobs = async () => {
-    const response = await axios.get(`${process.env.GLOBAL_API}/job-user/`, {
+  const fetchCompany = async () => {
+    const response = await axios.get(`${process.env.GLOBAL_API}/comp-user/`, {
       headers: {
         Authorization: `Bearer ${access}`,
       },
@@ -24,12 +24,46 @@ const JobListingsTable = () => {
     return response.data;
   };
 
+  const { data: Companies } = useQuery({
+    queryKey: ["companyList", access],
+    queryFn: () => fetchCompany(),
+    enabled: !!access,
+    retry: 2,
+  });
+
+  const CompanyOptions = [
+    { value: "", label: "Select", isDisabled: true },
+    ...Companies?.data.map((company) => {
+      return { value: company.id, label: company.name };
+    }),
+  ];
+
+  const handleCompany = (selectedOption) => {
+    setSelectedCompany(selectedOption);
+    setCompanyId(selectedOption.value);
+  };
+  const fetchJobs = async () => {
+    const response = await axios.get(
+      `${process.env.GLOBAL_API}/comp-job/${companyId}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
   const { data: Jobs, refetch } = useQuery({
-    queryKey: ["AllJobs"],
+    queryKey: ["AllJobs", companyId],
     queryFn: () => fetchJobs(),
+    retry: 2,
   });
 
   useEffect(() => {
+    // Reset filtered jobs when companyId changes
+    setFilteredJobs([]);
+
     if (Jobs) {
       if (jobStatus === "active") {
         // Filter jobs where is_published is true (active jobs)
@@ -42,10 +76,7 @@ const JobListingsTable = () => {
         setFilteredJobs(Jobs?.data);
       }
     }
-  }, [Jobs, jobStatus]);
-
-  console.log(Jobs, "from api");
-  console.log(filteredJobs, "filtered jobs");
+  }, [Jobs, jobStatus, companyId]);
 
   const fetchAppliedCandidates = async () => {
     const response = await axios.get(
@@ -151,8 +182,17 @@ const JobListingsTable = () => {
   return (
     <div className="tabs-box">
       <div className="widget-title">
-        <h4>My Job Listings</h4>
+        <h4>Select Company</h4>
 
+        <div className="form-group col-6">
+          <Select
+            options={CompanyOptions}
+            className="basic-multi-select"
+            classNamePrefix="select"
+            onChange={handleCompany}
+            value={selectedCompany}
+          />
+        </div>
         <div className="chosen-outer">
           <select
             className="chosen-single form-select"
@@ -209,7 +249,7 @@ const JobListingsTable = () => {
                             </li>
                             <li>
                               <span className="icon flaticon-map-locator"></span>
-                              {item?.city?.name}, UK
+                              {item?.city?.name}, {item?.country?.name}
                             </li>
                           </ul>
                         </div>

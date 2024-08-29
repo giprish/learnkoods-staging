@@ -149,16 +149,25 @@ const UpdateStepThree = ({ setTab }) => {
       });
     },
   });
-  const handleDelete = (id) => {
-    console.log(id, "question id");
-    deleteMutate(id);
+
+  const handleDelete = async (index) => {
+    const fieldId = quesdataWithIds[index]?.id;
+    if (fieldId) {
+      deleteMutate(fieldId, {
+        onSuccess: () => {
+          remove(index);
+        },
+      });
+    } else {
+      remove(index);
+    }
   };
 
   const { mutate: updateMutate } = useMutation({
     mutationFn: createOrUpdateExperience,
     onSuccess: (data) => {
       console.log(data, "data from sucessful question update");
-      toast.success("Profile updated successfully", {
+      toast.success("Question updated successfully", {
         position: toast.POSITION.TOP_RIGHT,
       });
     },
@@ -202,21 +211,18 @@ const UpdateStepThree = ({ setTab }) => {
           </span>
           {fields.map((element, index) => {
             return (
-              <div className="border rounded-4 mb-3">
-                <div className="d-flex justify-content-between ">
+              <div className="border rounded-4 mb-3" key={element.id}>
+                <div className="d-flex justify-content-between">
                   <label className="p-2 mx-4">Question {index + 1} :</label>
                   <button
-                    onClick={() => {
-                      remove(index);
-                      console.log(element.id);
-                    }}
+                    onClick={() => handleDelete(index)}
                     type="button"
                     className="mx-3"
                   >
                     <i className="la la-times font-weight-bold"></i>
                   </button>
                 </div>
-                <div className="d-flex col-10 ">
+                <div className="d-flex col-10 align-items-center mx-4 ">
                   <input
                     // key={element.id}
                     type="text"
@@ -227,7 +233,7 @@ const UpdateStepThree = ({ setTab }) => {
                       Recommended
                     </span> */}
 
-                  <div className="px-4 mt-3">
+                  <div className="px-4">
                     <input
                       type="checkbox"
                       {...register(`questions.${index}.must_have`)}

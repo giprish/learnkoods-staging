@@ -3,32 +3,38 @@ const PostJobSteps = ({ setTab, currentTab }) => {
     <div className="post-job-steps">
       <div>
         <button
-          className="step"
+          className={`${
+            currentTab === "step1" ? "active" : ""
+          } tab text-center step`}
           onClick={() => setTab("step1")}
           aria-label="Job Detail"
         >
-          <span className="icon flaticon-briefcase"></span>
-          <h5>Job Detail</h5>
+          {/* <span className="icon flaticon-briefcase"></span> */}
+          <h5>Job Details</h5>
         </button>
       </div>
 
       <div>
         <button
+          className={`${
+            currentTab === "step2" ? "active" : ""
+          } tab text-center step`}
           onClick={() => setTab("step2")}
           aria-label="Package & Payments"
-          className="step"
         >
-          <span className="icon flaticon-money"></span>
+          {/* <span className="icon flaticon-money"></span> */}
           <h5>Package & Payments</h5>
         </button>
       </div>
       <div>
         <button
+          className={`${
+            currentTab === "step3" ? "active" : ""
+          } tab text-center step`}
           onClick={() => setTab("step3")}
           aria-label="Screening Questions"
-          className="step"
         >
-          <span class="icon flaticon-chat"></span>
+          {/* <span class="icon flaticon-chat"></span> */}
           <h5>Screening Questions</h5>
         </button>
       </div>
