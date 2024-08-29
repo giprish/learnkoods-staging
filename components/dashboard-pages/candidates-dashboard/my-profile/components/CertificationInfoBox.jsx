@@ -7,6 +7,8 @@ import axios from "axios";
 import Select from "react-select";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { userCertificateSchema } from "@/validation/validation";
 
 const CertificationInfoBox = () => {
   const [userId, setUserId] = useState("");
@@ -25,7 +27,10 @@ const CertificationInfoBox = () => {
     reset,
     formState: { dirtyFields, errors },
     setValue,
-  } = useForm();
+  } = useForm({
+    mode: "onChange",
+    resolver: zodResolver(userCertificateSchema),
+  });
   const { fields, append, remove } = useFieldArray({
     control,
     name: "certificate",
@@ -241,7 +246,13 @@ const CertificationInfoBox = () => {
               name={`certificate[${index}].cert_title`}
               placeholder="Title"
               {...register(`certificate[${index}].cert_title`)}
+              required
             />
+            {errors.certificate?.[index]?.cert_title && (
+              <p className="text-danger">
+                {errors.certificate[index].cert_title.message}
+              </p>
+            )}
           </div>
           <div className="form-group col-lg-6 col-md-12">
             <label>Issuing Organization</label>
@@ -250,7 +261,13 @@ const CertificationInfoBox = () => {
               name={`certificate[${index}].issuing_organization`}
               placeholder="Issuing Organization"
               {...register(`certificate[${index}].issuing_organization`)}
+              required
             />
+            {errors.certificate?.[index]?.issuing_organization && (
+              <p className="text-danger">
+                {errors.certificate[index].issuing_organization.message}
+              </p>
+            )}
           </div>
           <div className="form-group col-lg-6 col-md-12">
             <label>Certificate</label>
@@ -260,7 +277,13 @@ const CertificationInfoBox = () => {
               accept=".pdf, .docx"
               name={`certificate[${index}].certificate_file`}
               {...register(`certificate[${index}].certificate_file`)}
+              required
             />
+            {errors.certificate?.[index]?.certificate_file && (
+              <p className="text-danger">
+                {errors.certificate[index].certificate_file.message}
+              </p>
+            )}
           </div>
 
           <div className="form-group-date col-lg-6 col-md-12 ">
@@ -271,7 +294,13 @@ const CertificationInfoBox = () => {
               placeholder="Issuing Date"
               {...register(`certificate[${index}].issue_date`)}
               className="border p-3 rounded-3"
+              required
             />
+            {errors.certificate?.[index]?.issue_date && (
+              <p className="text-danger">
+                {errors.certificate[index].issue_date.message}
+              </p>
+            )}
           </div>
 
           {workingState[index] && (
@@ -285,6 +314,11 @@ const CertificationInfoBox = () => {
                   {...register(`certificate[${index}].expiration_date`)}
                   className="border p-3 rounded-3"
                 />
+                {errors.certificate?.[index]?.expiration_date && (
+                  <p className="text-danger">
+                    {errors.certificate[index].expiration_date.message}
+                  </p>
+                )}
               </div>
             </>
           )}
@@ -297,6 +331,11 @@ const CertificationInfoBox = () => {
               onChange={() => handleWorkingChange(index)}
             />
             <label>Has Expiry Date</label>
+            {errors.certificate?.[index]?.working && (
+              <p className="text-danger">
+                {errors.certificate[index].working.message}
+              </p>
+            )}
           </div>
           <div className="form-group col-lg-6 col-md-12">
             <label>Link This Certificate</label>
@@ -307,9 +346,11 @@ const CertificationInfoBox = () => {
               {...register(`certificate[${index}].link`)}
               required
             />
-            <p className="text-danger">
-              {errors?.certificate?.[index]?.link?.message}
-            </p>
+            {errors.certificate?.[index]?.link && (
+              <p className="text-danger">
+                {errors.certificate[index].link.message}
+              </p>
+            )}
           </div>
           <div className="form-group col-lg-6 col-md-12">
             <label>Gained Skills</label>
@@ -328,11 +369,11 @@ const CertificationInfoBox = () => {
                 />
               )}
             />
-            {
+            {errors.certificate?.[index]?.skills_acquired && (
               <p className="text-danger">
-                {errors?.certificate?.[index]?.skills_acquired.message}
+                {errors.certificate[index].skills_acquired.message}
               </p>
-            }
+            )}
           </div>
         </div>
       ))}

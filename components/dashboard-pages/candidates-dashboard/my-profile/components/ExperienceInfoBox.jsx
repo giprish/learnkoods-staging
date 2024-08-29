@@ -6,6 +6,9 @@ import axios from "axios";
 import Select from "react-select";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { userExperienceSchema } from "@/validation/validation";
+
 const ExperienceInfoBox = () => {
   const [userId, setUserId] = useState("");
   const [access, setAccess] = useState(null);
@@ -22,7 +25,10 @@ const ExperienceInfoBox = () => {
     control,
     reset,
     formState: { dirtyFields, errors },
-  } = useForm();
+  } = useForm({
+    mode: "onChange",
+    resolver: zodResolver(userExperienceSchema),
+  });
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -124,9 +130,38 @@ const ExperienceInfoBox = () => {
     },
     onError: (error) => {
       console.log(error, "error message");
-      toast.error("experience update Unsuccessful", {
-        position: toast.POSITION.TOP_RIGHT,
+      const errorFields = [
+        "title",
+        "description",
+        "employment_type",
+        "company_name",
+        "location",
+        "location_type",
+        "start_date",
+        "end_date",
+        "is_current",
+      ];
+      let errorHandled = false;
+
+      errorFields.forEach((field) => {
+        if (error.response.data[field]) {
+          const errorMessage = Array.isArray(error.response.data[field])
+            ? error.response.data[field][0]
+            : error.response.data[field].error || error.response.data[field];
+
+          toast.error(`${field}: ${errorMessage}`, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+          errorHandled = true;
+        }
       });
+
+      // Handle errors not in the errorFields array
+      if (!errorHandled) {
+        toast.error("An unexpected error occurred. Please try again.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
     },
   });
 
@@ -203,6 +238,11 @@ const ExperienceInfoBox = () => {
               {...register(`experience[${index}].title`)}
               required
             />
+            {errors.experience?.[index]?.title && (
+              <p className="text-danger">
+                {errors.experience[index].title.message}
+              </p>
+            )}
           </div>
           <div className="form-group col-lg-12 col-md-12">
             <label>Description</label>
@@ -211,7 +251,13 @@ const ExperienceInfoBox = () => {
               name={`experience[${index}].description`}
               placeholder="Description"
               {...register(`experience[${index}].description`)}
+              required
             />
+            {errors.experience?.[index]?.description && (
+              <p className="text-danger">
+                {errors.experience[index].description.message}
+              </p>
+            )}
           </div>
           <div className="form-group col-lg-6 col-md-12">
             <label>Employment Type</label>
@@ -219,12 +265,18 @@ const ExperienceInfoBox = () => {
               className="chosen-single form-select"
               {...register(`experience[${index}].employment_type`)}
             >
+              <option disabled>Select</option>
               <option value="Full_time">Full-time</option>
               <option value="Part_time">Part-time</option>
               <option value="Contract">Contract</option>
               <option value="Internship">Internship</option>
               <option value="Temporary">Temporary</option>
             </select>
+            {errors.experience?.[index]?.employment_type && (
+              <p className="text-danger">
+                {errors.experience[index].employment_type.message}
+              </p>
+            )}
           </div>
           <div className="form-group col-lg-6 col-md-12">
             <label>Company Name</label>
@@ -233,7 +285,13 @@ const ExperienceInfoBox = () => {
               name={`experience[${index}].company_name`}
               placeholder="Company Name"
               {...register(`experience[${index}].company_name`)}
+              required
             />
+            {errors.experience?.[index]?.company_name && (
+              <p className="text-danger">
+                {errors.experience[index].company_name.message}
+              </p>
+            )}
           </div>
           <div className="form-group col-lg-6 col-md-12">
             <label>Location</label>
@@ -242,7 +300,13 @@ const ExperienceInfoBox = () => {
               name={`experience[${index}].location`}
               placeholder="Location"
               {...register(`experience[${index}].location`)}
+              required
             />
+            {errors.experience?.[index]?.location && (
+              <p className="text-danger">
+                {errors.experience[index].location.message}
+              </p>
+            )}
           </div>
           <div className="form-group col-lg-6 col-md-12">
             <label>Location Type</label>
@@ -250,10 +314,16 @@ const ExperienceInfoBox = () => {
               className="chosen-single form-select"
               {...register(`experience[${index}].location_type`)}
             >
+              <option disabled>Select</option>
               <option value="Remote">Remote</option>
               <option value="On-site">Onsite</option>
               <option value="Hybrid">Hybrid</option>
             </select>
+            {errors.experience?.[index]?.location_type && (
+              <p className="text-danger">
+                {errors.experience[index].location_type.message}
+              </p>
+            )}
           </div>
 
           <div className="form-group-date col-lg-6 col-md-12 ">
@@ -264,7 +334,13 @@ const ExperienceInfoBox = () => {
               placeholder="Additional Field 1"
               {...register(`experience[${index}].start_date`)}
               className="border p-3 rounded-3"
+              required
             />
+            {errors.experience?.[index]?.start_date && (
+              <p className="text-danger">
+                {errors.experience[index].start_date.message}
+              </p>
+            )}
           </div>
           {!workingState[index] && (
             <>
@@ -277,6 +353,11 @@ const ExperienceInfoBox = () => {
                   {...register(`experience[${index}].end_date`)}
                   className="border p-3 rounded-3"
                 />
+                {errors.experience?.[index]?.end_date && (
+                  <p className="text-danger">
+                    {errors.experience[index].end_date.message}
+                  </p>
+                )}
               </div>
             </>
           )}
@@ -288,7 +369,13 @@ const ExperienceInfoBox = () => {
               className="mx-4"
               onChange={() => handleWorkingChange(index)}
             />
+
             <label>I am currently working in this role</label>
+            {errors.experience?.[index]?.is_current && (
+              <p className="text-danger">
+                {errors.experience[index].is_current.message}
+              </p>
+            )}
           </div>
         </div>
       ))}

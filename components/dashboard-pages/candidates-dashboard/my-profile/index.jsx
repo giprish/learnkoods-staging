@@ -24,13 +24,14 @@ import ProfileTabs from "./components/profileTabs/ProfileTabs";
 
 const index = () => {
   const methods = useForm({
-    // resolver: zodResolver(userSchema),
-    // mode: "onChange",
+    resolver: zodResolver(userSchema),
+    mode: "onChange",
   });
 
   const dirtyFields = methods.formState.dirtyFields;
-  const [access, setAccess] = useState(null);
   const [tab, setTab] = useState("step1");
+  const [access, setAccess] = useState(null);
+
   const [id, setId] = useState(null);
   const [image, setImage] = useState({
     file: null,

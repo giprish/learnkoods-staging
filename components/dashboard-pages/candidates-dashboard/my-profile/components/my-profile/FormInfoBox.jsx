@@ -137,6 +137,7 @@ const FormInfoBox = ({ onSubmit, onError }) => {
             name="current_salary"
             placeholder=""
             {...register("current_salary")}
+            required
           />
           {errors.current_salary && (
             <p className="text-danger">{errors.current_salary.message}</p>
@@ -151,37 +152,13 @@ const FormInfoBox = ({ onSubmit, onError }) => {
             name="expected_salary"
             placeholder=""
             {...register("expected_salary")}
+            required
           />
           {errors.expected_salary && (
             <p className="text-danger">{errors.expected_salary.message}</p>
           )}
         </div>
 
-        {/* <!-- Input --> */}
-        <div className="form-group col-lg-6 col-md-12">
-          <label>Experience</label>
-
-          <select
-            className="chosen-single form-select"
-            {...register("experience_level")}
-          >
-            <option disabled>Select</option>
-            <option value="1-2 years">1-2 years</option>
-            <option value="2-3 years">2-3 years</option>
-            <option value="3-5 years">3-5 years</option>
-            <option value="5-7 years">5-7 years</option>
-            <option value="7-9 years">7-9 years</option>
-            <option value="9-11 years">9-11 years</option>
-            <option value="11-13 years">11-13 years</option>
-            <option value="13-15 years">13-15 years</option>
-            <option value="15+ above years">15+ above years</option>
-          </select>
-          {errors.experience_level?.message && (
-            <p className="text-danger">{errors.experience_level?.message}</p>
-          )}
-        </div>
-
-        {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Age</label>
           <input
@@ -192,22 +169,6 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           />
           {errors.age && <p className="text-danger">{errors.age.message}</p>}
         </div>
-
-        {/* <!-- Input --> */}
-        {/* <div className="form-group col-lg-6 col-md-12">
-          <label>Education Levels</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Certificate"
-            {...register("education_level")}
-          />
-          {errors.education_level && (
-            <p className="text-danger">{errors.education_level.message}</p>
-          )}
-        </div> */}
-
-        {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Languages</label>
           <input
@@ -228,7 +189,7 @@ const FormInfoBox = ({ onSubmit, onError }) => {
             name="skills"
             control={control}
             // defaultValue={[]}
-            // rules={{ required: "Please select at least one skill" }}
+            rules={{ required: "Please select at least one skill" }}
             render={({ field }) => (
               <Select
                 {...field}
