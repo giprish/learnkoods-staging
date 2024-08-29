@@ -194,7 +194,7 @@ const FormInfoBox = ({ onSubmit, onError }) => {
         </div>
 
         {/* <!-- Input --> */}
-        <div className="form-group col-lg-6 col-md-12">
+        {/* <div className="form-group col-lg-6 col-md-12">
           <label>Education Levels</label>
           <input
             type="text"
@@ -205,7 +205,7 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           {errors.education_level && (
             <p className="text-danger">{errors.education_level.message}</p>
           )}
-        </div>
+        </div> */}
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">

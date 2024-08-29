@@ -160,6 +160,15 @@ const ContactInfoBox = ({
           />
         </div>
         <div className="form-group col-lg-6 col-md-12">
+          <label>Zipcode</label>
+          <input
+            type="number"
+            name="pincode"
+            placeholder="Zipcode"
+            {...register("pincode")}
+          />
+        </div>
+        <div className="form-group col-lg-6 col-md-12">
           <label>Address Line 1</label>
           <input
             type="text"
@@ -168,7 +177,7 @@ const ContactInfoBox = ({
             {...register("address1")}
           />
         </div>
-        <div className="form-group col-lg-12 col-md-12">
+        <div className="form-group col-lg-6 col-md-12">
           <label>Address Line 2</label>
           <input
             type="text"

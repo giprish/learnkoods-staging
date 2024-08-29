@@ -298,7 +298,7 @@ const ExperienceInfoBox = () => {
           onClick={addEntry}
           className="theme-btn btn-style-one"
         >
-          Add
+          Add Experience
         </button>
       </div>
       <div className="m-0 pb-4 form-group col-lg-12 col-md-12">

@@ -342,8 +342,8 @@ const CertificationInfoBox = () => {
           onClick={addEntry}
           className="theme-btn btn-style-one"
         >
-          <i className="la la-plus "></i>
-          <span className="mx-2">Add </span>
+          {/* <i className="la la-plus "></i> */}
+          <span className="mx-2">Add Certification</span>
         </button>
         {/* <button
           type="button"

@@ -176,6 +176,14 @@ section hr {
   cursor: pointer;
 }
 
+.post-job-steps .active {
+  color: var(--primary-color);
+  background: rgba(25, 103, 210, 0.1);
+}
+.post-job-steps .tab {
+  // border: 1px solid;
+  border-radius: 8px;
+}
 /*** 
 
 ====================================================================

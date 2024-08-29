@@ -81,24 +81,6 @@ const index = () => {
         label: s1.data,
       }));
       methods.reset(user?.data);
-      // methods.setValue("created_at", user?.data?.created_at);
-      // methods.setValue("gender", user?.data?.gender);
-      // methods.setValue("institution", user?.data?.institution);
-      // methods.setValue("phone", user?.data?.phone);
-      //
-      // methods.setValue("profile_desc", user?.data?.profile_desc);
-      //
-      // methods.setValue("updated_at", user?.data?.updated_at);
-      // methods.setValue("work_at", user?.data?.work_at);
-
-      // methods.setValue("current_salary", user?.data?.current_salary);
-      // methods.setValue("expected_salary", user?.data?.expected_salary);
-      // methods.setValue("experience_level", user?.data?.experience_level);
-      // methods.setValue("age", user?.data?.age);
-      // methods.setValue("education_level", user?.data?.education_level);
-      // methods.setValue("languages", user?.data?.languages);
-      // methods.setValue("city", { label: user?.data?.city?.name });
-      // methods.setValue("address", user?.data?.address);
       methods.setValue("skills", array);
       methods.setValue("position", { label: user?.data?.position });
       methods.setValue("username", user?.user?.username);
@@ -239,7 +221,7 @@ const index = () => {
           }));
         } else if (typeof data[key] === "object" && data[key].label) {
           // If the value is an object and has a label property, extract it
-          acc[key] = data[key].label;
+          acc[key] = data[key].value;
         } else if (
           key === "first_name" ||
           key === "last_name" ||
