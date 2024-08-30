@@ -84,7 +84,6 @@ const index = () => {
       }));
       methods.reset(user?.data);
       methods.setValue("skills", array);
-      methods.setValue("position", { label: user?.data?.position });
       methods.setValue("username", user?.user?.username);
       methods.setValue("email", user?.user?.email);
       methods.setValue("first_name", user?.user?.first_name);
@@ -96,6 +95,10 @@ const index = () => {
       methods.setValue("state", {
         value: user?.data?.state?.id,
         label: user?.data?.state?.name,
+      });
+      methods.setValue("position", {
+        value: user?.data?.position?.id,
+        label: user?.data?.position?.name,
       });
       methods.setValue("city", {
         value: user?.data?.city?.id,
