@@ -75,6 +75,10 @@ export const userSchema = z.object({
   profile_desc: z.string().min(1, "Profile description is required"),
   current_salary: z.number(),
   expected_salary: z.number(),
+  position: z.object({
+    value: z.number().positive("select a position"),
+    label: z.string(),
+  }),
 });
 
 export const userContact = z.object({
