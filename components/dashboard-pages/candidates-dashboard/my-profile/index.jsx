@@ -79,6 +79,7 @@ const index = () => {
   useEffect(() => {
     if (user) {
       let array = user?.data?.skills.map((s1) => ({
+        value: s1.id,
         label: s1.data,
       }));
       methods.reset(user?.data);

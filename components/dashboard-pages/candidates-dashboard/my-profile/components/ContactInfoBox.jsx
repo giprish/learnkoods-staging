@@ -374,7 +374,7 @@ const ContactInfoBox = ({ countryId, setCountryId, stateId, setStateId }) => {
         <div className="form-group col-lg-6 col-md-12">
           <label>Zipcode</label>
           <input
-            type="number"
+            type="text"
             name="pincode"
             placeholder="Zipcode"
             {...register("pincode")}

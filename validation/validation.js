@@ -70,6 +70,9 @@ export const userSchema = z.object({
       })
     )
     .min(1, "Please select at least one skill"),
+  profile_desc: z.string().nonempty("Profile description is required"),
+  current_salary: z.number(),
+  expected_salary: z.number(),
 });
 
 export const userContact = z.object({
@@ -80,9 +83,17 @@ export const userContact = z.object({
     .max(15, "Phone number must be at most 15 digits")
     .regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format"),
   pincode: z
-    .number()
-    .min(100000, "Pincode must be exactly 6 digits")
-    .max(999999, "Pincode must be exactly 6 digits"),
+    .string()
+    .transform((val) => {
+      const num = parseInt(val, 10);
+      return isNaN(num) ? undefined : num; // Convert to number or return undefined if invalid
+    })
+    .refine((val) => val !== undefined, {
+      message: "Pincode must be a valid number",
+    })
+    .refine((val) => val >= 100000 && val <= 999999, {
+      message: "Pincode must be exactly 6 digits",
+    }),
   country: z.object({
     value: z.number().positive("select a country"),
     label: z.string(),
@@ -131,7 +142,7 @@ const certificateSchema = z.object({
   skills_acquired: z
     .array(
       z.object({
-        value: z.number(),
+        value: z.number().optional(),
         label: z.string(),
       })
     )

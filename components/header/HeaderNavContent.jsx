@@ -116,11 +116,13 @@ const HeaderNavContent = () => {
                   </a>
                 </li>
                 {student == null && (
-                  <li>
-                    <a href="/employers-dashboard/dashboard">
-                      <span>Employers</span>
-                    </a>
-                  </li>
+                  <>
+                    {/* <li>
+                     <a href="/employers-dashboard/dashboard">
+                       <span>Employers</span>
+                     </a>
+                   </li> */}
+                  </>
                 )}
               </>
             )}

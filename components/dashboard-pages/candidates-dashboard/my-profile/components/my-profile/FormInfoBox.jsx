@@ -136,8 +136,9 @@ const FormInfoBox = ({ onSubmit, onError }) => {
             type="number"
             name="current_salary"
             placeholder="Current Salary"
-            {...register("current_salary")}
-            required
+            {...register("current_salary", {
+              valueAsNumber: true, // Convert the input value to a number
+            })}
           />
           {errors.current_salary && (
             <p className="text-danger">{errors.current_salary.message}</p>
@@ -151,7 +152,9 @@ const FormInfoBox = ({ onSubmit, onError }) => {
             type="number"
             name="expected_salary"
             placeholder="Expected Salary"
-            {...register("expected_salary")}
+            {...register("expected_salary", {
+              valueAsNumber: true, // Convert the input value to a number
+            })}
             required
           />
           {errors.expected_salary && (
@@ -190,7 +193,6 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           <Controller
             name="skills"
             control={control}
-            rules={{ required: "Please select at least one skill" }}
             render={({ field }) => (
               <Select
                 {...field}
@@ -211,13 +213,17 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           <Controller
             name="profile_desc"
             control={control}
-            rules={{ required: "Description is required" }}
             render={({ field }) => (
-              <ReactQuill
-                {...field}
-                theme="snow"
-                onChange={(content) => field.onChange(content)}
-              />
+              <>
+                <ReactQuill
+                  value={field.value} // Make sure value is managed properly
+                  onChange={(content) => field.onChange(content)} // Call onChange with content
+                  theme="snow"
+                />
+                {errors.profile_desc && (
+                  <p className="text-danger">{errors.profile_desc.message}</p>
+                )}
+              </>
             )}
           />
         </div>

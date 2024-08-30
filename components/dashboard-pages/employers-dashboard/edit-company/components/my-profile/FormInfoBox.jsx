@@ -381,7 +381,7 @@ const FormInfoBox = ({
             Zipcode <span style={{ color: "red" }}>*</span>
           </label>
           <input
-            type="number"
+            type="text"
             name="pincode"
             placeholder="Zipcode"
             required

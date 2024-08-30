@@ -206,7 +206,7 @@ const Register2 = () => {
           {/* Candidate Registration Form */}
           <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
             <h3>Create a Free SkillThrive Account - Student</h3>
-            <div className="row">
+            <div className="row" style={{ marginBottom: "20px" }}>
               <div className="col-md-6">
                 <div className="form-group">
                   <label>First Name</label>
@@ -326,7 +326,7 @@ const Register2 = () => {
           {/* Employer Registration Form */}
           <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
             <h3>Create a Free SkillThrive Account - Employer</h3>
-            <div className="row">
+            <div className="row" style={{ marginBottom: "20px" }}>
               <div className="col-md-6">
                 <div className="form-group">
                   <label>First Name</label>
