@@ -98,7 +98,7 @@ const index = () => {
       });
       methods.setValue("position", {
         value: user?.data?.position?.id,
-        label: user?.data?.position?.name,
+        label: user?.data?.position,
       });
       methods.setValue("city", {
         value: user?.data?.city?.id,
