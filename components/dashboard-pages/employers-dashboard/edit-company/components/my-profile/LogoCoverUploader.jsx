@@ -2,12 +2,12 @@ import Image from "next/image";
 import { useState } from "react";
 
 const LogoCoverUploader = ({ handleImage, handleCover, image, cover }) => {
-  console.log(image, "image in company logo uploader");
+  // console.log(image, "image in company logo uploader");
   //
   return (
     <>
       <div className="row justify-content-around">
-        <div className="col-lg-6 col-sm-12 mb-4">
+        {/* <div className="col-lg-6 col-sm-12 mb-4">
           {image ? (
             <div className="d-flex flex-column uploadButton justify-content-center align-items-center">
               {image.url !== null && image?.url.length > 2 && !image.file && (
@@ -71,13 +71,13 @@ const LogoCoverUploader = ({ handleImage, handleCover, image, cover }) => {
                 )}
               </label>
               <span className="uploadButton-file-name">
-                {/* <img src={logImg} width={200} height={200} /> */}
+               
               </span>
             </div>
           )}
 
           <div className="text text-center">Max file size is 1MB</div>
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -70,12 +70,12 @@ const JobAlertsTable = () => {
                       <div className="option-box">
                         <ul className="option-list">
                           <li>
-                            <button data-text="View Aplication">
+                            <button data-text="View">
                               <span className="la la-eye"></span>
                             </button>
                           </li>
                           <li>
-                            <button data-text="Delete Aplication">
+                            <button data-text="Delete">
                               <span className="la la-trash"></span>
                             </button>
                           </li>

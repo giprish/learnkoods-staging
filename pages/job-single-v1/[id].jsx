@@ -22,6 +22,7 @@ import { UserAuth } from "@/context/AuthContext";
 import $ from "jquery";
 import { toast } from "react-toastify";
 import LoadingSpinner from "@/components/loader";
+import Image from "next/image";
 
 const checkIfApplied = async (student_id, jobId, access) => {
   try {
@@ -131,45 +132,68 @@ const JobSingleDynamicV1 = () => {
           <div className="auto-container">
             <div className="job-block-seven">
               <div className="inner-box">
-                <div className="content">
-                  <span className="job?.data?.data-logo">
-                    <img src={`${job?.job_image}`} alt="logo" />
-                  </span>
-                  <h4>{job?.job_title}</h4>
+                <div className="d-flex align-items-center">
+                  <div className="mx-4">
+                    <img
+                      src={`${job?.company?.logo}` || "/images/logo.svg"}
+                      alt="logo"
+                      width={200}
+                      height={200}
+                    />
+                  </div>
+                  <div>
+                    <h4>{job?.job_title}</h4>
+                    <a href={job?.url} target="_blank">
+                      <h5 className="mb-3">{job?.company?.name}</h5>
+                    </a>
 
-                  <ul className="job-info">
-                    <li>
-                      <span className="icon flaticon-briefcase"></span>
-                      {job?.job_type}
-                    </li>
-                    {/* compnay info */}
-                    <li>
-                      <span className="icon flaticon-map-locator"></span>
-                      {job?.city?.name}
-                    </li>
-                    {/* location info */}
-                    <li>
-                      <span className="icon flaticon-clock-3"></span>
-                      {localDate}
-                    </li>
-                    {/* time info */}
-                    <li>
-                      <span className="icon flaticon-money"></span>{" "}
-                      {job?.min_salary || "null"} $ -{" "}
-                      {job?.max_salary || "null"} $
-                    </li>
-                    {/* salary info */}
-                  </ul>
-                  {/* End .job-info */}
-
-                  <ul className="job-other-info">
-                    {job?.skills_req?.map((val, i) => (
-                      <li key={i} className={`border`}>
-                        {val?.data}
+                    <ul className="job-info">
+                      <li>
+                        <span className="icon flaticon-briefcase"></span>
+                        {job?.job_type}
                       </li>
-                    ))}
-                  </ul>
-                  {/* End .job-other-info */}
+                      {/* compnay info */}
+                      <li>
+                        <span className="icon flaticon-map-locator"></span>
+                        {job?.city?.name}
+                      </li>
+                      {/* location info */}
+                      <li>
+                        <span className="icon flaticon-clock-3"></span>
+                        {localDate}
+                      </li>
+                      {/* time info */}
+                      <li>
+                        <span className="icon flaticon-money"></span>{" "}
+                        {job?.min_salary || "null"} $ -{" "}
+                        {job?.max_salary || "null"} $
+                      </li>
+                      {/* salary info */}
+                    </ul>
+                    {/* End .job-info */}
+
+                    <ul className="job-other-info">
+                      {job?.skills_req?.slice(0, 3).map((val, i) => (
+                        <li key={i} className={`border`}>
+                          {val?.data}
+                        </li>
+                      ))}
+                      {job?.skills_req?.length > 3 ? (
+                        // Render this if there are more than 3 items
+                        <li className="border">
+                          <a
+                            data-bs-toggle="modal"
+                            data-bs-target="#skillModal"
+                          >
+                            Show more ...
+                          </a>
+                        </li>
+                      ) : (
+                        // Render this if there are 3 or fewer items
+                        <></>
+                      )}
+                    </ul>
+                  </div>
                 </div>
                 {/* End .content */}
 
@@ -224,16 +248,47 @@ const JobSingleDynamicV1 = () => {
                           aria-label="Close"
                         ></button>
                       </div>
-                      {/* End modal-header */}
-
-                      {job?.job_title && (
+                      <div className="modal-body">
                         <ApplyJobModalContent
                           closeModal={closeModal}
                           jobName={job?.job_title}
                         />
-                      )}
+                      </div>
+                      {/* End modal-header */}
 
                       {/* End PrivateMessageBox */}
+                    </div>
+                    {/* End .send-private-message-wrapper */}
+                  </div>
+                </div>
+                <div
+                  className="modal fade"
+                  id="skillModal"
+                  tabIndex="-1"
+                  aria-hidden="true"
+                >
+                  <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered ">
+                    <div className="apply-modal-content modal-content">
+                      <div className="text-center">
+                        <h3 className="title">Desired Skills For Job</h3>
+                        <button
+                          type="button"
+                          className="closed-modal"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      {/* End modal-header */}
+
+                      <div className="modal-body">
+                        <ul>
+                          {job?.skills_req?.map((val, i) => (
+                            <li key={i} className="border rounded-2 my-2">
+                              <span className="p-3">{val?.data}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                     {/* End .send-private-message-wrapper */}
                   </div>
@@ -304,13 +359,15 @@ const JobSingleDynamicV1 = () => {
 
                   <div className="sidebar-widget job?.data?.data-widget">
                     <div className="widget-content">
-                      <div className="job?.data?.data-title">
-                        <div className="job?.data?.data-logo">
-                          <img src={job?.logo} alt="resource" />
+                      <div className="text-center">
+                        <div className="">
+                          <img
+                            src={job?.company?.logo}
+                            alt="resource"
+                            width={100}
+                            height={100}
+                          />
                         </div>
-                        <h5 className="job?.data?.data-name">
-                          {job?.name || "null"}
-                        </h5>
                         {/* <a href="#" className="profile-link">
                           View job?.data?.data profile
                         </a> */}

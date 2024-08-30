@@ -233,7 +233,7 @@ const FormContent = ({ hideModal }) => {
       </div>
 
       <div className="form-group">
-        <label>Email Address</label>
+        <label>Email </label>
         <input
           type="email"
           name="email"

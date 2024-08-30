@@ -17,7 +17,13 @@ const index = () => {
       <section className="coming-section">
         <div className="auto-container">
           <div className="row">
-            <h1>Coming soon</h1>
+            <h1>Go to the following link for a quick assessment!</h1>
+          </div>
+
+          <div>
+            <a href="https://docs.google.com/document/d/1G9HpGklwiNQGB20JxVpGSdX0CqIeg_Gdnef5n7zvuVU/edit">
+              https://docs.google.com/document/d/1G9HpGklwiNQGB20JxVpGSdX0CqIeg_Gdnef5n7zvuVU/edit
+            </a>
           </div>
         </div>
       </section>

@@ -131,7 +131,7 @@ const FormContent2 = ({ usertype }) => {
         />
       </div>
       <div className="form-group">
-        <label>Email Address</label>
+        <label></label>
         <input
           type="email"
           name="email"

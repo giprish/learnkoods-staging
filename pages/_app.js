@@ -40,10 +40,10 @@ function MyApp({ Component, pageProps }) {
 
             {/* Toastify for notifications */}
             <ToastContainer
-              position="bottom-right"
-              autoClose={5000}
+              position="top-right"
+              autoClose={3000}
               hideProgressBar={false}
-              newestOnTop={false}
+              newestOnTop={true}
               closeOnClick
               rtl={false}
               pauseOnFocusLoss
@@ -69,6 +69,7 @@ const skipRoutes = [
   "/password-reset-confirm/[uidb64]/[token]",
   "/upskill",
   "/mentorship",
+  "/pricing",
 ];
 
 export default withAuth(MyApp, skipRoutes);

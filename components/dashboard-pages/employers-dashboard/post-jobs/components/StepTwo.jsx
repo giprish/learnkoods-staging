@@ -17,6 +17,7 @@ const StepTwo = ({ setTab, onSubmit }) => {
     watch,
     formState: { errors },
   } = useFormContext();
+  const maxSalary = watch("max_salary");
   const [jobDesc, setJobDesc] = useState("");
 
   const fetch = async (url) => {
@@ -39,11 +40,6 @@ const StepTwo = ({ setTab, onSubmit }) => {
     register("job_des", { required: true, minLength: 11 });
   }, [register]);
 
-  const onEditorStateChange = (editorState) => {
-    setValue("job_des", editorState);
-  };
-  const editorContent = watch("job_des");
-
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
       <div className="row">
@@ -52,22 +48,30 @@ const StepTwo = ({ setTab, onSubmit }) => {
         {/* <!-- About Company --> */}
         <div className="form-group col-lg-12 col-md-12">
           <label>Job Description</label>
-
-          <ReactQuill
-            theme="snow"
-            value={editorContent || ""}
-            onChange={onEditorStateChange}
+          <Controller
+            name="job_des"
+            control={control}
+            render={({ field }) => (
+              <>
+                <ReactQuill
+                  value={field.value} // Make sure value is managed properly
+                  onChange={(content) => field.onChange(content)} // Call onChange with content
+                  theme="snow"
+                />
+                {errors?.job_des && (
+                  <p className="text-danger">{errors?.job_des?.message}</p>
+                )}
+              </>
+            )}
           />
-          {errors?.job_des && (
-            <p className="text-danger">{errors?.job_des?.message}</p>
-          )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
-          <label>Skills </label>
+          <label>Desired Skills</label>
           <Controller
             name="skills_req"
             control={control}
-            render={({ field, fieldState: { error } }) => (
+            rules={{ required: "Skills are required" }}
+            render={({ field }) => (
               <>
                 <Select
                   {...field}
@@ -76,7 +80,9 @@ const StepTwo = ({ setTab, onSubmit }) => {
                   className="basic-multi-select"
                   classNamePrefix="select"
                 />
-                {error && <p className="text-danger"> {error.message}</p>}
+                {errors?.job_des && (
+                  <p className="text-danger">{errors?.job_des?.message}</p>
+                )}
               </>
             )}
           />
@@ -84,39 +90,69 @@ const StepTwo = ({ setTab, onSubmit }) => {
 
         <div className=" row">
           <div className="form-group col-lg-4 col-md-12">
-            <label>Max Salary</label>
-            <input
-              type="number"
-              name="max_salary"
-              placeholder=""
-              step="0.01"
-              {...register("max_salary")}
-            />
-            {errors?.max_salary && (
-              <p className="text-danger">{errors?.max_salary?.message}</p>
-            )}
-          </div>
-          <div className="form-group col-lg-4 col-md-12">
             <label>Minimum Salary</label>
             <input
               type="number"
               name="min_salary"
-              placeholder=""
+              placeholder="Minimum Salary"
               step="0.01"
-              {...register("min_salary")}
+              min="0" // Prevents negative numbers
+              onInput={(e) => {
+                if (e.target.value < 0) e.target.value = 0; // Resets to 0 if a negative number is entered
+              }}
+              {...register("min_salary", {
+                required: "Minimum salary is required",
+                min: {
+                  value: 0,
+                  message: "Salary must be a positive number",
+                },
+                validate: {
+                  lessThanMax: (value) =>
+                    value <= maxSalary ||
+                    "Minimum salary must be less than or equal to maximum salary",
+                },
+                valueAsNumber: true,
+              })}
             />
             {errors?.min_salary && (
               <p className="text-danger">{errors?.min_salary?.message}</p>
             )}
           </div>
           <div className="form-group col-lg-4 col-md-12">
+            <label>Maximum Salary</label>
+            <input
+              type="number"
+              name="max_salary"
+              placeholder="Maximum Salary"
+              step="0.01"
+              min="0" // Prevents negative numbers
+              onInput={(e) => {
+                if (e.target.value < 0) e.target.value = 0; // Resets to 0 if a negative number is entered
+              }}
+              {...register("max_salary", {
+                required: "Maximum salary is required",
+                min: {
+                  value: 0,
+                  message: "Salary must be a positive number",
+                },
+                valueAsNumber: true,
+              })}
+            />
+            {errors?.max_salary && (
+              <p className="text-danger">{errors?.max_salary?.message}</p>
+            )}
+          </div>
+          <div className="form-group col-lg-4 col-md-12">
             <label>Rate</label>
-            <select className="chosen-single form-select" {...register("rate")}>
-              <option>Select</option>
-              <option value="per year">per year</option>
-              <option value="per month">per month</option>
-              <option value="per week">per week</option>
-              <option value="per hour">per hour</option>
+            <select
+              className="chosen-single form-select"
+              {...register("rate_type")}
+            >
+              <option disabled>Select</option>
+              <option value="Per Year">per year</option>
+              <option value="Per Month">per month</option>
+              <option value="Per Week">per week</option>
+              <option value="Per Hour">per hour</option>
             </select>
             {errors?.rate && (
               <p className="text-danger">{errors?.rate?.message}</p>

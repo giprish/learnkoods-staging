@@ -66,7 +66,7 @@ const DashboardEmployerSidebar = () => {
   );
 
   return (
-    <div className={`user-sidebar-employer ${menu ? "sidebar_open" : ""}`}>
+    <div className={`user-sidebar ${menu ? "sidebar_open" : ""}`}>
       {/* Start sidebar close icon */}
       <div className="pro-header text-end pb-0 mb-0 show-1023">
         <div className="fix-icon" onClick={menuToggleHandler}>
@@ -92,10 +92,12 @@ const DashboardEmployerSidebar = () => {
                 {item.name === "Logout" ? (
                   <Link href={item.routePath} onClick={unifiedLogout}>
                     <i className={`la ${item.icon}`}></i>
+                    {item.name}
                   </Link>
                 ) : (
                   <Link href={item.routePath}>
                     <i className={`la ${item.icon}`}></i>
+                    {item.name}
                   </Link>
                 )}
               </li>

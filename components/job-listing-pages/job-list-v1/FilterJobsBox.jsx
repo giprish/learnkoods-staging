@@ -209,7 +209,7 @@ const FilterJobsBox = () => {
               <Image
                 width={50}
                 height={49}
-                src={item.job_image}
+                src={item?.company?.logo}
                 alt="item brand"
               />
             </span>
@@ -222,7 +222,7 @@ const FilterJobsBox = () => {
             <ul className="job-info">
               <li>
                 <span className="icon flaticon-briefcase"></span>
-                {item.company}
+                {item?.company?.name}
               </li>
               {/* compnay info */}
               <li>
@@ -236,8 +236,8 @@ const FilterJobsBox = () => {
               </li>
               {/* time info */}
               <li>
-                <span className="icon flaticon-money"></span>{" "}
-                {job?.["min salary"]} $-{job?.["max salary"]} $
+                <span className="icon flaticon-money"></span> {item?.min_salary}{" "}
+                $-{item?.max_salary} $
               </li>
               {/* salary info */}
             </ul>

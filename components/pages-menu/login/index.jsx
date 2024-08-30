@@ -11,7 +11,7 @@ const index = () => {
   };
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {/* <!--End Main Header -->  */}
 
       <MobileMenu />

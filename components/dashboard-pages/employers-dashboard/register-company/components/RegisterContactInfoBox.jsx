@@ -25,33 +25,8 @@ const RegisterContactInfoBox = ({ onSubmit }) => {
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
       <div className="row">
         {/* <!-- Input --> */}
-        {/* <div className="form-group col-lg-6 col-md-12">
-          <label>Country</label>
-          <select className="chosen-single form-select">
-            <option>Pakistan</option>
-            <option>Chaina</option>
-            <option>Japan</option>
-            <option>India</option>
-          </select>
-        </div> */}
-
-        {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>City</label>
-          {/* <select
-            className="chosen-single form-select"
-            required
-            {...register("city")}
-          >
-            {cities?.data?.map((city) => {
-              return (
-                <>
-                  <option value={city?.name}>{city?.name}</option>
-                </>
-              );
-            })}
-            
-          </select> */}
           <Controller
             name="city"
             control={control}

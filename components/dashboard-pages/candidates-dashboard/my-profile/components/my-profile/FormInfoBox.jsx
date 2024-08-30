@@ -3,6 +3,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import Select from "react-select";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import "react-quill/dist/quill.snow.css";
+import dynamic from "next/dynamic";
+import Tooltip from "@/components/tooltip/ToolTip";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const FormInfoBox = ({ onSubmit, onError }) => {
   const {
@@ -54,7 +61,7 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           <input
             type="text"
             name="first_name"
-            placeholder="Jerome"
+            placeholder="First Name"
             {...register("first_name")}
           />
           {errors.first_name && (
@@ -66,7 +73,7 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           <input
             type="text"
             name="last_name"
-            placeholder="kumar"
+            placeholder="Last Name"
             {...register("last_name")}
           />
           {errors.last_name && (
@@ -74,11 +81,11 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
-          <label>User Name</label>
+          <label>Username</label>
           <input
             type="text"
             name="username"
-            placeholder="John Doe"
+            placeholder="Username"
             {...register("username")}
           />
           {errors.username && (
@@ -101,7 +108,7 @@ const FormInfoBox = ({ onSubmit, onError }) => {
 
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
-          <label>Position </label>
+          <label>Currently working as </label>
 
           <Controller
             name="position"
@@ -128,8 +135,10 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           <input
             type="number"
             name="current_salary"
-            placeholder=""
-            {...register("current_salary")}
+            placeholder="Current Salary"
+            {...register("current_salary", {
+              valueAsNumber: true, // Convert the input value to a number
+            })}
           />
           {errors.current_salary && (
             <p className="text-danger">{errors.current_salary.message}</p>
@@ -142,61 +151,35 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           <input
             type="number"
             name="expected_salary"
-            placeholder=""
-            {...register("expected_salary")}
+            placeholder="Expected Salary"
+            {...register("expected_salary", {
+              valueAsNumber: true, // Convert the input value to a number
+            })}
+            required
           />
           {errors.expected_salary && (
             <p className="text-danger">{errors.expected_salary.message}</p>
           )}
         </div>
 
-        {/* <!-- Input --> */}
-        <div className="form-group col-lg-6 col-md-12">
-          <label>Experience</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="5-10 Years"
-            {...register("experience_level")}
-          />
-          {errors.experience_level && (
-            <p className="text-danger">{errors.experience_level.message}</p>
-          )}
-        </div>
-
-        {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Age</label>
           <input
             type="number"
             name="age"
-            placeholder="20"
-            {...register("age")}
+            placeholder="Age"
+            {...register("age", {
+              valueAsNumber: true, // Convert the input value to a number
+            })}
           />
           {errors.age && <p className="text-danger">{errors.age.message}</p>}
         </div>
-
-        {/* <!-- Input --> */}
-        <div className="form-group col-lg-6 col-md-12">
-          <label>Education Levels</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Certificate"
-            {...register("education_level")}
-          />
-          {errors.education_level && (
-            <p className="text-danger">{errors.education_level.message}</p>
-          )}
-        </div>
-
-        {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Languages</label>
           <input
             type="text"
             name="name"
-            placeholder="English, Turkish"
+            placeholder="Languages"
             {...register("languages")}
           />
           {errors.languages && (
@@ -210,8 +193,6 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           <Controller
             name="skills"
             control={control}
-            // defaultValue={[]}
-            // rules={{ required: "Please select at least one skill" }}
             render={({ field }) => (
               <Select
                 {...field}
@@ -227,22 +208,24 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           )}
         </div>
 
-        {/* <!-- Input --> */}
-        {/* <div className="form-group col-lg-6 col-md-12">
-          <label>Allow In Search & Listing</label>
-          <select className="chosen-single form-select">
-            <option>Yes</option>
-            <option>No</option>
-          </select>
-        </div> */}
-
-        {/* <!-- About Company --> */}
         <div className="form-group col-lg-12 col-md-12">
-          <label>Description</label>
-          <textarea
-            placeholder="Spent several years working on sheep on Wall Street. Had moderate success investing in Yugo's on Wall Street. Managed a small team buying and selling Pogo sticks for farmers. Spent several years licensing licorice in West Palm Beach, FL. Developed several new methods for working it banjos in the aftermarket. Spent a weekend importing banjos in West Palm Beach, FL.In this position, the Software Engineer collaborates with Evention's Development team to continuously enhance our current software solutions as well as create new solutions to eliminate the back-office operations and management challenges present"
-            {...register("profile_desc")}
-          ></textarea>
+          <label>About Me</label>
+          <Controller
+            name="profile_desc"
+            control={control}
+            render={({ field }) => (
+              <>
+                <ReactQuill
+                  value={field.value} // Make sure value is managed properly
+                  onChange={(content) => field.onChange(content)} // Call onChange with content
+                  theme="snow"
+                />
+                {errors.profile_desc && (
+                  <p className="text-danger">{errors.profile_desc.message}</p>
+                )}
+              </>
+            )}
+          />
         </div>
 
         {/* <!-- Input --> */}

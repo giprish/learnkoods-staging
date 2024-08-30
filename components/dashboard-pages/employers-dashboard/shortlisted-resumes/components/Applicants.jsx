@@ -52,22 +52,22 @@ const Applicants = () => {
             <div className="option-box">
               <ul className="option-list">
                 <li>
-                  <button data-text="View Aplication">
+                  <button data-text="View">
                     <span className="la la-eye"></span>
                   </button>
                 </li>
                 <li>
-                  <button data-text="Approve Aplication">
+                  <button data-text="Approve">
                     <span className="la la-check"></span>
                   </button>
                 </li>
                 <li>
-                  <button data-text="Reject Aplication">
+                  <button data-text="Reject">
                     <span className="la la-times-circle"></span>
                   </button>
                 </li>
                 <li>
-                  <button data-text="Delete Aplication">
+                  <button data-text="Delete">
                     <span className="la la-trash"></span>
                   </button>
                 </li>

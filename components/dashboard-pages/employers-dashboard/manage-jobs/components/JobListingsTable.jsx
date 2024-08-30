@@ -1,18 +1,22 @@
 "use client";
 import Link from "next/link";
-import jobs from "../../../../../data/job-featured.js";
 import Image from "next/image.js";
 import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { useState } from "react";
-import appliedJobs from "@/pages/candidates-dashboard/applied-jobs/index.js";
+import { useEffect, useState } from "react";
+import Select from "react-select";
 
 const JobListingsTable = () => {
   const [jobId, setJobdId] = useState(null);
+  const [companyId, setCompanyId] = useState(null);
+  const [selectedCompany, setSelectedCompany] = useState(null);
+  const [jobStatus, setJobStatus] = useState("");
+  const [filteredJobs, setFilteredJobs] = useState([]);
+
   const access = window.localStorage.getItem("access");
-  const fetchJobs = async () => {
-    const response = await axios.get(`${process.env.GLOBAL_API}/job-user/`, {
+  const fetchCompany = async () => {
+    const response = await axios.get(`${process.env.GLOBAL_API}/comp-user/`, {
       headers: {
         Authorization: `Bearer ${access}`,
       },
@@ -20,12 +24,60 @@ const JobListingsTable = () => {
     return response.data;
   };
 
-  const { data: Jobs, refetch } = useQuery({
-    queryKey: ["AllJobs"],
-    queryFn: () => fetchJobs(),
+  const { data: Companies } = useQuery({
+    queryKey: ["companyList", access],
+    queryFn: () => fetchCompany(),
+    enabled: !!access,
+    retry: 2,
   });
 
-  console.log(Jobs, "jobs of different");
+  const CompanyOptions = [
+    { value: "", label: "Select", isDisabled: true },
+    ...(Companies?.data || []).map((company) => ({
+      value: company.id,
+      label: company.name,
+    })),
+  ];
+
+  const handleCompany = (selectedOption) => {
+    setSelectedCompany(selectedOption);
+    setCompanyId(selectedOption.value);
+  };
+  const fetchJobs = async () => {
+    const response = await axios.get(
+      `${process.env.GLOBAL_API}/comp-job/${companyId}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
+  const { data: Jobs, refetch } = useQuery({
+    queryKey: ["AllJobs", companyId],
+    queryFn: () => fetchJobs(),
+    retry: 2,
+  });
+
+  useEffect(() => {
+    // Reset filtered jobs when companyId changes
+    setFilteredJobs([]);
+
+    if (Jobs) {
+      if (jobStatus === "active") {
+        // Filter jobs where is_published is true (active jobs)
+        setFilteredJobs(Jobs?.data.filter((job) => job.is_published === true));
+      } else if (jobStatus === "inactive") {
+        // Filter jobs where is_published is false (inactive jobs)
+        setFilteredJobs(Jobs?.data.filter((job) => job.is_published === false));
+      } else {
+        // If no status is selected, show all jobs
+        setFilteredJobs(Jobs?.data);
+      }
+    }
+  }, [Jobs, jobStatus, companyId]);
 
   const fetchAppliedCandidates = async () => {
     const response = await axios.get(
@@ -42,6 +94,7 @@ const JobListingsTable = () => {
   const { data: AppliedCandidates } = useQuery({
     queryKey: ["AllJobs", jobId],
     queryFn: () => fetchAppliedCandidates(),
+    enabled: !!jobId,
   });
 
   const callApplied = (id) => {
@@ -108,8 +161,6 @@ const JobListingsTable = () => {
       });
     },
   });
-
-  // Define the handleDelete function to call mutate with job_id
   const handleDelete = (job_id) => {
     mutate(job_id);
   };
@@ -122,38 +173,54 @@ const JobListingsTable = () => {
     publish(dataToSend);
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
   return (
     <div className="tabs-box">
       <div className="widget-title">
-        <h4>My Job Listings</h4>
+        <h4>Select Company</h4>
 
+        <div className="form-group col-6">
+          <Select
+            options={CompanyOptions}
+            className="basic-multi-select"
+            classNamePrefix="select"
+            onChange={handleCompany}
+            value={selectedCompany}
+          />
+        </div>
         <div className="chosen-outer">
-          {/* <!--Tabs Box--> */}
-          <select className="chosen-single form-select">
-            <option>Select</option>
-            <option>Active</option>
-            <option>InActive</option>
+          <select
+            className="chosen-single form-select"
+            onChange={(event) => setJobStatus(event.target.value)}
+          >
+            <option>All</option>
+            <option value="active">Active</option>
+            <option value="inactive">InActive</option>
           </select>
         </div>
       </div>
-      {/* End filter top bar */}
 
-      {/* Start table widget content */}
       <div className="widget-content">
         <div className="table-outer">
           <table className="default-table manage-job-table">
             <thead>
               <tr>
                 <th>Title</th>
-                <th>Applications</th>
-                <th>Created & Expired</th>
+                <th>Applicants</th>
+                <th>Created On</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
 
             <tbody>
-              {Jobs?.data.map((item) => (
+              {filteredJobs.map((item) => (
                 <tr key={item.job_id}>
                   <td>
                     <div className="job-block">
@@ -164,8 +231,8 @@ const JobListingsTable = () => {
                               width={50}
                               height={49}
                               src={
-                                item.job_image
-                                  ? `${item.job_image}`
+                                item.company
+                                  ? `${item.company?.logo}`
                                   : "/images/resource/richard.png"
                               }
                               alt="logo"
@@ -183,7 +250,7 @@ const JobListingsTable = () => {
                             </li>
                             <li>
                               <span className="icon flaticon-map-locator"></span>
-                              {item?.city?.name}, UK
+                              {item?.city?.name}, {item?.country?.name}
                             </li>
                           </ul>
                         </div>
@@ -191,15 +258,15 @@ const JobListingsTable = () => {
                     </div>
                   </td>
                   <td className="applied">
-                    <a href="#" onClick={() => callApplied(item?.job_id)}>
+                    <a
+                      href="/employers-dashboard/all-applicants"
+                      onClick={() => callApplied(item?.job_id)}
+                    >
                       {" "}
                       Applied
                     </a>
                   </td>
-                  <td>
-                    October 27, 2017 <br />
-                    April 25, 2011
-                  </td>
+                  <td>{formatDate(item?.created_at)}</td>
                   <td
                     className=""
                     style={{ color: item.is_published ? "green" : "red" }}
@@ -220,7 +287,6 @@ const JobListingsTable = () => {
                             }
                           />
                           <span className="slider round"></span>
-                          {/* <span className="title">{item.name}</span> */}
                         </label>
                       </li>
                     </ul>
@@ -228,12 +294,9 @@ const JobListingsTable = () => {
                   <td>
                     <div className="option-box">
                       <ul className="option-list">
-                        <Link
-                          // href={`/employers-dashboard/edit-job/${item.job_id}`}
-                          href={`/job-single-v1/${item.job_id}`}
-                        >
+                        <Link href={`/job-single-v1/${item.job_id}`}>
                           <li>
-                            <button data-text="View Aplication">
+                            <button data-text="View">
                               <span className="la la-eye"></span>
                             </button>
                           </li>
@@ -242,14 +305,14 @@ const JobListingsTable = () => {
                           href={`/employers-dashboard/edit-job/${item.job_id}`}
                         >
                           <li>
-                            <button data-text="Edit Aplication">
+                            <button data-text="Edit">
                               <span className="la la-pencil"></span>
                             </button>
                           </li>
                         </Link>
                         <li>
                           <button
-                            data-text="Delete Aplication"
+                            data-text="Delete"
                             onClick={() => {
                               handleDelete(item.job_id);
                             }}
@@ -257,22 +320,6 @@ const JobListingsTable = () => {
                             <span className="la la-trash"></span>
                           </button>
                         </li>
-                        {/* <li
-                          style={{
-                            backgroundColor: item.is_published
-                              ? "#83da83"
-                              : "#f3a9a9",
-                          }}
-                        >
-                          <button
-                            data-text="Publish Job"
-                            onClick={() => {
-                              handlePublish(item);
-                            }}
-                          >
-                            <span className="la la-upload"></span>
-                          </button>
-                        </li> */}
                       </ul>
                     </div>
                   </td>
@@ -282,7 +329,6 @@ const JobListingsTable = () => {
           </table>
         </div>
       </div>
-      {/* End table widget content */}
     </div>
   );
 };

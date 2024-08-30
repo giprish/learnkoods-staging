@@ -1,11 +1,11 @@
 const WidgetTopFilterBox = () => {
   return (
     <div className="chosen-outer">
-      <select className="chosen-single form-select chosen-container">
+      {/* <select className="chosen-single form-select chosen-container">
         <option>Select Jobs</option>
         <option>Active</option>
         <option>Inactive</option>
-      </select>
+      </select> */}
       {/* <!--Tabs Box--> */}
 
       {/* <select className="chosen-single form-select chosen-container">

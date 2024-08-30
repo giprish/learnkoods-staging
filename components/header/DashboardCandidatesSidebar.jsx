@@ -106,13 +106,13 @@ const DashboardCandidatesSidebar = () => {
                   src={
                     user?.data?.profile_image || "/images/resource/ads-bg-4.png"
                   }
-                  width={50}
-                  height={50}
+                  width={100}
+                  height={100}
                 />
               </Link>
             </div>
           )}
-          <div className="text-center ">
+          <div className="text-center mb-3">
             <span>{user?.user?.username}</span>
           </div>
 

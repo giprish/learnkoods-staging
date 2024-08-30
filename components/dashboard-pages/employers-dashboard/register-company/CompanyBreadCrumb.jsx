@@ -12,12 +12,6 @@ const ComapnyBreadCrumb = ({
   setComanyName,
   companyname,
 }) => {
-  // return (
-  //   <div className="upper-title-box">
-  //     <h3>{title}</h3>
-  //     <div className="text">Ready to jump back in?</div>
-  //   </div>
-  // );
   const access = window.localStorage.getItem("access");
   const router = useRouter();
 
@@ -36,15 +30,17 @@ const ComapnyBreadCrumb = ({
   });
 
   // console.log(company);
-  const options =
-    company?.data?.map((option) => ({
+  const options = [
+    { value: "", label: "Select", isDisabled: true }, // Disabled "Select" option
+    ...(company?.data?.map((option) => ({
       value: option.id,
       label: option.name,
-    })) || [];
+    })) || []),
+  ];
 
   return (
     <div className="upper-title-box">
-      <h3>{title}</h3>
+      <h3 className="mb-3">{title}</h3>
       {/* <h3>{companyname ? companyname : ""}</h3> */}
       {(router.pathname === "/employers-dashboard/company-profile" ||
         router.pathname === "/employers-dashboard/post-jobs") && (
@@ -52,17 +48,16 @@ const ComapnyBreadCrumb = ({
           <div className="">
             {router.pathname === "/employers-dashboard/company-profile" ||
             router.pathname === "/employers-dashboard/post-jobs" ? (
-              <h5 className="mb-2">
+              <h5 className="mb-4">
                 <b>Select Company</b>
               </h5>
             ) : (
-              "Ready to jump back in?"
+              " "
             )}
           </div>
           <Select
             name="colors"
-            defaultValue={options[0]}
-            options={options}
+            options={options} // Adding the "Select" default option
             className="basic-multi-select"
             classNamePrefix="select"
             onChange={(e) => {

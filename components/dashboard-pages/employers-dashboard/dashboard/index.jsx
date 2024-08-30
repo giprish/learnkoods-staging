@@ -15,7 +15,7 @@ import ManageProject from "./components/ManageProject";
 
 const Index = () => {
   return (
-    <div className="page-wrapper-employer dashboard ">
+    <div className="page-wrapper dashboard ">
       <span className="header-span"></span>
       {/* <!-- Header Span for hight --> */}
 
@@ -34,7 +34,7 @@ const Index = () => {
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <BreadCrumb title="Dashboard Home!" />
+          <BreadCrumb title="Your Dashboard!" text="  " />
           {/* breadCrumb */}
 
           <MenuToggler />

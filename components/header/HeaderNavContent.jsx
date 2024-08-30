@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -19,9 +20,9 @@ const HeaderNavContent = () => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setStudent(window.localStorage.getItem("student"));
-      setAccessToken(window.localStorage.getItem("access"));
-      setID(window.localStorage.getItem("id"));
+      setStudent(localStorage.getItem("student"));
+      setAccessToken(localStorage.getItem("access"));
+      setID(localStorage.getItem("id"));
     }
   }, []);
 
@@ -43,7 +44,7 @@ const HeaderNavContent = () => {
     enabled: !!accessToken,
   });
 
-  console.log(user);
+  // console.log(user);
 
   useEffect(() => {
     if (user && user?.data?.profile_image !== null) {
@@ -95,46 +96,78 @@ const HeaderNavContent = () => {
         <nav className="nav main-menu">
           <ul className="navigation" id="navbar">
             {/* current dropdown */}
-            <li>
-              <a href="/upskill">
-                <span>Upskill</span>
-              </a>
-            </li>
-            {/* End homepage menu items */}
+            {(student === "true" || student == null) && (
+              <>
+                <li>
+                  <a href="/upskill">
+                    <span>Upskill</span>
+                  </a>
+                </li>
 
-            <li>
-              <a href="/job-list/job-list-v1">
-                <span>Find Jobs</span>
-              </a>
-            </li>
+                <li>
+                  <a href="/job-list/job-list-v1">
+                    <span>Find Jobs</span>
+                  </a>
+                </li>
 
-            <li>
-              <a href="/mentorship">
-                <span>Assessment</span>
-              </a>
-            </li>
+                <li>
+                  <a href="/mentorship">
+                    <span>Assessment</span>
+                  </a>
+                </li>
+                {student == null && (
+                  <>
+                    {/* <li>
+                     <a href="/employers-dashboard/dashboard">
+                       <span>Employers</span>
+                     </a>
+                   </li> */}
+                  </>
+                )}
+              </>
+            )}
 
             {student === "false" && (
-              <li>
-                <a href="/employers-dashboard/dashboard">
-                  <span>Employers</span>
-                </a>
-              </li>
+              <>
+                {/* <li>
+                  <a href="/upskill">
+                    <span>Upskill</span>
+                  </a>
+                </li>*/}
+                {router.pathname === "/" && (
+                  <li>
+                    <a href="/pricing">
+                      <span>Pricing</span>
+                    </a>
+                  </li>
+                )}
+
+                <li>
+                  <a href="/mentorship">
+                    <span>Assessment</span>
+                  </a>
+                </li>
+                {/* <li>
+                  <a href="/employers-dashboard/dashboard">
+                    <span>Employers</span>
+                  </a>
+                </li> */}
+              </>
             )}
 
             {!accessToken && (
               <li className="nav-item dropdown">
                 <a
-                  href="#"
-                  className="theme-btn btn-style-blue dropdown-toggle"
-                  id="loginDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
+                  href="/login"
+                  className="theme-btn btn-style-blue "
+                  // id="loginDropdown"
+                  // role="button"
+                  // data-bs-toggle="dropdown"
+                  // aria-expanded="false"
                 >
                   Login
                 </a>
-                <ul className="dropdown-menu" aria-labelledby="loginDropdown">
+                {/* <ul className="dropdown-menu" aria-labelledby="loginDropdown">
                   <li>
                     <a
                       className="dropdown-item"
@@ -155,23 +188,23 @@ const HeaderNavContent = () => {
                       Employer
                     </a>
                   </li>
-                </ul>
+                </ul> */}
               </li>
             )}
 
             {!accessToken && (
               <li className="nav-item dropdown">
                 <a
-                  href="#"
-                  className="theme-btn btn-style-blue dropdown-toggle"
-                  id="registerDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
+                  href="/register"
+                  className="theme-btn btn-style-blue "
+                  // id="registerDropdown"
+                  // role="button"
+                  // data-bs-toggle="dropdown"
+                  // aria-expanded="false"
                 >
                   Register
                 </a>
-                <ul
+                {/* <ul
                   className="dropdown-menu"
                   aria-labelledby="registerDropdown"
                 >
@@ -197,19 +230,7 @@ const HeaderNavContent = () => {
                       Employer
                     </a>
                   </li>
-                </ul>
-              </li>
-            )}
-
-            {accessToken && (
-              <li>
-                <a
-                  href="#"
-                  className="theme-btn btn-style-blue"
-                  onClick={unifiedLogout}
-                >
-                  Logout
-                </a>
+                </ul> */}
               </li>
             )}
 
@@ -229,22 +250,14 @@ const HeaderNavContent = () => {
                     </button>
                   </a>
                 </li>
-                <li>
-                  <a
-                    href={
-                      student === "true"
-                        ? "/candidates-dashboard/dashboard"
-                        : "/employers-dashboard/dashboard"
-                    }
-                  >
-                    <button className="menu-btn">
-                      <span className="icon la la-bell"></span>
-                    </button>
-                  </a>
-                </li>
-                <li>
+                <li className="nav-item dropdown text-center">
                   <div className="dashboard-option">
-                    <Link href={href()} className="">
+                    <Link
+                      href="#"
+                      className=""
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
                       <Image
                         alt="avatar"
                         className="rounded-circle"
@@ -253,6 +266,54 @@ const HeaderNavContent = () => {
                         height={50}
                       />
                     </Link>
+                    <ul
+                      className="dropdown-menu text-center"
+                      aria-labelledby="dashboardDropdown"
+                    >
+                      {/* Dropdown items */}
+
+                      <li>
+                        <a
+                          className="dropdown-item"
+                          href={
+                            student === "true"
+                              ? "/candidates-dashboard/my-profile"
+                              : "/employers-dashboard/my-profile"
+                          }
+                        >
+                          My Profile
+                        </a>
+                      </li>
+                      {accessToken && student === "true" && (
+                        <>
+                          <li>
+                            <a
+                              className="dropdown-item"
+                              href={`${user?.data?.resume}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              My Resume
+                            </a>
+                          </li>
+                        </>
+                      )}
+                      <li>
+                        <a className="dropdown-item" href={href()}>
+                          Dashboard
+                        </a>
+                      </li>
+                      <li>
+                        <a className="dropdown-item" href="#">
+                          Settings
+                        </a>
+                      </li>
+                      <li>
+                        <a className="dropdown-item" onClick={unifiedLogout}>
+                          Logout
+                        </a>
+                      </li>
+                    </ul>
                   </div>
                 </li>
               </>

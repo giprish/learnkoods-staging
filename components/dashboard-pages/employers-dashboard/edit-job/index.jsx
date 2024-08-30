@@ -3,8 +3,6 @@ import MobileMenu from "../../../header/MobileMenu";
 import DashboardHeader from "../../../header/DashboardHeader";
 import LoginPopup from "../../../common/form/login/LoginPopup";
 import DashboardEmployerSidebar from "../../../header/DashboardEmployerSidebar";
-import BreadCrumb from "../../BreadCrumb";
-
 import MenuToggler from "../../MenuToggler";
 import PostJobForm from "./components/PostJobForm";
 import { useEffect, useState } from "react";
@@ -18,8 +16,14 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { jobPostSchema } from "@/validation/validation.js";
+
 const index = () => {
-  const methods = useForm();
+  const methods = useForm({
+    mode: "onChange",
+    resolver: zodResolver(jobPostSchema),
+  });
   const [tab, setTab] = useState("step1");
   const [jobName, setJobName] = useState(null);
   const router = useRouter();
@@ -28,6 +32,14 @@ const index = () => {
     label: "",
   });
   const [subcat, setSubCat] = useState({
+    value: 0,
+    label: "",
+  });
+  const [countryId, setCountryId] = useState({
+    value: 0,
+    label: "",
+  });
+  const [stateId, setStateId] = useState({
     value: 0,
     label: "",
   });
@@ -59,6 +71,11 @@ const index = () => {
       });
       methods.reset(job?.data);
       methods.setValue("skills_req", skills);
+      methods.setValue(
+        "is_published",
+        job?.data?.is_published ? "True" : "False"
+      );
+      methods.setValue("is_closed", job?.data?.is_closed ? "True" : "False");
       setCat({
         value: job?.category?.id,
         label: job?.category?.name,
@@ -74,6 +91,26 @@ const index = () => {
       methods.setValue("sub_category", {
         value: job?.data?.sub_category?.id,
         label: job?.data?.sub_category?.name,
+      });
+      methods.setValue("country", {
+        value: job?.data?.country?.id,
+        label: job?.data?.country?.name,
+      });
+      methods.setValue("state", {
+        value: job?.data?.state?.id,
+        label: job?.data?.state?.name,
+      });
+      methods.setValue("city", {
+        value: job?.data?.city?.id,
+        label: job?.data?.city?.name,
+      });
+      setCountryId({
+        value: job?.data?.country?.id,
+        label: job?.data?.country?.name,
+      });
+      setStateId({
+        value: job?.data?.state?.id,
+        label: job?.data?.state?.name,
       });
       console.log(job, "fetched job data");
     }
@@ -103,14 +140,57 @@ const index = () => {
     },
     onError: (error) => {
       console.log(error, "error message");
-      toast.error("Job updating Unsuccessful", {
-        position: toast.POSITION.TOP_RIGHT,
+      const errorFields = [
+        "job_title",
+        "job_type",
+        "workplace_type",
+        "exp_required",
+        "gender",
+        "url",
+        "is_published",
+        "is_closed",
+        "category",
+        "sub_category",
+        "recruitment_timeline",
+        "country",
+        "state",
+        "city",
+        "pincode",
+        "location1",
+        "location",
+        "job_des",
+        "skills_req",
+        "max_salary",
+        "min_salary",
+        "rate",
+      ];
+
+      let errorHandled = false;
+
+      errorFields.forEach((field) => {
+        if (error.response.data[field]) {
+          const errorMessage = Array.isArray(error.response.data[field])
+            ? error.response.data[field][0]
+            : error.response.data[field].error || error.response.data[field];
+
+          toast.error(`${field}: ${errorMessage}`, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+          errorHandled = true;
+        }
       });
+      // Handle errors not in the errorFields array
+      if (!errorHandled) {
+        toast.error("An unexpected error occurred. Please try again.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
     },
   });
 
   const onSubmit = (data) => {
     // Debugging: Log dirtyFields to ensure it's being populated correctly
+    console.log(data, "original data");
     console.log("Dirty Fields:", dirtyFields);
     if (dirtyFields.category) {
       delete dirtyFields.category;
@@ -134,7 +214,7 @@ const index = () => {
           // If the value is an object and has a value property, extract it
           acc[key] = data[key].value;
         } else {
-          // Handle other fields
+          // Handle other fields, including pincode
           acc[key] = data[key];
         }
       }
@@ -187,8 +267,9 @@ const index = () => {
     mutate(formData);
     // Submit only dirtyData to your API
   };
+
   return (
-    <div className="page-wrapper-employer page-wrapper dashboard ">
+    <div className="page-wrapper page-wrapper dashboard ">
       <span className="header-span"></span>
       {/* <!-- Header Span for hight --> */}
 
@@ -241,6 +322,10 @@ const index = () => {
                           setCat={setCat}
                           subcat={subcat}
                           setSubCat={setSubCat}
+                          countryId={countryId}
+                          setCountryId={setCountryId}
+                          stateId={stateId}
+                          setStateId={setStateId}
                           setTab={setTab}
                         />
                       )}

@@ -165,8 +165,10 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  justify-content: space-between;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  margin: 0px 0px 30px 0px;
 }
 
 .post-job-steps .step {
@@ -177,8 +179,7 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  margin-right: 70px;
-  margin-bottom: 50px;
+  padding: 15px;
 }
 
 .post-job-steps .step .icon {
@@ -269,6 +270,7 @@
 }
 
 .aplicants-upper-bar .aplicantion-status {
+  justify-content: flex-end;
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;

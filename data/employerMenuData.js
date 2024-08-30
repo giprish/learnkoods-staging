@@ -8,18 +8,18 @@ module.exports = [
   },
   {
     id: 2,
-    name: "Company Profile",
+    name: "Manage Companies",
     icon: "la-user-tie",
     routePath: "/employers-dashboard/company-profile",
     active: "",
   },
-  {
-    id: 3,
-    name: "Register Company ",
-    icon: "la-user-tie",
-    routePath: "/employers-dashboard/register-company",
-    active: "",
-  },
+  // {
+  //   id: 3,
+  //   name: "Register Company ",
+  //   icon: "la-user-tie",
+  //   routePath: "/employers-dashboard/register-company",
+  //   active: "",
+  // },
   {
     id: 4,
     name: "Post a New Job",
@@ -41,13 +41,13 @@ module.exports = [
     routePath: "/employers-dashboard/all-applicants",
     active: "",
   },
-  {
-    id: 7,
-    name: "Shortlisted Resumes",
-    icon: "la-bookmark-o",
-    routePath: "/employers-dashboard/shortlisted-resumes",
-    active: "",
-  },
+  // {
+  //   id: 7,
+  //   name: "Shortlisted Resumes",
+  //   icon: "la-bookmark-o",
+  //   routePath: "/employers-dashboard/shortlisted-resumes",
+  //   active: "",
+  // },
   {
     id: 8,
     name: "Create Courses",
