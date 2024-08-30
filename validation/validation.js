@@ -61,14 +61,11 @@ export const userSchema = z.object({
   }),
   age: z.number().min(14, "minimum age is 14"),
   languages: z.string().min(2, "language is required"),
-  phone: z.string().refine((value) => /^\+44\d{10}$/.test(value), {
-    message: "Phone number must start with +44 and be followed by 10 digits",
-  }),
   email: z.string().email("Invalid email address"),
   skills: z
     .array(
       z.object({
-        value: z.string(),
+        value: z.number(),
         label: z.string(),
       })
     )
@@ -131,7 +128,14 @@ const certificateSchema = z.object({
   expiration_date: z.string().nullable(),
   working: z.boolean().optional(),
   link: z.string().url("Must be a valid URL"),
-  skills_acquired: z.string(),
+  skills_acquired: z
+    .array(
+      z.object({
+        value: z.number(),
+        label: z.string(),
+      })
+    )
+    .min(1, "Please select at least one skill"),
 });
 
 // Define the schema for the entire form which includes an array of certificates
@@ -151,7 +155,7 @@ export const companyRegistrationSchema = z.object({
     ["50-100", "100-150", "150-200", "200-250", "250-300", "300-500", "500+"],
     "Team size is required"
   ),
-  industry: z.object({
+  country: z.object({
     value: z.number().positive("select a country"),
     label: z.string(),
   }),

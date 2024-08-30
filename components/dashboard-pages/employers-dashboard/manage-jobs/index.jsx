@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const index = () => {
   return (
-    <div className="page-wrapper-employer page-wrapper dashboard ">
+    <div className="page-wrapper page-wrapper dashboard ">
       <span className="header-span"></span>
       {/* <!-- Header Span for hight --> */}
 

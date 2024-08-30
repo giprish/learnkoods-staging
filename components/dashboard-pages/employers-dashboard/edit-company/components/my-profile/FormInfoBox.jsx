@@ -89,7 +89,7 @@ const FormInfoBox = ({
           <input
             type="text"
             name="name"
-            placeholder="Example pvt. Ltd."
+            placeholder="Company name"
             {...register("name")}
             required
           />
@@ -106,7 +106,7 @@ const FormInfoBox = ({
           <input
             type="email"
             name="email"
-            placeholder="example@mail.com"
+            placeholder="Email"
             {...register("email")}
           />
           {errors.email && (
@@ -152,7 +152,7 @@ const FormInfoBox = ({
           <input
             type="url"
             name="website"
-            placeholder="www.example.com"
+            placeholder="Company Website"
             required
             {...register("website")}
           />
@@ -383,7 +383,7 @@ const FormInfoBox = ({
           <input
             type="number"
             name="pincode"
-            placeholder="101010"
+            placeholder="Zipcode"
             required
             {...register("pincode")}
           />
@@ -398,7 +398,7 @@ const FormInfoBox = ({
           <input
             type="text"
             name="address1"
-            placeholder="329 Queensberry Street."
+            placeholder="Address Line 1"
             required
             {...register("address1")}
           />
@@ -414,7 +414,7 @@ const FormInfoBox = ({
           <input
             type="text"
             name="name"
-            placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia."
+            placeholder="Address Line 2"
             required
             {...register("address")}
           />

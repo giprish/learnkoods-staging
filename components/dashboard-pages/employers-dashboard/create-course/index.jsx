@@ -8,7 +8,7 @@ import { FormProvider } from "react-hook-form";
 
 const index = () => {
   return (
-    <div className="page-wrapper-employer dashboard">
+    <div className="page-wrapper dashboard">
       <span className="header-span"></span>
 
       <LoginPopup />

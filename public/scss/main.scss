@@ -125,3 +125,23 @@ Global Settings
 @import "./base/responsive.scss";
 @import "./input-range-slider";
 @import "./custom-nextjs.scss";
+
+.active-tab {
+  background-color: #007bff !important;
+  color: white !important;
+  border-color: #007bff !important;
+}
+
+.customTabpannel {
+  padding: 40px;
+  box-shadow: 1px 1px 10px 0px #ddd;
+}
+
+.customTabpannel {
+  display: none;
+}
+
+/* Show only the active tab panel */
+.react-tabs__tab-panel--selected {
+  display: block;
+}

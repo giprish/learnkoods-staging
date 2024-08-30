@@ -82,6 +82,7 @@ const index = () => {
       label: company?.data?.city?.name,
     });
     methods.setValue("description", company?.data.description);
+    methods.setValue("pincode", company?.data.pincode);
     methods.setValue("email", company?.data.email);
     methods.setValue("industry", {
       value: company?.data?.industry?.id,
@@ -247,7 +248,7 @@ const index = () => {
   };
 
   return (
-    <div className="page-wrapper-employer dashboard">
+    <div className="page-wrapper dashboard">
       <span className="header-span"></span>
 
       <LoginPopup />

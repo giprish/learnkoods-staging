@@ -1,13 +1,13 @@
 "use client";
-import { QueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 import Link from "next/link";
 
 const Register2 = () => {
@@ -19,27 +19,13 @@ const Register2 = () => {
     getValues,
   } = useForm();
   const [resume, setResume] = useState();
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState(`${process.env.GLOBAL_API}/user_api/`);
   const [showOtp, setShowOtp] = useState(false);
-  const [showVerifyEmail, setShowVerifyEmail] = useState(true);
   const [showRegister, setShowRegister] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isStudent, setIsStudent] = useState(true); // Track if the user is a student or employer
+  const [emailVerified, setEmailVerified] = useState(false); // New state for email verification
   const router = useRouter();
-
-  // const usertype = useSelector((state) => state.user.userType);
-  const [usertype, setUserType] = useState("candidate"); // Default to 'candidate'
-
-  const handleRadioChange = (e) => {
-    setUserType(e.target.value);
-  };
-
-  useEffect(() => {
-    if (usertype === "candidate") {
-      setUrl(`${process.env.GLOBAL_API}/user_api/`);
-    } else {
-      setUrl(`${process.env.GLOBAL_API}/customuser/`);
-    }
-  }, [usertype]);
 
   const otp = async (otpdata) => {
     const { data: response } = await axios.post(
@@ -56,8 +42,7 @@ const Register2 = () => {
   const { mutate: otpMutate } = useMutation({
     mutationFn: otp,
     onSuccess: (data) => {
-      console.log(data, "data from successful otp send");
-      toast.success("otp send successfully", {
+      toast.success("OTP sent successfully", {
         position: toast.POSITION.TOP_RIGHT,
       });
       if (typeof window !== "undefined") {
@@ -66,12 +51,12 @@ const Register2 = () => {
       setShowOtp(true);
     },
     onError: (error) => {
-      console.log(error, "error message");
-      toast.error(`${error?.response?.data?.message}Could not send otp`, {
+      toast.error(`Could not send OTP: ${error?.response?.data?.message}`, {
         position: toast.POSITION.TOP_RIGHT,
       });
     },
   });
+
   const verifyemail = async (verifydata) => {
     const { data: response } = await axios.post(
       `${process.env.GLOBAL_API}/verify-register-user-otp/`,
@@ -87,38 +72,19 @@ const Register2 = () => {
   const { mutate: verifyMutate } = useMutation({
     mutationFn: verifyemail,
     onSuccess: (data) => {
-      console.log(data, "data from successful email verify");
-      toast.success("email verified successfully", {
+      toast.success("Email verified successfully", {
         position: toast.POSITION.TOP_RIGHT,
       });
       setShowRegister(true);
-      setShowVerifyEmail(false);
       setShowOtp(false);
+      setEmailVerified(true); // Set emailVerified to true
     },
     onError: (error) => {
-      console.log(error, "error message");
-      toast.error(`${error?.response?.data?.message}Could not verify mail`, {
+      toast.error(`Could not verify email: ${error?.response?.data?.message}`, {
         position: toast.POSITION.TOP_RIGHT,
       });
     },
   });
-
-  const sendOtp = () => {
-    let email = { email: getValues("email") };
-    console.log(email);
-    otpMutate(email);
-  };
-
-  const verify = () => {
-    if (typeof window !== "undefined") {
-      let data = {
-        otp: getValues("otp"),
-        otp_key: localStorage.getItem("otp_key"),
-      };
-      console.log(data);
-      verifyMutate(data);
-    }
-  };
 
   const registerUser = async (userdata) => {
     const { data: response } = await axios.post(url, userdata, {
@@ -132,7 +98,6 @@ const Register2 = () => {
   const { mutate, isLoading } = useMutation({
     mutationFn: registerUser,
     onSuccess: (data) => {
-      console.log(data, "data from successful register");
       toast.success("User created successfully", {
         position: toast.POSITION.TOP_RIGHT,
       });
@@ -140,24 +105,17 @@ const Register2 = () => {
         localStorage.setItem("access", data.access);
         localStorage.setItem("refresh", data.refresh);
         localStorage.setItem("student", data?.student);
+        localStorage.setItem("id", data.payload.id);
+        localStorage.setItem("user", data.payload.username);
         localStorage.removeItem("otp_key");
-        if (usertype === "candidate") {
-          localStorage.setItem("id", data?.payload?.id);
-          localStorage.setItem("user", data.payload.username);
-          // router.push("/");
+        if (url.includes("user_api")) {
+          router.push("/candidates-dashboard/dashboard");
+        } else {
+          router.push("/employers-dashboard/dashboard");
         }
-        if (usertype === "employer") {
-          localStorage.setItem("id", data.payload.id);
-          localStorage.setItem("user", data.payload.username);
-          // router.push("/employers-dashboard/dashboard");
-        }
-        window.location.reload();
       }
-
-      // hideModal();
     },
     onError: (error) => {
-      console.log(error, "error message");
       toast.error("Could not register user", {
         position: toast.POSITION.TOP_RIGHT,
       });
@@ -166,7 +124,6 @@ const Register2 = () => {
 
   const handleEvent = (e) => {
     setResume(e.target.files[0]);
-    console.log(e.target.files[0], "handle event resume");
   };
 
   const onSubmit = (userdata) => {
@@ -178,9 +135,7 @@ const Register2 = () => {
     };
     const formData = new FormData();
 
-    // Iterate through datatosend keys
     Object.keys(datatosend).forEach((key) => {
-      // If the value is not null, not empty, and not 'resume', append to formData
       if (
         datatosend[key] !== null &&
         datatosend[key] !== "" &&
@@ -190,228 +145,292 @@ const Register2 = () => {
       }
     });
 
-    // Append resume if it exists, or append null if it doesn't
-    formData.append("resume", resume || null);
+    if (isStudent) {
+      formData.append("resume", resume || null);
+    }
 
-    console.log(datatosend, "form data");
-    mutate(formData); // Assuming mutate accepts formData
+    mutate(formData);
   };
+
+  const sendOtp = () => {
+    let email = { email: getValues("email") };
+    otpMutate(email);
+  };
+
+  const verify = () => {
+    if (typeof window !== "undefined") {
+      let data = {
+        otp: getValues("otp"),
+        otp_key: localStorage.getItem("otp_key"),
+      };
+      verifyMutate(data);
+    }
+  };
+
+  const handleTabClick = (tabType) => {
+    if (tabType === "student") {
+      setUrl(`${process.env.GLOBAL_API}/user_api/`);
+      setIsStudent(true);
+    } else {
+      setUrl(`${process.env.GLOBAL_API}/customuser/`);
+      setIsStudent(false);
+    }
+    // Reset email verification state when switching tabs
+    setEmailVerified(false);
+    setShowOtp(false);
+  };
+
   return (
     <div className="form-inner">
-      <div className="row">
-        <div className="form-group col-lg-6 col-md-6 col-sm-12">
-          <div className="form-check">
-            <input
-              type="radio"
-              className="form-check-input"
-              id="student"
-              name="userType"
-              value="candidate"
-              checked={usertype === "candidate"}
-              onChange={handleRadioChange}
-            />
-            <label className="form-check-label" htmlFor="student">
-              Student
-            </label>
-          </div>
-        </div>
-        <div className="form-group col-lg-6 col-md-6 col-sm-12">
-          <div className="form-check">
-            <input
-              type="radio"
-              className="form-check-input"
-              id="employer"
-              name="userType"
-              value="employer"
-              checked={usertype === "employer"}
-              onChange={handleRadioChange}
-            />
-            <label className="form-check-label" htmlFor="employer">
-              Employer
-            </label>
-          </div>
-        </div>
-      </div>
-      <h3>Create a Free SkillThrive Account</h3>
+      <Tabs>
+        <TabList className="nav nav-pills mb-3">
+          <Tab
+            onClick={() => handleTabClick("student")}
+            className={`btn btn-outline-primary me-3 ${
+              isStudent ? "active-tab" : ""
+            }`}
+          >
+            Student
+          </Tab>
+          <Tab
+            onClick={() => handleTabClick("employer")}
+            className={`btn btn-outline-primary ${
+              !isStudent ? "active-tab" : ""
+            }`}
+          >
+            Employer
+          </Tab>
+        </TabList>
 
-      <form
-        method="post"
-        action="add-parcel.html"
-        onSubmit={handleSubmit(onSubmit)}
-        encType="multipart/form-data"
-      >
-        <div className="d-flex flex-row justify-content-between">
-          <div className="form-group col-lg-5">
-            <label>First Name</label>
-            <input
-              type="text"
-              name="firstname"
-              placeholder="First Name"
-              required
-              {...register("first_name")}
-            />
-          </div>
-          {/* First name */}
-          <div className="form-group col-lg-5">
-            <label>Last Name</label>
-            <input
-              type="text"
-              name="lastname"
-              placeholder="Last Name"
-              required
-              {...register("last_name")}
-            />
-          </div>
-          {/* Last name */}
-        </div>
-        <div className="form-group">
-          <label>Username</label>
-          <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            required
-            {...register("username")}
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            required
-            {...register("email")}
-          />
-        </div>
-        {showVerifyEmail && (
-          <div className="form-group">
-            <button
-              className="theme-btn btn-style-one"
-              type="button"
-              onClick={sendOtp}
-            >
-              Verify Email
-            </button>
-          </div>
-        )}
-
-        {/* email */}
-        {showOtp && (
-          <>
+        <TabPanel className="customTabpannel">
+          {/* Candidate Registration Form */}
+          <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+            <h3>Create a Free SkillThrive Account - Student</h3>
+            <div className="row">
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label>First Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="First Name"
+                    required
+                    {...register("first_name")}
+                  />
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label>Last Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Last Name"
+                    required
+                    {...register("last_name")}
+                  />
+                </div>
+              </div>
+            </div>
             <div className="form-group">
-              <label>OTP</label>
+              <label>Username</label>
               <input
-                id="otp-field"
                 type="text"
-                name="otp"
-                placeholder="OTP"
-                {...register("otp")}
+                className="form-control"
+                placeholder="Username"
+                required
+                {...register("username")}
               />
             </div>
             <div className="form-group">
-              <button
-                className="theme-btn btn-style-one"
-                type="button"
-                onClick={verify}
-              >
-                Verify Otp
-              </button>
+              <label>Email</label>
+              <input
+                type="email"
+                className="form-control"
+                placeholder="Email"
+                required
+                {...register("email")}
+              />
             </div>
-          </>
-        )}
-
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            id="password-field"
-            type={showPassword ? "text" : "password"}
-            name="password"
-            placeholder="Password"
-            {...register("password")}
-          />
-        </div>
-        <div className="form-group">
-          <div className="field-outer">
-            <div className="input-group checkboxes square">
+            {!showOtp && !emailVerified && (
+              <div className="form-group">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={sendOtp}
+                >
+                  Verify Email
+                </button>
+              </div>
+            )}
+            {showOtp && (
+              <>
+                <div className="form-group">
+                  <label>Verification Code</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Verification Code"
+                    {...register("otp")}
+                  />
+                </div>
+                <div className="form-group">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={verify}
+                  >
+                    Verify OTP
+                  </button>
+                </div>
+              </>
+            )}
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type={showPassword ? "text" : "password"}
+                className="form-control"
+                placeholder="Password"
+                {...register("password")}
+              />
+            </div>
+            <div className="form-group">
               <input
                 type="checkbox"
-                id="showPassword"
                 onChange={() => setShowPassword((prev) => !prev)}
               />
-              <label htmlFor="showPassword" className="showPassword">
-                <span className="custom-checkbox"></span> Show Password
-              </label>
+              <label>Show Password</label>
             </div>
-          </div>
-        </div>
-        {usertype === "candidate" ? (
-          <div className="form-group">
-            <label for="uploadresume">Resume</label>
-            <input
-              className="form-control py-3 "
-              type="file"
-              name="resume"
-              id="uploadresume"
-              required
-              accept=".pdf, .docx"
-              onChange={(e) => {
-                handleEvent(e);
-              }}
-              // {...register("resume")}
-            />
-          </div>
-        ) : (
-          <></>
-        )}
-
-        {/* password */}
-        {showRegister && (
-          <div className="form-group">
-            <button className="theme-btn btn-style-one" type="submit">
-              Register
-            </button>
-          </div>
-        )}
-
-        {/* register */}
-      </form>
-      {/* <Tabs>
-        <div className="form-group register-dual">
-          <TabList className="btn-box row">
-            <Tab className="col-lg-6 col-md-12">
-              <button
-                className="theme-btn btn-style-four"
-                onClick={() => setUserType("candidate")}
-              >
-                <i className="la la-user"></i> Candidate
-              </button>
-            </Tab>
-
-            <Tab className="col-lg-6 col-md-12">
-              <button
-                className="theme-btn btn-style-four"
-                onClick={() => setUserType("employer")}
-              >
-                <i className="la la-briefcase"></i> Employer
-              </button>
-            </Tab>
-          </TabList>
-        </div>
-        
-
-        <TabPanel>
-          <FormContent2 usertype={usertype} />
+            {isStudent && (
+              <div className="form-group">
+                <label>Resume</label>
+                <input
+                  type="file"
+                  className="form-control"
+                  accept=".pdf, .docx"
+                  onChange={handleEvent}
+                />
+              </div>
+            )}
+            {showRegister && (
+              <div className="form-group">
+                <button type="submit" className="btn btn-primary">
+                  Register
+                </button>
+              </div>
+            )}
+          </form>
         </TabPanel>
-       
 
-        <TabPanel>
-          <FormContent2 usertype={usertype} />
+        <TabPanel className="customTabpannel">
+          {/* Employer Registration Form */}
+          <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+            <h3>Create a Free SkillThrive Account - Employer</h3>
+            <div className="row">
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label>First Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="First Name"
+                    required
+                    {...register("first_name")}
+                  />
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label>Last Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Last Name"
+                    required
+                    {...register("last_name")}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Username</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Username"
+                required
+                {...register("username")}
+              />
+            </div>
+            <div className="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                className="form-control"
+                placeholder="Email"
+                required
+                {...register("email")}
+              />
+            </div>
+            {!showOtp && !emailVerified && (
+              <div className="form-group">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={sendOtp}
+                >
+                  Verify Email
+                </button>
+              </div>
+            )}
+            {showOtp && (
+              <>
+                <div className="form-group">
+                  <label>Verification Code</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Verification Code"
+                    {...register("otp")}
+                  />
+                </div>
+                <div className="form-group">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={verify}
+                  >
+                    Verify OTP
+                  </button>
+                </div>
+              </>
+            )}
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type={showPassword ? "text" : "password"}
+                className="form-control"
+                placeholder="Password"
+                {...register("password")}
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="checkbox"
+                onChange={() => setShowPassword((prev) => !prev)}
+              />
+              <label>Show Password</label>
+            </div>
+            {showRegister && (
+              <div className="form-group">
+                <button type="submit" className="btn btn-primary">
+                  Register
+                </button>
+              </div>
+            )}
+          </form>
         </TabPanel>
-        
-      </Tabs> */}
-
+      </Tabs>
       <div className="bottom-box">
         <div className="text">
           Already have an account?{" "}
@@ -419,11 +438,8 @@ const Register2 = () => {
             LogIn
           </Link>
         </div>
-        {/* <div className="divider">
-          <span>or</span>
-        </div>
-        <LoginWithSocial /> */}
       </div>
+      <ToastContainer />
     </div>
   );
 };
