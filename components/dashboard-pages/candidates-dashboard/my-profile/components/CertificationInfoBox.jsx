@@ -284,6 +284,7 @@ const CertificationInfoBox = () => {
               accept=".pdf, .docx"
               name={`certificate[${index}].certificate_file`}
               {...register(`certificate[${index}].certificate_file`)}
+              required
             />
             {errors.certificate?.[index]?.certificate_file && (
               <p className="text-danger">

@@ -142,7 +142,7 @@ const certificateSchema = z.object({
   issuing_organization: z.string().min(1, "Issuing organization is required"),
   certificate_file: z.any(), // This can be refined further if you need specific validation
   issue_date: z.string().min(1, "Issue date is required"),
-  expiration_date: z.string().nullable(),
+  expiration_date: z.string().nullable().optional(),
   working: z.boolean().optional(),
   link: z.string().url("Must be a valid URL"),
   skills_acquired: z
@@ -294,11 +294,7 @@ export const jobPostSchema = z.object({
       invalid_type_error: "Maximum salary must be a valid number",
     })
     .min(0, "Maximum salary must be at least 0")
-    .positive("Maximum salary must be a positive number")
-    .refine((data) => data.max_salary >= data.min_salary, {
-      message: "Maximum salary must be greater than or equal to minimum salary",
-      path: ["max_salary"], // This specifies which field the error relates to
-    }),
+    .positive("Maximum salary must be a positive number"),
   rate_type: z.enum(["Per Year", "Per Month", "Per Week", "Per Hour"], {
     required_error: "Rate type is required",
     invalid_type_error: "Invalid rate type selected",
