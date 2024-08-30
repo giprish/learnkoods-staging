@@ -30,9 +30,12 @@ const Header = () => {
               <div className="logo">
                 <Link href="/" className="noSticky">
                   {/* <img src="/images/logo-2.svg" alt="logo" title="brand" /> */}
-                  <h2 className="text-white">
-                    <strong>SkillThrive</strong>
-                  </h2>
+                  <Image
+                    width={200}
+                    height={100}
+                    src="/images/skillthrive_logo.png"
+                    alt="brand"
+                  />
                 </Link>
                 <Link href="/" className="isSticky">
                   {/* <img src="/images/logo.svg" alt="logo" title="brand" /> */}

@@ -47,16 +47,13 @@ const DashboardHeader = () => {
             <div className="logo-box">
               <div className="logo">
                 <Link href="/">
-                  {/* <Image
-                                        alt="brand"
-                                        src="/images/logo.svg"
-                                        width={154}
-                                        height={50}
-                                        priority
-                                    /> */}
-                  <h2>
-                    <strong>SkillThrive</strong>
-                  </h2>
+                  <Image
+                    width={200}
+                    height={100}
+                    src="/images/skillthrive_logo.png"
+                    alt="brand"
+                  />
+                  <h2>{/* <strong>SkillThrive</strong> */}</h2>
                 </Link>
               </div>
             </div>
