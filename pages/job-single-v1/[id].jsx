@@ -249,7 +249,10 @@ const JobSingleDynamicV1 = () => {
                         ></button>
                       </div>
                       <div className="modal-body">
-                        <ApplyJobModalContent />
+                        <ApplyJobModalContent
+                          closeModal={closeModal}
+                          jobName={job?.job_title}
+                        />
                       </div>
                       {/* End modal-header */}
 
