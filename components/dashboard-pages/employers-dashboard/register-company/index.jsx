@@ -130,6 +130,7 @@ const index = () => {
       name: data.name,
       phone_number: data.phone_number,
       website: data.website,
+      since: data.since,
       user: id,
     };
 

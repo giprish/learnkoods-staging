@@ -84,6 +84,7 @@ const index = () => {
     methods.setValue("description", company?.data.description);
     methods.setValue("pincode", company?.data.pincode);
     methods.setValue("email", company?.data.email);
+    methods.setValue("since", company?.data.since);
     methods.setValue("industry", {
       value: company?.data?.industry?.id,
       label: company?.data?.industry?.name,
@@ -209,6 +210,7 @@ const index = () => {
         name: data?.name,
         phone_number: data?.phone_number,
         website: data?.website,
+        since: data?.since,
         user: userId,
       };
 
