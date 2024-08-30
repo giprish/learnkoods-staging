@@ -100,7 +100,7 @@ const FormContent2 = () => {
     },
     onError: (error) => {
       console.log(error, "error message");
-      const errorFields = ["username", "password"];
+      const errorFields = ["username", "password", "error"];
       let errorHandled = false;
 
       errorFields.forEach((field) => {

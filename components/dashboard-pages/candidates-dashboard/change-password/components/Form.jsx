@@ -18,7 +18,10 @@ const Form = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    mode: "onChange",
+    resolver: zodResolver(changePasswordSchema),
+  });
 
   const loginUser = async (data) => {
     const { data: response } = await axios.post(

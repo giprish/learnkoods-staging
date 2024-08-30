@@ -90,7 +90,7 @@ const PostjobForm = ({
           <input
             type="text"
             name="job_title"
-            placeholder="Title"
+            placeholder="Job Title"
             {...register("job_title")}
           />
           {errors.job_title?.message && (
@@ -136,9 +136,11 @@ const PostjobForm = ({
             {...register("exp_required")}
           >
             <option disabled>Select</option>
+            <option value="Fresher">Fresher</option>
             <option value="1-2 years">1-2 years</option>
             <option value="2-3 years">2-3 years</option>
-            <option value="3-5 years">3-5 years</option>
+            <option value="3-4 years">3-4 years</option>
+            <option value="4-5 years">4-5 years</option>
             <option value="5-7 years">5-7 years</option>
             <option value="7-9 years">7-9 years</option>
             <option value="9-11 years">9-11 years</option>
@@ -246,7 +248,7 @@ const PostjobForm = ({
           <Controller
             name="sub_category"
             control={control}
-            // rules={{ required: "Sub category is required !" }}
+            rules={{ required: "Sub category is required !" }}
             render={({ field, fieldState: { error } }) => (
               <>
                 <Select
@@ -383,7 +385,7 @@ const PostjobForm = ({
           <input
             type="text"
             name="location1"
-            placeholder="329 Queensberry Street"
+            placeholder="Address Line 1"
             {...register("location1")}
           />
           {errors.location1?.message && (
@@ -395,7 +397,7 @@ const PostjobForm = ({
           <input
             type="text"
             name="location"
-            placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia."
+            placeholder="Address Line 2"
             {...register("location")}
           />
           {errors.location?.message && (

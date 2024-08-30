@@ -143,9 +143,11 @@ const PostBoxForm = ({
             {...register("exp_required")}
           >
             <option disabled>Select</option>
+            <option value="Fresher">Fresher</option>
             <option value="1-2 years">1-2 years</option>
             <option value="2-3 years">2-3 years</option>
-            <option value="3-5 years">3-5 years</option>
+            <option value="3-4 years">3-4 years</option>
+            <option value="4-5 years">4-5 years</option>
             <option value="5-7 years">5-7 years</option>
             <option value="7-9 years">7-9 years</option>
             <option value="9-11 years">9-11 years</option>

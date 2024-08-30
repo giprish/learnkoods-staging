@@ -152,7 +152,7 @@ const FormInfoBox = ({
           <input
             type="url"
             name="website"
-            placeholder="Company Website"
+            placeholder="Company Website Url"
             required
             {...register("website")}
           />

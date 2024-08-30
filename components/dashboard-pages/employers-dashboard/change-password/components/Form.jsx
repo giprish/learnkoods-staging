@@ -1,3 +1,6 @@
+import changePassword from "@/pages/candidates-dashboard/change-password";
+import { changePasswordSchema } from "@/validation/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -18,7 +21,10 @@ const Form = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    mode: "onChange",
+    resolver: zodResolver(changePasswordSchema),
+  });
 
   const loginUser = async (data) => {
     const { data: response } = await axios.post(
@@ -82,6 +88,11 @@ const Form = () => {
             required
             {...register("new_password")}
           />
+          {errors.new_password && (
+            <p className="error-message" style={{ color: "red" }}>
+              {errors.new_password.message}
+            </p>
+          )}
         </div>
 
         {/* <!-- Input --> */}

@@ -172,6 +172,10 @@ export const companyRegistrationSchema = z.object({
     value: z.number().positive("select a city"),
     label: z.string(),
   }),
+  industry: z.object({
+    value: z.number().positive("select a industry"),
+    label: z.string(),
+  }),
   pincode: z
     .string()
     .transform((val) => {
@@ -251,3 +255,24 @@ export const jobPostSchema = z.object({
   location1: z.string().min(2, "address is required"),
   location: z.string().min(2, "address is required"),
 });
+
+const passwordSchema = z
+  .string()
+  .min(8, "Password must be at least 8 characters long")
+  .regex(/[a-z]/, "Password must include at least one lowercase letter")
+  .regex(/[A-Z]/, "Password must include at least one uppercase letter")
+  .regex(
+    /[0-9\s\W]/,
+    "Password must include at least one number, symbol, or whitespace"
+  );
+
+export const changePasswordSchema = z
+  .object({
+    old_password: z.string(),
+    new_password: passwordSchema,
+    confirm_password: z.string().min(8, "Confirm password is required"),
+  })
+  .refine((data) => data.new_password === data.confirm_password, {
+    message: "Passwords must match",
+    path: ["confirm_password"],
+  });
