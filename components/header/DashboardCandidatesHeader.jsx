@@ -45,9 +45,12 @@ const DashboardCandidatesHeader = () => {
             <div className="logo-box">
               <div className="logo">
                 <Link href="/">
-                  <h2>
-                    <strong>SkillThrive</strong>
-                  </h2>
+                  <Image
+                    width={200}
+                    height={100}
+                    src="/images/skillthrive_logo.png"
+                    alt="brand"
+                  />
                 </Link>
               </div>
             </div>

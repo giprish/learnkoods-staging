@@ -71,9 +71,15 @@ const MobileMenu = () => {
             <div className="logo-box">
               <div className="logo">
                 <Link href="/">
-                  <h2 className="mx-4">
+                  <Image
+                    width={150}
+                    height={80}
+                    src="/images/skillthrive_logo.png"
+                    alt="brand"
+                  />
+                  {/* <h2 className="mx-4">
                     <strong>SkillThrive</strong>
-                  </h2>
+                  </h2> */}
                 </Link>
               </div>
             </div>

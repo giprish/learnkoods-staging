@@ -87,15 +87,15 @@ const DefaulHeader = () => {
           <div className="logo-box">
             <div className="logo">
               <Link href="/">
-                {/* <Image
-                  width={154}
-                  height={50}
-                  src="/images/logo.svg"
+                <Image
+                  width={200}
+                  height={100}
+                  src="/images/skillthrive_logo.png"
                   alt="brand"
-                /> */}
-                <h2>
+                />
+                {/* <h2>
                   <strong>SkillThrive</strong>
-                </h2>
+                </h2> */}
               </Link>
             </div>
           </div>
