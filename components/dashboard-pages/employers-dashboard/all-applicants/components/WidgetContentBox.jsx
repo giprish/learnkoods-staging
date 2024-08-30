@@ -12,7 +12,6 @@ const WidgetContentBox = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [access, setAccess] = useState(null);
   const [applicants, setApplicants] = useState([]);
-  const [total, setTotal] = useState([]);
   const [approved, setApproved] = useState([]);
   const [rejected, setRejected] = useState([]);
 
@@ -99,22 +98,24 @@ const WidgetContentBox = () => {
       throw new Error("Failed to fetch applicant status");
     }
   };
+  const [hasShownError, setHasShownError] = useState(false);
 
   const { data: ApplicantStatus, isError } = useQuery({
     queryKey: ["ApplicantStatus", jobId],
     queryFn: fetchApplicantStatus, // No need to wrap in an arrow function
     enabled: !!jobId && !!access, // Only enable query if jobId and access are available
     staleTime: Infinity, // Prevents refetching until the component is unmounted or cache is invalidated manually
-    cacheTime: Infinity, // Keeps the data in cache indefinitely
+    cacheTime: Infinity, // Keeps the data in cache indefinitely,
   });
 
   useEffect(() => {
-    if (isError) {
+    if (isError && !hasShownError) {
       toast.error("No Data found", {
         position: toast.POSITION.TOP_RIGHT,
       });
+      setHasShownError(true);
     }
-  }, [isError]);
+  }, [isError, hasShownError]);
 
   useEffect(() => {
     const mergedArray = AppliedCandidates?.data.map((item) => {

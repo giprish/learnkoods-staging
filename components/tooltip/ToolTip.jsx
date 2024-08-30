@@ -15,7 +15,11 @@ const Tooltip = ({ title, text }) => {
     </Popover>
   );
   return (
-    <OverlayTrigger trigger="hover" placement="right" overlay={popover}>
+    <OverlayTrigger
+      trigger={["hover", "focus"]} // Add 'focus' trigger
+      placement="right"
+      overlay={popover}
+    >
       <i className="la-lg la la-info-circle mx-4"></i>
     </OverlayTrigger>
   );

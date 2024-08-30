@@ -16,8 +16,14 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { jobPostSchema } from "@/validation/validation.js";
+
 const index = () => {
-  const methods = useForm();
+  const methods = useForm({
+    mode: "onChange",
+    resolver: zodResolver(jobPostSchema),
+  });
   const [tab, setTab] = useState("step1");
   const [jobName, setJobName] = useState(null);
   const router = useRouter();
@@ -67,9 +73,9 @@ const index = () => {
       methods.setValue("skills_req", skills);
       methods.setValue(
         "is_published",
-        job?.data?.is_published ? "true" : "false"
+        job?.data?.is_published ? "True" : "False"
       );
-      methods.setValue("is_closed", job?.data?.is_closed ? "true" : "false");
+      methods.setValue("is_closed", job?.data?.is_closed ? "True" : "False");
       setCat({
         value: job?.category?.id,
         label: job?.category?.name,
@@ -135,30 +141,28 @@ const index = () => {
     onError: (error) => {
       console.log(error, "error message");
       const errorFields = [
-        "city",
-        "company",
-        "country",
-        "created_at",
-        "exp_required",
-        "gender",
-        "is_closed",
-        "is_published",
-        "job_des",
-        "job_id",
         "job_title",
         "job_type",
-        "location",
+        "workplace_type",
+        "exp_required",
+        "gender",
+        "url",
+        "is_published",
+        "is_closed",
+        "category",
+        "sub_category",
+        "recruitment_timeline",
+        "country",
+        "state",
+        "city",
+        "pincode",
         "location1",
+        "location",
+        "job_des",
+        "skills_req",
         "max_salary",
         "min_salary",
-        "pincode",
-        "recruitment_timeline",
-        "skills_req",
-        "state",
-        "sub_category",
-        "url",
-        "user",
-        "workplace_type",
+        "rate",
       ];
 
       let errorHandled = false;
@@ -210,7 +214,7 @@ const index = () => {
           // If the value is an object and has a value property, extract it
           acc[key] = data[key].value;
         } else {
-          // Handle other fields
+          // Handle other fields, including pincode
           acc[key] = data[key];
         }
       }

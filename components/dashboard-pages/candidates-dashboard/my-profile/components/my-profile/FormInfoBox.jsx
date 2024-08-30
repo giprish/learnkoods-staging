@@ -61,7 +61,7 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           <input
             type="text"
             name="first_name"
-            placeholder="Jerome"
+            placeholder="First Name"
             {...register("first_name")}
           />
           {errors.first_name && (
@@ -73,7 +73,7 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           <input
             type="text"
             name="last_name"
-            placeholder="kumar"
+            placeholder="Last Name"
             {...register("last_name")}
           />
           {errors.last_name && (
@@ -85,7 +85,7 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           <input
             type="text"
             name="username"
-            placeholder="John Doe"
+            placeholder="Username"
             {...register("username")}
           />
           {errors.username && (
@@ -135,7 +135,7 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           <input
             type="number"
             name="current_salary"
-            placeholder=""
+            placeholder="Current Salary"
             {...register("current_salary")}
             required
           />
@@ -150,7 +150,7 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           <input
             type="number"
             name="expected_salary"
-            placeholder=""
+            placeholder="Expected Salary"
             {...register("expected_salary")}
             required
           />
@@ -164,8 +164,10 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           <input
             type="number"
             name="age"
-            placeholder="20"
-            {...register("age")}
+            placeholder="Age"
+            {...register("age", {
+              valueAsNumber: true, // Convert the input value to a number
+            })}
           />
           {errors.age && <p className="text-danger">{errors.age.message}</p>}
         </div>
@@ -174,7 +176,7 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           <input
             type="text"
             name="name"
-            placeholder="English, Turkish"
+            placeholder="Languages"
             {...register("languages")}
           />
           {errors.languages && (
@@ -188,7 +190,6 @@ const FormInfoBox = ({ onSubmit, onError }) => {
           <Controller
             name="skills"
             control={control}
-            // defaultValue={[]}
             rules={{ required: "Please select at least one skill" }}
             render={({ field }) => (
               <Select

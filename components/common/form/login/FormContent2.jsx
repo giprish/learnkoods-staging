@@ -62,7 +62,10 @@ const FormContent2 = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    mode: "onChange",
+    // resolver
+  });
 
   const { mutate, isLoading } = useMutation({
     mutationFn: loginUser,
@@ -95,11 +98,30 @@ const FormContent2 = () => {
 
       // hideModal();
     },
-    onError: (data) => {
-      console.log(data, "error message");
-      toast.error("Login Unsuccessful", {
-        position: toast.POSITION.TOP_RIGHT,
+    onError: (error) => {
+      console.log(error, "error message");
+      const errorFields = ["username", "password"];
+      let errorHandled = false;
+
+      errorFields.forEach((field) => {
+        if (error.response.data[field]) {
+          const errorMessage = Array.isArray(error.response.data[field])
+            ? error.response.data[field][0]
+            : error.response.data[field].error || error.response.data[field];
+
+          toast.error(`${field}: ${errorMessage}`, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+          errorHandled = true;
+        }
       });
+
+      // Handle errors not in the errorFields array
+      if (!errorHandled) {
+        toast.error("An unexpected error occurred. Please try again.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
     },
   });
 

@@ -19,15 +19,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { jobPostSchema } from "@/validation/validation.js";
 
 const index = () => {
-  const methods = useForm();
-  //   {
-  //   mode: "onChange",
-  //   resolver: zodResolver(jobPostSchema),
-  // }
+  const methods = useForm({
+    mode: "onChange",
+    resolver: zodResolver(jobPostSchema),
+  });
 
   const [jobImage, setJobImage] = useState(null);
   const [companyId, setCompanyId] = useState(null);
   const [companyname, setComanyName] = useState(null);
+  const [error, setError] = useState(null);
   const [tab, setTab] = useState("step1");
   const access = window.localStorage.getItem("access");
   const userId = window.localStorage.getItem("id");
@@ -93,9 +93,51 @@ const index = () => {
     },
     onError: (error) => {
       console.log(error, "error message");
-      toast.error("question addditon unsuccessful", {
-        position: toast.POSITION.TOP_RIGHT,
+      const errorFields = [
+        "job_title",
+        "job_type",
+        "workplace_type",
+        "exp_required",
+        "gender",
+        "url",
+        "is_published",
+        "is_closed",
+        "category",
+        "sub_category",
+        "recruitment_timeline",
+        "country",
+        "state",
+        "city",
+        "pincode",
+        "location1",
+        "location",
+        "job_des",
+        "skills_req",
+        "max_salary",
+        "min_salary",
+        "rate",
+      ];
+      let errorHandled = false;
+
+      errorFields.forEach((field) => {
+        if (error.response.data[field]) {
+          const errorMessage = Array.isArray(error.response.data[field])
+            ? error.response.data[field][0]
+            : error.response.data[field].error || error.response.data[field];
+
+          toast.error(`${field}: ${errorMessage}`, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+          errorHandled = true;
+        }
       });
+
+      // Handle errors not in the errorFields array
+      if (!errorHandled) {
+        toast.error("An unexpected error occurred. Please try again.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
     },
   });
   const onSubmit = (data) => {
@@ -210,13 +252,22 @@ const index = () => {
                             onSubmit={onSubmit}
                             setJobImage={setJobImage}
                             setTab={setTab}
+                            setError={setError}
                           />
                         )}
                         {tab === "step2" && (
-                          <StepTwo setTab={setTab} onSubmit={onSubmit} />
+                          <StepTwo
+                            setTab={setTab}
+                            onSubmit={onSubmit}
+                            setError={setError}
+                          />
                         )}
                         {tab === "step3" && (
-                          <StepThree setTab={setTab} onSubmit={onSubmit} />
+                          <StepThree
+                            setTab={setTab}
+                            onSubmit={onSubmit}
+                            setError={setError}
+                          />
                         )}
                       </div>
                     </FormProvider>

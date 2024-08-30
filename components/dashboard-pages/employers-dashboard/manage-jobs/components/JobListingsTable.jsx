@@ -33,9 +33,10 @@ const JobListingsTable = () => {
 
   const CompanyOptions = [
     { value: "", label: "Select", isDisabled: true },
-    ...Companies?.data.map((company) => {
-      return { value: company.id, label: company.name };
-    }),
+    ...(Companies?.data || []).map((company) => ({
+      value: company.id,
+      label: company.name,
+    })),
   ];
 
   const handleCompany = (selectedOption) => {

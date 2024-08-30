@@ -200,13 +200,23 @@ const ExperienceInfoBox = () => {
   });
 
   const handleDelete = async (index) => {
-    const fieldId = userExperience?.data[index]?.id;
-    if (fieldId) {
-      deleteMutation.mutate(fieldId, {
-        onSuccess: () => {
-          remove(index);
-        },
-      });
+    // Ensure userExperience.data exists and index is within bounds
+    if (
+      Array.isArray(userExperience?.data) &&
+      index >= 0 &&
+      index < userExperience.data.length
+    ) {
+      const fieldId = userExperience.data[index]?.id;
+
+      if (fieldId) {
+        deleteMutation.mutate(fieldId, {
+          onSuccess: () => {
+            remove(index);
+          },
+        });
+      } else {
+        remove(index);
+      }
     } else {
       remove(index);
     }
@@ -331,7 +341,7 @@ const ExperienceInfoBox = () => {
             <input
               type="date"
               name={`experience[${index}].start_date`}
-              placeholder="Additional Field 1"
+              placeholder="Start Date"
               {...register(`experience[${index}].start_date`)}
               className="border p-3 rounded-3"
               required
@@ -349,7 +359,7 @@ const ExperienceInfoBox = () => {
                 <input
                   type="date"
                   name={`experience[${index}].end_date`}
-                  placeholder="Additional Field 2"
+                  placeholder="End Date"
                   {...register(`experience[${index}].end_date`)}
                   className="border p-3 rounded-3"
                 />
@@ -364,7 +374,7 @@ const ExperienceInfoBox = () => {
           <div className="form-group col-lg-12 col-md-12 p-4">
             <input
               type="checkbox"
-              placeholder="creativelayers"
+              placeholder=""
               {...register(`experience[${index}].is_current`)}
               className="mx-4"
               onChange={() => handleWorkingChange(index)}

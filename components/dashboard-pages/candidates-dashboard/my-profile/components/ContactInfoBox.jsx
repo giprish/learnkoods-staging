@@ -281,7 +281,7 @@ const ContactInfoBox = ({ countryId, setCountryId, stateId, setStateId }) => {
           <input
             type="email"
             name="email"
-            placeholder="creativelayers"
+            placeholder="Email"
             {...register("email")}
             required
           />
@@ -389,7 +389,7 @@ const ContactInfoBox = ({ countryId, setCountryId, stateId, setStateId }) => {
           <input
             type="text"
             name="address1"
-            placeholder="329 Queensberry Street."
+            placeholder="Address Line 1"
             {...register("address1")}
             required
           />
@@ -402,7 +402,7 @@ const ContactInfoBox = ({ countryId, setCountryId, stateId, setStateId }) => {
           <input
             type="text"
             name="name"
-            placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia."
+            placeholder="Address Line 2"
             {...register("address")}
             required
           />

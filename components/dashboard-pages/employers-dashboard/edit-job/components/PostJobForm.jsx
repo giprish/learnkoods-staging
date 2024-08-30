@@ -5,6 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Controller, useForm, useFormContext } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Tooltip from "@/components/tooltip/ToolTip";
 
 const PostjobForm = ({
   onSubmit,
@@ -76,6 +77,10 @@ const PostjobForm = ({
     }));
   };
 
+  const onError = (error) => {
+    console.log(error);
+  };
+
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
       <div className="row">
@@ -84,10 +89,13 @@ const PostjobForm = ({
           <label>Job Title</label>
           <input
             type="text"
-            name="name"
+            name="job_title"
             placeholder="Title"
             {...register("job_title")}
           />
+          {errors.job_title?.message && (
+            <p className="text-danger">{errors.job_title?.message}</p>
+          )}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
@@ -96,11 +104,14 @@ const PostjobForm = ({
             className="chosen-single form-select"
             {...register("job_type")}
           >
-            <option value="">Select</option>
+            <option disabled>Select</option>
             <option value="Full Time">Full Time</option>
             <option value="Part Time">Part Time</option>
             <option value="Internship">Internship</option>
           </select>
+          {errors.job_type?.message && (
+            <p className="text-danger">{errors.job_type?.message}</p>
+          )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
           <label>Workplace Type</label>
@@ -113,16 +124,13 @@ const PostjobForm = ({
             <option value="Hybrid">Hybrid</option>
             <option value="Remote">Remote</option>
           </select>
+          {errors.workplace_type?.message && (
+            <p className="text-danger">{errors.workplace_type?.message}</p>
+          )}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
-          <label>Experience</label>
-          {/* <input
-            type="text"
-            name="exp_required"
-            placeholder=""
-            {...register("exp_required")}
-          /> */}
+          <label>Experience Required</label>
           <select
             className="chosen-single form-select"
             {...register("exp_required")}
@@ -146,16 +154,30 @@ const PostjobForm = ({
         <div className="form-group col-lg-6 col-md-12">
           <label>Gender</label>
           <select className="chosen-single form-select" {...register("gender")}>
-            <option value="">Select</option>
+            <option disabled>Select</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
             <option value="All">All</option>
           </select>
+          {errors.gender?.message && (
+            <p className="text-danger">{errors.gender?.message}</p>
+          )}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
-          <label>Url</label>
+          <label>
+            Url {` (optional)`}{" "}
+            <Tooltip
+              title={"Job posting url"}
+              text={
+                "If you have posted job on your website place your url here"
+              }
+            />
+          </label>
           <input type="url" name="url" placeholder="Url" {...register("url")} />
+          {errors.url?.message && (
+            <p className="text-danger">{errors.url?.message}</p>
+          )}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
@@ -165,12 +187,12 @@ const PostjobForm = ({
             {...register("is_published")}
           >
             <option disabled>Select</option>
-            <option value="true">True</option>
-            <option value="false">False</option>
+            <option value="True">True</option>
+            <option value="False">False</option>
           </select>
-          {/* {errors.is_published?.message && (
+          {errors.is_published?.message && (
             <p className="text-danger">{errors.is_published?.message}</p>
-          )} */}
+          )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
           <label>Is Closed</label>
@@ -179,33 +201,43 @@ const PostjobForm = ({
             {...register("is_closed")}
           >
             <option disabled>Select</option>
-            <option value="true">True</option>
-            <option value="false">False</option>
+            <option value="True">True</option>
+            <option value="False">False</option>
           </select>
-          {/* {errors.is_closed?.message && (
+          {errors.is_closed?.message && (
             <p className="text-danger">{errors.is_closed?.message}</p>
-          )} */}
+          )}
         </div>
+
         <div className="form-group col-lg-6 col-md-12">
           <label>Category</label>
+
           <Controller
             name="category"
             control={control}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={options(category)}
-                className="basic-multi-select"
-                classNamePrefix="select"
-                onChange={(selectedOption) => {
-                  setCat({
-                    value: selectedOption.value, // Set the selected country value
-                    label: selectedOption.label, // Set the selected country label
-                  });
-                  field.onChange(selectedOption);
-                  setValue("sub_category", null);
-                }}
-              />
+            render={({ field, fieldState: { error } }) => (
+              <>
+                <Select
+                  {...field}
+                  value={
+                    options(category)?.find(
+                      (option) => option.value === field.value?.value
+                    ) || null
+                  }
+                  onChange={(selectedOption) => {
+                    setCat({
+                      value: selectedOption.value, // Set the value
+                      label: selectedOption.label, // Set the label
+                    });
+                    field.onChange(selectedOption); // Pass the entire selectedOption object
+                    setValue("sub_category", null);
+                  }}
+                  options={options(category)}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                />
+                {error && <p className="text-danger">{error.message}</p>}
+              </>
             )}
           />
         </div>
@@ -214,23 +246,20 @@ const PostjobForm = ({
           <Controller
             name="sub_category"
             control={control}
-            rules={{ required: "Sub category is required !" }}
+            // rules={{ required: "Sub category is required !" }}
             render={({ field, fieldState: { error } }) => (
               <>
                 <Select
                   {...field}
+                  onChange={(selectedOption) => {
+                    setSelectedSubCat(selectedOption);
+                    field.onChange(selectedOption);
+                  }}
                   options={options(subCategory)}
                   className="basic-multi-select"
                   classNamePrefix="select"
-                  onChange={(selectedOption) => {
-                    setSubCat({
-                      value: selectedOption.value, // Set the selected country value
-                      label: selectedOption.label, // Set the selected country label
-                    });
-                    field.onChange(selectedOption);
-                  }}
                 />
-                {error && <p className="error">{error.message}</p>}
+                {error && <p className="error text-danger">{error.message}</p>}
               </>
             )}
           />
@@ -247,29 +276,41 @@ const PostjobForm = ({
             <option value="16-30 days">16-30 days</option>
             <option value="31-60 days">31-60 days</option>
           </select>
+
+          {errors.recruitment_timeline?.message && (
+            <p className="text-danger">
+              {errors.recruitment_timeline?.message}
+            </p>
+          )}
         </div>
 
+        {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Country</label>
           <Controller
             name="country"
             control={control}
             render={({ field }) => (
-              <Select
-                {...field}
-                options={options(country)}
-                className="basic-multi-select"
-                classNamePrefix="select"
-                onChange={(selectedOption) => {
-                  field.onChange(selectedOption); // Update React Hook Form state
-                  setCountryId({
-                    value: selectedOption.value, // Set the selected country value
-                    label: selectedOption.label, // Set the selected country label
-                  }); // Set the selected country ID
-                  setValue("state", null);
-                  setValue("city", null);
-                }}
-              />
+              <>
+                <Select
+                  {...field}
+                  options={options(country)}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                  onChange={(selectedOption) => {
+                    field.onChange(selectedOption); // Update React Hook Form state
+                    setCountryId({
+                      value: selectedOption.value, // Set the selected country value
+                      label: selectedOption.label, // Set the selected country label
+                    }); // Set the selected country ID
+                    setValue("state", null);
+                    setValue("city", null);
+                  }}
+                />
+                {errors.country && (
+                  <p className="text-danger">{errors.country?.message}</p>
+                )}
+              </>
             )}
           />
         </div>
@@ -279,20 +320,25 @@ const PostjobForm = ({
             name="state"
             control={control}
             render={({ field }) => (
-              <Select
-                {...field}
-                options={options(state)}
-                className="basic-multi-select"
-                classNamePrefix="select"
-                onChange={(selectedOption) => {
-                  field.onChange(selectedOption); // Update React Hook Form state
-                  setStateId({
-                    value: selectedOption.value, // Set the selected country value
-                    label: selectedOption.label, // Set the selected country label
-                  });
-                  setValue("city", null);
-                }}
-              />
+              <>
+                <Select
+                  {...field}
+                  options={options(state)}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                  onChange={(selectedOption) => {
+                    field.onChange(selectedOption); // Update React Hook Form state
+                    setStateId({
+                      value: selectedOption.value, // Set the selected country value
+                      label: selectedOption.label, // Set the selected country label
+                    });
+                    setValue("city", null);
+                  }}
+                />
+                {errors.state && (
+                  <p className="text-danger">{errors.state?.message}</p>
+                )}
+              </>
             )}
           />
         </div>
@@ -303,12 +349,17 @@ const PostjobForm = ({
             name="city"
             control={control}
             render={({ field }) => (
-              <Select
-                {...field}
-                options={options(city)}
-                className="basic-multi-select"
-                classNamePrefix="select"
-              />
+              <>
+                <Select
+                  {...field}
+                  options={options(city)}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                />
+                {errors.city && (
+                  <p className="text-danger">{errors.city?.message}</p>
+                )}
+              </>
             )}
           />
         </div>
@@ -319,7 +370,11 @@ const PostjobForm = ({
             name="pincode"
             placeholder="Zipcode"
             {...register("pincode")}
+            required
           />
+          {errors.pincode && (
+            <p className="text-danger">{errors.pincode?.message}</p>
+          )}
         </div>
 
         {/* <!-- Input --> */}
@@ -327,10 +382,13 @@ const PostjobForm = ({
           <label>Address Line 1</label>
           <input
             type="text"
-            name="name"
-            placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia."
+            name="location1"
+            placeholder="329 Queensberry Street"
             {...register("location1")}
           />
+          {errors.location1?.message && (
+            <p className="text-danger">{errors.location1?.message}</p>
+          )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
           <label>Address Line 2</label>
@@ -344,43 +402,6 @@ const PostjobForm = ({
             <p className="text-danger">{errors.location?.message}</p>
           )}
         </div>
-
-        {/* <!-- Input --> */}
-        {/* <div className="form-group col-lg-6 col-md-12">
-          <label>Find On Map</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia."
-          />
-        </div> */}
-
-        {/* <!-- Input --> */}
-        {/* <div className="form-group col-lg-3 col-md-12">
-          <label>Latitude</label>
-          <input type="text" name="name" placeholder="Melbourne" />
-        </div> */}
-
-        {/* <!-- Input --> */}
-        {/* <div className="form-group col-lg-3 col-md-12">
-          <label>Longitude</label>
-          <input type="text" name="name" placeholder="Melbourne" />
-        </div> */}
-
-        {/* <!-- Input --> */}
-        {/* <div className="form-group col-lg-12 col-md-12">
-          <button className="theme-btn btn-style-three">Search Location</button>
-        </div> */}
-
-        {/* <div className="form-group col-lg-12 col-md-12">
-          <div className="map-outer">
-            <div style={{ height: "420px", width: "100%" }}>
-              <Map />
-            </div>
-          </div>
-        </div> */}
-
-        {/* <!-- Input --> */}
         <div className="form-group col-lg-12 col-md-12 text-right d-flex justify-content-between ">
           <button className="theme-btn btn-style-one" type="submit">
             Save

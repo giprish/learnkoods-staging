@@ -90,8 +90,6 @@ const HeaderNavContent = () => {
     }
   };
 
-  console.log("header nav student", typeof student);
-
   return (
     <>
       <div>

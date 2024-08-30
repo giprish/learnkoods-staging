@@ -111,12 +111,15 @@ const StepTwo = ({ setTab, onSubmit }) => {
           </div>
           <div className="form-group col-lg-4 col-md-12">
             <label>Rate</label>
-            <select className="chosen-single form-select" {...register("rate")}>
-              <option>Select</option>
-              <option value="per year">per year</option>
-              <option value="per month">per month</option>
-              <option value="per week">per week</option>
-              <option value="per hour">per hour</option>
+            <select
+              className="chosen-single form-select"
+              {...register("rate_type")}
+            >
+              <option disabled>Select</option>
+              <option value="Per Year">per year</option>
+              <option value="Per Month">per month</option>
+              <option value="Per Week">per week</option>
+              <option value="Per Hour">per hour</option>
             </select>
             {errors?.rate && (
               <p className="text-danger">{errors?.rate?.message}</p>

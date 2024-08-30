@@ -14,9 +14,14 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import ComapnyBreadCrumb from "../register-company/CompanyBreadCrumb";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { companyRegistrationSchema } from "@/validation/validation";
 
 const index = () => {
-  const methods = useForm();
+  const methods = useForm({
+    mode: "onChange",
+    resolver: zodResolver(companyRegistrationSchema),
+  });
   const dirtyFields = methods.formState.dirtyFields;
   const [access, setAccess] = useState(null);
   const router = useRouter();

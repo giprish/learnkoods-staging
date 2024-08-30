@@ -1,24 +1,30 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 
 import { useEffect, useState } from "react";
 import { Controller, useForm, useFormContext } from "react-hook-form";
 import "react-quill/dist/quill.snow.css";
 import Select from "react-select";
+import { toast } from "react-toastify";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-const UpdateStepTwo = ({ setTab, onSubmit }) => {
+const UpdateStepTwo = ({ setTab }) => {
   const {
+    reset,
     register,
     handleSubmit,
     control,
     setValue,
     watch,
-    formState: { errors },
-  } = useFormContext();
-  const [jobDesc, setJobDesc] = useState("");
+    formState: { errors, dirtyFields },
+  } = useForm();
+  const maxSalary = watch("max_salary");
+  const router = useRouter();
+  const id = router.query.id;
+  const access = window.localStorage.getItem("access");
 
   const fetch = async (url) => {
     const response = await axios.get(url);
@@ -35,6 +41,173 @@ const UpdateStepTwo = ({ setTab, onSubmit }) => {
       label: skill.data,
     };
   });
+
+  const { data: job } = useQuery({
+    queryKey: ["job", id],
+    queryFn: () => fetch(`${process.env.GLOBAL_API}/job_api/${id}/`),
+  });
+
+  useEffect(() => {
+    if (job) {
+      let skills = job?.data?.skills_req.map((skill) => {
+        return { label: skill.data };
+      });
+      reset(job?.data);
+      setValue("skills_req", skills);
+      setValue("is_published", job?.data?.is_published ? "true" : "false");
+      setValue("is_closed", job?.data?.is_closed ? "true" : "false");
+      setValue("rate_type", job?.data?.rate_type);
+    }
+  }, [job]);
+
+  const updateJob = async (formData) => {
+    const { data: response } = await axios.put(
+      `${process.env.GLOBAL_API}/job_api/${id}/`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+          "Content-type": "multipart/form-data",
+        },
+      }
+    );
+    return response;
+  };
+  const { mutate, isLoading } = useMutation({
+    mutationFn: updateJob,
+    onSuccess: (data) => {
+      console.log(data, "data from sucessful job update");
+      toast.success("Job updated successfully", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      //   window.localStorage.setItem("company_id", data.data.id);
+    },
+    onError: (error) => {
+      console.log(error, "error message");
+      const errorFields = [
+        "job_title",
+        "job_type",
+        "workplace_type",
+        "exp_required",
+        "gender",
+        "url",
+        "is_published",
+        "is_closed",
+        "category",
+        "sub_category",
+        "recruitment_timeline",
+        "country",
+        "state",
+        "city",
+        "pincode",
+        "location1",
+        "location",
+        "job_des",
+        "skills_req",
+        "max_salary",
+        "min_salary",
+        "rate",
+      ];
+
+      let errorHandled = false;
+
+      errorFields.forEach((field) => {
+        if (error.response.data[field]) {
+          const errorMessage = Array.isArray(error.response.data[field])
+            ? error.response.data[field][0]
+            : error.response.data[field].error || error.response.data[field];
+
+          toast.error(`${field}: ${errorMessage}`, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+          errorHandled = true;
+        }
+      });
+      // Handle errors not in the errorFields array
+      if (!errorHandled) {
+        toast.error("An unexpected error occurred. Please try again.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+    },
+  });
+
+  const onSubmit = (data) => {
+    // Debugging: Log dirtyFields to ensure it's being populated correctly
+    console.log(data, "original data");
+    console.log("Dirty Fields:", dirtyFields);
+    if (dirtyFields.category) {
+      delete dirtyFields.category;
+    }
+    const formData = new FormData();
+
+    const dirtyData = Object.keys(data).reduce((acc, key) => {
+      if (dirtyFields[key]) {
+        if (Array.isArray(data[key]) && key === "questions") {
+          // Handle multi-select fields by extracting labels
+          acc[key] = data[key].map((option) => ({
+            question_name: option.question_name,
+            must_have: option.must_have,
+          }));
+        } else if (Array.isArray(data[key])) {
+          // Handle multi-select fields by extracting labels
+          acc[key] = data[key].map((option) => ({
+            data: option.label,
+          }));
+        } else if (typeof data[key] === "object" && data[key].value) {
+          // If the value is an object and has a value property, extract it
+          acc[key] = data[key].value;
+        } else {
+          // Handle other fields
+          acc[key] = data[key];
+        }
+      }
+      return acc;
+    }, {});
+    // Debugging: Log dirtyData to ensure it's being populated correctly
+    console.log("Dirty Data:", dirtyData);
+
+    // Print the FormData entries
+    for (const key in dirtyData) {
+      if (key === "skills_req" && Array.isArray(dirtyData[key])) {
+        dirtyData[key].forEach((element, index) => {
+          formData.append(`skills_req[${index}]data`, element.data);
+        });
+        // formData.append(key, JSON.stringify(dirtyData[key]));
+      }
+      if (key === "questions" && Array.isArray(dirtyData[key])) {
+        dirtyData[key].forEach((element, index) => {
+          formData.append(
+            `questions[${index}]question_name`,
+            element.question_name
+          );
+          formData.append(`questions[${index}]must_have`, element.must_have);
+        });
+        // formData.append(key, JSON.stringify(dirtyData[key]));
+      } else {
+        formData.append(key, dirtyData[key]);
+      }
+    }
+    // for (const key in postData) {
+    //   formData.append(key, JSON.stringify(postData[key]));
+    // }
+
+    // Append the logo if it exists
+
+    for (let pair of formData.entries()) {
+      console.log(
+        pair[0],
+        Array.isArray(pair[1])
+          ? pair[1].map((obj) => JSON.stringify(obj))
+          : pair[1]
+      );
+    }
+
+    // Debugging: Log formData entries to ensure correct data is being appended
+
+    mutate(formData);
+    // Submit only dirtyData to your API
+  };
 
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
@@ -56,7 +229,6 @@ const UpdateStepTwo = ({ setTab, onSubmit }) => {
               />
             )}
           />
-
           {errors.description && (
             <p style={{ color: "red" }}>{errors.description.message}</p>
           )}
@@ -66,14 +238,21 @@ const UpdateStepTwo = ({ setTab, onSubmit }) => {
           <Controller
             name="skills_req"
             control={control}
-            render={({ field }) => (
-              <Select
-                {...field}
-                isMulti
-                options={skillOptions}
-                className="basic-multi-select"
-                classNamePrefix="select"
-              />
+            rules={{ required: "Skills are required" }} // Add this line for validation
+            render={({ field, fieldState }) => (
+              <>
+                <Select
+                  {...field}
+                  isMulti
+                  options={skillOptions}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                />
+                {fieldState.error && (
+                  <p className="text-danger">{fieldState.error.message}</p>
+                )}{" "}
+                {/* Display error message */}
+              </>
             )}
           />
         </div>
@@ -86,8 +265,23 @@ const UpdateStepTwo = ({ setTab, onSubmit }) => {
               name="min_salary"
               placeholder="Minimum Salary"
               step="0.01"
-              {...register("min_salary")}
+              {...register("min_salary", {
+                required: "Minimum salary is required",
+                min: {
+                  value: 0,
+                  message: "Salary must be a positive number",
+                },
+                validate: {
+                  lessThanMax: (value) =>
+                    value <= maxSalary ||
+                    "Minimum salary must be less than or equal to maximum salary",
+                },
+                valueAsNumber: true,
+              })}
             />
+            {errors?.min_salary && (
+              <p className="text-danger">{errors?.min_salary?.message}</p>
+            )}
           </div>
           <div className="form-group col-lg-4 col-md-12">
             <label>Maximum Salary</label>
@@ -96,7 +290,14 @@ const UpdateStepTwo = ({ setTab, onSubmit }) => {
               name="max_salary"
               placeholder="Maximum Salary"
               step="0.01"
-              {...register("max_salary")}
+              {...register("max_salary", {
+                required: "Maximum salary is required",
+                min: {
+                  value: 0,
+                  message: "Salary must be a positive number",
+                },
+                valueAsNumber: true,
+              })}
             />
             {errors?.max_salary && (
               <p className="text-danger">{errors?.max_salary?.message}</p>
@@ -104,12 +305,16 @@ const UpdateStepTwo = ({ setTab, onSubmit }) => {
           </div>
           <div className="form-group col-lg-4 col-md-12">
             <label>Rate</label>
-            <select className="chosen-single form-select" {...register("rate")}>
-              <option value="">Select</option>
-              <option value="per year">per year</option>
-              <option value="per month">per month</option>
-              <option value="per week">per week</option>
-              <option value="per hour">per hour</option>
+            <select
+              className="chosen-single form-select"
+              {...register("rate_type")}
+              required
+            >
+              <option disabled>Select</option>
+              <option value="Per Year">per year</option>
+              <option value="Per Month">per month</option>
+              <option value="Per Week">per week</option>
+              <option value="Per Hour">per hour</option>
             </select>
           </div>
         </div>

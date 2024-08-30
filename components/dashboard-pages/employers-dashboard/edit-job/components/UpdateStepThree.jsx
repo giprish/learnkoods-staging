@@ -151,13 +151,23 @@ const UpdateStepThree = ({ setTab }) => {
   });
 
   const handleDelete = async (index) => {
-    const fieldId = quesdataWithIds[index]?.id;
-    if (fieldId) {
-      deleteMutate(fieldId, {
-        onSuccess: () => {
-          remove(index);
-        },
-      });
+    // Ensure quesdataWithIds exists and index is within bounds
+    if (
+      Array.isArray(quesdataWithIds) &&
+      index >= 0 &&
+      index < quesdataWithIds.length
+    ) {
+      const fieldId = quesdataWithIds[index]?.id;
+
+      if (fieldId) {
+        deleteMutate(fieldId, {
+          onSuccess: () => {
+            remove(index);
+          },
+        });
+      } else {
+        remove(index);
+      }
     } else {
       remove(index);
     }
@@ -228,6 +238,7 @@ const UpdateStepThree = ({ setTab }) => {
                     type="text"
                     className="border w-75 m-2 rounded-2 px-2"
                     {...register(`questions.${index}.question_name`)}
+                    required
                   />
                   {/* <span className="border rounded-4 p-1 px-2 m-2 bg-success text-white">
                       Recommended

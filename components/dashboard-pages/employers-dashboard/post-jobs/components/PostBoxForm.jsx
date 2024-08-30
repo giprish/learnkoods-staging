@@ -14,6 +14,7 @@ const PostBoxForm = ({
   setJobImage,
   onError,
   setTab,
+  setError,
 }) => {
   const {
     register,
@@ -84,6 +85,10 @@ const PostBoxForm = ({
     }));
   };
 
+  const onError = (errors) => {
+    console.log(errors);
+  };
+
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit, onError)}>
       <div className="row">
@@ -134,13 +139,6 @@ const PostBoxForm = ({
 
         <div className="form-group col-lg-6 col-md-12">
           <label>Experience Required</label>
-          {/* <input
-            type="text"
-            name="exp_required"
-            placeholder=""
-            {...register("exp_required")}
-          /> */}
-
           <select
             className="chosen-single form-select"
             {...register("exp_required")}
@@ -190,20 +188,6 @@ const PostBoxForm = ({
           )}
         </div>
 
-        {/* <div className="form-group col-lg-6 col-md-12 ">
-          <label className="" for="job_image">
-            Job Image
-          </label>
-          <input
-            id="job_image"
-            type="file"
-            name="job_image"
-            placeholder="Image"
-            onChange={(e) => setJobImage(e.target.files[0])}
-            className="form-control py-3"
-            accept=".jpg, .png, .jgeg"
-          />
-        </div> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Is published</label>
           <select

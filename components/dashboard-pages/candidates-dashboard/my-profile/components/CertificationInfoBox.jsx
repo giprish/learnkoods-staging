@@ -214,13 +214,19 @@ const CertificationInfoBox = () => {
   });
 
   const handleDelete = async (index) => {
-    const fieldId = certdata[index]?.id;
-    if (fieldId) {
-      deleteMutation.mutate(fieldId, {
-        onSuccess: () => {
-          remove(index);
-        },
-      });
+    // Ensure certdata exists and index is within bounds
+    if (Array.isArray(certdata) && index >= 0 && index < certdata.length) {
+      const fieldId = certdata[index]?.id;
+
+      if (fieldId) {
+        deleteMutation.mutate(fieldId, {
+          onSuccess: () => {
+            remove(index);
+          },
+        });
+      } else {
+        remove(index);
+      }
     } else {
       remove(index);
     }
@@ -244,7 +250,7 @@ const CertificationInfoBox = () => {
             <input
               type="text"
               name={`certificate[${index}].cert_title`}
-              placeholder="Title"
+              placeholder="Title of Certificate"
               {...register(`certificate[${index}].cert_title`)}
               required
             />
@@ -310,7 +316,7 @@ const CertificationInfoBox = () => {
                 <input
                   type="date"
                   name={`certificate[${index}].expiration_date`}
-                  placeholder="Additional Field 2"
+                  placeholder="Expiration Date"
                   {...register(`certificate[${index}].expiration_date`)}
                   className="border p-3 rounded-3"
                 />
@@ -325,7 +331,7 @@ const CertificationInfoBox = () => {
           <div className="form-group col-lg-12 col-md-12 p-4">
             <input
               type="checkbox"
-              placeholder="creativelayers"
+              placeholder=""
               {...register(`certificate[${index}].working`)}
               className="mx-4"
               onChange={() => handleWorkingChange(index)}
@@ -342,7 +348,7 @@ const CertificationInfoBox = () => {
             <input
               type="url"
               name={`certificate[${index}].link`}
-              placeholder="www.udemy.com"
+              placeholder="Link This Certificate"
               {...register(`certificate[${index}].link`)}
               required
             />

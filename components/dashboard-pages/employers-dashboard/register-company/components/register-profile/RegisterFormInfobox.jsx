@@ -89,6 +89,9 @@ const RegisterFormInfoBox = ({
             {...register("name")}
             required
           />
+          {errors.name && (
+            <p className="text-danger">{errors?.name?.message}</p>
+          )}
         </div>
 
         {/* <!-- Input --> */}
@@ -100,9 +103,11 @@ const RegisterFormInfoBox = ({
             type="email"
             name="email"
             placeholder="example@mail.com"
-            required
             {...register("email")}
           />
+          {errors.email && (
+            <p className="text-danger">{errors?.email?.message}</p>
+          )}
         </div>
 
         {/* <!-- Input --> */}
@@ -115,16 +120,21 @@ const RegisterFormInfoBox = ({
             control={control}
             rules={{ required: "Phone number is required" }}
             render={({ field }) => (
-              <PhoneInput
-                country={"us"} // Default country
-                value={field.value}
-                onChange={(phone) => field.onChange(phone)}
-                inputStyle={{
-                  width: "100%",
-                  padding: "28px 50px",
-                  borderRadius: "8px",
-                }}
-              />
+              <>
+                <PhoneInput
+                  country={"us"} // Default country
+                  value={field.value}
+                  onChange={(phone) => field.onChange(phone)}
+                  inputStyle={{
+                    width: "100%",
+                    padding: "28px 50px",
+                    borderRadius: "8px",
+                  }}
+                />
+                {errors.phone_number && (
+                  <p className="text-danger">{errors?.phone_number?.message}</p>
+                )}
+              </>
             )}
           />
           {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
@@ -142,6 +152,9 @@ const RegisterFormInfoBox = ({
             required
             {...register("website")}
           />
+          {errors.website && (
+            <p className="text-danger">{errors?.website?.message}</p>
+          )}
         </div>
 
         {/* <!-- Input --> */}
@@ -152,7 +165,11 @@ const RegisterFormInfoBox = ({
             name="established"
             className="form-control py-3"
             {...register("since")}
+            required
           />
+          {errors.since && (
+            <p className="text-danger">{errors?.since?.message}</p>
+          )}
         </div>
 
         {/* <!-- Input --> */}
@@ -162,7 +179,7 @@ const RegisterFormInfoBox = ({
             className="chosen-single form-select"
             {...register("team_size")}
           >
-            <option value="">Select</option>
+            <option disabled>Select</option>
             <option value="50-100">50-100</option>
             <option value="100-150">100-150</option>
             <option value="150-200">150-200</option>
@@ -171,6 +188,9 @@ const RegisterFormInfoBox = ({
             <option value="300-500">300-500</option>
             <option value="500+">500+</option>
           </select>
+          {errors.team_size && (
+            <p className="text-danger">{errors?.team_size?.message}</p>
+          )}
         </div>
 
         {/* <!-- Search Select --> */}
@@ -182,12 +202,17 @@ const RegisterFormInfoBox = ({
             name="industry"
             control={control}
             render={({ field }) => (
-              <Select
-                {...field}
-                options={options(industry)}
-                className="basic-multi-select"
-                classNamePrefix="select"
-              />
+              <>
+                <Select
+                  {...field}
+                  options={options(industry)}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                />
+                {errors.industry && (
+                  <p className="text-danger">{errors?.industry?.message}</p>
+                )}
+              </>
             )}
           />
         </div>
@@ -199,37 +224,42 @@ const RegisterFormInfoBox = ({
             <Tooltip title={"Resolution"} text={""} />
           </label>
           {logo ? (
-            <div className="d-flex flex-row uploadButton justify-content-center align-items-center">
-              <input
-                className=" form-control py-3 logo-input"
-                type="file"
-                name="profile_image"
-                accept="image/*"
-                id="upload"
-                required={!(logo.url.length > 2 || logo.file)}
-                onChange={(e) => {
-                  handleLogo(e);
-                }}
-              />
-              {logo.url.length > 2 && !logo.file && (
-                <Image
-                  src={`${logo?.url}`}
-                  width={50}
-                  height={50}
-                  alt="profile image"
-                  className="rounded-circle border"
+            <>
+              <div className="d-flex flex-row uploadButton justify-content-center align-items-center">
+                <input
+                  className=" form-control py-3 logo-input"
+                  type="file"
+                  name="profile_image"
+                  accept="image/*"
+                  id="upload"
+                  required={!(logo.url.length > 2 || logo.file)}
+                  onChange={(e) => {
+                    handleLogo(e);
+                  }}
                 />
+                {logo.url.length > 2 && !logo.file && (
+                  <Image
+                    src={`${logo?.url}`}
+                    width={50}
+                    height={50}
+                    alt="profile image"
+                    className="rounded-circle border"
+                  />
+                )}
+                {logo.file && (
+                  <img
+                    src={URL.createObjectURL(logo.file)}
+                    alt="preview"
+                    width="50"
+                    height="50"
+                    className="uploadedImage rounded-circle border"
+                  />
+                )}
+              </div>
+              {errors.profile_image && (
+                <p className="text-danger">{errors?.profile_image?.message}</p>
               )}
-              {logo.file && (
-                <img
-                  src={URL.createObjectURL(logo.file)}
-                  alt="preview"
-                  width="50"
-                  height="50"
-                  className="uploadedImage rounded-circle border"
-                />
-              )}
-            </div>
+            </>
           ) : (
             <>
               {" "}
@@ -247,6 +277,9 @@ const RegisterFormInfoBox = ({
                   handleLogo(e);
                 }}
               />
+              {errors.profile_image && (
+                <p className="text-danger">{errors?.profile_image?.message}</p>
+              )}
             </>
           )}
         </div>
@@ -275,7 +308,9 @@ const RegisterFormInfoBox = ({
                     setValue("city", null);
                   }}
                 />
-                {error && <p className="text-danger">{error.message}</p>}{" "}
+                {errors.country && (
+                  <p className="text-danger">{errors?.country?.message}</p>
+                )}
                 {/* Display error */}
               </>
             )}
@@ -305,7 +340,9 @@ const RegisterFormInfoBox = ({
                     setValue("city", null);
                   }}
                 />
-                {error && <p className="text-danger">{error.message}</p>}{" "}
+                {errors.state && (
+                  <p className="text-danger">{errors?.state?.message}</p>
+                )}
               </>
             )}
           />
@@ -327,7 +364,9 @@ const RegisterFormInfoBox = ({
                   className="basic-multi-select"
                   classNamePrefix="select"
                 />
-                {error && <p className="text-danger">{error.message}</p>}{" "}
+                {errors.city && (
+                  <p className="text-danger">{errors?.city?.message}</p>
+                )}
               </>
             )}
           />
@@ -343,6 +382,9 @@ const RegisterFormInfoBox = ({
             required
             {...register("pincode")}
           />
+          {errors.pincode && (
+            <p className="text-danger">{errors?.pincode?.message}</p>
+          )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
           <label>
@@ -355,6 +397,9 @@ const RegisterFormInfoBox = ({
             required
             {...register("address1")}
           />
+          {errors.address1 && (
+            <p className="text-danger">{errors?.address1?.message}</p>
+          )}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
@@ -368,6 +413,9 @@ const RegisterFormInfoBox = ({
             required
             {...register("address")}
           />
+          {errors.address && (
+            <p className="text-danger">{errors?.address?.message}</p>
+          )}
         </div>
 
         {/* <!-- About Company --> */}

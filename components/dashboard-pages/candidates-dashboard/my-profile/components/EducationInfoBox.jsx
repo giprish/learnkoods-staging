@@ -204,13 +204,23 @@ const EducationInfoBox = () => {
   });
 
   const handleDelete = async (index) => {
-    const fieldId = userEducation?.data[index]?.id;
-    if (fieldId) {
-      deleteMutation.mutate(fieldId, {
-        onSuccess: () => {
-          remove(index);
-        },
-      });
+    // Ensure userEducation.data exists and index is within bounds
+    if (
+      Array.isArray(userEducation?.data) &&
+      index >= 0 &&
+      index < userEducation.data.length
+    ) {
+      const fieldId = userEducation.data[index]?.id;
+
+      if (fieldId) {
+        deleteMutation.mutate(fieldId, {
+          onSuccess: () => {
+            remove(index);
+          },
+        });
+      } else {
+        remove(index);
+      }
     } else {
       remove(index);
     }
@@ -238,7 +248,7 @@ const EducationInfoBox = () => {
             <input
               type="text"
               name={`education[${index}].title`}
-              placeholder="University of Pennsylvania"
+              placeholder="School or Institute Name"
               {...register(`education[${index}].institution_name`)}
             />
             {errors.education?.[index]?.institution_name && (
@@ -252,7 +262,7 @@ const EducationInfoBox = () => {
             <input
               type="text"
               name={`education[${index}].field_of_study`}
-              placeholder="Btech"
+              placeholder="Field of Study"
               {...register(`education[${index}].field_of_study`)}
             />
             {errors.education?.[index]?.field_of_study && (
@@ -301,7 +311,7 @@ const EducationInfoBox = () => {
             <input
               type="text"
               name={`education[${index}].grade`}
-              placeholder="Location Type"
+              placeholder="Grade"
               {...register(`education[${index}].grade`)}
             />
             {errors.education?.[index]?.grade && (
@@ -315,7 +325,7 @@ const EducationInfoBox = () => {
             <input
               type="text"
               name={`education[${index}].description`}
-              placeholder="Location Type"
+              placeholder="Description"
               {...register(`education[${index}].description`)}
             />
             {errors.education?.[index]?.description && (

@@ -5,9 +5,6 @@ import DashboardHeader from "../../../header/DashboardHeader";
 import LoginPopup from "../../../common/form/login/LoginPopup";
 import DashboardEmployerSidebar from "../../../header/DashboardEmployerSidebar";
 import RegisterProfile from "./components/register-profile";
-import RegisterSocialnetworkBox from "./components/RegisterSocialnetworkBox";
-import RegisterContactInfoBox from "./components/RegisterContactInfoBox";
-
 import MenuToggler from "../../MenuToggler";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -17,14 +14,14 @@ import { toast } from "react-toastify";
 import ComapnyBreadCrumb from "./CompanyBreadCrumb";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { companySchema } from "@/validation/validation";
+import { companyRegistrationSchema } from "@/validation/validation";
 
 const index = () => {
-  const methods = useForm();
-  //   {
-  //   dirtyFields: true,
-  //   resolver: zodResolver(companySchema),
-  // }
+  const methods = useForm({
+    mode: "onChange",
+    resolver: zodResolver(companyRegistrationSchema),
+  });
+
   const [access, setAccess] = useState(null);
   const [id, setId] = useState();
   const [logo, setLogo] = useState({

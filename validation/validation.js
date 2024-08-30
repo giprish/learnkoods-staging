@@ -2,16 +2,33 @@ import { z } from "zod";
 
 const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
-const genderOptions = z.enum(["Male", "Female", "Other", "Prefer not to say"]);
+const usergenderOptions = z.enum([
+  "Male",
+  "Female",
+  "Other",
+  "Prefer not to say",
+]);
+const genderOptions = z.enum(["Male", "Female", "All"]);
 const jobTypeOptions = z.enum(["Full Time", "Part Time", "Internship"]);
 const workplaceOptions = z.enum(["On-site", "Hybrid", "Remote"]);
 const truthyOptions = z.enum(["True", "False"]);
+const experienceOptions = z.enum([
+  "1-2 years",
+  "2-3 years",
+  "3-5 years",
+  "5-7 years",
+  "7-9 years",
+  "9-11 years",
+  "11-13 years",
+  "13-15 years",
+  "15+ above years",
+]);
+
 const recruitmentOptions = z.enum([
-  "1 to 3 days",
-  "3 to 7 days",
-  "1 to 2 weeks",
-  "2 to 4 weeks",
-  "More than 4 weeks",
+  "1-7 days",
+  "8-15 days",
+  "16-30 days",
+  "31-60 days",
 ]);
 const rateOptions = z.enum(["per year", "per month", "per week", "per hour"]);
 const educationItemSchema = z.object({
@@ -39,7 +56,7 @@ export const userSchema = z.object({
     .min(2, "first name must be at least 2 characters long"),
   last_name: z.string().min(2, "last name must be at least 2 characters long"),
   username: z.string().min(2, "last name must be at least 2 characters long"),
-  gender: genderOptions.refine((value) => value !== undefined, {
+  gender: usergenderOptions.refine((value) => value !== undefined, {
     message: "Please select a valid option",
   }),
   age: z.number().min(14, "minimum age is 14"),
@@ -48,74 +65,42 @@ export const userSchema = z.object({
     message: "Phone number must start with +44 and be followed by 10 digits",
   }),
   email: z.string().email("Invalid email address"),
+  skills: z
+    .array(
+      z.object({
+        value: z.string(),
+        label: z.string(),
+      })
+    )
+    .min(1, "Please select at least one skill"),
 });
 
 export const userContact = z.object({
   email: z.string().email("Invalid email address"), // Validates that the input is a valid email
-  pincode: z.string().length(6, "Pincode must be exactly 6 digits"), // Validates that the pincode is exactly 6 digits long
-  address1: z.string().min(2, "Address line 1 is required"), // Ensures address1 is not empty
-  address: z.string().min(2, "address is required"), // Optional field for address line 2, if needed
-});
-
-export const jobPostSchema = z.object({
-  job_title: z.string().min(4, "Title must have at least 4 characters"),
-  category: z.object({
-    value: z.number().positive("Category is required!"),
+  phone: z
+    .string()
+    .min(10, "Phone number must be at least 10 digits")
+    .max(15, "Phone number must be at most 15 digits")
+    .regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format"),
+  pincode: z
+    .number()
+    .min(100000, "Pincode must be exactly 6 digits")
+    .max(999999, "Pincode must be exactly 6 digits"),
+  country: z.object({
+    value: z.number().positive("select a country"),
     label: z.string(),
   }),
-  sub_category: z.object({
-    value: z.number().positive("Sub category value must be positive"),
+  state: z.object({
+    value: z.number().positive("select a state"),
     label: z.string(),
   }),
-  job_type: jobTypeOptions.refine((value) => value !== undefined, {
-    message: "Please select an option",
-  }),
-  workplace_type: workplaceOptions.refine((value) => value !== undefined, {
-    message: "Please select an option",
-  }),
-  exp_required: z.string().min(3, "experience is required"),
-  gender: genderOptions.refine((value) => value !== undefined, {
-    message: "Please select a valid option",
-  }),
-  url: z.string().url(),
-  is_published: truthyOptions.refine((value) => value !== undefined, {
-    message: "Please select a valid option",
-  }),
-  is_closed: truthyOptions.refine((value) => value !== undefined, {
-    message: "Please select a valid option",
-  }),
-  recruitment_timeline: recruitmentOptions.refine(
-    (value) => value !== undefined,
-    {
-      message: "Please select a valid option",
-    }
-  ),
   city: z.object({
     value: z.number().positive("select a city"),
     label: z.string(),
-  }),
-  pincode: z
-    .string()
-    .min(6, "pincode must be of 6 digits")
-    .max(6, "pincode must be of 6 digits"),
-  location: z.string().min(4, "address is required"),
-  job_des: z.string().min(4, "job description is required"),
-  skills_req: z
-    .array(
-      z.object({
-        value: z.number().positive(),
-        label: z.string(),
-      })
-    )
-    .min(1, "At least choose one skill"),
-  max_salary: z.string().min(1, "max salary is required"),
-  min_salary: z.string().min(1, "min salary is required"),
-  rate: rateOptions.refine((value) => value !== undefined, {
-    message: "Please select an option",
-  }),
+  }), // Validates that the pincode is exactly 6 digits long
+  address1: z.string().min(2, "Address line 1 is required"), // Ensures address1 is not empty
+  address: z.string().min(2, "address is required"), // Optional field for address line 2, if needed
 });
-
-export const companySchema = z.object({});
 
 // Define a schema for a single experience entry
 const experienceSchema = z.object({
@@ -154,4 +139,111 @@ export const userCertificateSchema = z.object({
   certificate: z
     .array(certificateSchema)
     .min(1, "At least one certificate is required"),
+});
+
+export const companyRegistrationSchema = z.object({
+  name: z.string().min(2, "Name is required"),
+  email: z.string().email("Must be a valid email"),
+  phone_number: z.string(), // You can add specific validation like length, pattern, etc.
+  website: z.string().url("Must be a valid URL"),
+  since: z.string().min(1, "Since field is required"), // You can add date-specific validation if needed
+  team_size: z.enum(
+    ["50-100", "100-150", "150-200", "200-250", "250-300", "300-500", "500+"],
+    "Team size is required"
+  ),
+  industry: z.object({
+    value: z.number().positive("select a country"),
+    label: z.string(),
+  }),
+  profile_image: z.any(), // Add file validation if needed
+  country: z.object({
+    value: z.number().positive("select a country"),
+    label: z.string(),
+  }),
+  state: z.object({
+    value: z.number().positive("select a state"),
+    label: z.string(),
+  }),
+  city: z.object({
+    value: z.number().positive("select a city"),
+    label: z.string(),
+  }),
+  pincode: z
+    .string()
+    .transform((val) => {
+      const num = parseInt(val, 10);
+      return isNaN(num) ? undefined : num; // Convert to number or return undefined if invalid
+    })
+    .refine((val) => val !== undefined, {
+      message: "Pincode must be a valid number",
+    })
+    .refine((val) => val >= 100000 && val <= 999999, {
+      message: "Pincode must be exactly 6 digits",
+    }), // You can add length or pattern validation if needed
+  address1: z.string(),
+  address: z.string(),
+  description: z.string(),
+});
+
+export const jobPostSchema = z.object({
+  job_title: z.string().min(4, "Title must have at least 4 characters"),
+  job_type: jobTypeOptions.refine((value) => value !== undefined, {
+    message: "Please select an option",
+  }),
+  workplace_type: workplaceOptions.refine((value) => value !== undefined, {
+    message: "Please select an option",
+  }),
+  exp_required: experienceOptions.refine((value) => value !== undefined, {
+    message: "Experience is required",
+  }),
+  gender: genderOptions.refine((value) => value !== undefined, {
+    message: "Please select a valid option",
+  }),
+  url: z.string().url().optional(),
+  is_published: truthyOptions.refine((value) => value !== undefined, {
+    message: "Please select a valid option",
+  }),
+  is_closed: truthyOptions.refine((value) => value !== undefined, {
+    message: "Please select a valid option",
+  }),
+  category: z.object({
+    value: z.number().positive("Category is required!"),
+    label: z.string(),
+  }),
+  sub_category: z.object({
+    value: z.number().positive("Sub category is required"),
+    label: z.string(),
+  }),
+  recruitment_timeline: recruitmentOptions.refine(
+    (value) => value !== undefined,
+    {
+      message: "Please select a valid option",
+    }
+  ),
+  country: z.object({
+    value: z.number().positive("select a country"),
+    label: z.string(),
+  }),
+  state: z.object({
+    value: z.number().positive("select a state"),
+    label: z.string(),
+  }),
+  city: z.object({
+    value: z.number().positive("select a city"),
+    label: z.string(),
+  }),
+  pincode: z
+    .string()
+    .transform((val) => {
+      const num = parseInt(val, 10);
+      return isNaN(num) ? undefined : num; // Convert to number or return undefined if invalid
+    })
+    .refine((val) => val !== undefined, {
+      message: "Pincode must be a valid number",
+    })
+    .refine((val) => val >= 100000 && val <= 999999, {
+      message: "Pincode must be exactly 6 digits",
+    }),
+  location1: z.string().min(2, "address is required"),
+  location: z.string().min(2, "address is required"),
 });
