@@ -27,6 +27,7 @@ const CertificationInfoBox = () => {
     reset,
     formState: { dirtyFields, errors },
     setValue,
+    getValues,
   } = useForm({
     mode: "onChange",
     resolver: zodResolver(userCertificateSchema),
@@ -181,8 +182,10 @@ const CertificationInfoBox = () => {
   });
 
   const onSubmit = (data) => {
-    console.log(data, "certificate data");
-    mutate({ data });
+    const formData = getValues();
+    console.log(formData, "education data");
+    console.log(dirtyFields, "dirty fields");
+    mutate({ data: formData, dirtyFields });
   };
 
   const deleteFieldAPI = async (fieldId) => {
@@ -252,7 +255,6 @@ const CertificationInfoBox = () => {
               name={`certificate[${index}].cert_title`}
               placeholder="Title of Certificate"
               {...register(`certificate[${index}].cert_title`)}
-              required
             />
             {errors.certificate?.[index]?.cert_title && (
               <p className="text-danger">
@@ -267,7 +269,6 @@ const CertificationInfoBox = () => {
               name={`certificate[${index}].issuing_organization`}
               placeholder="Issuing Organization"
               {...register(`certificate[${index}].issuing_organization`)}
-              required
             />
             {errors.certificate?.[index]?.issuing_organization && (
               <p className="text-danger">
@@ -283,7 +284,6 @@ const CertificationInfoBox = () => {
               accept=".pdf, .docx"
               name={`certificate[${index}].certificate_file`}
               {...register(`certificate[${index}].certificate_file`)}
-              required
             />
             {errors.certificate?.[index]?.certificate_file && (
               <p className="text-danger">
@@ -300,7 +300,6 @@ const CertificationInfoBox = () => {
               placeholder="Issuing Date"
               {...register(`certificate[${index}].issue_date`)}
               className="border p-3 rounded-3"
-              required
             />
             {errors.certificate?.[index]?.issue_date && (
               <p className="text-danger">
@@ -350,7 +349,6 @@ const CertificationInfoBox = () => {
               name={`certificate[${index}].link`}
               placeholder="Link This Certificate"
               {...register(`certificate[${index}].link`)}
-              required
             />
             {errors.certificate?.[index]?.link && (
               <p className="text-danger">

@@ -434,8 +434,12 @@ const Register2 = () => {
       <div className="bottom-box">
         <div className="text">
           Already have an account?{" "}
-          <Link href="/login" className="call-modal login">
-            LogIn
+          <Link
+            href="/login"
+            className="call-modal login"
+            style={{ color: "#1967d2", fontWeight: "500" }}
+          >
+            Login
           </Link>
         </div>
       </div>

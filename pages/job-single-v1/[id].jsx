@@ -248,6 +248,9 @@ const JobSingleDynamicV1 = () => {
                           aria-label="Close"
                         ></button>
                       </div>
+                      <div className="modal-body">
+                        <ApplyJobModalContent />
+                      </div>
                       {/* End modal-header */}
 
                       {/* End PrivateMessageBox */}

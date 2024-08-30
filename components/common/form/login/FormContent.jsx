@@ -185,8 +185,9 @@ const FormContent = ({ hideModal }) => {
             className="call-modal signup"
             data-bs-toggle="modal"
             data-bs-target="#registerModal"
+            style={{ color: "#1967d2", fontWeight: "500" }}
           >
-            Signup
+            Sign up
           </Link>
         </div>
 

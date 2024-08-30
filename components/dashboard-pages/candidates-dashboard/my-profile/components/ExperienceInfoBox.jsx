@@ -25,6 +25,7 @@ const ExperienceInfoBox = () => {
     control,
     reset,
     formState: { dirtyFields, errors },
+    getValues,
   } = useForm({
     mode: "onChange",
     resolver: zodResolver(userExperienceSchema),
@@ -165,10 +166,11 @@ const ExperienceInfoBox = () => {
     },
   });
 
-  const onSubmit = (data) => {
-    console.log(data, "experience data");
-    console.log(dirtyFields);
-    mutate({ data, dirtyFields });
+  const onSubmit = () => {
+    const formData = getValues();
+    console.log(formData, "education data");
+    console.log(dirtyFields, "dirty fields");
+    mutate({ data: formData, dirtyFields });
   };
 
   const deleteFieldAPI = async (fieldId) => {

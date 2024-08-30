@@ -234,7 +234,13 @@ const FormContent2 = () => {
 
       <div className="bottom-box">
         <div className="text">
-          Don&apos;t have an account? <Link href="/register">Signup</Link>
+          Don&apos;t have an account?{" "}
+          <Link
+            href="/register"
+            style={{ color: "#1967d2", fontWeight: "500" }}
+          >
+            Sign up
+          </Link>
         </div>
 
         {/* <div className="divider">
