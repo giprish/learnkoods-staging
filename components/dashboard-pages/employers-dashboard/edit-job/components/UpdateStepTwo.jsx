@@ -257,7 +257,7 @@ const UpdateStepTwo = ({ setTab }) => {
           />
         </div>
 
-        <div className=" row">
+        <div className="row">
           <div className="form-group col-lg-4 col-md-12">
             <label>Minimum Salary</label>
             <input
@@ -265,18 +265,12 @@ const UpdateStepTwo = ({ setTab }) => {
               name="min_salary"
               placeholder="Minimum Salary"
               step="0.01"
+              min="0" // Prevents negative numbers
+              onInput={(e) => {
+                if (e.target.value < 0) e.target.value = 0; // Resets to 0 if a negative number is entered
+              }}
               {...register("min_salary", {
-                required: "Minimum salary is required",
-                min: {
-                  value: 0,
-                  message: "Salary must be a positive number",
-                },
-                validate: {
-                  lessThanMax: (value) =>
-                    value <= maxSalary ||
-                    "Minimum salary must be less than or equal to maximum salary",
-                },
-                valueAsNumber: true,
+                valueAsNumber: true, // Ensures the value is treated as a number
               })}
             />
             {errors?.min_salary && (
@@ -290,13 +284,12 @@ const UpdateStepTwo = ({ setTab }) => {
               name="max_salary"
               placeholder="Maximum Salary"
               step="0.01"
+              min="0" // Prevents negative numbers
+              onInput={(e) => {
+                if (e.target.value < 0) e.target.value = 0; // Resets to 0 if a negative number is entered
+              }}
               {...register("max_salary", {
-                required: "Maximum salary is required",
-                min: {
-                  value: 0,
-                  message: "Salary must be a positive number",
-                },
-                valueAsNumber: true,
+                valueAsNumber: true, // Ensures the value is treated as a number
               })}
             />
             {errors?.max_salary && (
@@ -308,7 +301,6 @@ const UpdateStepTwo = ({ setTab }) => {
             <select
               className="chosen-single form-select"
               {...register("rate_type")}
-              required
             >
               <option disabled>Select</option>
               <option value="Per Year">per year</option>
@@ -316,6 +308,9 @@ const UpdateStepTwo = ({ setTab }) => {
               <option value="Per Week">per week</option>
               <option value="Per Hour">per hour</option>
             </select>
+            {errors?.rate && (
+              <p className="text-danger">{errors?.rate?.message}</p>
+            )}
           </div>
         </div>
 

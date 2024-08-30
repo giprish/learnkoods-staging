@@ -17,6 +17,7 @@ const StepTwo = ({ setTab, onSubmit }) => {
     watch,
     formState: { errors },
   } = useFormContext();
+  const maxSalary = watch("max_salary");
   const [jobDesc, setJobDesc] = useState("");
 
   const fetch = async (url) => {
@@ -39,11 +40,6 @@ const StepTwo = ({ setTab, onSubmit }) => {
     register("job_des", { required: true, minLength: 11 });
   }, [register]);
 
-  const onEditorStateChange = (editorState) => {
-    setValue("job_des", editorState);
-  };
-  const editorContent = watch("job_des");
-
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
       <div className="row">
@@ -52,22 +48,30 @@ const StepTwo = ({ setTab, onSubmit }) => {
         {/* <!-- About Company --> */}
         <div className="form-group col-lg-12 col-md-12">
           <label>Job Description</label>
-
-          <ReactQuill
-            theme="snow"
-            value={editorContent || ""}
-            onChange={onEditorStateChange}
+          <Controller
+            name="job_des"
+            control={control}
+            render={({ field }) => (
+              <>
+                <ReactQuill
+                  value={field.value} // Make sure value is managed properly
+                  onChange={(content) => field.onChange(content)} // Call onChange with content
+                  theme="snow"
+                />
+                {errors?.job_des && (
+                  <p className="text-danger">{errors?.job_des?.message}</p>
+                )}
+              </>
+            )}
           />
-          {errors?.job_des && (
-            <p className="text-danger">{errors?.job_des?.message}</p>
-          )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
           <label>Desired Skills</label>
           <Controller
             name="skills_req"
             control={control}
-            render={({ field, fieldState: { error } }) => (
+            rules={{ required: "Skills are required" }}
+            render={({ field }) => (
               <>
                 <Select
                   {...field}
@@ -76,7 +80,9 @@ const StepTwo = ({ setTab, onSubmit }) => {
                   className="basic-multi-select"
                   classNamePrefix="select"
                 />
-                {error && <p className="text-danger"> {error.message}</p>}
+                {errors?.job_des && (
+                  <p className="text-danger">{errors?.job_des?.message}</p>
+                )}
               </>
             )}
           />
@@ -90,7 +96,23 @@ const StepTwo = ({ setTab, onSubmit }) => {
               name="min_salary"
               placeholder="Minimum Salary"
               step="0.01"
-              {...register("min_salary")}
+              min="0" // Prevents negative numbers
+              onInput={(e) => {
+                if (e.target.value < 0) e.target.value = 0; // Resets to 0 if a negative number is entered
+              }}
+              {...register("min_salary", {
+                required: "Minimum salary is required",
+                min: {
+                  value: 0,
+                  message: "Salary must be a positive number",
+                },
+                validate: {
+                  lessThanMax: (value) =>
+                    value <= maxSalary ||
+                    "Minimum salary must be less than or equal to maximum salary",
+                },
+                valueAsNumber: true,
+              })}
             />
             {errors?.min_salary && (
               <p className="text-danger">{errors?.min_salary?.message}</p>
@@ -103,7 +125,18 @@ const StepTwo = ({ setTab, onSubmit }) => {
               name="max_salary"
               placeholder="Maximum Salary"
               step="0.01"
-              {...register("max_salary")}
+              min="0" // Prevents negative numbers
+              onInput={(e) => {
+                if (e.target.value < 0) e.target.value = 0; // Resets to 0 if a negative number is entered
+              }}
+              {...register("max_salary", {
+                required: "Maximum salary is required",
+                min: {
+                  value: 0,
+                  message: "Salary must be a positive number",
+                },
+                valueAsNumber: true,
+              })}
             />
             {errors?.max_salary && (
               <p className="text-danger">{errors?.max_salary?.message}</p>

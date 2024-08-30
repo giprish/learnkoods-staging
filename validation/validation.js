@@ -13,9 +13,11 @@ const jobTypeOptions = z.enum(["Full Time", "Part Time", "Internship"]);
 const workplaceOptions = z.enum(["On-site", "Hybrid", "Remote"]);
 const truthyOptions = z.enum(["True", "False"]);
 const experienceOptions = z.enum([
+  "Fresher",
   "1-2 years",
   "2-3 years",
-  "3-5 years",
+  "3-4 years",
+  "4-5 years",
   "5-7 years",
   "7-9 years",
   "9-11 years",
@@ -70,7 +72,7 @@ export const userSchema = z.object({
       })
     )
     .min(1, "Please select at least one skill"),
-  profile_desc: z.string().nonempty("Profile description is required"),
+  profile_desc: z.string().min(1, "Profile description is required"),
   current_salary: z.number(),
   expected_salary: z.number(),
 });
@@ -218,7 +220,7 @@ export const jobPostSchema = z.object({
   gender: genderOptions.refine((value) => value !== undefined, {
     message: "Please select a valid option",
   }),
-  url: z.string().url().optional(),
+  url: z.string().url().or(z.literal("")).optional(),
   is_published: truthyOptions.refine((value) => value !== undefined, {
     message: "Please select a valid option",
   }),
@@ -265,6 +267,38 @@ export const jobPostSchema = z.object({
     }),
   location1: z.string().min(2, "address is required"),
   location: z.string().min(2, "address is required"),
+  job_des: z.string().min(1, "Job description is required"),
+  skills_req: z
+    .array(
+      z.object({
+        value: z.number(),
+        label: z.string(),
+      })
+    )
+    .min(1, "Please select at least one skill"),
+
+  min_salary: z
+    .number({
+      required_error: "Minimum salary is required",
+      invalid_type_error: "Minimum salary must be a valid number",
+    })
+    .min(0, "Minimum salary must be at least 0")
+    .positive("Minimum salary must be a positive number"),
+  max_salary: z
+    .number({
+      required_error: "Maximum salary is required",
+      invalid_type_error: "Maximum salary must be a valid number",
+    })
+    .min(0, "Maximum salary must be at least 0")
+    .positive("Maximum salary must be a positive number")
+    .refine((data) => data.max_salary >= data.min_salary, {
+      message: "Maximum salary must be greater than or equal to minimum salary",
+      path: ["max_salary"], // This specifies which field the error relates to
+    }),
+  rate_type: z.enum(["Per Year", "Per Month", "Per Week", "Per Hour"], {
+    required_error: "Rate type is required",
+    invalid_type_error: "Invalid rate type selected",
+  }),
 });
 
 const passwordSchema = z

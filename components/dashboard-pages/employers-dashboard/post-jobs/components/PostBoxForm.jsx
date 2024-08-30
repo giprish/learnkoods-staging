@@ -47,12 +47,6 @@ const PostBoxForm = ({
     enabled: !!catId,
   });
 
-  useEffect(() => {
-    // When subCategory changes, reset the selected value
-    setSelectedSubCat(null);
-    resetField("sub_category"); // or any default value
-  }, [subCategory]);
-
   const { data: country } = useQuery({
     queryKey: ["countryData"],
     queryFn: () => fetch(`${process.env.GLOBAL_API}/country/`),
@@ -235,27 +229,34 @@ const PostBoxForm = ({
                   }
                   onChange={(selectedOption) => {
                     setCatId(selectedOption.value);
-                    field.onChange(selectedOption); // Pass the entire selectedOption object
+                    field.onChange(selectedOption);
+                    setValue("sub_category", null); // Pass the entire selectedOption object
                   }}
                   options={options(category)}
                   className="basic-multi-select"
                   classNamePrefix="select"
                 />
-                {error && <p className="text-danger">{error.message}</p>}
               </>
             )}
           />
+          {errors.category?.message && (
+            <p className="text-danger">{errors.category?.message}</p>
+          )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
           <label>Sub Category</label>
           <Controller
             name="sub_category"
             control={control}
-            // rules={{ required: "Sub category is required !" }}
-            render={({ field, fieldState: { error } }) => (
+            render={({ field }) => (
               <>
                 <Select
                   {...field}
+                  value={
+                    options(subCategory)?.find(
+                      (option) => option.value === field.value?.value
+                    ) || null
+                  }
                   onChange={(selectedOption) => {
                     setSelectedSubCat(selectedOption);
                     field.onChange(selectedOption);
@@ -264,10 +265,12 @@ const PostBoxForm = ({
                   className="basic-multi-select"
                   classNamePrefix="select"
                 />
-                {error && <p className="error text-danger">{error.message}</p>}
               </>
             )}
           />
+          {errors.sub_category && (
+            <p className="text-danger">{errors.sub_category?.message}</p>
+          )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
           <label>Recruitment Timeline</label>
@@ -313,6 +316,9 @@ const PostBoxForm = ({
               />
             )}
           />
+          {errors.country?.message && (
+            <p className="text-danger">{errors.country?.message}</p>
+          )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
           <label>State</label>
@@ -336,6 +342,9 @@ const PostBoxForm = ({
               />
             )}
           />
+          {errors.state?.message && (
+            <p className="text-danger">{errors.state?.message}</p>
+          )}
         </div>
 
         <div className="form-group col-lg-6 col-md-12">
@@ -352,6 +361,9 @@ const PostBoxForm = ({
               />
             )}
           />
+          {errors.city?.message && (
+            <p className="text-danger">{errors.city?.message}</p>
+          )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
           <label>Zipcode</label>

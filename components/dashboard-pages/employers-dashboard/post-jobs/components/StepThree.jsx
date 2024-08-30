@@ -16,7 +16,7 @@ import "react-quill/dist/quill.snow.css";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-const StepThree = ({ setTab, onSubmit }) => {
+const StepThree = ({ setTab, onSubmit, onError }) => {
   const { register, handleSubmit, control, getValues } = useFormContext();
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
@@ -33,7 +33,7 @@ const StepThree = ({ setTab, onSubmit }) => {
   };
 
   return (
-    <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
+    <form className="default-form" onSubmit={handleSubmit(onSubmit, onError)}>
       {/* <div className="row border p-2 rounded-4 mb-4 mx-1">
         <h4 className="border-bottom p-2 mb-3">Receive qualified applicants</h4>
         <span className="p-2">Applicant collection</span>

@@ -201,6 +201,57 @@ const index = () => {
     });
   };
 
+  const onError = (errors) => {
+    console.log(errors); // Log the entire errors object for debugging
+
+    // Specify the keys for which you want to show errors
+    const tab1 = [
+      "category",
+      "city",
+      "country",
+      "job_title",
+      "location",
+      "location1",
+      "pincode",
+      "state",
+      "sub_category",
+    ];
+    const tab2 = [
+      "job_des",
+      "skills_req",
+      "min_salary",
+      "max_salary",
+      "rate_type",
+    ];
+
+    let errorTabs = [];
+
+    // Check for errors in tab1
+    for (const key of tab1) {
+      if (errors[key]) {
+        errorTabs.push("tab1");
+        toast.error("error in job deatils", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        break; // Stop after finding the first error in tab1
+      }
+    }
+
+    // Check for errors in tab2
+    for (const key of tab2) {
+      if (errors[key]) {
+        errorTabs.push("tab2");
+        toast.error("error in package and payments", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        break; // Stop after finding the first error in tab2
+      }
+    }
+
+    // Set the error state with the tabs that have errors
+    setError(errorTabs);
+  };
+
   return (
     <div className="page-wrapper dashboard">
       <span className="header-span"></span>
@@ -243,7 +294,11 @@ const index = () => {
 
                     <FormProvider {...methods}>
                       <div className="widget-content">
-                        <PostJobSteps setTab={setTab} currentTab={tab} />
+                        <PostJobSteps
+                          setTab={setTab}
+                          currentTab={tab}
+                          error={error}
+                        />
 
                         {tab === "step1" && (
                           <PostBoxForm
@@ -267,6 +322,7 @@ const index = () => {
                             setTab={setTab}
                             onSubmit={onSubmit}
                             setError={setError}
+                            onError={onError}
                           />
                         )}
                       </div>

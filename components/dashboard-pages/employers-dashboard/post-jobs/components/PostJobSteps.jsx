@@ -1,4 +1,15 @@
-const PostJobSteps = ({ setTab, currentTab }) => {
+const PostJobSteps = ({ setTab, currentTab, error }) => {
+  // Check if errors are present for tab1 and tab2
+  const hasTab1Error =
+    error === "tab1" || (Array.isArray(error) && error.includes("tab1"));
+  const hasTab2Error =
+    error === "tab2" || (Array.isArray(error) && error.includes("tab2"));
+
+  // Determine if text should be red for each tab
+  const isTab1Error = hasTab1Error && (hasTab1Error || hasTab2Error);
+  const isTab2Error = hasTab2Error && (hasTab1Error || hasTab2Error);
+  console.log(error);
+
   return (
     <div className="post-job-steps">
       <div>
@@ -9,8 +20,7 @@ const PostJobSteps = ({ setTab, currentTab }) => {
           onClick={() => setTab("step1")}
           aria-label="Job Detail"
         >
-          {/* <span className="icon flaticon-briefcase"></span> */}
-          <h5>Job Details</h5>
+          <h5 className={`${isTab1Error ? "text-danger" : ""}`}>Job Details</h5>
         </button>
       </div>
 
@@ -22,10 +32,12 @@ const PostJobSteps = ({ setTab, currentTab }) => {
           onClick={() => setTab("step2")}
           aria-label="Package & Payments"
         >
-          {/* <span className="icon flaticon-money"></span> */}
-          <h5>Package & Payments</h5>
+          <h5 className={`${isTab2Error ? "text-danger" : ""}`}>
+            Package & Payments
+          </h5>
         </button>
       </div>
+
       <div>
         <button
           className={`${
@@ -34,21 +46,11 @@ const PostJobSteps = ({ setTab, currentTab }) => {
           onClick={() => setTab("step3")}
           aria-label="Screening Questions"
         >
-          {/* <span class="icon flaticon-chat"></span> */}
-          <h5>Screening Questions</h5>
+          <h5 className={`${error === "tab3" ? "text-danger" : ""}`}>
+            Screening Questions
+          </h5>
         </button>
       </div>
-
-      {/* <div>
-        <button
-          onClick={() => setTab("step4")}
-          aria-label="Confirmation"
-          className="step"
-        >
-          <span className="icon flaticon-checked"></span>
-          <h5>Confirmation</h5>
-        </button>
-      </div> */}
     </div>
   );
 };
