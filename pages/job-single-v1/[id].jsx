@@ -197,13 +197,12 @@ const JobSingleDynamicV1 = () => {
                 </div>
                 {/* End .content */}
 
-                {student === "true" && !jobAppliedCheck && (
+                {student !== "false" && !jobAppliedCheck && (
                   <div className="btn-box">
                     <a
                       href="#"
                       className="theme-btn btn-style-one"
                       data-bs-toggle="modal"
-                      // data-bs-target="#applyJobModal"
                       data-bs-target={
                         access && student === "true"
                           ? "#applyJobModal"

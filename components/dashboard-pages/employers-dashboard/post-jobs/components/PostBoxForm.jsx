@@ -169,7 +169,7 @@ const PostBoxForm = ({
 
         <div className="form-group col-lg-6 col-md-12">
           <label>
-            Url {` (optional)`}{" "}
+            Url
             <Tooltip
               title={"Job posting url"}
               text={
@@ -177,7 +177,13 @@ const PostBoxForm = ({
               }
             />
           </label>
-          <input type="url" name="url" placeholder="Url" {...register("url")} />
+          <input
+            type="url"
+            name="url"
+            placeholder="Url"
+            {...register("url")}
+            required
+          />
           {errors.url?.message && (
             <p className="text-danger">{errors.url?.message}</p>
           )}

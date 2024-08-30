@@ -17,7 +17,13 @@ import "react-quill/dist/quill.snow.css";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const StepThree = ({ setTab, onSubmit, onError }) => {
-  const { register, handleSubmit, control, getValues } = useFormContext();
+  const {
+    register,
+    handleSubmit,
+    control,
+    getValues,
+    formState: { errors },
+  } = useFormContext();
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
       control, // control props comes from useForm (optional: if you are using FormProvider)
@@ -75,9 +81,7 @@ const StepThree = ({ setTab, onSubmit, onError }) => {
                     className="border w-75 m-2 rounded-2 p-2"
                     {...register(`questions.${index}.question_name`)}
                   />
-                  {/* <span className="border rounded-4 p-1 px-2 m-2 bg-success text-white">
-                      Recommended
-                    </span> */}
+
                   <div className="m-3">
                     <input
                       type="checkbox"
@@ -86,6 +90,11 @@ const StepThree = ({ setTab, onSubmit, onError }) => {
                     <label className="mx-1">Mandatory</label>
                   </div>
                 </div>
+                {errors?.questions?.[index]?.question_name && (
+                  <p className="text-danger mx-4">
+                    {errors.questions[index].question_name.message}
+                  </p>
+                )}
               </div>
             );
           })}

@@ -82,7 +82,7 @@ const PostjobForm = ({
   };
 
   return (
-    <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
+    <form className="default-form" onSubmit={handleSubmit(onSubmit, onError)}>
       <div className="row">
         {/* <!-- Input --> */}
         <div className="form-group col-lg-12 col-md-12">
@@ -168,7 +168,7 @@ const PostjobForm = ({
 
         <div className="form-group col-lg-6 col-md-12">
           <label>
-            Url {` (optional)`}{" "}
+            Url
             <Tooltip
               title={"Job posting url"}
               text={
@@ -176,7 +176,13 @@ const PostjobForm = ({
               }
             />
           </label>
-          <input type="url" name="url" placeholder="Url" {...register("url")} />
+          <input
+            type="url"
+            name="url"
+            placeholder="Url"
+            {...register("url")}
+            required
+          />
           {errors.url?.message && (
             <p className="text-danger">{errors.url?.message}</p>
           )}

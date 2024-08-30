@@ -82,14 +82,12 @@ const FormContent = ({ hideModal }) => {
         setAccess(data.data.access);
       }
       if (data.data.student === false) {
-        router
-          .push("/employers-dashboard/dashboard")
-          .then(() => window.location.reload());
+        // router.push("/employers-dashboard/dashboard")
+        window.location.reload();
       }
       if (data.data.student === true) {
-        router
-          .push("/candidates-dashboard/dashboard")
-          .then(() => window.location.reload());
+        // router.push("/candidates-dashboard/dashboard")
+        window.location.reload();
       }
 
       hideModal();

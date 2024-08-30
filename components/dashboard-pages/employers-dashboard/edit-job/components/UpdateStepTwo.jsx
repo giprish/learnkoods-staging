@@ -1,3 +1,5 @@
+import { jobsecondstep } from "@/validation/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import dynamic from "next/dynamic";
@@ -20,7 +22,10 @@ const UpdateStepTwo = ({ setTab }) => {
     setValue,
     watch,
     formState: { errors, dirtyFields },
-  } = useForm();
+  } = useForm({
+    mode: "onChange",
+    resolver: zodResolver(jobsecondstep),
+  });
   const maxSalary = watch("max_salary");
   const router = useRouter();
   const id = router.query.id;

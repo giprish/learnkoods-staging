@@ -299,6 +299,41 @@ export const jobPostSchema = z.object({
     required_error: "Rate type is required",
     invalid_type_error: "Invalid rate type selected",
   }),
+  questions: z.array(
+    z.object({
+      question_name: z.string().min(1, "Question name cannot be empty"),
+    })
+  ),
+});
+
+export const jobsecondstep = z.object({
+  skills_req: z
+    .array(
+      z.object({
+        value: z.number(),
+        label: z.string(),
+      })
+    )
+    .min(1, "Please select at least one skill"),
+
+  min_salary: z
+    .number({
+      required_error: "Minimum salary is required",
+      invalid_type_error: "Minimum salary must be a valid number",
+    })
+    .min(0, "Minimum salary must be at least 0")
+    .positive("Minimum salary must be a positive number"),
+  max_salary: z
+    .number({
+      required_error: "Maximum salary is required",
+      invalid_type_error: "Maximum salary must be a valid number",
+    })
+    .min(0, "Maximum salary must be at least 0")
+    .positive("Maximum salary must be a positive number"),
+  rate_type: z.enum(["Per Year", "Per Month", "Per Week", "Per Hour"], {
+    required_error: "Rate type is required",
+    invalid_type_error: "Invalid rate type selected",
+  }),
 });
 
 const passwordSchema = z
