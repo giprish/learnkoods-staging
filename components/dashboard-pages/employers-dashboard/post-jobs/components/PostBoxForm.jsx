@@ -12,7 +12,6 @@ const PostBoxForm = ({
   companyId,
   onSubmit,
   setJobImage,
-  onError,
   setTab,
   setError,
 }) => {
