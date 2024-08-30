@@ -262,7 +262,10 @@ const WidgetContentBox = () => {
                       <div className="content">
                         <figure className="image">
                           <img
-                            src={student.student.profile_image}
+                            src={
+                              student.student.profile_image ||
+                              "../images/avatar.jpg"
+                            }
                             alt="candidates"
                           />
                         </figure>
@@ -275,18 +278,25 @@ const WidgetContentBox = () => {
                         </h4>
 
                         <ul className="candidate-info">
-                          <li className="designation">
-                            {student.student.designation || "null"}
-                          </li>
-                          <li>
-                            <span className="icon flaticon-map-locator"></span>{" "}
-                            {student.student.city?.name || "null"}
-                          </li>
-                          <li>
-                            <span className="icon flaticon-money"></span> $
-                            {student.student.hourlyRate || "null"} / hour
-                          </li>
+                          {student.student.designation && (
+                            <li className="designation">
+                              {student.student.designation}
+                            </li>
+                          )}
+                          {student.student.city?.name && (
+                            <li>
+                              <span className="icon flaticon-map-locator"></span>{" "}
+                              {student.student.city.name}
+                            </li>
+                          )}
+                          {student.student.hourlyRate && (
+                            <li>
+                              <span className="icon flaticon-money"></span> $
+                              {student.student.hourlyRate} / hour
+                            </li>
+                          )}
                         </ul>
+
                         <ul className="post-tags">
                           {student.student.skills.map((val, i) => (
                             <li key={i} className="my-2">
