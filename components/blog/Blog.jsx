@@ -6,10 +6,11 @@ const Blog = () => {
   return (
     <div className="container pt-5">
       <div className="d-flex justify-content-between align-items-center mb-5">
-        <h2 className="heading">Check our Latest News and Update</h2>
+        <h2 className="heading">Check our Latest News and Updates</h2>
         <Link
           href="/blog"
-          className="btn btn-outline-primary rounded-pill px-4"
+          className="theme-btn btn-style-blue py-3"
+          style={{ fontSize: "18px" }}
         >
           View All Articles
         </Link>

@@ -166,6 +166,7 @@ const withAuth = (WrappedComponent, skipRoutes) => {
           // Verify token to check expiration and validity
           try {
             jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+            console.log("token verified successfully");
           } catch (error) {
             // Token is invalid or expired
             console.log(error, "token error");
@@ -189,14 +190,16 @@ const withAuth = (WrappedComponent, skipRoutes) => {
                   return;
                 } catch (refreshError) {
                   // Refresh token failed, clear storage and redirect to login
+                  console.log(refreshError, "token refresh error");
                   localStorage.clear();
-                  router.replace("/login");
+                  // router.replace("/login");
                   return;
                 }
               } else {
                 // No refresh token available, clear storage and redirect to login
                 localStorage.clear();
-                router.replace("/login");
+                console.log("no token available");
+                // router.replace("/login");
                 return;
               }
             } else if (
@@ -205,12 +208,15 @@ const withAuth = (WrappedComponent, skipRoutes) => {
             ) {
               // Token is invalid or being used before it's allowed
               localStorage.clear();
-              router.replace("/login");
+              console.log(error, "error");
+              // router.replace("/login");
               return;
             } else {
               // Handle any other unexpected errors
               localStorage.clear();
-              router.replace("/login");
+
+              console.log("unexpected error");
+              // router.replace("/login");
               return;
             }
           }
@@ -228,9 +234,6 @@ const withAuth = (WrappedComponent, skipRoutes) => {
           // Check for access restrictions based on student value
           const isStudent = student === "true";
           const currentPath = router.pathname;
-          console.log(isStudent, "isstudent");
-          console.log(currentPath, "current path");
-
           // Restrict access for students to /employers-dashboard routes
           if (isStudent && currentPath.startsWith("/employers-dashboard")) {
             router.replace("/"); // Redirect to a not-authorized page
@@ -268,3 +271,136 @@ const withAuth = (WrappedComponent, skipRoutes) => {
 };
 
 export default withAuth;
+
+// import React, { useState, useEffect } from "react";
+// import { useRouter } from "next/router";
+// import jwt from "jsonwebtoken";
+// import axios from "axios";
+// import LoadingSpinner from "@/components/loader";
+
+// const withAuth = (WrappedComponent, skipRoutes) => {
+//   const AuthHOC = (props) => {
+//     const [loading, setLoading] = useState(true);
+//     const router = useRouter();
+
+//     useEffect(() => {
+//       const checkAuthentication = async () => {
+//         try {
+//           // Check if the current route is in the skipRoutes array
+//           if (skipRoutes.includes(router.pathname)) {
+//             setLoading(false);
+//             return;
+//           }
+
+//           // Check if access token is present in localStorage
+//           const token = localStorage.getItem("access");
+//           const refreshToken = localStorage.getItem("refresh");
+
+//           if (!token) {
+//             // No token found, check if the current route is a skip route
+//             if (skipRoutes.includes(router.pathname)) {
+//               setLoading(false);
+//               return;
+//             }
+
+//             // If not a skip route, clear localStorage and redirect to login
+//             localStorage.clear();
+//             router.replace("/login");
+//             return;
+//           }
+
+//           // Decode token to check expiration
+//           const decodedToken = jwt.decode(token);
+
+//           if (!decodedToken || !decodedToken.exp) {
+//             // Invalid token, logout and redirect to login
+//             localStorage.clear();
+//             router.replace("/login");
+//             return;
+//           }
+
+//           // Check if the token is expired
+//           if (Date.now() >= decodedToken.exp * 1000) {
+//             // Token expired, try to refresh the token
+//             if (refreshToken) {
+//               try {
+//                 // Make an API call to refresh the token
+//                 const response = await axios.post(
+//                   `${process.env.GLOBAL_API}/api/token/refresh/`,
+//                   { refresh: refreshToken }
+//                 );
+//                 const newAccessToken = response.data.accessToken;
+
+//                 // Store the new access token in localStorage
+//                 localStorage.setItem("access", newAccessToken);
+
+//                 // Continue with the authentication check
+//                 setLoading(false);
+//                 return;
+//               } catch (error) {
+//                 // Refresh token failed, clear storage and redirect to login
+//                 localStorage.clear();
+//                 router.replace("/login");
+//                 return;
+//               }
+//             } else {
+//               // No refresh token available, clear storage and redirect to login
+//               localStorage.clear();
+//               router.replace("/login");
+//               return;
+//             }
+//           }
+
+//           // Check if the 'student' key exists in localStorage
+//           const student = localStorage.getItem("student");
+
+//           // Redirect to login if student is not defined
+//           if (!student) {
+//             router.replace("/");
+//             setLoading(false);
+//             return;
+//           }
+
+//           // Check for access restrictions based on student value
+//           const isStudent = student === "true";
+//           const currentPath = router.pathname;
+//           console.log(isStudent, "isstudent");
+//           console.log(currentPath, "current path");
+
+//           // Restrict access for students to /employers-dashboard routes
+//           if (isStudent && currentPath.startsWith("/employers-dashboard")) {
+//             router.replace("/"); // Redirect to a not-authorized page
+//             return;
+//           }
+
+//           // Restrict access for non-students to /students-dashboard routes
+//           if (!isStudent && currentPath.startsWith("/candidates-dashboard")) {
+//             router.replace("/"); // Redirect to a not-authorized page
+//             return;
+//           }
+
+//           // If all conditions are satisfied, allow access to the page
+//           setLoading(false);
+//         } catch (error) {
+//           // In case of any errors (e.g., decoding failure), logout and redirect to login
+//           localStorage.clear();
+//           router.replace("/");
+//         }
+//       };
+
+//       checkAuthentication();
+//     }, [router]);
+
+//     // Show loading text while authentication checks are ongoing
+//     if (loading) {
+//       return <LoadingSpinner />;
+//     }
+
+//     // Render the wrapped component (the protected page content) once authentication is confirmed
+//     return <WrappedComponent {...props} />;
+//   };
+
+//   return AuthHOC;
+// };
+
+// export default withAuth;
