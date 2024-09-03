@@ -75,7 +75,7 @@ const index = () => {
       window.localStorage.setItem("company_id", data.data.id);
     },
     onError: (error) => {
-      console.log(error, "error message");
+      console.log(error, "error message from api");
 
       // Check for 401 Unauthorized error
       if (error.response && error.response.status === 401) {
