@@ -197,7 +197,7 @@ const JobSingleDynamicV1 = () => {
                 </div>
                 {/* End .content */}
 
-                {student === "true" && !jobAppliedCheck && (
+                {student !== "false" && !jobAppliedCheck && (
                   <div className="btn-box">
                     <a
                       href="#"
