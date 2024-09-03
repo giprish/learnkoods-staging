@@ -87,12 +87,12 @@ const FormContent2 = () => {
       }
       if (data.data.student === false) {
         router
-          .push("/employers-dashboard/dashboard")
+          .replace("/employers-dashboard/dashboard")
           .then(() => window.location.reload());
       }
       if (data.data.student === true) {
         router
-          .push("/candidates-dashboard/dashboard")
+          .replace("/candidates-dashboard/dashboard")
           .then(() => window.location.reload());
       }
 

@@ -109,9 +109,9 @@ const Register2 = () => {
         localStorage.setItem("user", data.payload.username);
         localStorage.removeItem("otp_key");
         if (url.includes("user_api")) {
-          router.push("/candidates-dashboard/dashboard");
+          router.replace("/candidates-dashboard/dashboard");
         } else {
-          router.push("/employers-dashboard/dashboard");
+          router.replace("/employers-dashboard/dashboard");
         }
       }
     },

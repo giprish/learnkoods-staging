@@ -163,42 +163,52 @@ const withAuth = (WrappedComponent, skipRoutes) => {
             return;
           }
 
-          // Decode token to check expiration
-          const decodedToken = jwt.decode(token);
+          // Verify token to check expiration and validity
+          try {
+            jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+          } catch (error) {
+            // Token is invalid or expired
+            console.log(error, "token error");
+            // Handle different errors
+            if (error.name === "TokenExpiredError") {
+              // Token expired, try to refresh the token
+              if (refreshToken) {
+                try {
+                  // Make an API call to refresh the token
+                  const response = await axios.post(
+                    `${process.env.GLOBAL_API}/api/token/refresh/`,
+                    { refresh: refreshToken }
+                  );
+                  const newAccessToken = response.data.accessToken;
 
-          if (!decodedToken || !decodedToken.exp) {
-            // Invalid token, logout and redirect to login
-            localStorage.clear();
-            router.replace("/login");
-            return;
-          }
+                  // Store the new access token in localStorage
+                  localStorage.setItem("access", newAccessToken);
 
-          // Check if the token is expired
-          if (Date.now() >= decodedToken.exp * 1000) {
-            // Token expired, try to refresh the token
-            if (refreshToken) {
-              try {
-                // Make an API call to refresh the token
-                const response = await axios.post(
-                  `${process.env.GLOBAL_API}/api/token/refresh/`,
-                  { refresh: refreshToken }
-                );
-                const newAccessToken = response.data.accessToken;
-
-                // Store the new access token in localStorage
-                localStorage.setItem("access", newAccessToken);
-
-                // Continue with the authentication check
-                setLoading(false);
-                return;
-              } catch (error) {
-                // Refresh token failed, clear storage and redirect to login
+                  // Continue with the authentication check
+                  setLoading(false);
+                  return;
+                } catch (refreshError) {
+                  // Refresh token failed, clear storage and redirect to login
+                  localStorage.clear();
+                  router.replace("/login");
+                  return;
+                }
+              } else {
+                // No refresh token available, clear storage and redirect to login
                 localStorage.clear();
                 router.replace("/login");
                 return;
               }
+            } else if (
+              error.name === "JsonWebTokenError" ||
+              error.name === "NotBeforeError"
+            ) {
+              // Token is invalid or being used before it's allowed
+              localStorage.clear();
+              router.replace("/login");
+              return;
             } else {
-              // No refresh token available, clear storage and redirect to login
+              // Handle any other unexpected errors
               localStorage.clear();
               router.replace("/login");
               return;

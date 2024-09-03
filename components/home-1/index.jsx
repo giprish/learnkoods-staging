@@ -107,6 +107,9 @@ const index = () => {
           </div>
         </div>
       </section>
+      <section className="blog-section">
+        <Blog />
+      </section>
       {/* <!-- End News Section --> */}
 
       {/* <section className="app-section">

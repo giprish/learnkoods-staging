@@ -24,9 +24,11 @@ const CompanyListingsTable = () => {
   const { data: companies } = useQuery({
     queryKey: ["companyList", access],
     queryFn: () => fetchCompany(),
+    retry: 1,
   });
 
   console.log(companies, "list of companies");
+
   const fetchJobs = async () => {
     const response = await axios.get(`${process.env.GLOBAL_API}/job-user/`, {
       headers: {
@@ -39,6 +41,7 @@ const CompanyListingsTable = () => {
   const { data: Jobs, refetch } = useQuery({
     queryKey: ["AllJobs"],
     queryFn: () => fetchJobs(),
+    retry: 1,
   });
 
   const fetchAppliedCandidates = async () => {
