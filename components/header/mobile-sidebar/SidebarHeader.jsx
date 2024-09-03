@@ -4,9 +4,12 @@ const SidebarHeader = () => {
   return (
     <div className="pro-header">
       <Link href="/">
-        <h2>
-          <strong>SkillThrive</strong>
-        </h2>
+        <Image
+          width={150}
+          height={80}
+          src="/images/skillthrive_logo.png"
+          alt="brand"
+        />
       </Link>
       {/* End logo */}
 
