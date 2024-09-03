@@ -132,7 +132,7 @@ import jwt from "jsonwebtoken";
 import axios from "axios";
 import LoadingSpinner from "@/components/loader";
 
-const withAuth = (WrappedComponent) => {
+const withAuth = (WrappedComponent, skipRoutes) => {
   const AuthHOC = (props) => {
     const [loading, setLoading] = useState(true);
     const router = useRouter();
@@ -140,30 +140,9 @@ const withAuth = (WrappedComponent) => {
     useEffect(() => {
       const checkAuthentication = async () => {
         try {
-          // Check if the 'student' key exists in localStorage
-          const student = localStorage.getItem("student");
-
-          // Redirect to login if student is not defined
-          if (!student) {
-            router.replace("/login");
-            return;
-          }
-
-          // Check for access restrictions based on student value
-          const isStudent = student === "true";
-          const currentPath = router.pathname;
-          console.log(isStudent, "isstudent");
-          console.log(currentPath, "current path");
-
-          // Restrict access for students to /employers-dashboard routes
-          if (isStudent && currentPath.startsWith("/employers-dashboard")) {
-            router.replace("/"); // Redirect to a not-authorized page
-            return;
-          }
-
-          // Restrict access for non-students to /students-dashboard routes
-          if (!isStudent && currentPath.startsWith("/candidates-dashboard")) {
-            router.replace("/"); // Redirect to a not-authorized page
+          // Check if the current route is in the skipRoutes array
+          if (skipRoutes.includes(router.pathname)) {
+            setLoading(false);
             return;
           }
 
@@ -172,7 +151,13 @@ const withAuth = (WrappedComponent) => {
           const refreshToken = localStorage.getItem("refresh");
 
           if (!token) {
-            // No token found, redirect to login
+            // No token found, check if the current route is a skip route
+            if (skipRoutes.includes(router.pathname)) {
+              setLoading(false);
+              return;
+            }
+
+            // If not a skip route, clear localStorage and redirect to login
             localStorage.clear();
             router.replace("/login");
             return;
@@ -220,12 +205,40 @@ const withAuth = (WrappedComponent) => {
             }
           }
 
+          // Check if the 'student' key exists in localStorage
+          const student = localStorage.getItem("student");
+
+          // Redirect to login if student is not defined
+          if (!student) {
+            router.replace("/");
+            setLoading(false);
+            return;
+          }
+
+          // Check for access restrictions based on student value
+          const isStudent = student === "true";
+          const currentPath = router.pathname;
+          console.log(isStudent, "isstudent");
+          console.log(currentPath, "current path");
+
+          // Restrict access for students to /employers-dashboard routes
+          if (isStudent && currentPath.startsWith("/employers-dashboard")) {
+            router.replace("/"); // Redirect to a not-authorized page
+            return;
+          }
+
+          // Restrict access for non-students to /students-dashboard routes
+          if (!isStudent && currentPath.startsWith("/candidates-dashboard")) {
+            router.replace("/"); // Redirect to a not-authorized page
+            return;
+          }
+
           // If all conditions are satisfied, allow access to the page
           setLoading(false);
         } catch (error) {
           // In case of any errors (e.g., decoding failure), logout and redirect to login
           localStorage.clear();
-          router.replace("/login");
+          router.replace("/");
         }
       };
 
