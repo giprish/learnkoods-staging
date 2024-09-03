@@ -210,131 +210,110 @@ export const companyRegistrationSchema = z.object({
   description: z.string(),
 });
 
-export const jobPostSchema = z.object({
-  job_title: z.string().min(4, "Title must have at least 4 characters"),
-  job_type: jobTypeOptions.refine((value) => value !== undefined, {
-    message: "Please select an option",
-  }),
-  workplace_type: workplaceOptions.refine((value) => value !== undefined, {
-    message: "Please select an option",
-  }),
-  exp_required: experienceOptions.refine((value) => value !== undefined, {
-    message: "Experience is required",
-  }),
-  gender: genderOptions.refine((value) => value !== undefined, {
-    message: "Please select a valid option",
-  }),
-  url: z.string().url().or(z.literal("")).optional(),
-  is_published: truthyOptions.refine((value) => value !== undefined, {
-    message: "Please select a valid option",
-  }),
-  is_closed: truthyOptions.refine((value) => value !== undefined, {
-    message: "Please select a valid option",
-  }),
-  category: z.object({
-    value: z.number().positive("Category is required!"),
-    label: z.string(),
-  }),
-  sub_category: z.object({
-    value: z.number().positive("Sub category is required"),
-    label: z.string(),
-  }),
-  recruitment_timeline: recruitmentOptions.refine(
-    (value) => value !== undefined,
-    {
-      message: "Please select a valid option",
-    }
-  ),
-  country: z.object({
-    value: z.number().positive("select a country"),
-    label: z.string(),
-  }),
-  state: z.object({
-    value: z.number().positive("select a state"),
-    label: z.string(),
-  }),
-  city: z.object({
-    value: z.number().positive("select a city"),
-    label: z.string(),
-  }),
-  pincode: z
-    .string()
-    .transform((val) => {
-      const num = parseInt(val, 10);
-      return isNaN(num) ? undefined : num; // Convert to number or return undefined if invalid
-    })
-    .refine((val) => val !== undefined, {
-      message: "Pincode must be a valid number",
-    })
-    .refine((val) => val >= 100000 && val <= 999999, {
-      message: "Pincode must be exactly 6 digits",
+export const jobPostSchema = z
+  .object({
+    questions: z.array(
+      z.object({
+        question_name: z.string().min(1, "Question name cannot be empty"),
+      })
+    ),
+    job_title: z.string().min(4, "Title must have at least 4 characters"),
+    job_type: jobTypeOptions.refine((value) => value !== undefined, {
+      message: "Please select an option",
     }),
-  location1: z.string().min(2, "address is required"),
-  location: z.string().min(2, "address is required"),
-  job_des: z.string().min(1, "Job description is required"),
-  skills_req: z
-    .array(
-      z.object({
-        value: z.number(),
-        label: z.string(),
+    workplace_type: workplaceOptions.refine((value) => value !== undefined, {
+      message: "Please select an option",
+    }),
+    exp_required: experienceOptions.refine((value) => value !== undefined, {
+      message: "Experience is required",
+    }),
+    gender: genderOptions.refine((value) => value !== undefined, {
+      message: "Please select a valid option",
+    }),
+    url: z.string().url().or(z.literal("")).optional(),
+    is_published: truthyOptions.refine((value) => value !== undefined, {
+      message: "Please select a valid option",
+    }),
+    is_closed: truthyOptions.refine((value) => value !== undefined, {
+      message: "Please select a valid option",
+    }),
+    category: z.object({
+      value: z.number().positive("Category is required!"),
+      label: z.string(),
+    }),
+    sub_category: z.object({
+      value: z.number().positive("Sub category is required"),
+      label: z.string(),
+    }),
+    recruitment_timeline: recruitmentOptions.refine(
+      (value) => value !== undefined,
+      {
+        message: "Please select a valid option",
+      }
+    ),
+    country: z.object({
+      value: z.number().positive("select a country"),
+      label: z.string(),
+    }),
+    state: z.object({
+      value: z.number().positive("select a state"),
+      label: z.string(),
+    }),
+    city: z.object({
+      value: z.number().positive("select a city"),
+      label: z.string(),
+    }),
+    pincode: z
+      .string()
+      .transform((val) => {
+        const num = parseInt(val, 10);
+        return isNaN(num) ? undefined : num; // Convert to number or return undefined if invalid
       })
-    )
-    .min(1, "Please select at least one skill"),
-
-  min_salary: z
-    .number({
-      required_error: "Minimum salary is required",
-      invalid_type_error: "Minimum salary must be a valid number",
-    })
-    .min(0, "Minimum salary must be at least 0")
-    .positive("Minimum salary must be a positive number"),
-  max_salary: z
-    .number({
-      required_error: "Maximum salary is required",
-      invalid_type_error: "Maximum salary must be a valid number",
-    })
-    .min(0, "Maximum salary must be at least 0")
-    .positive("Maximum salary must be a positive number"),
-  rate_type: z.enum(["Per Year", "Per Month", "Per Week", "Per Hour"], {
-    required_error: "Rate type is required",
-    invalid_type_error: "Invalid rate type selected",
-  }),
-  questions: z.array(
-    z.object({
-      question_name: z.string().min(1, "Question name cannot be empty"),
-    })
-  ),
-});
-
-export const jobsecondstep = z.object({
-  skills_req: z
-    .array(
-      z.object({
-        value: z.number(),
-        label: z.string(),
+      .refine((val) => val !== undefined, {
+        message: "Pincode must be a valid number",
       })
-    )
-    .min(1, "Please select at least one skill"),
-
-  min_salary: z
-    .number({
-      required_error: "Minimum salary is required",
-      invalid_type_error: "Minimum salary must be a valid number",
-    })
-    .min(0, "Minimum salary must be at least 0")
-    .positive("Minimum salary must be a positive number"),
-  max_salary: z
-    .number({
-      required_error: "Maximum salary is required",
-      invalid_type_error: "Maximum salary must be a valid number",
-    })
-    .min(0, "Maximum salary must be at least 0")
-    .positive("Maximum salary must be a positive number"),
-  rate_type: z.enum(["Per Year", "Per Month", "Per Week", "Per Hour"], {
-    required_error: "Rate type is required",
-    invalid_type_error: "Invalid rate type selected",
-  }),
-});
+      .refine((val) => val >= 100000 && val <= 999999, {
+        message: "Pincode must be exactly 6 digits",
+      }),
+    location1: z.string().min(2, "Address is required"),
+    location: z.string().min(2, "Address is required"),
+    job_des: z.string().min(1, "Job description is required"),
+    skills_req: z
+      .array(
+        z.object({
+          value: z.number(),
+          label: z.string(),
+        })
+      )
+      .min(1, "Please select at least one skill"),
+    min_salary: z
+      .number({
+        required_error: "Minimum salary is required",
+        invalid_type_error: "Minimum salary must be a valid number",
+      })
+      .min(0, "Minimum salary must be at least 0")
+      .positive("Minimum salary must be a positive number"),
+    max_salary: z
+      .number({
+        required_error: "Maximum salary is required",
+        invalid_type_error: "Maximum salary must be a valid number",
+      })
+      .min(0, "Maximum salary must be at least 0")
+      .positive("Maximum salary must be a positive number"),
+    rate_type: z.enum(["Per Year", "Per Month", "Per Week", "Per Hour"], {
+      required_error: "Rate type is required",
+      invalid_type_error: "Invalid rate type selected",
+    }),
+  })
+  .superRefine((data, ctx) => {
+    if (data.max_salary <= data.min_salary) {
+      ctx.addIssue({
+        path: ["max_salary"],
+        message: "Maximum salary must be greater than minimum salary",
+        code: z.ZodIssueCode.custom,
+      });
+    }
+  });
 
 const passwordSchema = z
   .string()

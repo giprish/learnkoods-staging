@@ -21,6 +21,9 @@ const Testimonial4 = () => {
 
   return (
     <>
+      <div>
+        <h2 className="heading text-center py-5">Testimonials</h2>
+      </div>
       <Slider {...settings} arrows={false}>
         {testimonilaContent.slice(3, 6).map((item) => (
           <div className="testimonial-block" key={item.id}>

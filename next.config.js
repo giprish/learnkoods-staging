@@ -23,6 +23,7 @@ const nextConfig = {
   },
   env: {
     GLOBAL_API: process.env.GLOBAL_API,
+    ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
   },
 };
 

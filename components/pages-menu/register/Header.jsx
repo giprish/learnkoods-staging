@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -39,9 +40,12 @@ const Header = () => {
                 </Link>
                 <Link href="/" className="isSticky">
                   {/* <img src="/images/logo.svg" alt="logo" title="brand" /> */}
-                  <h2>
-                    <strong>SkillThrive</strong>
-                  </h2>
+                  <Image
+                    width={150}
+                    height={80}
+                    src="/images/skillthrive_logo.png"
+                    alt="brand"
+                  />
                 </Link>
               </div>
             </div>

@@ -70,6 +70,7 @@ const skipRoutes = [
   "/upskill",
   "/mentorship",
   "/pricing",
+  "/",
 ];
 
 export default withAuth(MyApp, skipRoutes);

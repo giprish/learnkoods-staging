@@ -94,7 +94,7 @@ const JobCategorie7 = () => {
             {jobCatContent.map((item) => (
               <div key={item.id}>
                 <Link
-                  href="/job-list/job-list-v8"
+                  href="/job-list/job-list-v1"
                   className="icon-item -type-3 "
                 >
                   <div

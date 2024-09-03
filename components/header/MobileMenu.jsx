@@ -116,17 +116,13 @@ const MobileMenu = () => {
             )} */}
 
             {!accessToken && (
-              <li className="nav-item dropdown signin-menu">
-                <div
-                  className="theme-btn btn-style-blue dropdown-toggle"
-                  id="loginDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <i className="las la-sign-in-alt "></i>
-                </div>
-                <ul className="dropdown-menu" aria-labelledby="loginDropdown">
+              <li className="nav-item signin-menu">
+                <Link href={"/login"}>
+                  <div className="theme-btn btn-style-blue">
+                    <i className="las la-sign-in-alt "></i>
+                  </div>
+                </Link>
+                {/* <ul className="dropdown-menu" aria-labelledby="loginDropdown">
                   <li>
                     <a
                       className="dropdown-item"
@@ -147,22 +143,18 @@ const MobileMenu = () => {
                       Employer
                     </a>
                   </li>
-                </ul>
+                </ul> */}
               </li>
             )}
 
             {!accessToken && (
-              <li className="nav-item dropdown">
-                <div
-                  className="theme-btn btn-style-blue dropdown-toggle"
-                  id="registerDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <i className="las la-user-plus"></i>
-                </div>
-                <ul
+              <li className="nav-item">
+                <Link href={"/register"}>
+                  <div className="theme-btn btn-style-blue">
+                    <i className="las la-user-plus"></i>
+                  </div>
+                </Link>
+                {/* <ul
                   className="dropdown-menu"
                   aria-labelledby="registerDropdown"
                 >
@@ -188,7 +180,7 @@ const MobileMenu = () => {
                       Employer
                     </a>
                   </li>
-                </ul>
+                </ul> */}
               </li>
             )}
 

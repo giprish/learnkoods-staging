@@ -26,7 +26,6 @@ Testimonial Section
   position: relative;
   padding: 10px;
   margin-right: 20px;
-  opacity: 0.5;
   -webkit-transition: all 300ms ease;
   -o-transition: all 300ms ease;
   transition: all 300ms ease;
@@ -330,7 +329,9 @@ Testimonial Section Two
   padding: 0 30px 96px;
 }
 
-.testimonial-section-two.style-two .testimonial-section-two .testimonial-carousel {
+.testimonial-section-two.style-two
+  .testimonial-section-two
+  .testimonial-carousel {
   max-width: 630px;
 }
 

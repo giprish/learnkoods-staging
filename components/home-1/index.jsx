@@ -21,6 +21,7 @@ import Discover from "../Discover/Discover";
 import Discover2 from "../Discover/Discover2";
 import LeverageAi from "../ai/LeverageAi";
 import Info from "../info/Info";
+import Testimonial4 from "../testimonial/Testimonial4";
 
 const index = () => {
   return (
@@ -97,7 +98,11 @@ const index = () => {
         </div>
       </section>
 
-      <section className="leverage-section">
+      <section className="test-section bgcolor pb-5">
+        <Testimonial4 />
+      </section>
+
+      <section className="leverage-section pb-4">
         <div className="auto-container">
           <div
             className="row "
@@ -107,17 +112,10 @@ const index = () => {
           </div>
         </div>
       </section>
-      {/* <!-- End News Section --> */}
 
-      {/* <section className="app-section">
-        <div className="auto-container">
-          <AppSection />
-        </div>
-      </section> */}
-      {/* <!-- End App Section --> */}
-
-      {/* <CallToAction /> */}
-      {/* <!-- End Call To Action --> */}
+      <section className="blog-section bgcolor pb-5">
+        <Blog />
+      </section>
 
       <FooterDefault />
       {/* <!-- End Main Footer --> */}

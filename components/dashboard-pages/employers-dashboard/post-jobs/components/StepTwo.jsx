@@ -16,6 +16,7 @@ const StepTwo = ({ setTab, onSubmit }) => {
     setValue,
     watch,
     formState: { errors },
+    getValues,
   } = useFormContext();
   const maxSalary = watch("max_salary");
   const [jobDesc, setJobDesc] = useState("");
@@ -88,7 +89,7 @@ const StepTwo = ({ setTab, onSubmit }) => {
           />
         </div>
 
-        <div className=" row">
+        <div className="row">
           <div className="form-group col-lg-4 col-md-12">
             <label>Minimum Salary</label>
             <input
@@ -100,24 +101,13 @@ const StepTwo = ({ setTab, onSubmit }) => {
               onInput={(e) => {
                 if (e.target.value < 0) e.target.value = 0; // Resets to 0 if a negative number is entered
               }}
-              {...register("min_salary", {
-                required: "Minimum salary is required",
-                min: {
-                  value: 0,
-                  message: "Salary must be a positive number",
-                },
-                validate: {
-                  lessThanMax: (value) =>
-                    value <= maxSalary ||
-                    "Minimum salary must be less than or equal to maximum salary",
-                },
-                valueAsNumber: true,
-              })}
+              {...register("min_salary")}
             />
             {errors?.min_salary && (
               <p className="text-danger">{errors?.min_salary?.message}</p>
             )}
           </div>
+
           <div className="form-group col-lg-4 col-md-12">
             <label>Maximum Salary</label>
             <input
@@ -129,24 +119,20 @@ const StepTwo = ({ setTab, onSubmit }) => {
               onInput={(e) => {
                 if (e.target.value < 0) e.target.value = 0; // Resets to 0 if a negative number is entered
               }}
-              {...register("max_salary", {
-                required: "Maximum salary is required",
-                min: {
-                  value: 0,
-                  message: "Salary must be a positive number",
-                },
-                valueAsNumber: true,
-              })}
+              {...register("max_salary")}
             />
             {errors?.max_salary && (
               <p className="text-danger">{errors?.max_salary?.message}</p>
             )}
           </div>
+
           <div className="form-group col-lg-4 col-md-12">
             <label>Rate</label>
             <select
               className="chosen-single form-select"
-              {...register("rate_type")}
+              {...register("rate_type", {
+                required: "Rate type is required",
+              })}
             >
               <option disabled>Select</option>
               <option value="Per Year">per year</option>
@@ -154,8 +140,8 @@ const StepTwo = ({ setTab, onSubmit }) => {
               <option value="Per Week">per week</option>
               <option value="Per Hour">per hour</option>
             </select>
-            {errors?.rate && (
-              <p className="text-danger">{errors?.rate?.message}</p>
+            {errors?.rate_type && (
+              <p className="text-danger">{errors?.rate_type?.message}</p>
             )}
           </div>
         </div>
