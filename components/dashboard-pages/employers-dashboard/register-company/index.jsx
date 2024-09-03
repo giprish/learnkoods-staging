@@ -77,10 +77,17 @@ const index = () => {
     onError: (error) => {
       console.log(error, "error message");
 
+      // Check for 401 Unauthorized error
+      if (error.response && error.response.status === 401) {
+        toast.error("Unauthorized access. Please log in.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        return; // Stop further execution
+      }
+
       const errorFields = [
         "email",
         "name",
-        "email",
         "phone_number",
         "website",
         "since",
@@ -96,7 +103,7 @@ const index = () => {
       let errorHandled = false;
 
       errorFields.forEach((field) => {
-        if (error.response.data[field]) {
+        if (error.response && error.response.data[field]) {
           const errorMessage = Array.isArray(error.response.data[field])
             ? error.response.data[field][0]
             : error.response.data[field].error || error.response.data[field];
