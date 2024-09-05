@@ -42,6 +42,7 @@ const HeaderNavContent = () => {
     queryKey: ["user", accessToken],
     queryFn: () => fetchData(),
     enabled: !!accessToken,
+    retry: 1,
   });
 
   // console.log(user);

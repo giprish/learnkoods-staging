@@ -39,22 +39,26 @@ const FormInfoBox = ({
   const { data: industry } = useQuery({
     queryKey: ["industryData"],
     queryFn: () => fetch(`${process.env.GLOBAL_API}/industry_api/`),
+    retry: 1,
   });
-  console.log(industry, "industry");
+  // console.log(industry, "industry");
   const { data: country } = useQuery({
     queryKey: ["countryData"],
     queryFn: () => fetch(`${process.env.GLOBAL_API}/country/`),
+    retry: 1,
   });
 
   const { data: state } = useQuery({
     queryKey: ["stateData", countryId],
     queryFn: () =>
       fetch(`${process.env.GLOBAL_API}/state/${countryId?.value}/`),
+    retry: 1,
   });
 
   const { data: city } = useQuery({
     queryKey: ["cityData", stateId],
     queryFn: () => fetch(`${process.env.GLOBAL_API}/city/${stateId?.value}/`),
+    retry: 1,
   });
 
   const options = (optiondata) => {

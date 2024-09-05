@@ -29,45 +29,9 @@ const CompanyListingsTable = () => {
 
   console.log(companies, "list of companies");
 
-  const fetchJobs = async () => {
-    const response = await axios.get(`${process.env.GLOBAL_API}/job-user/`, {
-      headers: {
-        Authorization: `Bearer ${access}`,
-      },
-    });
-    return response.data;
-  };
-
-  const { data: Jobs, refetch } = useQuery({
-    queryKey: ["AllJobs"],
-    queryFn: () => fetchJobs(),
-    retry: 1,
-  });
-
-  const fetchAppliedCandidates = async () => {
-    const response = await axios.get(
-      `${process.env.GLOBAL_API}/usr_job_applied/${jobId}/`,
-      {
-        headers: {
-          Authorization: `Bearer ${access}`,
-        },
-      }
-    );
-    return response.data;
-  };
-
-  const { data: AppliedCandidates } = useQuery({
-    queryKey: ["AllJobs", jobId],
-    queryFn: () => fetchAppliedCandidates(),
-  });
-
-  const callApplied = (id) => {
-    setJobdId(id);
-  };
-
-  const deleteJob = async (job_id) => {
+  const deleteCompany = async (company_id) => {
     const response = await axios.delete(
-      `${process.env.GLOBAL_API}/job_api/${job_id}/`,
+      `${process.env.GLOBAL_API}/comp/${company_id}/`,
 
       {
         headers: {
@@ -80,10 +44,10 @@ const CompanyListingsTable = () => {
 
   // Setup the mutation with react-query
   const { mutate, isLoading } = useMutation({
-    mutationFn: deleteJob,
+    mutationFn: deleteCompany,
     onSuccess: (data) => {
       console.log(data, "data from successful deletion");
-      toast.success("Job deleted", {
+      toast.success("Company deleted", {
         position: toast.POSITION.TOP_RIGHT,
       });
     },
@@ -94,61 +58,17 @@ const CompanyListingsTable = () => {
       });
     },
   });
-  const publishJob = async (job) => {
-    const response = await axios.put(
-      `${process.env.GLOBAL_API}/job_api/${job.job_id}/`,
-      { is_published: job.is_published },
-      {
-        headers: {
-          Authorization: `Bearer ${access}`,
-          "Content-type": "multipart/form-data",
-        },
-      }
-    );
-    return response.data;
-  };
 
   // Setup the mutation with react-query
-  const { mutate: publish } = useMutation({
-    mutationFn: publishJob,
-    onSuccess: (data) => {
-      console.log(data, "data from successful publish");
-      toast.success("Job published", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      refetch();
-    },
-    onError: (data) => {
-      console.log(data, "error message");
-      toast.error("Publishing Unsuccessful", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-    },
-  });
-  const handleDelete = (job_id) => {
-    mutate(job_id);
-  };
-  const handlePublish = ({ checked, job }) => {
-    const dataToSend = {
-      is_published: checked,
-      job_id: job.job_id,
-    };
-    console.log(dataToSend, "console toggle");
-    publish(dataToSend);
+
+  const handleDelete = (company_id) => {
+    mutate(company_id);
   };
 
   return (
     <div className="tabs-box">
       <div className="widget-title">
         <h4>Company Listings</h4>
-
-        {/* <div className="chosen-outer">
-          <select className="chosen-single form-select">
-            <option>Select</option>
-            <option>Active</option>
-            <option>InActive</option>
-          </select>
-        </div> */}
       </div>
 
       <div className="widget-content">
@@ -224,9 +144,9 @@ const CompanyListingsTable = () => {
                         <li>
                           <button
                             data-text="Delete"
-                            // onClick={() => {
-                            //   handleDelete(item.id);
-                            // }}
+                            onClick={() => {
+                              handleDelete(item.id);
+                            }}
                           >
                             <span className="la la-trash"></span>
                           </button>

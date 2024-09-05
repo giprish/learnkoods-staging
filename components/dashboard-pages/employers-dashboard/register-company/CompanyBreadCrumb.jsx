@@ -27,6 +27,7 @@ const ComapnyBreadCrumb = ({
   const { data: company } = useQuery({
     queryKey: ["companyList", access],
     queryFn: () => fetchCompany(),
+    retry: 1,
   });
 
   // console.log(company);

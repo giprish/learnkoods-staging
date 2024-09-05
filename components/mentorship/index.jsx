@@ -1,6 +1,7 @@
 import MobileMenu from "../header/MobileMenu";
 import LoginPopup from "../common/form/login/LoginPopup";
 import DefaulHeader2 from "../header/DefaulHeader2";
+import CodeEditor from "../codeEditor/CodeEditor";
 
 const index = () => {
   return (
@@ -24,6 +25,13 @@ const index = () => {
             <a href="https://docs.google.com/document/d/1G9HpGklwiNQGB20JxVpGSdX0CqIeg_Gdnef5n7zvuVU/edit">
               https://docs.google.com/document/d/1G9HpGklwiNQGB20JxVpGSdX0CqIeg_Gdnef5n7zvuVU/edit
             </a>
+          </div>
+        </div>
+      </section>
+      <section className="editor-section">
+        <div className="auto-container">
+          <div className="row">
+            <CodeEditor />
           </div>
         </div>
       </section>

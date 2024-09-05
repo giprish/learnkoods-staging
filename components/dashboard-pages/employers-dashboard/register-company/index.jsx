@@ -89,6 +89,7 @@ const index = () => {
         "email",
         "name",
         "phone_number",
+        "phone_error",
         "website",
         "since",
         "team_size",
@@ -116,10 +117,13 @@ const index = () => {
       });
 
       // Handle errors not in the errorFields array
-      if (!errorHandled) {
-        toast.error("An unexpected error occurred. Please try again.", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+      if (!errorHandled || error.response.data[0]) {
+        toast.error(
+          `${error.response.data[0]}, company register unsuccessful`,
+          {
+            position: toast.POSITION.TOP_RIGHT,
+          }
+        );
       }
     },
   });
