@@ -72,6 +72,7 @@ const skipRoutes = [
   "/assessment/code-editor",
   "/pricing",
   "/",
+  "/payment",
 ];
 
 export default withAuth(MyApp, skipRoutes);

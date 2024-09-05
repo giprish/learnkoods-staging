@@ -6,8 +6,11 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import Select from "react-select";
+import ConfirmationModal from "@/components/modal/ConfirmationModal.jsx";
 
 const JobListingsTable = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [itemIdToDelete, setItemIdToDelete] = useState(null);
   const [jobId, setJobdId] = useState(null);
   const [companyId, setCompanyId] = useState(null);
   const [selectedCompany, setSelectedCompany] = useState(null);
@@ -161,9 +164,6 @@ const JobListingsTable = () => {
       });
     },
   });
-  const handleDelete = (job_id) => {
-    mutate(job_id);
-  };
   const handlePublish = ({ checked, job }) => {
     const dataToSend = {
       is_published: checked,
@@ -180,156 +180,180 @@ const JobListingsTable = () => {
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
+
+  const handleDelete = (job_id) => {
+    mutate(job_id);
+  };
+  const handleShowModal = (id) => {
+    setItemIdToDelete(id);
+    setShowModal(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (itemIdToDelete) {
+      handleDelete(itemIdToDelete);
+      setItemIdToDelete(null); // Clear the item ID
+    }
+    setShowModal(false);
+  };
   return (
-    <div className="tabs-box">
-      <div className="widget-title">
-        <h4>Select Company</h4>
+    <>
+      <div className="tabs-box">
+        <div className="widget-title">
+          <h4>Select Company</h4>
 
-        <div className="form-group col-6">
-          <Select
-            options={CompanyOptions}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={handleCompany}
-            value={selectedCompany}
-          />
+          <div className="form-group col-6">
+            <Select
+              options={CompanyOptions}
+              className="basic-multi-select"
+              classNamePrefix="select"
+              onChange={handleCompany}
+              value={selectedCompany}
+            />
+          </div>
+          <div className="chosen-outer">
+            <select
+              className="chosen-single form-select"
+              onChange={(event) => setJobStatus(event.target.value)}
+            >
+              <option>All</option>
+              <option value="active">Active</option>
+              <option value="inactive">InActive</option>
+            </select>
+          </div>
         </div>
-        <div className="chosen-outer">
-          <select
-            className="chosen-single form-select"
-            onChange={(event) => setJobStatus(event.target.value)}
-          >
-            <option>All</option>
-            <option value="active">Active</option>
-            <option value="inactive">InActive</option>
-          </select>
-        </div>
-      </div>
 
-      <div className="widget-content">
-        <div className="table-outer">
-          <table className="default-table manage-job-table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Applicants</th>
-                <th>Created On</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
+        <div className="widget-content">
+          <div className="table-outer">
+            <table className="default-table manage-job-table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Applicants</th>
+                  <th>Created On</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {filteredJobs.map((item) => (
-                <tr key={item.job_id}>
-                  <td>
-                    <div className="job-block">
-                      <div className="inner-box">
-                        <div className="content">
-                          <span className="company-logo">
-                            <Image
-                              width={50}
-                              height={49}
-                              src={
-                                item.company
-                                  ? `${item.company?.logo}`
-                                  : "/images/resource/richard.png"
-                              }
-                              alt="logo"
-                            />
-                          </span>
-                          <h4>
-                            <Link href={`/job-single-v1/${item.job_id}`}>
-                              {item.job_title}
-                            </Link>
-                          </h4>
-                          <ul className="job-info">
-                            <li>
-                              <span className="icon flaticon-briefcase"></span>
-                              {item?.job_type}
-                            </li>
-                            <li>
-                              <span className="icon flaticon-map-locator"></span>
-                              {item?.city?.name}, {item?.country?.name}
-                            </li>
-                          </ul>
+              <tbody>
+                {filteredJobs.map((item) => (
+                  <tr key={item.job_id}>
+                    <td>
+                      <div className="job-block">
+                        <div className="inner-box">
+                          <div className="content">
+                            <span className="company-logo">
+                              <Image
+                                width={50}
+                                height={49}
+                                src={
+                                  item.company
+                                    ? `${item.company?.logo}`
+                                    : "/images/resource/richard.png"
+                                }
+                                alt="logo"
+                              />
+                            </span>
+                            <h4>
+                              <Link href={`/job-single-v1/${item.job_id}`}>
+                                {item.job_title}
+                              </Link>
+                            </h4>
+                            <ul className="job-info">
+                              <li>
+                                <span className="icon flaticon-briefcase"></span>
+                                {item?.job_type}
+                              </li>
+                              <li>
+                                <span className="icon flaticon-map-locator"></span>
+                                {item?.city?.name}, {item?.country?.name}
+                              </li>
+                            </ul>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="applied">
-                    <a
-                      href="/employers-dashboard/all-applicants"
-                      onClick={() => callApplied(item?.job_id)}
+                    </td>
+                    <td className="applied">
+                      <a
+                        href="/employers-dashboard/all-applicants"
+                        onClick={() => callApplied(item?.job_id)}
+                      >
+                        {" "}
+                        Applied
+                      </a>
+                    </td>
+                    <td>{formatDate(item?.created_at)}</td>
+                    <td
+                      className=""
+                      style={{ color: item.is_published ? "green" : "red" }}
                     >
-                      {" "}
-                      Applied
-                    </a>
-                  </td>
-                  <td>{formatDate(item?.created_at)}</td>
-                  <td
-                    className=""
-                    style={{ color: item.is_published ? "green" : "red" }}
-                  >
-                    {item?.is_published ? "Active" : "Inactive"}
-                    <ul className="switchbox">
-                      <li>
-                        <label className="switch">
-                          <input
-                            type="checkbox"
-                            value={item?.is_published}
-                            checked={item.is_published}
-                            onChange={(e) =>
-                              handlePublish({
-                                checked: e.target.checked,
-                                job: item,
-                              })
-                            }
-                          />
-                          <span className="slider round"></span>
-                        </label>
-                      </li>
-                    </ul>
-                  </td>
-                  <td>
-                    <div className="option-box">
-                      <ul className="option-list">
-                        <Link href={`/job-single-v1/${item.job_id}`}>
-                          <li>
-                            <button data-text="View">
-                              <span className="la la-eye"></span>
-                            </button>
-                          </li>
-                        </Link>
-                        <Link
-                          href={`/employers-dashboard/edit-job/${item.job_id}`}
-                        >
-                          <li>
-                            <button data-text="Edit">
-                              <span className="la la-pencil"></span>
-                            </button>
-                          </li>
-                        </Link>
+                      {item?.is_published ? "Active" : "Inactive"}
+                      <ul className="switchbox">
                         <li>
-                          <button
-                            data-text="Delete"
-                            onClick={() => {
-                              handleDelete(item.job_id);
-                            }}
-                          >
-                            <span className="la la-trash"></span>
-                          </button>
+                          <label className="switch">
+                            <input
+                              type="checkbox"
+                              value={item?.is_published}
+                              checked={item.is_published}
+                              onChange={(e) =>
+                                handlePublish({
+                                  checked: e.target.checked,
+                                  job: item,
+                                })
+                              }
+                            />
+                            <span className="slider round"></span>
+                          </label>
                         </li>
                       </ul>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    </td>
+                    <td>
+                      <div className="option-box">
+                        <ul className="option-list">
+                          <Link href={`/job-single-v1/${item.job_id}`}>
+                            <li>
+                              <button data-text="View">
+                                <span className="la la-eye"></span>
+                              </button>
+                            </li>
+                          </Link>
+                          <Link
+                            href={`/employers-dashboard/edit-job/${item.job_id}`}
+                          >
+                            <li>
+                              <button data-text="Edit">
+                                <span className="la la-pencil"></span>
+                              </button>
+                            </li>
+                          </Link>
+                          <li>
+                            <button
+                              data-text="Delete"
+                              // onClick={() => {
+                              //   handleDelete(item.job_id);
+                              // }}
+                              onClick={() => handleShowModal(item.job_id)}
+                            >
+                              <span className="la la-trash"></span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
+      <ConfirmationModal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        onConfirm={handleConfirmDelete}
+      />
+    </>
   );
 };
 

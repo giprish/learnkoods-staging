@@ -4,38 +4,23 @@ const Pricing = () => {
   const pricingCotent = [
     {
       id: 1,
-      packageType: "Basic",
-      price: "199",
+      packageType: "Free",
+      price: "0",
       tag: "",
-      features: [
-        "30 job posting",
-        "3 featured job",
-        "Job displayed for 15 days",
-        "Premium Support 24/7",
-      ],
+      features: ["Basic ", "Basic Assessments"],
     },
     {
       id: 2,
-      packageType: "Standard",
-      price: "499",
+      packageType: "Pro",
+      price: "9.99 or 10",
       tag: "tagged",
       features: [
-        "40 job posting",
-        "5 featured job",
-        "Job displayed for 20 days",
-        "Premium Support 24/7",
-      ],
-    },
-    {
-      id: 3,
-      packageType: "Extended",
-      price: "799",
-      tag: "",
-      features: [
-        "50 job posting",
-        "10 featured job",
-        "Job displayed for 60 days",
-        "Premium Support 24/7",
+        "Basic",
+        "Priority application for job",
+        "Direct Messaging to Hiring Manager",
+        "Basic Assessments",
+        "Advanced Assessment",
+        "Career Mapping",
       ],
     },
   ];
@@ -72,8 +57,8 @@ const Pricing = () => {
                 </ul>
               </div>
               <div className="table-footer">
-                <Link href="/shop/cart" className="theme-btn btn-style-three">
-                  Add to Cart
+                <Link href="/payment" className="theme-btn btn-style-three">
+                  {item.tag ? "Upgrade" : "Get Started"}
                 </Link>
               </div>
             </div>

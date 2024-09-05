@@ -1,0 +1,52 @@
+import MobileMenu from "../header/MobileMenu";
+import LoginPopup from "../common/form/login/LoginPopup";
+import DefaulHeader2 from "../header/DefaulHeader2";
+import Script from "next/script";
+
+const IndexPage = () => {
+  return (
+    <>
+      <LoginPopup />
+      {/* End Login Popup Modal */}
+
+      <DefaulHeader2 />
+      {/* End Header with upload cv btn */}
+
+      <MobileMenu />
+      {/* End MobileMenu */}
+
+      <section className="payment-section">
+        <div className="container">
+          Pay : $9.99
+          {/* PayPal Script for Subscription */}
+          <Script
+            src="https://www.paypal.com/sdk/js?client-id=AdsXcCsob5S29OyshWfQviL8Fz7bmDqG7cFxk2G88nt_-NR31IBcdxXmXOtTPfJfgbeL5aUqrdCRRsL0&vault=true&intent=subscription"
+            strategy="lazyOnload"
+            onLoad={() => {
+              if (window.paypal) {
+                window.paypal
+                  .Buttons({
+                    createSubscription: function (data, actions) {
+                      return actions.subscription.create({
+                        plan_id: "P-1AJ82536CF083471TM3MYKIQ", // Replace with your plan ID
+                      });
+                    },
+                    onApprove: function (data, actions) {
+                      alert(
+                        "You have successfully subscribed to " +
+                          data.subscriptionID
+                      );
+                    },
+                  })
+                  .render("#paypal-button-container");
+              }
+            }}
+          />
+          <div id="paypal-button-container"></div>
+        </div>
+      </section>
+    </>
+  );
+};
+
+export default IndexPage;

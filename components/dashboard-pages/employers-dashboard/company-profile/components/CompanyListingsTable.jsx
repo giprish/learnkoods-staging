@@ -7,9 +7,11 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import appliedJobs from "@/pages/candidates-dashboard/applied-jobs/index.js";
+import ConfirmationModal from "@/components/modal/ConfirmationModal.jsx";
 
 const CompanyListingsTable = () => {
-  const [jobId, setJobdId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [itemIdToDelete, setItemIdToDelete] = useState(null);
   const access = window.localStorage.getItem("access");
 
   const fetchCompany = async () => {
@@ -64,103 +66,123 @@ const CompanyListingsTable = () => {
   const handleDelete = (company_id) => {
     mutate(company_id);
   };
+  const handleShowModal = (id) => {
+    setItemIdToDelete(id);
+    setShowModal(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (itemIdToDelete) {
+      handleDelete(itemIdToDelete);
+      setItemIdToDelete(null); // Clear the item ID
+    }
+    setShowModal(false);
+  };
 
   return (
-    <div className="tabs-box">
-      <div className="widget-title">
-        <h4>Company Listings</h4>
-      </div>
+    <>
+      <div className="tabs-box">
+        <div className="widget-title">
+          <h4>Company Listings</h4>
+        </div>
 
-      <div className="widget-content">
-        <div className="table-outer">
-          <table className="default-table manage-job-table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Website</th>
-                <th>Industry</th>
-                <th>Size</th>
-                <th>Action</th>
-              </tr>
-            </thead>
+        <div className="widget-content">
+          <div className="table-outer">
+            <table className="default-table manage-job-table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Website</th>
+                  <th>Industry</th>
+                  <th>Size</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {companies?.data.map((item) => (
-                <tr key={item.id}>
-                  <td>
-                    <div className="job-block">
-                      <div className="inner-box">
-                        <div className="content">
-                          <span className="company-logo">
-                            <Image
-                              width={50}
-                              height={49}
-                              src={
-                                item.logo
-                                  ? `${item.logo}`
-                                  : "/images/resource/richard.png"
-                              }
-                              alt="logo"
-                            />
-                          </span>
-                          <h4>
-                            <Link
-                              href={`/employers-dashboard/edit-companies/${item.id}`}
-                            >
-                              {item.name}
-                            </Link>
-                          </h4>
-                          <ul className="job-info">
-                            {/* <li>
+              <tbody>
+                {companies?.data.map((item) => (
+                  <tr key={item.id}>
+                    <td>
+                      <div className="job-block">
+                        <div className="inner-box">
+                          <div className="content">
+                            <span className="company-logo">
+                              <Image
+                                width={50}
+                                height={49}
+                                src={
+                                  item.logo
+                                    ? `${item.logo}`
+                                    : "/images/resource/richard.png"
+                                }
+                                alt="logo"
+                              />
+                            </span>
+                            <h4>
+                              <Link
+                                href={`/employers-dashboard/edit-companies/${item.id}`}
+                              >
+                                {item.name}
+                              </Link>
+                            </h4>
+                            <ul className="job-info">
+                              {/* <li>
                               <span className="icon flaticon-briefcase"></span>
                               {item?.industry?.name}
                             </li> */}
-                            <li>
-                              <span className="icon flaticon-map-locator"></span>
-                              {item?.city?.name}, {item?.country?.name}
-                            </li>
-                          </ul>
+                              <li>
+                                <span className="icon flaticon-map-locator"></span>
+                                {item?.city?.name}, {item?.country?.name}
+                              </li>
+                            </ul>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="applied">
-                    <a href="#"> {item.website}</a>
-                  </td>
-                  <td>{item?.industry?.name}</td>
-                  <td className="">{item?.team_size}</td>
-                  <td>
-                    <div className="option-box">
-                      <ul className="option-list">
-                        <Link
-                          href={`/employers-dashboard/edit-companies/${item.id}`}
-                        >
+                    </td>
+                    <td className="applied">
+                      <a href="#"> {item.website}</a>
+                    </td>
+                    <td>{item?.industry?.name}</td>
+                    <td className="">{item?.team_size}</td>
+                    <td>
+                      <div className="option-box">
+                        <ul className="option-list">
+                          <Link
+                            href={`/employers-dashboard/edit-companies/${item.id}`}
+                          >
+                            <li>
+                              <button data-text="Edit">
+                                <span className="la la-pencil"></span>
+                              </button>
+                            </li>
+                          </Link>
                           <li>
-                            <button data-text="Edit">
-                              <span className="la la-pencil"></span>
+                            <button
+                              data-text="Delete"
+                              // onClick={() => {
+                              //   handleDelete(item.id);
+                              // }}
+                              onClick={() => handleShowModal(item.id)}
+                            >
+                              <span className="la la-trash"></span>
                             </button>
                           </li>
-                        </Link>
-                        <li>
-                          <button
-                            data-text="Delete"
-                            onClick={() => {
-                              handleDelete(item.id);
-                            }}
-                          >
-                            <span className="la la-trash"></span>
-                          </button>
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
+      <ConfirmationModal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        onConfirm={handleConfirmDelete}
+      />
+    </>
   );
 };
 

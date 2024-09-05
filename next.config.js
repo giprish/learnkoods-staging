@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: [
+    remotePatterns: [
       "learnkoods.us-east-2.elasticbeanstalk.comundefined",
       "learnkoods-api.eu-north-1.elasticbeanstalk.comhttps",
       "learnkoods.us-east-2.elasticbeanstalk.comhttps",
