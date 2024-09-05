@@ -236,7 +236,7 @@ const FormInfoBox = ({
             <>
               <div className="d-flex flex-row uploadButton justify-content-center align-items-center">
                 <input
-                  className=" form-control py-3 logo-input"
+                  className=" form-control py-3 logo-input px-4"
                   type="file"
                   name="profile_image"
                   accept="image/*"
@@ -276,7 +276,7 @@ const FormInfoBox = ({
                 Company Logo <span style={{ color: "red" }}>*</span>
               </label>
               <input
-                className="form-control py-3 "
+                className="form-control py-3 px-4"
                 type="file"
                 name="profile_image"
                 accept="image/*"

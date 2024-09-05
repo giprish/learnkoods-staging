@@ -155,7 +155,7 @@ const FormContent2 = ({ usertype }) => {
       <div className="form-group">
         <label>Resume</label>
         <input
-          className="form-control py-3 "
+          className="form-control py-3 px-4"
           type="file"
           name="resume"
           id="uploadresume"
