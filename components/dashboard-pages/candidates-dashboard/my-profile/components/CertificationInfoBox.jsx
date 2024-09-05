@@ -238,166 +238,182 @@ const CertificationInfoBox = () => {
 
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
-      {fields.map((item, index) => (
-        <div className="row border rounded-3 p-2 mb-4 " key={item.id}>
-          <div className="form-group col-lg-12 col-md-12 d-flex flex-row-reverse">
-            <button
-              type="button"
-              onClick={() => handleDelete(index)}
-              className="border p-2 rounded-4 theme-btn btn-style-one"
-            >
-              <i className="la la-trash font-weight-bold"></i>
-            </button>
-          </div>
-          <div className="form-group col-lg-12 col-md-12">
-            <label>Title of Certificate</label>
-            <input
-              type="text"
-              name={`certificate[${index}].cert_title`}
-              placeholder="Title of Certificate"
-              {...register(`certificate[${index}].cert_title`)}
-            />
-            {errors.certificate?.[index]?.cert_title && (
-              <p className="text-danger">
-                {errors.certificate[index].cert_title.message}
-              </p>
-            )}
-          </div>
-          <div className="form-group col-lg-6 col-md-12">
-            <label>Issuing Organization</label>
-            <input
-              type="text"
-              name={`certificate[${index}].issuing_organization`}
-              placeholder="Issuing Organization"
-              {...register(`certificate[${index}].issuing_organization`)}
-            />
-            {errors.certificate?.[index]?.issuing_organization && (
-              <p className="text-danger">
-                {errors.certificate[index].issuing_organization.message}
-              </p>
-            )}
-          </div>
-          <div className="form-group col-lg-6 col-md-12">
-            <label>Certificate</label>
-            <input
-              className="form-control py-3 "
-              type="file"
-              accept=".pdf, .docx"
-              name={`certificate[${index}].certificate_file`}
-              {...register(`certificate[${index}].certificate_file`)}
-              required
-            />
-            {errors.certificate?.[index]?.certificate_file && (
-              <p className="text-danger">
-                {errors.certificate[index].certificate_file.message}
-              </p>
-            )}
-          </div>
-          <div className="form-group col-lg-12 col-md-12">
-            <label>Description</label>
-            <input
-              type="text"
-              name={`certificate[${index}].description`}
-              placeholder="Description"
-              {...register(`certificate[${index}].description`)}
-              required
-            />
-            {errors.certificate?.[index]?.description && (
-              <p className="text-danger">
-                {errors.certificate[index].description.message}
-              </p>
-            )}
-          </div>
-
-          <div className="form-group-date col-lg-6 col-md-12 ">
-            <label className="">Issuing Date</label>
-            <input
-              type="date"
-              name={`certificate[${index}].issue_date`}
-              placeholder="Issuing Date"
-              {...register(`certificate[${index}].issue_date`)}
-              className="border p-3 rounded-3"
-            />
-            {errors.certificate?.[index]?.issue_date && (
-              <p className="text-danger">
-                {errors.certificate[index].issue_date.message}
-              </p>
-            )}
-          </div>
-
-          {/* {workingState[index] && ( */}
-          <>
-            <div className="form-group-date col-lg-6 col-md-12">
-              <label>Expiration Date</label>
+      {fields.map((item, index) => {
+        const certificateUrl = item.certificate_file;
+        return (
+          <div className="row border rounded-3 p-2 mb-4 " key={item.id}>
+            <div className="form-group col-lg-12 col-md-12 d-flex flex-row-reverse">
+              <button
+                type="button"
+                onClick={() => handleDelete(index)}
+                className="border p-2 rounded-4 theme-btn btn-style-one"
+              >
+                <i className="la la-trash font-weight-bold"></i>
+              </button>
+            </div>
+            <div className="form-group col-lg-12 col-md-12">
+              <label>Title of Certificate</label>
               <input
-                type="date"
-                name={`certificate[${index}].expiration_date`}
-                placeholder="Expiration Date"
-                {...register(`certificate[${index}].expiration_date`)}
-                className="border p-3 rounded-3"
+                type="text"
+                name={`certificate[${index}].cert_title`}
+                placeholder="Title of Certificate"
+                {...register(`certificate[${index}].cert_title`)}
               />
-              {errors.certificate?.[index]?.expiration_date && (
+              {errors.certificate?.[index]?.cert_title && (
                 <p className="text-danger">
-                  {errors.certificate[index].expiration_date.message}
+                  {errors.certificate[index].cert_title.message}
                 </p>
               )}
             </div>
-          </>
-          {/* )} */}
-          {/* <div className="form-group col-lg-12 col-md-12 p-4">
-            <input
-              type="checkbox"
-              placeholder=""
-              {...register(`certificate[${index}].working`)}
-              className="mx-4"
-              onChange={() => handleWorkingChange(index)}
-            />
-            <label>Has Expiry Date</label>
-            {errors.certificate?.[index]?.working && (
-              <p className="text-danger">
-                {errors.certificate[index].working.message}
-              </p>
-            )}
-          </div> */}
-          <div className="form-group col-lg-6 col-md-12 my-4">
-            <label>Link This Certificate</label>
-            <input
-              type="url"
-              name={`certificate[${index}].link`}
-              placeholder="Link This Certificate"
-              {...register(`certificate[${index}].link`)}
-            />
-            {errors.certificate?.[index]?.link && (
-              <p className="text-danger">
-                {errors.certificate[index].link.message}
-              </p>
-            )}
-          </div>
-          <div className="form-group col-lg-6 col-md-12 my-4">
-            <label>Gained Skills</label>
-            <Controller
-              name={`certificate[${index}].skills_acquired`}
-              control={control}
-              // defaultValue={[]}
-              rules={{ required: "Please select at least one skill" }}
-              render={({ field }) => (
-                <Select
-                  {...field}
-                  isMulti
-                  options={skillOption}
-                  className="basic-multi-select"
-                  classNamePrefix="select"
-                />
+            <div className="form-group col-lg-6 col-md-12">
+              <label>Issuing Organization</label>
+              <input
+                type="text"
+                name={`certificate[${index}].issuing_organization`}
+                placeholder="Issuing Organization"
+                {...register(`certificate[${index}].issuing_organization`)}
+              />
+              {errors.certificate?.[index]?.issuing_organization && (
+                <p className="text-danger">
+                  {errors.certificate[index].issuing_organization.message}
+                </p>
               )}
-            />
-            {errors.certificate?.[index]?.skills_acquired && (
-              <p className="text-danger">
-                {errors.certificate[index].skills_acquired.message}
-              </p>
-            )}
+            </div>
+            <div className="form-group col-lg-6 col-md-12">
+              <label>Certificate</label>
+              <div className="d-flex align-items-center">
+                <input
+                  className="form-control py-3 px-4"
+                  type="file"
+                  accept=".pdf, .docx"
+                  name={`certificate[${index}].certificate_file`}
+                  {...register(`certificate[${index}].certificate_file`)}
+                  required={!certificateUrl} // Conditionally required based on URL presence
+                />
+                {certificateUrl && (
+                  <a
+                    href={certificateUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-secondary mx-2 "
+                  >
+                    Preview
+                  </a>
+                )}
+              </div>
+              {errors.certificate?.[index]?.certificate_file && (
+                <p className="text-danger mt-2">
+                  {errors.certificate[index].certificate_file.message}
+                </p>
+              )}
+            </div>
+
+            <div className="form-group col-lg-12 col-md-12">
+              <label>Description</label>
+              <input
+                type="text"
+                name={`certificate[${index}].description`}
+                placeholder="Description"
+                {...register(`certificate[${index}].description`)}
+                required
+              />
+              {errors.certificate?.[index]?.description && (
+                <p className="text-danger">
+                  {errors.certificate[index].description.message}
+                </p>
+              )}
+            </div>
+
+            <div className="form-group-date col-lg-6 col-md-12 ">
+              <label className="">Issuing Date</label>
+              <input
+                type="date"
+                name={`certificate[${index}].issue_date`}
+                placeholder="Issuing Date"
+                {...register(`certificate[${index}].issue_date`)}
+                className="border p-3 rounded-3"
+              />
+              {errors.certificate?.[index]?.issue_date && (
+                <p className="text-danger">
+                  {errors.certificate[index].issue_date.message}
+                </p>
+              )}
+            </div>
+
+            {/* {workingState[index] && ( */}
+            <>
+              <div className="form-group-date col-lg-6 col-md-12">
+                <label>Expiration Date</label>
+                <input
+                  type="date"
+                  name={`certificate[${index}].expiration_date`}
+                  placeholder="Expiration Date"
+                  {...register(`certificate[${index}].expiration_date`)}
+                  className="border p-3 rounded-3"
+                />
+                {errors.certificate?.[index]?.expiration_date && (
+                  <p className="text-danger">
+                    {errors.certificate[index].expiration_date.message}
+                  </p>
+                )}
+              </div>
+            </>
+            {/* )} */}
+            {/* <div className="form-group col-lg-12 col-md-12 p-4">
+    <input
+      type="checkbox"
+      placeholder=""
+      {...register(`certificate[${index}].working`)}
+      className="mx-4"
+      onChange={() => handleWorkingChange(index)}
+    />
+    <label>Has Expiry Date</label>
+    {errors.certificate?.[index]?.working && (
+      <p className="text-danger">
+        {errors.certificate[index].working.message}
+      </p>
+    )}
+  </div> */}
+            <div className="form-group col-lg-6 col-md-12 my-4">
+              <label>Link This Certificate</label>
+              <input
+                type="url"
+                name={`certificate[${index}].link`}
+                placeholder="Link This Certificate"
+                {...register(`certificate[${index}].link`)}
+              />
+              {errors.certificate?.[index]?.link && (
+                <p className="text-danger">
+                  {errors.certificate[index].link.message}
+                </p>
+              )}
+            </div>
+            <div className="form-group col-lg-6 col-md-12 my-4">
+              <label>Gained Skills</label>
+              <Controller
+                name={`certificate[${index}].skills_acquired`}
+                control={control}
+                // defaultValue={[]}
+                rules={{ required: "Please select at least one skill" }}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    isMulti
+                    options={skillOption}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                  />
+                )}
+              />
+              {errors.certificate?.[index]?.skills_acquired && (
+                <p className="text-danger">
+                  {errors.certificate[index].skills_acquired.message}
+                </p>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
 
       <div className="form-group d-flex col-lg-12 col-md-12 justify-content-between">
         <button

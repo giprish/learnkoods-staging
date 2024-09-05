@@ -19,7 +19,7 @@ const index = () => {
       <MobileMenu />
       {/* End MobileMenu */}
       <section className="editor-section bg-light mt-5">
-        <div className="auto-container">
+        <div className="container-fluid">
           <div className="row">
             <CodeEditor />
           </div>
