@@ -28,13 +28,13 @@ const index = () => {
           </div>
         </div>
       </section>
-      <section className="editor-section">
+      {/* <section className="editor-section">
         <div className="auto-container">
           <div className="row">
             <CodeEditor />
           </div>
         </div>
-      </section>
+      </section> */}
     </>
   );
 };
