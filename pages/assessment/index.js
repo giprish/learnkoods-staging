@@ -5,7 +5,7 @@ import Mentorship from "../../components/mentorship/index";
 const index = () => {
   return (
     <>
-      <Seo pageTitle="Home" />
+      <Seo pageTitle="Assessment" />
       <Mentorship />
     </>
   );

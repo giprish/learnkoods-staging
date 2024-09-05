@@ -53,15 +53,16 @@ const ExperienceInfoBox = () => {
     queryFn: () => fetchExperience(),
   });
 
+  console.log(userExperience, "expdata");
+
   useEffect(() => {
     reset({ experience: userExperience?.data });
   }, [userExperience]);
-
-  const [workingState, setWorkingState] = useState({});
-
   const addEntry = () => {
     append({});
   };
+
+  const [workingState, setWorkingState] = useState({});
 
   const handleWorkingChange = (index) => {
     setWorkingState((prev) => ({
@@ -69,6 +70,8 @@ const ExperienceInfoBox = () => {
       [index]: !prev[index],
     }));
   };
+
+  console.log(workingState, "working second");
 
   const createOrUpdateExperience = async ({ data, dirtyFields }) => {
     const createPromises = [];
@@ -354,7 +357,7 @@ const ExperienceInfoBox = () => {
               </p>
             )}
           </div>
-          {workingState[index] === false && (
+          {workingState[index] && (
             <>
               <div className="form-group-date col-lg-6 col-md-12">
                 <label>End Date</label>

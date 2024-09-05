@@ -1,4 +1,4 @@
-import { jobsecondstep } from "@/validation/validation";
+import { jobUpdateSecondSchema } from "@/validation/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -24,7 +24,7 @@ const UpdateStepTwo = ({ setTab }) => {
     formState: { errors, dirtyFields },
   } = useForm({
     mode: "onChange",
-    resolver: zodResolver(jobsecondstep),
+    resolver: zodResolver(jobUpdateSecondSchema),
   });
   const maxSalary = watch("max_salary");
   const router = useRouter();
@@ -55,12 +55,12 @@ const UpdateStepTwo = ({ setTab }) => {
   useEffect(() => {
     if (job) {
       let skills = job?.data?.skills_req.map((skill) => {
-        return { label: skill.data };
+        return { label: skill.data, value: skill.id };
       });
-      reset(job?.data);
+      setValue("job_des", job?.data?.job_des);
       setValue("skills_req", skills);
-      setValue("is_published", job?.data?.is_published ? "true" : "false");
-      setValue("is_closed", job?.data?.is_closed ? "true" : "false");
+      setValue("max_salary", job?.data?.max_salary);
+      setValue("min_salary", job?.data?.min_salary);
       setValue("rate_type", job?.data?.rate_type);
     }
   }, [job]);
@@ -213,9 +213,12 @@ const UpdateStepTwo = ({ setTab }) => {
     mutate(formData);
     // Submit only dirtyData to your API
   };
+  const onError = (error) => {
+    console.log(error);
+  };
 
   return (
-    <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
+    <form className="default-form" onSubmit={handleSubmit(onSubmit, onError)}>
       <div className="row">
         {/* <!-- Input --> */}
 
@@ -230,12 +233,13 @@ const UpdateStepTwo = ({ setTab }) => {
               <ReactQuill
                 {...field}
                 theme="snow"
+                value={field.value}
                 onChange={(content) => field.onChange(content)}
               />
             )}
           />
-          {errors.description && (
-            <p style={{ color: "red" }}>{errors.description.message}</p>
+          {errors.job_des && (
+            <p style={{ color: "red" }}>{errors.job_des.message}</p>
           )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
@@ -244,7 +248,7 @@ const UpdateStepTwo = ({ setTab }) => {
             name="skills_req"
             control={control}
             rules={{ required: "Skills are required" }} // Add this line for validation
-            render={({ field, fieldState }) => (
+            render={({ field }) => (
               <>
                 <Select
                   {...field}
@@ -253,9 +257,9 @@ const UpdateStepTwo = ({ setTab }) => {
                   className="basic-multi-select"
                   classNamePrefix="select"
                 />
-                {fieldState.error && (
-                  <p className="text-danger">{fieldState.error.message}</p>
-                )}{" "}
+                {errors.skills_req && (
+                  <p className="text-danger">{errors.skills_req.message}</p>
+                )}
                 {/* Display error message */}
               </>
             )}

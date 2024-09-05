@@ -93,6 +93,7 @@ const CertificationInfoBox = () => {
       reset({ certificate: certdata });
     }
   }, [userCertificate]);
+  console.log(certdata, "certdata");
 
   const createOrUpdateCertificate = async ({ data }) => {
     const createPromises = [];
@@ -292,6 +293,21 @@ const CertificationInfoBox = () => {
               </p>
             )}
           </div>
+          <div className="form-group col-lg-12 col-md-12">
+            <label>Description</label>
+            <input
+              type="text"
+              name={`certificate[${index}].description`}
+              placeholder="Description"
+              {...register(`certificate[${index}].description`)}
+              required
+            />
+            {errors.certificate?.[index]?.description && (
+              <p className="text-danger">
+                {errors.certificate[index].description.message}
+              </p>
+            )}
+          </div>
 
           <div className="form-group-date col-lg-6 col-md-12 ">
             <label className="">Issuing Date</label>
@@ -309,26 +325,26 @@ const CertificationInfoBox = () => {
             )}
           </div>
 
-          {workingState[index] && (
-            <>
-              <div className="form-group-date col-lg-6 col-md-12">
-                <label>Expiration Date</label>
-                <input
-                  type="date"
-                  name={`certificate[${index}].expiration_date`}
-                  placeholder="Expiration Date"
-                  {...register(`certificate[${index}].expiration_date`)}
-                  className="border p-3 rounded-3"
-                />
-                {errors.certificate?.[index]?.expiration_date && (
-                  <p className="text-danger">
-                    {errors.certificate[index].expiration_date.message}
-                  </p>
-                )}
-              </div>
-            </>
-          )}
-          <div className="form-group col-lg-12 col-md-12 p-4">
+          {/* {workingState[index] && ( */}
+          <>
+            <div className="form-group-date col-lg-6 col-md-12">
+              <label>Expiration Date</label>
+              <input
+                type="date"
+                name={`certificate[${index}].expiration_date`}
+                placeholder="Expiration Date"
+                {...register(`certificate[${index}].expiration_date`)}
+                className="border p-3 rounded-3"
+              />
+              {errors.certificate?.[index]?.expiration_date && (
+                <p className="text-danger">
+                  {errors.certificate[index].expiration_date.message}
+                </p>
+              )}
+            </div>
+          </>
+          {/* )} */}
+          {/* <div className="form-group col-lg-12 col-md-12 p-4">
             <input
               type="checkbox"
               placeholder=""
@@ -342,8 +358,8 @@ const CertificationInfoBox = () => {
                 {errors.certificate[index].working.message}
               </p>
             )}
-          </div>
-          <div className="form-group col-lg-6 col-md-12">
+          </div> */}
+          <div className="form-group col-lg-6 col-md-12 my-4">
             <label>Link This Certificate</label>
             <input
               type="url"
@@ -357,7 +373,7 @@ const CertificationInfoBox = () => {
               </p>
             )}
           </div>
-          <div className="form-group col-lg-6 col-md-12">
+          <div className="form-group col-lg-6 col-md-12 my-4">
             <label>Gained Skills</label>
             <Controller
               name={`certificate[${index}].skills_acquired`}

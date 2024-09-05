@@ -22,19 +22,17 @@ const index = () => {
           </div>
 
           <div>
-            <a href="https://docs.google.com/document/d/1G9HpGklwiNQGB20JxVpGSdX0CqIeg_Gdnef5n7zvuVU/edit">
-              https://docs.google.com/document/d/1G9HpGklwiNQGB20JxVpGSdX0CqIeg_Gdnef5n7zvuVU/edit
+            <a href="/assessment/code-editor">
+              <button
+                className="btn btn-primary py-2 px-4 mt-3"
+                style={{ fontSize: "20px" }}
+              >
+                Click Here
+              </button>
             </a>
           </div>
         </div>
       </section>
-      {/* <section className="editor-section">
-        <div className="auto-container">
-          <div className="row">
-            <CodeEditor />
-          </div>
-        </div>
-      </section> */}
     </>
   );
 };

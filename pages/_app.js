@@ -68,7 +68,7 @@ const skipRoutes = [
   "/register",
   "/password-reset-confirm/[uidb64]/[token]",
   "/upskill",
-  "/mentorship",
+  "/assessment",
   "/pricing",
   "/",
 ];

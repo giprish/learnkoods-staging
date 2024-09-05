@@ -118,12 +118,9 @@ const index = () => {
 
       // Handle errors not in the errorFields array
       if (!errorHandled || error.response.data[0]) {
-        toast.error(
-          `${error.response.data[0]}, company register unsuccessful`,
-          {
-            position: toast.POSITION.TOP_RIGHT,
-          }
-        );
+        toast.error(`${error.response.data[0]} company register unsuccessful`, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       }
     },
   });
