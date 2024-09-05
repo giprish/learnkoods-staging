@@ -112,7 +112,7 @@ const HeaderNavContent = () => {
                 </li>
 
                 <li>
-                  <a href="/mentorship">
+                  <a href="/assessment">
                     <span>Assessment</span>
                   </a>
                 </li>
@@ -144,7 +144,7 @@ const HeaderNavContent = () => {
                 )}
 
                 <li>
-                  <a href="/mentorship">
+                  <a href="/assessment">
                     <span>Assessment</span>
                   </a>
                 </li>

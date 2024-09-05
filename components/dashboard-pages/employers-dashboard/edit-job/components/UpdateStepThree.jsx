@@ -5,17 +5,10 @@ import axios from "axios";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import {
-  Controller,
-  useFieldArray,
-  useForm,
-  useFormContext,
-} from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import "react-quill/dist/quill.snow.css";
 
 import { toast } from "react-toastify";
-
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const UpdateStepThree = ({ setTab }) => {
   const {
@@ -70,7 +63,7 @@ const UpdateStepThree = ({ setTab }) => {
     console.log(question);
   }, [question]);
 
-  const createOrUpdateExperience = async ({ data, dirtyFields }) => {
+  const createOrUpdateQuestion = async ({ data, dirtyFields }) => {
     const createPromises = [];
     const updatePromises = [];
 
@@ -174,7 +167,7 @@ const UpdateStepThree = ({ setTab }) => {
   };
 
   const { mutate: updateMutate } = useMutation({
-    mutationFn: createOrUpdateExperience,
+    mutationFn: createOrUpdateQuestion,
     onSuccess: (data) => {
       console.log(data, "data from sucessful question update");
       toast.success("Question updated successfully", {
@@ -197,21 +190,6 @@ const UpdateStepThree = ({ setTab }) => {
 
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
-      {/* <div className="row border p-2 rounded-4 mb-4 mx-1">
-        <h4 className="border-bottom p-2 mb-3">Receive qualified applicants</h4>
-        <span className="p-2">Applicant collection</span>
-        <div className="form-group col-lg-4 col-md-6">
-          <label>Recieve Applicants</label>
-          <select className="chosen-single form-select">
-            <option value="">Select</option>
-            <option value="By email">By email</option>
-          </select>
-        </div>
-        <div className="form-group col-lg-8 col-md-6">
-          <label>By Email</label>
-          <input type="email" name="email" placeholder="john@mail.com" />
-        </div>
-      </div> */}
       <div>
         <div>
           <h5>Screening Question</h5>

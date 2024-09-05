@@ -17,12 +17,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { jobPostSchema } from "@/validation/validation.js";
+import { jobUpdateFirstSchema } from "@/validation/validation.js";
 
 const index = () => {
   const methods = useForm({
     mode: "onChange",
-    resolver: zodResolver(jobPostSchema),
+    resolver: zodResolver(jobUpdateFirstSchema),
   });
   const [tab, setTab] = useState("step1");
   const [jobName, setJobName] = useState(null);

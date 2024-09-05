@@ -255,3 +255,13 @@ li {
   width: 315px;
   text-align: left !important;
 }
+
+.output-box {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  max-height: 200px;
+  overflow-y: auto;
+  white-space: pre-wrap; /* Ensures that the text preserves whitespace */
+}

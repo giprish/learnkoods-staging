@@ -101,13 +101,14 @@ const StepTwo = ({ setTab, onSubmit }) => {
               onInput={(e) => {
                 if (e.target.value < 0) e.target.value = 0; // Resets to 0 if a negative number is entered
               }}
-              {...register("min_salary")}
+              {...register("min_salary", {
+                valueAsNumber: true, // Ensures the value is treated as a number
+              })}
             />
             {errors?.min_salary && (
               <p className="text-danger">{errors?.min_salary?.message}</p>
             )}
           </div>
-
           <div className="form-group col-lg-4 col-md-12">
             <label>Maximum Salary</label>
             <input
@@ -119,7 +120,9 @@ const StepTwo = ({ setTab, onSubmit }) => {
               onInput={(e) => {
                 if (e.target.value < 0) e.target.value = 0; // Resets to 0 if a negative number is entered
               }}
-              {...register("max_salary")}
+              {...register("max_salary", {
+                valueAsNumber: true, // Ensures the value is treated as a number
+              })}
             />
             {errors?.max_salary && (
               <p className="text-danger">{errors?.max_salary?.message}</p>

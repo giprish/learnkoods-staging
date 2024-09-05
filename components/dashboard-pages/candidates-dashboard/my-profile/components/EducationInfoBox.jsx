@@ -128,7 +128,7 @@ const EducationInfoBox = () => {
     mutationFn: createOrUpdateEducation,
     onSuccess: (data) => {
       console.log(data, "data from sucessful education update");
-      toast.success("Profile updated successfully", {
+      toast.success("Education updated successfully", {
         position: toast.POSITION.TOP_RIGHT,
       });
     },
