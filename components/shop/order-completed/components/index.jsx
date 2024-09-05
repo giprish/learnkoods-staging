@@ -5,7 +5,7 @@ const index = () => {
   return (
     <>
       <div className="upper-box">
-        <span className="icon fa fa-check"></span>
+        <span className="icon "></span>
         <h4>Your order is completed!</h4>
         <div className="text">Thank you. Your order has been received.</div>
       </div>

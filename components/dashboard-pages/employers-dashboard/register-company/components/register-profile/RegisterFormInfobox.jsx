@@ -379,11 +379,10 @@ const RegisterFormInfoBox = ({
             type="text"
             name="pincode"
             placeholder="Zipcode"
-            required
             {...register("pincode")}
           />
           {errors.pincode && (
-            <p className="text-danger">{errors?.pincode?.message}</p>
+            <p className="text-danger">{errors.pincode.message}</p>
           )}
         </div>
         <div className="form-group col-lg-6 col-md-12">

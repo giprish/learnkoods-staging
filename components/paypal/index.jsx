@@ -17,7 +17,6 @@ const IndexPage = () => {
 
       <section className="payment-section">
         <div className="container">
-          Pay : $9.99
           {/* PayPal Script for Subscription */}
           <Script
             src="https://www.paypal.com/sdk/js?client-id=AdsXcCsob5S29OyshWfQviL8Fz7bmDqG7cFxk2G88nt_-NR31IBcdxXmXOtTPfJfgbeL5aUqrdCRRsL0&vault=true&intent=subscription"
@@ -28,7 +27,8 @@ const IndexPage = () => {
                   .Buttons({
                     createSubscription: function (data, actions) {
                       return actions.subscription.create({
-                        plan_id: "P-1AJ82536CF083471TM3MYKIQ", // Replace with your plan ID
+                        // plan_id: "P-1AJ82536CF083471TM3MYKIQ", // employer plan id
+                        plan_id: "P-7UG8450201529235HM3M24OY", // student plan id
                       });
                     },
                     onApprove: function (data, actions) {

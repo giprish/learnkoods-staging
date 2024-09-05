@@ -167,6 +167,7 @@ const index = () => {
         "address1",
         "address",
         "description",
+        "pincode",
       ];
       let errorHandled = false;
 

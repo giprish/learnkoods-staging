@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    remotePatterns: [
+    domains: [
       "learnkoods.us-east-2.elasticbeanstalk.comundefined",
       "learnkoods-api.eu-north-1.elasticbeanstalk.comhttps",
       "learnkoods.us-east-2.elasticbeanstalk.comhttps",
@@ -11,6 +11,7 @@ const nextConfig = {
       "learnkoods.us-east-2.elasticbeanstalk.com",
       "api.vealo.io",
       "api.vealo.iohttps",
+      "learnkoods-bucket.s3.amazonaws.com",
     ],
     remotePatterns: [
       {

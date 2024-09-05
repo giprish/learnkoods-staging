@@ -90,16 +90,8 @@ export const userContact = z.object({
     .regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format"),
   pincode: z
     .string()
-    .transform((val) => {
-      const num = parseInt(val, 10);
-      return isNaN(num) ? undefined : num; // Convert to number or return undefined if invalid
-    })
-    .refine((val) => val !== undefined, {
-      message: "Pincode must be a valid number",
-    })
-    .refine((val) => val >= 100000 && val <= 999999, {
-      message: "Pincode must be exactly 6 digits",
-    }),
+    .min(1, "Pincode must be at least 1 character")
+    .max(10, "Pincode must be at most 10 characters"),
   country: z.object({
     value: z.number().positive("select a country"),
     label: z.string(),
@@ -195,16 +187,8 @@ export const companyRegistrationSchema = z.object({
   }),
   pincode: z
     .string()
-    .transform((val) => {
-      const num = parseInt(val, 10);
-      return isNaN(num) ? undefined : num; // Convert to number or return undefined if invalid
-    })
-    .refine((val) => val !== undefined, {
-      message: "Pincode must be a valid number",
-    })
-    .refine((val) => val >= 100000 && val <= 999999, {
-      message: "Pincode must be exactly 6 digits",
-    }), // You can add length or pattern validation if needed
+    .min(1, "Pincode must be at least 1 character")
+    .max(10, "Pincode must be at most 10 characters"),
   address1: z.string(),
   address: z.string(),
   description: z.string(),
@@ -265,16 +249,8 @@ export const jobPostSchema = z
     }),
     pincode: z
       .string()
-      .transform((val) => {
-        const num = parseInt(val, 10);
-        return isNaN(num) ? undefined : num; // Convert to number or return undefined if invalid
-      })
-      .refine((val) => val !== undefined, {
-        message: "Pincode must be a valid number",
-      })
-      .refine((val) => val >= 100000 && val <= 999999, {
-        message: "Pincode must be exactly 6 digits",
-      }),
+      .min(1, "Pincode must be at least 1 character")
+      .max(10, "Pincode must be at most 10 characters"),
     location1: z.string().min(2, "Address is required"),
     location: z.string().min(2, "Address is required"),
     job_des: z.string().min(1, "Job description is required"),
@@ -402,16 +378,8 @@ export const jobUpdateFirstSchema = z.object({
   }),
   pincode: z
     .string()
-    .transform((val) => {
-      const num = parseInt(val, 10);
-      return isNaN(num) ? undefined : num; // Convert to number or return undefined if invalid
-    })
-    .refine((val) => val !== undefined, {
-      message: "Pincode must be a valid number",
-    })
-    .refine((val) => val >= 100000 && val <= 999999, {
-      message: "Pincode must be exactly 6 digits",
-    }),
+    .min(1, "Pincode must be at least 1 character")
+    .max(10, "Pincode must be at most 10 characters"),
   location1: z.string().min(2, "Address is required"),
   location: z.string().min(2, "Address is required"),
 });
