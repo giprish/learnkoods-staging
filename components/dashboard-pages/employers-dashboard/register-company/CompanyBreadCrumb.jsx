@@ -3,7 +3,8 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { shortSidebarToggle } from "../../../../features/toggle/toggleSlice";
 import Select from "react-select";
 
 const ComapnyBreadCrumb = ({
@@ -12,6 +13,15 @@ const ComapnyBreadCrumb = ({
   setComanyName,
   companyname,
 }) => {
+  const dispatch = useDispatch();
+
+  const sidebarToggleHandler = () => {
+    dispatch(shortSidebarToggle());
+  };
+
+  const { shortSidebar: isSidebarCollapsed } = useSelector(
+    (state) => state.toggle
+  );
   const access = window.localStorage.getItem("access");
   const router = useRouter();
 
@@ -41,6 +51,15 @@ const ComapnyBreadCrumb = ({
 
   return (
     <div className="upper-title-box">
+      <div>
+        <button className="collapse-sidebar" onClick={sidebarToggleHandler}>
+          <span
+            className={`${
+              isSidebarCollapsed ? "fa fa-arrow-right" : "fa fa-arrow-left"
+            }`}
+          ></span>
+        </button>
+      </div>
       <h3 className="mb-3">{title}</h3>
       {/* <h3>{companyname ? companyname : ""}</h3> */}
       {(router.pathname === "/employers-dashboard/company-profile" ||

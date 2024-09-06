@@ -12,10 +12,19 @@ import Applicants from "./components/Applicants";
 
 import MenuToggler from "../../MenuToggler";
 import ManageProject from "./components/ManageProject";
+import { useSelector } from "react-redux";
 
 const Index = () => {
+  const { shortSidebar: isSidebarCollapsed } = useSelector(
+    (state) => state.toggle
+  );
+  console.log(isSidebarCollapsed);
   return (
-    <div className="page-wrapper dashboard ">
+    <div
+      className={`page-wrapper dashboard ${
+        isSidebarCollapsed ? "dashboard-collapsed" : ""
+      }`}
+    >
       <span className="header-span"></span>
       {/* <!-- Header Span for hight --> */}
 

@@ -352,6 +352,9 @@ Dashboard
   padding-left: 300px;
   min-height: 100vh;
 }
+.dashboard-collapsed {
+  padding-left: 135px;
+}
 
 .dashboard .main-header {
   background: #ffffff;
@@ -950,6 +953,23 @@ User Sidebar
   -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
   box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
 }
+.user-sidebar-collapsed {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: calc(100%);
+  width: 365px;
+  padding-top: 80px;
+  background: #ffffff;
+  overflow: auto;
+  -webkit-transition: all 300ms ease;
+  -o-transition: all 300ms ease;
+  transition: all 300ms ease;
+  z-index: 9;
+  border: 1px solid #ecedf2;
+  -webkit-box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
+  box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
+}
 .user-sidebar-employer {
   position: fixed;
   left: 0;
@@ -1017,6 +1037,16 @@ User Sidebar
 .user-sidebar .sidebar-inner {
   position: relative;
   padding: 60px 60px;
+}
+.collapse-sidebar {
+  border: 1px solid grey;
+  border-radius: 25px;
+  margin: 0% 0% 1% 0%;
+  padding: 7px 14px;
+}
+.collapse-sidebar:hover {
+  background-color: var(--primary-color);
+  color: white;
 }
 
 .user-sidebar .sidebar-header {

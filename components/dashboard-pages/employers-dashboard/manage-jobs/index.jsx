@@ -8,10 +8,18 @@ import JobListingsTable from "./components/JobListingsTable";
 import MenuToggler from "../../MenuToggler";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
 
 const index = () => {
+  const { shortSidebar: isSidebarCollapsed } = useSelector(
+    (state) => state.toggle
+  );
   return (
-    <div className="page-wrapper page-wrapper dashboard ">
+    <div
+      className={`page-wrapper dashboard ${
+        isSidebarCollapsed ? "dashboard-collapsed" : ""
+      }`}
+    >
       <span className="header-span"></span>
       {/* <!-- Header Span for hight --> */}
 
