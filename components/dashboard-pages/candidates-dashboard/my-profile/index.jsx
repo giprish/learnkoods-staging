@@ -21,6 +21,7 @@ import CertificationInfoBox from "./components/CertificationInfoBox";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema } from "@/validation/validation";
 import ProfileTabs from "./components/profileTabs/ProfileTabs";
+import { useSelector } from "react-redux";
 
 const index = () => {
   const methods = useForm({
@@ -29,6 +30,9 @@ const index = () => {
   });
 
   const dirtyFields = methods.formState.dirtyFields;
+  const { shortSidebar: isSidebarCollapsed } = useSelector(
+    (state) => state.toggle
+  );
   const [tab, setTab] = useState("step1");
   const [access, setAccess] = useState(null);
 
@@ -289,7 +293,11 @@ const index = () => {
   };
 
   return (
-    <div className="page-wrapper dashboard">
+    <div
+      className={`page-wrapper dashboard ${
+        isSidebarCollapsed ? "dashboard-collapsed" : ""
+      }`}
+    >
       <span className="header-span"></span>
       {/* <!-- Header Span for hight --> */}
 

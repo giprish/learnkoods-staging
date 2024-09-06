@@ -11,11 +11,12 @@ import MenuToggler from "../../MenuToggler";
 import ProfileBlock from "./components/ProfileBlock";
 import AssessmentBlock from "./components/AssessmentBlock";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
-import MessageBox from "./components/MessageBox";
+import { useSelector } from "react-redux";
 
 const Index = () => {
+  const { shortSidebar: isSidebarCollapsed } = useSelector(
+    (state) => state.toggle
+  );
   const [username, setUserName] = useState("");
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -23,7 +24,11 @@ const Index = () => {
     }
   }, []);
   return (
-    <div className="page-wrapper dashboard">
+    <div
+      className={`page-wrapper dashboard ${
+        isSidebarCollapsed ? "dashboard-collapsed" : ""
+      }`}
+    >
       <span className="header-span"></span>
       {/* <!-- Header Span for hight --> */}
 

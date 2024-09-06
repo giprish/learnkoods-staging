@@ -320,3 +320,24 @@ li {
 .Resizer.disabled:hover {
   border-color: transparent;
 }
+
+.tabs-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-pills .nav-link {
+  border-radius: 50px; /* Pill shape */
+  font-weight: 500;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #007bff; /* Customize active tab color */
+  color: white;
+}
+
+.nav-pills .nav-link {
+  margin: 0 5px; /* Spacing between tabs */
+}

@@ -116,6 +116,11 @@ const HeaderNavContent = () => {
                     <span>Assessment</span>
                   </a>
                 </li>
+                <li>
+                  <a href="/pricing">
+                    <span>Pricing</span>
+                  </a>
+                </li>
                 {student == null && (
                   <>
                     {/* <li>

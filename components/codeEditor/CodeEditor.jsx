@@ -5,25 +5,40 @@ import SplitPane from "react-split-pane";
 // import "react-split-pane/lib/index.css";
 
 const CodeEditor = () => {
-  // Move getDefaultComment to the top
-  const getDefaultComment = (lang) => {
+  // Move getDefaultProgram to the top
+  const getDefaultProgram = (lang) => {
     switch (lang) {
       case "python":
-        return "# Start coding...";
+        return `print("Hello, World!")`;
       case "javascript":
-        return "// Start coding...";
+        return `console.log('Hello, World!');`;
       case "java":
-        return "// Start coding...";
+        return `public class HelloWorld {
+    public static void main(String[] args) {
+      System.out.println("Hello, World!");
+    }
+  }`;
       case "c++":
-        return "// Start coding...";
+        return `#include <iostream>
+  using namespace std;
+  
+  int main() {
+      cout << "Hello, World!" << endl;
+      return 0;
+  }`;
       case "c":
-        return "// Start coding...";
+        return `#include <stdio.h>
+  
+  int main() {
+      printf("Hello, World!\\n");
+      return 0;
+  }`;
       default:
-        return "// Start coding...";
+        return `// Hello, World!`;
     }
   };
 
-  const [code, setCode] = useState(getDefaultComment("javascript"));
+  const [code, setCode] = useState(getDefaultProgram("javascript"));
   const [output, setOutput] = useState("");
   const [language, setLanguage] = useState("javascript");
   const [version, setVersion] = useState("latest");
@@ -65,7 +80,7 @@ const CodeEditor = () => {
     if (selectedRuntime) {
       setVersion(selectedRuntime.version || "latest");
     }
-    setCode(getDefaultComment(language));
+    setCode(getDefaultProgram(language));
   }, [language, runtimes]);
 
   const runCode = async () => {
