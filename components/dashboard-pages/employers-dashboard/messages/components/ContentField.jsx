@@ -10,13 +10,13 @@ const ChatBoxContentField = () => {
             <Image
               width={48}
               height={48}
-              src="/images/resource/candidate-1.webp"
+              src="/images/resource/s.png"
               alt="candidates"
               className="rounded-circle user_img"
             />
           </div>
           <div className="user_info">
-            <span>Arlene McCoy</span>
+            <span>Skillthrive</span>
             <p>Active</p>
           </div>
         </div>
@@ -34,17 +34,17 @@ const ChatBoxContentField = () => {
             <Image
               width={48}
               height={48}
-              src="/images/resource/candidate-3.webp"
+              src="/images/resource/s.png"
               alt="candidates"
               className="rounded-circle user_img_msg"
             />
             <div className="name">
-              Albert Flores <span className="msg_time">35 mins</span>
+              Skillthrive <span className="msg_time">Just now</span>
             </div>
           </div>
           <div className="msg_cotainer">
-            How likely are you to recommend our company to your friends and
-            family?
+            Thank you for registering at SkillThrive. We are excited for you to
+            have on board!
           </div>
         </div>
 
@@ -59,12 +59,9 @@ const ChatBoxContentField = () => {
               You <span className="msg_time">35 mins</span>
             </div>
           </div>
-          <div className="msg_cotainer">
-            Hey there, we’re just writing to let you know that you’ve been
-            subscribed to a repository on GitHub.
-          </div>
+          <div className="msg_cotainer">Thanks.</div>
         </div>
-
+        {/* 
         <div className="d-flex justify-content-start">
           <div className="img_cont_msg">
             <img
@@ -77,7 +74,7 @@ const ChatBoxContentField = () => {
             </div>
           </div>
           <div className="msg_cotainer">Ok, Understood!</div>
-        </div>
+        </div> */}
       </div>
       {/* End .card-body */}
 
@@ -87,7 +84,7 @@ const ChatBoxContentField = () => {
             <textarea
               className="form-control type_msg"
               placeholder="Type a message..."
-              required
+              disabled
             ></textarea>
             <button
               type="submit"

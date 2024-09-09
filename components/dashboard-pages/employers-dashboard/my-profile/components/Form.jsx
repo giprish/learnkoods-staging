@@ -141,7 +141,7 @@ const Form = ({ onSubmit, onError }) => {
             {errors.email && (
               <p className="text-danger">{errors.email.message}</p>
             )}
-            {dirtyFields.email && (
+            {/* {dirtyFields.email && (
               <div className="form-group my-2">
                 <button
                   type="button"
@@ -151,9 +151,9 @@ const Form = ({ onSubmit, onError }) => {
                   Verify Email
                 </button>
               </div>
-            )}
+            )} */}
           </div>
-          {dirtyFields.email && (
+          {/* {dirtyFields.email && (
             <>
               <div className="form-group col-md-6">
                 <label>Verification Code</label>
@@ -174,7 +174,7 @@ const Form = ({ onSubmit, onError }) => {
                 </button>
               </div>
             </>
-          )}
+          )} */}
           <div className="form-group col-lg-12 col-md-12">
             <button type="submit" className="theme-btn btn-style-one">
               Save

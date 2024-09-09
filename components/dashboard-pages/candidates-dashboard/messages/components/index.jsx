@@ -17,7 +17,7 @@ const ChatBox = () => {
         className="contacts_column col-xl-5 col-lg-5 col-md-12 col-sm-12 chat"
         id="chat_contacts"
       >
-        <div className="blur-container pe-none card contacts_card">
+        <div className="card contacts_card">
           <div className="card-header">
             {/* Startclose chatbox in mobile menu */}
             <div
@@ -40,7 +40,7 @@ const ChatBox = () => {
       </div>
       {/* End chat_contact */}
 
-      <div className="blur-container pe-none col-xl-7 col-lg-7 col-md-12 col-sm-12 chat">
+      <div className="col-xl-7 col-lg-7 col-md-12 col-sm-12 chat">
         <ContentField />
       </div>
       {/* chatbox-field-content */}

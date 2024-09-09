@@ -65,7 +65,7 @@ export const userSchema = z.object({
   }),
   age: z.number().min(14, "minimum age is 14"),
   languages: z.string().min(2, "language is required"),
-  email: z.string().email("Invalid email address"),
+  // email: z.string().email("Invalid email address"),
   skills: z
     .array(
       z.object({
@@ -171,7 +171,17 @@ export const companyRegistrationSchema = z.object({
     }
   ), // You can add date-specific validation if needed
   team_size: z.enum(
-    ["50-100", "100-150", "150-200", "200-250", "250-300", "300-500", "500+"],
+    [
+      "1-9",
+      "10-49",
+      "50-100",
+      "100-150",
+      "150-200",
+      "200-250",
+      "250-300",
+      "300-500",
+      "500+",
+    ],
     "Team size is required"
   ),
   country: z.object({

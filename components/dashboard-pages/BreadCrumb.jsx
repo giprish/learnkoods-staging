@@ -29,12 +29,12 @@ const BreadCrumb = ({ title, text }) => {
         <h3>{title}</h3>
         <div className="text">{text || " "}</div>
 
-        {(router.pathname === "/employers-dashboard/messages" ||
+        {/* {(router.pathname === "/employers-dashboard/messages" ||
           router.pathname === "/candidates-dashboard/messages") && (
           <div className="text-center">
             <h4>Coming Soon!</h4>
           </div>
-        )}
+        )} */}
       </div>
       {router.pathname === "/employers-dashboard/company-profile" && (
         <div className="col-sm-6 col-md-3 col-lg-2 mb-2">
@@ -45,6 +45,18 @@ const BreadCrumb = ({ title, text }) => {
             }}
           >
             Add New Company
+          </button>
+        </div>
+      )}
+      {router.pathname === "/employers-dashboard/manage-jobs" && (
+        <div className="col-sm-6 col-md-3 col-lg-2 mb-2">
+          <button
+            className="theme-btn btn-style-blue p-3"
+            onClick={() => {
+              router.push("/employers-dashboard/post-jobs"); // Replace '/new-company' with your target route
+            }}
+          >
+            Add New Job
           </button>
         </div>
       )}

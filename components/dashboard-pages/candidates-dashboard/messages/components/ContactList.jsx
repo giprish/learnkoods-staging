@@ -8,6 +8,26 @@ const ChatboxContactList = () => {
           <div className="d-flex bd-highlight">
             <div className="img_cont">
               <Image
+                src="/images/resource/s.png"
+                className="rounded-circle user_img"
+                alt="chatbox avatar"
+                width={90}
+                height={90}
+              />
+            </div>
+            <div className="user_info">
+              <span>Skillthrive</span>
+              <p> Head of Development</p>
+            </div>
+            <span className="info">Just now</span>
+          </div>
+        </a>
+      </li>
+      {/* <li>
+        <a href="#">
+          <div className="d-flex bd-highlight">
+            <div className="img_cont">
+              <Image
                 src="/images/resource/candidate-1.webp"
                 className="rounded-circle user_img"
                 alt="chatbox avatar"
@@ -23,7 +43,6 @@ const ChatboxContactList = () => {
           </div>
         </a>
       </li>
-      {/* End single Contact List */}
 
       <li>
         <a href="#">
@@ -47,8 +66,7 @@ const ChatboxContactList = () => {
           </div>
         </a>
       </li>
-      {/* End single Contact List */}
-
+    
       <li>
         <a href="#">
           <div className="d-flex bd-highlight">
@@ -71,8 +89,7 @@ const ChatboxContactList = () => {
           </div>
         </a>
       </li>
-      {/* End single Contact List */}
-
+      
       <li>
         <a href="#">
           <div className="d-flex bd-highlight">
@@ -93,7 +110,7 @@ const ChatboxContactList = () => {
           </div>
         </a>
       </li>
-      {/* End single Contact List */}
+      
 
       <li className="active">
         <a href="#">
@@ -117,8 +134,7 @@ const ChatboxContactList = () => {
           </div>
         </a>
       </li>
-      {/* End single Contact List */}
-
+      
       <li>
         <a href="#">
           <div className="d-flex bd-highlight">
@@ -139,7 +155,7 @@ const ChatboxContactList = () => {
           </div>
         </a>
       </li>
-      {/* End single Contact List */}
+      
 
       <li>
         <a href="#">
@@ -161,7 +177,7 @@ const ChatboxContactList = () => {
           </div>
         </a>
       </li>
-      {/* End single Contact List */}
+     
 
       <li>
         <a href="#">
@@ -183,7 +199,7 @@ const ChatboxContactList = () => {
           </div>
         </a>
       </li>
-      {/* End single Contact List */}
+       */}
     </ul>
   );
 };

@@ -81,7 +81,7 @@ const index = () => {
     enabled: !!access && student === "true",
   });
 
-  console.log(user, "candidate dashboard");
+  // console.log(user, "candidate dashboard");
 
   useEffect(() => {
     if (user) {

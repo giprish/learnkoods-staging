@@ -1,3 +1,4 @@
+import Image from "next/image";
 import ChatHamburger from "../../../employers-dashboard/messages/components/ChatHamburger";
 
 const ChatBoxContentField = () => {
@@ -6,14 +7,16 @@ const ChatBoxContentField = () => {
       <div className="card-header msg_head">
         <div className="d-flex bd-highlight">
           <div className="img_cont">
-            <img
-              src="/images/resource/candidate-3.webp"
-              alt=""
+            <Image
+              width={48}
+              height={48}
+              src="/images/resource/s.png"
+              alt="candidates"
               className="rounded-circle user_img"
             />
           </div>
           <div className="user_info">
-            <span>Arlene McCoy</span>
+            <span>Skillthrive</span>
             <p>Active</p>
           </div>
         </div>
@@ -28,25 +31,27 @@ const ChatBoxContentField = () => {
       <div className="card-body msg_card_body">
         <div className="d-flex justify-content-start mb-2">
           <div className="img_cont_msg">
-            <img
-              src="/images/resource/candidate-4.webp"
-              alt=""
+            <Image
+              width={48}
+              height={48}
+              src="/images/resource/s.png"
+              alt="candidates"
               className="rounded-circle user_img_msg"
             />
             <div className="name">
-              Albert Flores <span className="msg_time">35 mins</span>
+              Skillthrive <span className="msg_time">Just now</span>
             </div>
           </div>
           <div className="msg_cotainer">
-            How likely are you to recommend our company to your friends and
-            family?
+            Thank you for registering at SkillThrive. We are excited for you to
+            have on board!
           </div>
         </div>
 
         <div className="d-flex justify-content-end mb-2 reply">
           <div className="img_cont_msg">
             <img
-              src="/images/resource/candidate-1.webp"
+              src="/images/resource/candidate-4.webp"
               alt=""
               className="rounded-circle user_img_msg"
             />
@@ -54,16 +59,13 @@ const ChatBoxContentField = () => {
               You <span className="msg_time">35 mins</span>
             </div>
           </div>
-          <div className="msg_cotainer">
-            Hey there, we’re just writing to let you know that you’ve been
-            subscribed to a repository on GitHub.
-          </div>
+          <div className="msg_cotainer">Thanks.</div>
         </div>
-
+        {/* 
         <div className="d-flex justify-content-start">
           <div className="img_cont_msg">
             <img
-              src="/images/resource/candidate-4.webp"
+              src="/images/resource/candidate-2.webp"
               alt=""
               className="rounded-circle user_img_msg"
             />
@@ -72,7 +74,7 @@ const ChatBoxContentField = () => {
             </div>
           </div>
           <div className="msg_cotainer">Ok, Understood!</div>
-        </div>
+        </div> */}
       </div>
       {/* End .card-body */}
 
@@ -82,10 +84,10 @@ const ChatBoxContentField = () => {
             <textarea
               className="form-control type_msg"
               placeholder="Type a message..."
-              required
+              disabled
             ></textarea>
             <button
-              type="button"
+              type="submit"
               className="theme-btn btn-style-one submit-btn"
             >
               Send Message

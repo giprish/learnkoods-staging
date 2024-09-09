@@ -22,6 +22,7 @@ const UpdateStepTwo = ({ setTab }) => {
     setValue,
     watch,
     formState: { errors, dirtyFields },
+    getValues,
   } = useForm({
     mode: "onChange",
     resolver: zodResolver(jobUpdateSecondSchema),
@@ -216,6 +217,53 @@ const UpdateStepTwo = ({ setTab }) => {
   const onError = (error) => {
     console.log(error);
   };
+  const generateDescriptionFn = async (formdata) => {
+    const { data: response } = await axios.post(
+      `${process.env.GLOBAL_API}/job-desc-ai/`,
+      formdata,
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      }
+    );
+    return response;
+  };
+  const { mutate: generateDescription } = useMutation({
+    mutationFn: generateDescriptionFn,
+    onSuccess: (data) => {
+      console.log(data, "data from sucessful description generated");
+      const formattedHTML = data?.data
+        ?.map((line) => (line.trim() === "" ? "<br/>" : `<p>${line}</p>`))
+        .join("");
+      setValue("job_des", formattedHTML);
+      toast.success("Company description generated", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+    onError: (error) => {
+      console.log(error, "error message from api");
+      toast.error("Couldnot generate description", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+  });
+
+  const generate = () => {
+    const skills_req = getValues("skills_req").map((skill) => {
+      return skill.label;
+    });
+    const data = {
+      title: job?.data?.job_title,
+      job_type: job?.data?.job_type,
+      work_type: job?.data?.workplace_type,
+      experience: job?.data?.exp_required,
+      skills: skills_req,
+    };
+    // console.log(data);
+    // console.log(skills_req);
+    generateDescription(data);
+  };
 
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit, onError)}>
@@ -223,31 +271,12 @@ const UpdateStepTwo = ({ setTab }) => {
         {/* <!-- Input --> */}
 
         {/* <!-- About Company --> */}
-        <div className="form-group col-lg-12 col-md-12">
-          <label>Job Description</label>
-          <Controller
-            name="job_des"
-            control={control}
-            rules={{ required: "Description is required" }}
-            render={({ field }) => (
-              <ReactQuill
-                {...field}
-                theme="snow"
-                value={field.value}
-                onChange={(content) => field.onChange(content)}
-              />
-            )}
-          />
-          {errors.job_des && (
-            <p style={{ color: "red" }}>{errors.job_des.message}</p>
-          )}
-        </div>
         <div className="form-group col-lg-6 col-md-12">
           <label>Desired Skills</label>
           <Controller
             name="skills_req"
             control={control}
-            rules={{ required: "Skills are required" }} // Add this line for validation
+            rules={{ required: "Skills are required" }}
             render={({ field }) => (
               <>
                 <Select
@@ -257,13 +286,38 @@ const UpdateStepTwo = ({ setTab }) => {
                   className="basic-multi-select"
                   classNamePrefix="select"
                 />
-                {errors.skills_req && (
-                  <p className="text-danger">{errors.skills_req.message}</p>
+                {errors?.job_des && (
+                  <p className="text-danger">{errors?.job_des?.message}</p>
                 )}
-                {/* Display error message */}
               </>
             )}
           />
+        </div>
+        <div className="form-group col-lg-12 col-md-12">
+          <label>Job Description</label>
+          <Controller
+            name="job_des"
+            control={control}
+            render={({ field }) => (
+              <>
+                <ReactQuill
+                  value={field.value} // Make sure value is managed properly
+                  onChange={(content) => field.onChange(content)} // Call onChange with content
+                  theme="snow"
+                />
+                {errors?.job_des && (
+                  <p className="text-danger">{errors?.job_des?.message}</p>
+                )}
+              </>
+            )}
+          />
+          <button
+            className="theme-btn btn-style-blue mt-3"
+            type="button"
+            onClick={generate}
+          >
+            Generate Description
+          </button>
         </div>
 
         <div className="row">
