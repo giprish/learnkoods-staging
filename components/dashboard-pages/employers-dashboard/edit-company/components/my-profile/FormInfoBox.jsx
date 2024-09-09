@@ -239,6 +239,8 @@ const FormInfoBox = ({
             {...register("team_size")}
           >
             <option disabled>Select</option>
+            <option value="1-9">1-9</option>
+            <option value="10-49">10-49</option>
             <option value="50-100">50-100</option>
             <option value="100-150">100-150</option>
             <option value="150-200">150-200</option>

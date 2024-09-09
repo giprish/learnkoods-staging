@@ -16,16 +16,16 @@ const ChatBox = () => {
         className="contacts_column col-xl-4 col-lg-5 col-md-12 col-sm-12 chat"
         id="chat_contacts"
       >
-        <div className="blur-container pe-none card contacts_card">
+        <div className="card contacts_card">
           <div className="card-header">
-            Startclose chatbox in mobile menu
+            {/* Start close chatbox in mobile menu */}
             <div
               className="fix-icon position-absolute top-0 end-0 show-1023"
               onClick={chatToggle}
             >
               <span className="flaticon-close"></span>
             </div>
-            close chatbox in mobile menu
+            {/* close chatbox in mobile menu */}
             <div className="search-box-one">
               <SearchBox />
             </div>
@@ -37,7 +37,7 @@ const ChatBox = () => {
         </div>
       </div>
 
-      <div className=" col-xl-8 col-lg-7 col-md-12 col-sm-12 chat blur-container pe-none">
+      <div className=" col-xl-8 col-lg-7 col-md-12 col-sm-12 chat ">
         <ContentField />
       </div>
     </div>

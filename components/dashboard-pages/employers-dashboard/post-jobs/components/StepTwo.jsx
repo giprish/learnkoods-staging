@@ -1,10 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { Controller, useForm, useFormContext } from "react-hook-form";
 import "react-quill/dist/quill.snow.css";
 import Select from "react-select";
+import { toast } from "react-toastify";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
@@ -19,7 +20,11 @@ const StepTwo = ({ setTab, onSubmit }) => {
     getValues,
   } = useFormContext();
   const maxSalary = watch("max_salary");
-  const [jobDesc, setJobDesc] = useState("");
+  const [access, setAccess] = useState(null);
+  useEffect(() => {
+    const access = window.localStorage.getItem("access");
+    setAccess(access);
+  }, []);
 
   const fetch = async (url) => {
     const response = await axios.get(url);
@@ -37,9 +42,57 @@ const StepTwo = ({ setTab, onSubmit }) => {
     };
   });
 
-  useEffect(() => {
-    register("job_des", { required: true, minLength: 11 });
-  }, [register]);
+  // useEffect(() => {
+  //   register("job_des", { required: true, minLength: 11 });
+  // }, [register]);
+
+  const generateDescriptionFn = async (formdata) => {
+    const { data: response } = await axios.post(
+      `${process.env.GLOBAL_API}/job-desc-ai/`,
+      formdata,
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      }
+    );
+    return response;
+  };
+  const { mutate } = useMutation({
+    mutationFn: generateDescriptionFn,
+    onSuccess: (data) => {
+      console.log(data, "data from sucessful description generated");
+      const formattedHTML = data?.data
+        ?.map((line) => (line.trim() === "" ? "<br/>" : `<p>${line}</p>`))
+        .join("");
+      setValue("job_des", formattedHTML);
+      toast.success("Company description generated", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+    onError: (error) => {
+      console.log(error, "error message from api");
+      toast.error("Couldnot generate description", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+  });
+
+  const generate = () => {
+    const skills_req = getValues("skills_req").map((skill) => {
+      return skill.label;
+    });
+    const data = {
+      title: getValues("job_title"),
+      job_type: getValues("job_type"),
+      work_type: getValues("workplace_type"),
+      experience: getValues("exp_required"),
+      skills: skills_req,
+    };
+    // console.log(data);
+    // console.log(skills_req);
+    mutate(data);
+  };
 
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
@@ -47,25 +100,6 @@ const StepTwo = ({ setTab, onSubmit }) => {
         {/* <!-- Input --> */}
 
         {/* <!-- About Company --> */}
-        <div className="form-group col-lg-12 col-md-12">
-          <label>Job Description</label>
-          <Controller
-            name="job_des"
-            control={control}
-            render={({ field }) => (
-              <>
-                <ReactQuill
-                  value={field.value} // Make sure value is managed properly
-                  onChange={(content) => field.onChange(content)} // Call onChange with content
-                  theme="snow"
-                />
-                {errors?.job_des && (
-                  <p className="text-danger">{errors?.job_des?.message}</p>
-                )}
-              </>
-            )}
-          />
-        </div>
         <div className="form-group col-lg-6 col-md-12">
           <label>Desired Skills</label>
           <Controller
@@ -87,6 +121,32 @@ const StepTwo = ({ setTab, onSubmit }) => {
               </>
             )}
           />
+        </div>
+        <div className="form-group col-lg-12 col-md-12">
+          <label>Job Description</label>
+          <Controller
+            name="job_des"
+            control={control}
+            render={({ field }) => (
+              <>
+                <ReactQuill
+                  value={field.value} // Make sure value is managed properly
+                  onChange={(content) => field.onChange(content)} // Call onChange with content
+                  theme="snow"
+                />
+                {errors?.job_des && (
+                  <p className="text-danger">{errors?.job_des?.message}</p>
+                )}
+              </>
+            )}
+          />
+          <button
+            className="theme-btn btn-style-blue mt-3"
+            type="button"
+            onClick={generate}
+          >
+            Generate Description
+          </button>
         </div>
 
         <div className="row">

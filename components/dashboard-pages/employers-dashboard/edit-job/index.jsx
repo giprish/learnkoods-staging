@@ -18,12 +18,16 @@ import { toast } from "react-toastify";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { jobUpdateFirstSchema } from "@/validation/validation.js";
+import { useSelector } from "react-redux";
 
 const index = () => {
   const methods = useForm({
     mode: "onChange",
     resolver: zodResolver(jobUpdateFirstSchema),
   });
+  const { shortSidebar: isSidebarCollapsed } = useSelector(
+    (state) => state.toggle
+  );
   const [tab, setTab] = useState("step1");
   const [jobName, setJobName] = useState(null);
   const router = useRouter();
@@ -269,7 +273,11 @@ const index = () => {
   };
 
   return (
-    <div className="page-wrapper page-wrapper dashboard ">
+    <div
+      className={`page-wrapper dashboard ${
+        isSidebarCollapsed ? "dashboard-collapsed" : ""
+      }`}
+    >
       <span className="header-span"></span>
       {/* <!-- Header Span for hight --> */}
 
