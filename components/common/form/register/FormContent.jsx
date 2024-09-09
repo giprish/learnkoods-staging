@@ -151,9 +151,40 @@ const FormContent = ({ hideModal }) => {
     },
     onError: (error) => {
       console.log(error, "error message");
-      toast.error("Could not register user", {
-        position: toast.POSITION.TOP_RIGHT,
+      const errorFields = [
+        "username",
+        "password",
+        "error",
+        "message",
+        "first_name",
+        "last_name",
+        "email",
+        "password",
+      ];
+      let errorHandled = false;
+
+      errorFields.forEach((field) => {
+        if (error.response.data[field]) {
+          const errorMessage = Array.isArray(error.response.data[field])
+            ? error.response.data[field][0]
+            : error.response.data[field].error || error.response.data[field];
+
+          toast.error(`${field}: ${errorMessage}`, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+          errorHandled = true;
+        }
       });
+
+      // Handle errors not in the errorFields array
+      if (!errorHandled) {
+        toast.error(
+          "An unexpected error occurred. Please try again. Could not register user",
+          {
+            position: toast.POSITION.TOP_RIGHT,
+          }
+        );
+      }
     },
   });
 

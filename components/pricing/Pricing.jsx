@@ -27,7 +27,7 @@ const Pricing = () => {
     {
       id: 2,
       packageType: "Pro",
-      price: "9.99 or 10",
+      price: "9.99",
       tag: "tagged",
       features: [
         { name: "Basic", disabled: false },
@@ -207,9 +207,9 @@ const Pricing = () => {
           className="mb-5"
           variant="pills" // Use pill variant
         >
-          <Tab eventKey="students" title="Pricing for Students">
+          <Tab eventKey="students" title="Pricing for Users">
             <div className="sec-title text-center">
-              <h2>Pricing Packages for Students</h2>
+              <h2>Pricing Packages for Users</h2>
               <div className="text">Our payment plans.</div>
             </div>
             <div className="pricing-tabs tabs-box wow fadeInUp">
