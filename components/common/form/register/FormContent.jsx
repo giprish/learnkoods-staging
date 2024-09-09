@@ -18,7 +18,7 @@ const FormContent = ({ hideModal }) => {
     getValues,
   } = useForm();
   const [resume, setResume] = useState();
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState(`${process.env.GLOBAL_API}/user_api/`);
   const [showOtp, setShowOtp] = useState(false);
   const [showVerifyEmail, setShowVerifyEmail] = useState(true);
   const [showRegister, setShowRegister] = useState(false);
@@ -26,13 +26,13 @@ const FormContent = ({ hideModal }) => {
 
   const usertype = useSelector((state) => state.user.userType);
 
-  useEffect(() => {
-    if (usertype === "candidate") {
-      setUrl(`${process.env.GLOBAL_API}/user_api/`);
-    } else {
-      setUrl(`${process.env.GLOBAL_API}/customuser/`);
-    }
-  }, [usertype]);
+  // useEffect(() => {
+  //   if (usertype === "candidate") {
+  //     setUrl(`${process.env.GLOBAL_API}/user_api/`);
+  //   } else {
+  //     setUrl(`${process.env.GLOBAL_API}/customuser/`);
+  //   }
+  // }, [usertype]);
 
   const otp = async (otpdata) => {
     const { data: response } = await axios.post(
@@ -134,16 +134,16 @@ const FormContent = ({ hideModal }) => {
         localStorage.setItem("refresh", data.refresh);
         localStorage.setItem("student", data?.student);
         localStorage.removeItem("otp_key");
-        if (usertype === "candidate") {
-          localStorage.setItem("id", data?.payload?.id);
-          localStorage.setItem("user", data.payload.username);
-          // router.push("/");
-        }
-        if (usertype === "employer") {
-          localStorage.setItem("id", data.payload.id);
-          localStorage.setItem("user", data.payload.username);
-          // router.push("/employers-dashboard/dashboard");
-        }
+        // if (usertype === "candidate") {
+        localStorage.setItem("id", data?.payload?.id);
+        localStorage.setItem("user", data.payload.username);
+        // router.push("/");
+        // }
+        // if (usertype === "employer") {
+        //   localStorage.setItem("id", data.payload.id);
+        //   localStorage.setItem("user", data.payload.username);
+        // router.push("/employers-dashboard/dashboard");
+        // }
         window.location.reload();
       }
 
@@ -262,7 +262,6 @@ const FormContent = ({ hideModal }) => {
           {...register("username")}
         />
       </div>
-
       <div className="form-group">
         <label>Email </label>
         <input
@@ -284,7 +283,6 @@ const FormContent = ({ hideModal }) => {
           </button>
         </div>
       )}
-
       {/* email */}
       {showOtp && (
         <>
@@ -309,7 +307,6 @@ const FormContent = ({ hideModal }) => {
           </div>
         </>
       )}
-
       <div className="form-group">
         <label>Password</label>
         <input
@@ -320,26 +317,23 @@ const FormContent = ({ hideModal }) => {
           {...register("password")}
         />
       </div>
-      {usertype === "candidate" ? (
-        <div className="form-group">
-          <label for="uploadresume">Resume</label>
-          <input
-            className="form-control py-3 px-4"
-            type="file"
-            name="resume"
-            id="uploadresume"
-            required
-            accept=".pdf, .docx"
-            onChange={(e) => {
-              handleEvent(e);
-            }}
-            // {...register("resume")}
-          />
-        </div>
-      ) : (
-        <></>
-      )}
-
+      {/* {usertype === "candidate" ? ( */}
+      <div className="form-group">
+        <label for="uploadresume">Resume</label>
+        <input
+          className="form-control py-3 px-4"
+          type="file"
+          name="resume"
+          id="uploadresume"
+          required
+          accept=".pdf, .docx"
+          onChange={(e) => {
+            handleEvent(e);
+          }}
+        />
+      </div>
+      {/* ) : (  <></>
+       )} */}
       {/* password */}
       {showRegister && (
         <div className="form-group">
@@ -348,7 +342,6 @@ const FormContent = ({ hideModal }) => {
           </button>
         </div>
       )}
-
       {/* register */}
     </form>
   );
