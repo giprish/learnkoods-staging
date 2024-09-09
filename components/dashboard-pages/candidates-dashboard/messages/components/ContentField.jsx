@@ -1,3 +1,4 @@
+import Image from "next/image";
 import ChatHamburger from "../../../employers-dashboard/messages/components/ChatHamburger";
 
 const ChatBoxContentField = () => {
