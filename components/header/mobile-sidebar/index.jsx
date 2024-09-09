@@ -26,13 +26,12 @@ import noLoginData from "@/data/noLoginData";
 const Index = () => {
   const router = useRouter();
   const { menu } = useSelector((state) => state.toggle);
-  const [accessToken, setAccessToken] = useState(null);
+  const [access, setAccessToken] = useState(null);
   const [student, setStudent] = useState("none");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const accessToken = window.localStorage.getItem("access");
-      setAccessToken(accessToken);
+      setAccessToken(window.localStorage.getItem("access"));
       setStudent(window.localStorage.getItem("student"));
     }
   }, []);
@@ -42,7 +41,7 @@ const Index = () => {
       `${process.env.GLOBAL_API}/usr_pro_id/${id}/`,
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${access}`,
         },
       }
     );
@@ -50,8 +49,9 @@ const Index = () => {
   };
 
   const { data: user } = useQuery({
-    queryKey: ["user", accessToken],
+    queryKey: ["user", access],
     queryFn: () => fetchData(),
+    enabled: !!access && student === "true",
   });
   const dispatch = useDispatch();
 
@@ -60,7 +60,7 @@ const Index = () => {
   };
 
   const unifiedLogout = async () => {
-    if (accessToken) {
+    if (access) {
       window.localStorage.clear();
     }
 

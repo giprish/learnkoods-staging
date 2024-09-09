@@ -41,7 +41,7 @@ const HeaderNavContent = () => {
   const { data: user } = useQuery({
     queryKey: ["user", accessToken],
     queryFn: () => fetchData(),
-    enabled: !!accessToken,
+    enabled: !!accessToken && student === "true",
     retry: 1,
   });
 
@@ -114,6 +114,11 @@ const HeaderNavContent = () => {
                 <li>
                   <a href="/assessment">
                     <span>Assessment</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="/pricing">
+                    <span>Pricing</span>
                   </a>
                 </li>
                 {student == null && (

@@ -1,28 +1,44 @@
 import React, { useEffect, useState } from "react";
 import Editor from "@monaco-editor/react";
 import axios from "axios";
-import { Button, Form, Container, Row, Col } from "react-bootstrap";
+import SplitPane from "react-split-pane";
+// import "react-split-pane/lib/index.css";
 
 const CodeEditor = () => {
-  // Move getDefaultComment to the top
-  const getDefaultComment = (lang) => {
+  // Move getDefaultProgram to the top
+  const getDefaultProgram = (lang) => {
     switch (lang) {
       case "python":
-        return "# Start coding...";
+        return `print("Hello, World!")`;
       case "javascript":
-        return "// Start coding...";
+        return `console.log('Hello, World!');`;
       case "java":
-        return "// Start coding...";
+        return `public class HelloWorld {
+    public static void main(String[] args) {
+      System.out.println("Hello, World!");
+    }
+  }`;
       case "c++":
-        return "// Start coding...";
+        return `#include <iostream>
+  using namespace std;
+  
+  int main() {
+      cout << "Hello, World!" << endl;
+      return 0;
+  }`;
       case "c":
-        return "// Start coding...";
+        return `#include <stdio.h>
+  
+  int main() {
+      printf("Hello, World!\\n");
+      return 0;
+  }`;
       default:
-        return "// Start coding...";
+        return `// Hello, World!`;
     }
   };
 
-  const [code, setCode] = useState(getDefaultComment("javascript"));
+  const [code, setCode] = useState(getDefaultProgram("javascript"));
   const [output, setOutput] = useState("");
   const [language, setLanguage] = useState("javascript");
   const [version, setVersion] = useState("latest");
@@ -64,7 +80,7 @@ const CodeEditor = () => {
     if (selectedRuntime) {
       setVersion(selectedRuntime.version || "latest");
     }
-    setCode(getDefaultComment(language));
+    setCode(getDefaultProgram(language));
   }, [language, runtimes]);
 
   const runCode = async () => {
@@ -118,76 +134,92 @@ const CodeEditor = () => {
   };
 
   return (
-    <Container className="mt-5 p-4">
+    <div className="mt-5 p-4">
       <h2 className="mb-4 text-primary">Online Code Editor</h2>
-      <Row>
-        <Col md={8}>
-          <Row className="mb-4 align-items-center">
-            <Col md={4}>
-              <Form.Group controlId="language">
-                <Form.Label className="font-weight-bold">Language</Form.Label>
+      <div className="row">
+        <div className="col-md-8">
+          <div className="row mb-4 align-items-center">
+            <div className="col-md-4">
+              <div className="form-group">
+                <label htmlFor="language" className="font-weight-bold">
+                  Language
+                </label>
                 <div className="position-relative">
-                  <Form.Control
-                    as="select"
+                  <select
+                    id="language"
                     value={language}
                     onChange={(e) => setLanguage(e.target.value)}
-                    className="border-primary pr-5"
+                    className="form-control border-primary pr-5"
                   >
                     {getUniqueLanguages().map((lang) => (
                       <option key={lang} value={lang}>
                         {lang.charAt(0).toUpperCase() + lang.slice(1)}
                       </option>
                     ))}
-                  </Form.Control>
+                  </select>
                 </div>
-              </Form.Group>
-            </Col>
-            <Col md={4}>
-              <Form.Group controlId="version">
-                <Form.Label className="font-weight-bold">Version</Form.Label>
-                <Form.Control
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="form-group">
+                <label htmlFor="version" className="font-weight-bold">
+                  Version
+                </label>
+                <input
                   type="text"
+                  id="version"
                   value={version}
                   readOnly
-                  className="border-primary"
+                  className="form-control border-primary"
                 />
-              </Form.Group>
-            </Col>
-            <Col md={4}>
-              <Button
+              </div>
+            </div>
+            <div className="col-md-4">
+              <button
                 style={{ float: "right" }}
                 onClick={runCode}
-                variant="primary"
-                size="lg"
-                className="mt-4 shadow-lg hover-shadow"
+                className="btn btn-primary btn-lg mt-4 shadow-lg hover-shadow"
               >
                 Run Code
-              </Button>
-            </Col>
-          </Row>
-          <div className="mb-4">
-            <Editor
-              height="60vh"
-              language={language === "c++" ? "cpp" : language} // Use "cpp" for Monaco
-              theme="vs-dark"
-              value={code}
-              onChange={(value) => setCode(value)}
-              className="border rounded"
-            />
+              </button>
+            </div>
           </div>
-        </Col>
-
-        <Col md={4} className="mt-5">
-          <h3 className="mb-3 text-secondary">Output:</h3>
-          <div
-            className="p-3 border rounded bg-white shadow-sm"
-            style={{ height: "60vh", overflowY: "auto" }}
-          >
-            <pre className="text-break">{output || "Your Output Here:"}</pre>
+        </div>
+      </div>
+      <div className="row" style={{ height: "55vh" }}>
+        <SplitPane
+          split="vertical"
+          minSize={100}
+          maxSize={-100}
+          defaultSize={"60%"}
+          allowResize={true}
+        >
+          <div className="">
+            <div className="mb-4">
+              <Editor
+                height="100vh"
+                language={language === "c++" ? "cpp" : language} // Use "cpp" for Monaco
+                theme="vs-dark"
+                value={code}
+                onChange={(value) => setCode(value)}
+                className="border rounded"
+              />
+            </div>
           </div>
-        </Col>
-      </Row>
-    </Container>
+          <div className="">
+            <h3 className="text-secondary"></h3>
+            <div
+              className="p-3 border rounded bg-white shadow-sm"
+              style={{ height: "60vh", overflowY: "auto" }}
+            >
+              <pre className="text-break">
+                {output || "Click on run button to see output"}
+              </pre>
+            </div>
+          </div>
+        </SplitPane>
+      </div>
+    </div>
   );
 };
 

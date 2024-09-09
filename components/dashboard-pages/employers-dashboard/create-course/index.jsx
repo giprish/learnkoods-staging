@@ -4,11 +4,19 @@ import DashboardHeader from "../../../header/DashboardHeader";
 import LoginPopup from "../../../common/form/login/LoginPopup";
 import DashboardEmployerSidebar from "../../../header/DashboardEmployerSidebar";
 import MenuToggler from "../../MenuToggler";
-import { FormProvider } from "react-hook-form";
+import { useSelector } from "react-redux";
+import BreadCrumb from "../../BreadCrumb";
 
 const index = () => {
+  const { shortSidebar: isSidebarCollapsed } = useSelector(
+    (state) => state.toggle
+  );
   return (
-    <div className="page-wrapper dashboard">
+    <div
+      className={`page-wrapper dashboard ${
+        isSidebarCollapsed ? "dashboard-collapsed" : ""
+      }`}
+    >
       <span className="header-span"></span>
 
       <LoginPopup />
@@ -21,6 +29,7 @@ const index = () => {
 
       <section className="user-dashboard">
         <div className="dashboard-outer">
+          <BreadCrumb title="" text="  " />
           <MenuToggler />
 
           <div className="row">

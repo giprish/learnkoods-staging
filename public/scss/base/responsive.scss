@@ -4,6 +4,9 @@
   padding-bottom: 20px;
 }
 
+.payment-section {
+  margin-top: 100px;
+}
 .coming-section {
   margin: 20%;
   text-align: center;
@@ -164,12 +167,18 @@
   .user-sidebar {
     width: 300px;
   }
+  .user-sidebar-collapsed {
+    width: 138px;
+  }
   .user-sidebar-employer {
     width: 100px;
   }
 
   .user-sidebar .navigation li a {
     padding: 10px 25px;
+  }
+  .user-sidebar .navigation .a-collapsed {
+    padding: 16px 25px;
   }
   .user-sidebar-employer .navigation li a {
     padding: 16px 23px;
@@ -227,6 +236,9 @@
 }
 
 @media only screen and (max-width: 1266px) {
+  .collapse-sidebar {
+    display: none;
+  }
   .main-header {
     background-color: #faffff;
     border-bottom: 0px solid;

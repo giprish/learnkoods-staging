@@ -1,13 +1,86 @@
+import { useMutation } from "@tanstack/react-query";
 import { Controller, useFormContext } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const Form = ({ onSubmit, onError }) => {
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, dirtyFields },
+    getValues,
   } = useFormContext();
 
+  const otp = async (otpdata) => {
+    const { data: response } = await axios.post(
+      `${process.env.GLOBAL_API}/register-user-otp/`,
+      otpdata,
+      {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+      }
+    );
+    return response;
+  };
+  const { mutate: otpMutate } = useMutation({
+    mutationFn: otp,
+    onSuccess: (data) => {
+      toast.success("OTP sent successfully", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      if (typeof window !== "undefined") {
+        localStorage.setItem("otp_key", data?.key);
+      }
+      setShowOtp(true);
+    },
+    onError: (error) => {
+      toast.error(`Could not send OTP: ${error?.response?.data?.message}`, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+  });
+  const sendOtp = () => {
+    let email = { email: getValues("email") };
+    otpMutate(email);
+  };
+  const verifyemail = async (verifydata) => {
+    const { data: response } = await axios.post(
+      `${process.env.GLOBAL_API}/verify-register-user-otp/`,
+      verifydata,
+      {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+      }
+    );
+    return response;
+  };
+  const { mutate: verifyMutate } = useMutation({
+    mutationFn: verifyemail,
+    onSuccess: (data) => {
+      toast.success("Email verified successfully", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setShowRegister(true);
+      setShowOtp(false);
+      setEmailVerified(true); // Set emailVerified to true
+    },
+    onError: (error) => {
+      toast.error(`Could not verify email: ${error?.response?.data?.message}`, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+  });
+  const verify = () => {
+    if (typeof window !== "undefined") {
+      let data = {
+        otp: getValues("otp"),
+        otp_key: localStorage.getItem("otp_key"),
+      };
+      verifyMutate(data);
+    }
+  };
   return (
     <div className="widget-content">
       <form
@@ -68,7 +141,40 @@ const Form = ({ onSubmit, onError }) => {
             {errors.email && (
               <p className="text-danger">{errors.email.message}</p>
             )}
+            {dirtyFields.email && (
+              <div className="form-group my-2">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  // onClick={sendOtp}
+                >
+                  Verify Email
+                </button>
+              </div>
+            )}
           </div>
+          {dirtyFields.email && (
+            <>
+              <div className="form-group col-md-6">
+                <label>Verification Code</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter Verification Code"
+                  {...register("otp")}
+                />
+              </div>
+              <div className="form-group ">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  // onClick={verify}
+                >
+                  Verify OTP
+                </button>
+              </div>
+            </>
+          )}
           <div className="form-group col-lg-12 col-md-12">
             <button type="submit" className="theme-btn btn-style-one">
               Save

@@ -1,9 +1,30 @@
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { shortSidebarToggle } from "../../features/toggle/toggleSlice";
 
 const BreadCrumb = ({ title, text }) => {
+  const dispatch = useDispatch();
+
+  const sidebarToggleHandler = () => {
+    dispatch(shortSidebarToggle());
+  };
+
+  const { shortSidebar: isSidebarCollapsed } = useSelector(
+    (state) => state.toggle
+  );
+  // console.log(isSidebarCollapsed);
   const router = useRouter();
   return (
     <div className="row">
+      <div>
+        <button className="collapse-sidebar" onClick={sidebarToggleHandler}>
+          <span
+            className={`${
+              isSidebarCollapsed ? "fa fa-arrow-right" : "fa fa-arrow-left"
+            }`}
+          ></span>
+        </button>
+      </div>
       <div className="upper-title-box col-sm-6 col-md-9 col-lg-10">
         <h3>{title}</h3>
         <div className="text">{text || " "}</div>

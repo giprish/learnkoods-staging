@@ -15,13 +15,16 @@ import ComapnyBreadCrumb from "./CompanyBreadCrumb";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { companyRegistrationSchema } from "@/validation/validation";
+import { useSelector } from "react-redux";
 
 const index = () => {
   const methods = useForm({
     mode: "onChange",
     resolver: zodResolver(companyRegistrationSchema),
   });
-
+  const { shortSidebar: isSidebarCollapsed } = useSelector(
+    (state) => state.toggle
+  );
   const [access, setAccess] = useState(null);
   const [id, setId] = useState();
   const [logo, setLogo] = useState({
@@ -100,14 +103,19 @@ const index = () => {
         "address1",
         "address",
         "description",
+        "pincode",
       ];
       let errorHandled = false;
 
       errorFields.forEach((field) => {
-        if (error.response && error.response.data[field]) {
+        if (
+          error.response &&
+          (error.response.data[field] || error.response.data.error[field])
+        ) {
           const errorMessage = Array.isArray(error.response.data[field])
             ? error.response.data[field][0]
-            : error.response.data[field].error || error.response.data[field];
+            : error.response.data.error[field][0] ||
+              error.response.data.error[field];
 
           toast.error(`${field}: ${errorMessage}`, {
             position: toast.POSITION.TOP_RIGHT,
@@ -117,8 +125,11 @@ const index = () => {
       });
 
       // Handle errors not in the errorFields array
-      if (!errorHandled || error.response.data[0]) {
-        toast.error(`${error.response.data[0]} company register unsuccessful`, {
+      if (!errorHandled) {
+        const pincodeError =
+          error.response.data.error?.pincode?.[0] || error.response.data[0];
+
+        toast.error(`${pincodeError || "Company register unsuccessful"}`, {
           position: toast.POSITION.TOP_RIGHT,
         });
       }
@@ -165,7 +176,11 @@ const index = () => {
   };
 
   return (
-    <div className="page-wrapper dashboard">
+    <div
+      className={`page-wrapper dashboard ${
+        isSidebarCollapsed ? "dashboard-collapsed" : ""
+      }`}
+    >
       <span className="header-span"></span>
 
       <LoginPopup />

@@ -17,10 +17,18 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import ComapnyBreadCrumb from "../register-company/CompanyBreadCrumb";
 import { toast } from "react-toastify";
 import CompanyListingsTable from "./components/CompanyListingsTable";
+import { useSelector } from "react-redux";
 
 const index = () => {
+  const { shortSidebar: isSidebarCollapsed } = useSelector(
+    (state) => state.toggle
+  );
   return (
-    <div className="page-wrapper dashboard">
+    <div
+      className={`page-wrapper dashboard ${
+        isSidebarCollapsed ? "dashboard-collapsed" : ""
+      }`}
+    >
       <span className="header-span"></span>
 
       <LoginPopup />

@@ -379,8 +379,8 @@ const PostBoxForm = ({
             placeholder="Zipcode"
             {...register("pincode")}
           />
-          {errors.pincode?.message && (
-            <p className="text-danger">{errors.pincode?.message}</p>
+          {errors.pincode && (
+            <p className="text-danger">{errors.pincode.message}</p>
           )}
         </div>
 

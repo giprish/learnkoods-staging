@@ -6,6 +6,7 @@ import { isActiveLink } from "../../utils/linkActiveChecker";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { menuToggle } from "../../features/toggle/toggleSlice";
+import { shortSidebarToggle } from "../../features/toggle/toggleSlice";
 import { UserAuth } from "@/context/AuthContext";
 import { toast } from "react-toastify";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
@@ -14,9 +15,12 @@ import Popover from "react-bootstrap/Popover";
 import { useEffect, useState } from "react";
 
 const DashboardEmployerSidebar = () => {
-  const { user, logOut } = UserAuth();
   const router = useRouter();
   const { menu } = useSelector((state) => state.toggle);
+  const { shortSidebar: isSidebarCollapsed } = useSelector(
+    (state) => state.toggle
+  );
+  // console.log(isSidebarCollapsed);
   const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
@@ -66,7 +70,11 @@ const DashboardEmployerSidebar = () => {
   );
 
   return (
-    <div className={`user-sidebar ${menu ? "sidebar_open" : ""}`}>
+    <div
+      className={`user-sidebar ${
+        isSidebarCollapsed ? "user-sidebar-collapsed" : ""
+      } ${menu ? "sidebar_open" : ""}`}
+    >
       {/* Start sidebar close icon */}
       <div className="pro-header text-end pb-0 mb-0 show-1023">
         <div className="fix-icon" onClick={menuToggleHandler}>
@@ -90,14 +98,21 @@ const DashboardEmployerSidebar = () => {
                 onClick={menuToggleHandler}
               >
                 {item.name === "Logout" ? (
-                  <Link href={item.routePath} onClick={unifiedLogout}>
+                  <Link
+                    href={item.routePath}
+                    onClick={unifiedLogout}
+                    className={`${isSidebarCollapsed ? "a-collapsed" : ""}`}
+                  >
                     <i className={`la ${item.icon}`}></i>
-                    {item.name}
+                    {!isSidebarCollapsed && item.name}
                   </Link>
                 ) : (
-                  <Link href={item.routePath}>
+                  <Link
+                    href={item.routePath}
+                    className={`${isSidebarCollapsed ? "a-collapsed" : ""}`}
+                  >
                     <i className={`la ${item.icon}`}></i>
-                    {item.name}
+                    {!isSidebarCollapsed && item.name}
                   </Link>
                 )}
               </li>

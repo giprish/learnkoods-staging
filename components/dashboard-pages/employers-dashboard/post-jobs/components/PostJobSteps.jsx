@@ -8,7 +8,7 @@ const PostJobSteps = ({ setTab, currentTab, error }) => {
   // Determine if text should be red for each tab
   const isTab1Error = hasTab1Error && (hasTab1Error || hasTab2Error);
   const isTab2Error = hasTab2Error && (hasTab1Error || hasTab2Error);
-  console.log(error);
+  // console.log(error);
 
   return (
     <div className="post-job-steps">

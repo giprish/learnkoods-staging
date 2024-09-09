@@ -25,19 +25,12 @@ const index = () => {
 
       <section className="pricing-section">
         <div className="auto-container">
-          <div className="sec-title text-center">
-            <h2>Pricing Packages</h2>
-            <div className="text">
-              Lorem ipsum dolor sit amet elit, sed do eiusmod tempor.
-            </div>
-          </div>
           {/* End title */}
           <Pricing />
           {/* End .{/* <!--Pricing Tabs--> */}
         </div>
       </section>
       {/* <!-- End Pricing Section --> */}
-
       <FooterDefault footerStyle="alternate5" />
       {/* <!-- End Main Footer --> */}
     </>

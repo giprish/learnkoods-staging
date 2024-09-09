@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
-import Seo from "../components/common/Seo";
-import Pricing from "../components/pages-menu/pricing";
+import Seo from "../../components/common/Seo";
+import Pricing from "../../components/pages-menu/pricing";
 
 const index = () => {
   return (

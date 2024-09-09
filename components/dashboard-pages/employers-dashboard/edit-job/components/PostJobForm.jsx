@@ -378,10 +378,9 @@ const PostjobForm = ({
             name="pincode"
             placeholder="Zipcode"
             {...register("pincode")}
-            required
           />
           {errors.pincode && (
-            <p className="text-danger">{errors.pincode?.message}</p>
+            <p className="text-danger">{errors.pincode.message}</p>
           )}
         </div>
 

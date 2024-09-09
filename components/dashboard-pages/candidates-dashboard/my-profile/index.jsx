@@ -21,6 +21,7 @@ import CertificationInfoBox from "./components/CertificationInfoBox";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema } from "@/validation/validation";
 import ProfileTabs from "./components/profileTabs/ProfileTabs";
+import { useSelector } from "react-redux";
 
 const index = () => {
   const methods = useForm({
@@ -29,8 +30,12 @@ const index = () => {
   });
 
   const dirtyFields = methods.formState.dirtyFields;
+  const { shortSidebar: isSidebarCollapsed } = useSelector(
+    (state) => state.toggle
+  );
   const [tab, setTab] = useState("step1");
   const [access, setAccess] = useState(null);
+  const [student, setStudent] = useState(null);
 
   const [id, setId] = useState(null);
   const [image, setImage] = useState({
@@ -51,10 +56,11 @@ const index = () => {
   });
 
   useEffect(() => {
-    const access = window.localStorage.getItem("access");
-    const id = window.localStorage.getItem("id");
-    setAccess(access);
-    setId(id);
+    if (typeof window !== "undefined") {
+      setAccess(window.localStorage.getItem("access"));
+      setId(window.localStorage.getItem("id"));
+      setStudent(localStorage.getItem("student"));
+    }
   }, []);
 
   const fetchData = async () => {
@@ -72,6 +78,7 @@ const index = () => {
   const { data: user } = useQuery({
     queryKey: ["user", access],
     queryFn: () => fetchData(),
+    enabled: !!access && student === "true",
   });
 
   console.log(user, "candidate dashboard");
@@ -289,7 +296,11 @@ const index = () => {
   };
 
   return (
-    <div className="page-wrapper dashboard">
+    <div
+      className={`page-wrapper dashboard ${
+        isSidebarCollapsed ? "dashboard-collapsed" : ""
+      }`}
+    >
       <span className="header-span"></span>
       {/* <!-- Header Span for hight --> */}
 

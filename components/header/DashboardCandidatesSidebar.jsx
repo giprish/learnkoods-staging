@@ -19,13 +19,18 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
 const DashboardCandidatesSidebar = () => {
-  const [accessToken, setAccessToken] = useState(null);
+  const { shortSidebar: isSidebarCollapsed } = useSelector(
+    (state) => state.toggle
+  );
+  const [access, setAccessToken] = useState(null);
   const [id, setId] = useState(null);
+  const [student, setStudent] = useState(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       setAccessToken(window.localStorage.getItem("access"));
       setId(window.localStorage.getItem("id"));
+      setStudent(localStorage.getItem("student"));
     }
   }, []);
 
@@ -34,7 +39,7 @@ const DashboardCandidatesSidebar = () => {
       `${process.env.GLOBAL_API}/usr_pro_id/${id}/`,
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${access}`,
         },
       }
     );
@@ -42,8 +47,9 @@ const DashboardCandidatesSidebar = () => {
   };
 
   const { data: user } = useQuery({
-    queryKey: ["user", accessToken],
+    queryKey: ["user", access],
     queryFn: () => fetchData(),
+    enabled: !!access && student === "true",
   });
 
   // console.log(user, "candidate sidebar");
@@ -60,7 +66,7 @@ const DashboardCandidatesSidebar = () => {
   };
 
   const unifiedLogout = async () => {
-    if (accessToken) {
+    if (access) {
       window.localStorage.clear();
     }
 
@@ -86,7 +92,11 @@ const DashboardCandidatesSidebar = () => {
   );
 
   return (
-    <div className={`user-sidebar ${menu ? "sidebar_open" : ""}`}>
+    <div
+      className={`user-sidebar ${
+        isSidebarCollapsed ? "user-sidebar-collapsed" : ""
+      } ${menu ? "sidebar_open" : ""}`}
+    >
       {/* Start sidebar close icon */}
       <div className="pro-header text-end pb-0 mb-0 show-1023">
         <div className="fix-icon" onClick={menuToggleHandler}>
@@ -97,7 +107,7 @@ const DashboardCandidatesSidebar = () => {
 
       <div className="sidebar-inner">
         <ul className="navigation">
-          {accessToken && (
+          {!isSidebarCollapsed && access && (
             <div className="sidebar-image">
               <Link href="" className="">
                 <Image
@@ -112,9 +122,11 @@ const DashboardCandidatesSidebar = () => {
               </Link>
             </div>
           )}
-          <div className="text-center mb-3">
-            <span>{user?.user?.username}</span>
-          </div>
+          {!isSidebarCollapsed && (
+            <div className="text-center mb-3">
+              <span>{user?.user?.username}</span>
+            </div>
+          )}
 
           {candidatesuData.map((item) => {
             return (
@@ -131,22 +143,31 @@ const DashboardCandidatesSidebar = () => {
                   onClick={menuToggleHandler}
                 >
                   {item.name === "Logout" ? (
-                    <Link href={item.routePath} onClick={unifiedLogout}>
+                    <Link
+                      href={item.routePath}
+                      onClick={unifiedLogout}
+                      className={`${isSidebarCollapsed ? "a-collapsed" : ""}`}
+                    >
                       <i className={`la ${item.icon}`}></i>
-                      {item?.name}
+                      {!isSidebarCollapsed && item.name}
                     </Link>
                   ) : item.name === "My Resume" ? (
                     <Link
                       href={`${user?.data?.resume}`}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className={`${isSidebarCollapsed ? "a-collapsed" : ""}`}
                     >
-                      <i className={`la ${item.icon}`}></i> {item?.name}
+                      <i className={`la ${item.icon}`}></i>{" "}
+                      {!isSidebarCollapsed && item.name}
                     </Link>
                   ) : (
-                    <Link href={item.routePath}>
+                    <Link
+                      href={item.routePath}
+                      className={`${isSidebarCollapsed ? "a-collapsed" : ""}`}
+                    >
                       <i className={`la ${item.icon}`}></i>
-                      {item?.name}
+                      {!isSidebarCollapsed && item.name}
                     </Link>
                   )}
                 </li>

@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
 import { useState } from "react";
@@ -10,6 +10,7 @@ import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import Tooltip from "@/components/tooltip/ToolTip";
+import { toast } from "react-toastify";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
@@ -29,7 +30,14 @@ const FormInfoBox = ({
     setValue,
     formState: { errors },
     watch,
+    getValues,
   } = useFormContext();
+
+  const [access, setAccess] = useState(null);
+  useEffect(() => {
+    const access = window.localStorage.getItem("access");
+    setAccess(access);
+  }, []);
 
   const fetch = async (url) => {
     const response = await axios.get(url);
@@ -73,15 +81,46 @@ const FormInfoBox = ({
       label: option.data || option.name,
     }));
   };
+  const generateDescriptionFn = async (formdata) => {
+    const { data: response } = await axios.post(
+      `${process.env.GLOBAL_API}/comp-desc-ai/`,
+      formdata,
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      }
+    );
+    return response;
+  };
+  const { mutate } = useMutation({
+    mutationFn: generateDescriptionFn,
+    onSuccess: (data) => {
+      console.log(data, "data from sucessful description generated");
+      const formattedHTML = data?.data
+        ?.map((line) => (line.trim() === "" ? "<br/>" : `<p>${line}</p>`))
+        .join("");
+      setValue("description", formattedHTML);
+      toast.success("Company description generated", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+    onError: (error) => {
+      console.log(error, "error message from api");
+      toast.error("Couldnot generate description", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+  });
 
-  // useEffect(() => {
-  //   register("description", { required: true, minLength: 11 });
-  // }, [register]);
-
-  // const onEditorStateChange = (editorState) => {
-  //   setValue("description", editorState);
-  // };
-  // const editorContent = watch("description");
+  const generate = () => {
+    const data = {
+      name: getValues("name"),
+      industry: getValues("industry")?.label,
+    };
+    console.log(data);
+    mutate(data);
+  };
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
       <div className="row">
@@ -168,13 +207,25 @@ const FormInfoBox = ({
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Established Since</label>
-          <input
-            type="date"
+          <select
             name="established"
-            className="form-control py-3"
+            className="chosen-single form-select"
             {...register("since")}
             required
-          />
+          >
+            <option value="">Select Year</option>
+            {Array.from(
+              { length: new Date().getFullYear() - 1900 + 1 },
+              (_, i) => {
+                const year = 1900 + i;
+                return (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                );
+              }
+            )}
+          </select>
           {errors.since && (
             <p className="text-danger">{errors?.since?.message}</p>
           )}
@@ -388,11 +439,10 @@ const FormInfoBox = ({
             type="text"
             name="pincode"
             placeholder="Zipcode"
-            required
             {...register("pincode")}
           />
           {errors.pincode && (
-            <p className="text-danger">{errors?.pincode?.message}</p>
+            <p className="text-danger">{errors.pincode.message}</p>
           )}
         </div>
         <div className="form-group col-lg-6 col-md-12">
@@ -426,15 +476,6 @@ const FormInfoBox = ({
             <p className="text-danger">{errors?.address?.message}</p>
           )}
         </div>
-
-        {/* <!-- About Company --> */}
-        {/* <div className="form-group col-lg-12 col-md-12">
-        <label>About Company</label>
-        <textarea
-          placeholder="Welcome to [Company Name], where innovation meets excellence. Founded in [Year], we are dedicated to delivering top-quality [products/services] that make a difference in people's lives. Our mission is to [brief mission statement or core goal], and we strive to achieve this through [brief mention of strategy or values].At [Company Name], our team of passionate professionals is committed to [mention unique selling points, e.g., customer satisfaction, sustainable practices, cutting-edge technology, etc.]. We believe in continuous improvement and are always looking for new ways to innovate and grow.Join us on our journey as we aim to shape the future of [industry or field] and provide unmatched value to our customers."
-          {...register("description")}
-        ></textarea>
-      </div> */}
         <div className="form-group col-lg-12 col-md-12">
           <label>About Company</label>
           <Controller
@@ -453,6 +494,13 @@ const FormInfoBox = ({
           {errors.description && (
             <p style={{ color: "red" }}>{errors.description.message}</p>
           )}
+          <button
+            className="theme-btn btn-style-blue mt-3"
+            type="button"
+            onClick={generate}
+          >
+            Generate Description
+          </button>
         </div>
 
         {/* <!-- Input --> */}
