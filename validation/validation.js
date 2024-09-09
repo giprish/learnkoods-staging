@@ -65,7 +65,7 @@ export const userSchema = z.object({
   }),
   age: z.number().min(14, "minimum age is 14"),
   languages: z.string().min(2, "language is required"),
-  email: z.string().email("Invalid email address"),
+  // email: z.string().email("Invalid email address"),
   skills: z
     .array(
       z.object({
