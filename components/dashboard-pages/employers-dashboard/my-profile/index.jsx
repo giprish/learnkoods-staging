@@ -12,13 +12,16 @@ import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { FormProvider, useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 
 const index = () => {
   const methods = useForm({
     // resolver: zodResolver(userSchema),
     // mode: "onChange",
   });
-
+  const { shortSidebar: isSidebarCollapsed } = useSelector(
+    (state) => state.toggle
+  );
   const dirtyFields = methods.formState.dirtyFields;
   const [access, setAccess] = useState(null);
   const [id, setId] = useState(null);
@@ -186,7 +189,11 @@ const index = () => {
   };
 
   return (
-    <div className="page-wrapper dashboard">
+    <div
+      className={`page-wrapper dashboard ${
+        isSidebarCollapsed ? "dashboard-collapsed" : ""
+      }`}
+    >
       <span className="header-span"></span>
       {/* <!-- Header Span for hight --> */}
 

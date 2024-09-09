@@ -12,16 +12,15 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
 const index = () => {
-  const [accessToken, setAccessToken] = useState(null);
+  const [access, setAccessToken] = useState(null);
   const [id, setId] = useState(null);
+  const [student, setStudent] = useState(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const access = window.localStorage.getItem("access");
-      const id = window.localStorage.getItem("id");
-      console.log({ access, id }, "access and id");
-      setAccessToken(access);
-      setId(id);
+      setAccessToken(window.localStorage.getItem("access"));
+      setId(window.localStorage.getItem("id"));
+      setStudent(localStorage.getItem("student"));
     }
   }, []);
 
@@ -30,7 +29,7 @@ const index = () => {
       `${process.env.GLOBAL_API}/usr_pro_id/${id}/`,
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${access}`,
         },
       }
     );
@@ -38,8 +37,9 @@ const index = () => {
   };
 
   const { data: user } = useQuery({
-    queryKey: ["data", accessToken],
+    queryKey: ["data", access],
     queryFn: () => fetchData(),
+    enabled: !!access && student === "true",
   });
 
   return (

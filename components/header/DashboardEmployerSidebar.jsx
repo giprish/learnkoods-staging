@@ -20,7 +20,7 @@ const DashboardEmployerSidebar = () => {
   const { shortSidebar: isSidebarCollapsed } = useSelector(
     (state) => state.toggle
   );
-  console.log(isSidebarCollapsed);
+  // console.log(isSidebarCollapsed);
   const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {

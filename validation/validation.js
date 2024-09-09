@@ -2,6 +2,8 @@ import { z } from "zod";
 
 const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
+const currentYear = new Date().getFullYear();
+
 const usergenderOptions = z.enum([
   "Male",
   "Female",
@@ -159,7 +161,15 @@ export const companyRegistrationSchema = z.object({
   email: z.string().email("Must be a valid email"),
   phone_number: z.string(), // You can add specific validation like length, pattern, etc.
   website: z.string().url("Must be a valid URL"),
-  since: z.string().min(1, "Since field is required"), // You can add date-specific validation if needed
+  since: z.string().refine(
+    (value) => {
+      const year = parseInt(value, 10);
+      return year >= 1900 && year <= currentYear;
+    },
+    {
+      message: `Year must be between 1900 and ${currentYear}`,
+    }
+  ), // You can add date-specific validation if needed
   team_size: z.enum(
     ["50-100", "100-150", "150-200", "200-250", "250-300", "300-500", "500+"],
     "Team size is required"

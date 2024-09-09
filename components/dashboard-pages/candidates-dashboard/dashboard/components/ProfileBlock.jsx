@@ -5,10 +5,12 @@ import { useEffect, useState } from "react";
 const ProfileBlock = () => {
   const [userId, setUserId] = useState("");
   const [access, setAccess] = useState(null);
+  const [student, setStudent] = useState(null);
   useEffect(() => {
     if (typeof window !== "undefined") {
       setUserId(localStorage.getItem("id"));
       setAccess(localStorage.getItem("access"));
+      setStudent(localStorage.getItem("student"));
     }
   }, []);
 
@@ -27,6 +29,7 @@ const ProfileBlock = () => {
   const { data: user } = useQuery({
     queryKey: ["user", access, userId],
     queryFn: () => fetchData(),
+    enabled: !!access && student === "true",
   });
   return (
     <>

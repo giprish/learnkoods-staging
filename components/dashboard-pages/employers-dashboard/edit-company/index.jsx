@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { companyRegistrationSchema } from "@/validation/validation";
+import { useSelector } from "react-redux";
 
 const index = () => {
   const methods = useForm({
@@ -23,6 +24,10 @@ const index = () => {
     resolver: zodResolver(companyRegistrationSchema),
   });
   const dirtyFields = methods.formState.dirtyFields;
+
+  const { shortSidebar: isSidebarCollapsed } = useSelector(
+    (state) => state.toggle
+  );
   const [access, setAccess] = useState(null);
   const router = useRouter();
   const companyid = router.query.id;
@@ -252,7 +257,11 @@ const index = () => {
   };
 
   return (
-    <div className="page-wrapper dashboard">
+    <div
+      className={`page-wrapper dashboard ${
+        isSidebarCollapsed ? "dashboard-collapsed" : ""
+      }`}
+    >
       <span className="header-span"></span>
 
       <LoginPopup />

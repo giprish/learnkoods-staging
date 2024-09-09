@@ -12,7 +12,7 @@ const BreadCrumb = ({ title, text }) => {
   const { shortSidebar: isSidebarCollapsed } = useSelector(
     (state) => state.toggle
   );
-  console.log(isSidebarCollapsed);
+  // console.log(isSidebarCollapsed);
   const router = useRouter();
   return (
     <div className="row">

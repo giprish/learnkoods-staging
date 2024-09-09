@@ -17,27 +17,20 @@ const FormContent2 = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [id, setId] = useState(null);
   const [access, setAccess] = useState(null);
+  const [student, setStudent] = useState(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       setId(window.localStorage.getItem("id"));
       setAccess(window.localStorage.getItem("access"));
+      setStudent(localStorage.getItem("student"));
     }
   }, []);
-
-  // const fetchData = async () => {
-  //   const response = await axios.get(`${GLOBAL_API}/usr_pro_id/${id}/`, {
-  //     headers: {
-  //       Authorization: `Bearer ${access}`,
-  //     },
-  //   });
-  //   return response.data;
-  // };
 
   const { data: user, isSuccess } = useQuery({
     queryKey: ["user", access, id],
     queryFn: () => fetchData(),
-    enabled: !!access,
+    enabled: !!access && student === "true",
   });
 
   useEffect(() => {

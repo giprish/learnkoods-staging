@@ -22,13 +22,15 @@ const DashboardCandidatesSidebar = () => {
   const { shortSidebar: isSidebarCollapsed } = useSelector(
     (state) => state.toggle
   );
-  const [accessToken, setAccessToken] = useState(null);
+  const [access, setAccessToken] = useState(null);
   const [id, setId] = useState(null);
+  const [student, setStudent] = useState(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       setAccessToken(window.localStorage.getItem("access"));
       setId(window.localStorage.getItem("id"));
+      setStudent(localStorage.getItem("student"));
     }
   }, []);
 
@@ -37,7 +39,7 @@ const DashboardCandidatesSidebar = () => {
       `${process.env.GLOBAL_API}/usr_pro_id/${id}/`,
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${access}`,
         },
       }
     );
@@ -45,8 +47,9 @@ const DashboardCandidatesSidebar = () => {
   };
 
   const { data: user } = useQuery({
-    queryKey: ["user", accessToken],
+    queryKey: ["user", access],
     queryFn: () => fetchData(),
+    enabled: !!access && student === "true",
   });
 
   // console.log(user, "candidate sidebar");
@@ -63,7 +66,7 @@ const DashboardCandidatesSidebar = () => {
   };
 
   const unifiedLogout = async () => {
-    if (accessToken) {
+    if (access) {
       window.localStorage.clear();
     }
 
@@ -104,7 +107,7 @@ const DashboardCandidatesSidebar = () => {
 
       <div className="sidebar-inner">
         <ul className="navigation">
-          {!isSidebarCollapsed && accessToken && (
+          {!isSidebarCollapsed && access && (
             <div className="sidebar-image">
               <Link href="" className="">
                 <Image

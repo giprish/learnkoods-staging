@@ -41,7 +41,7 @@ const HeaderNavContent = () => {
   const { data: user } = useQuery({
     queryKey: ["user", accessToken],
     queryFn: () => fetchData(),
-    enabled: !!accessToken,
+    enabled: !!accessToken && student === "true",
     retry: 1,
   });
 

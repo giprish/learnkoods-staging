@@ -23,16 +23,13 @@ import { useQuery } from "@tanstack/react-query";
 const UpdateProfileDynamicV1 = () => {
   const router = useRouter();
   const userId = router.query.id;
-  const [accessToken, setAccessToken] = useState(null);
+  const [access, setAccessToken] = useState(null);
   const [id, setId] = useState(null);
-
+  const [student, setStudent] = useState(null);
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const access = window.localStorage.getItem("access");
-      const id = window.localStorage.getItem("id");
-      console.log({ access, id }, "access and id");
-      setAccessToken(access);
-      setId(id);
+      setAccessToken(window.localStorage.getItem("access"));
+      setId(window.localStorage.getItem("id"));
     }
   }, []);
 
@@ -42,7 +39,7 @@ const UpdateProfileDynamicV1 = () => {
       `${process.env.GLOBAL_API}/usr_pro_id/${id}/`,
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${access}`,
         },
       }
     );
@@ -57,6 +54,7 @@ const UpdateProfileDynamicV1 = () => {
   } = useQuery({
     queryKey: ["data", userId],
     queryFn: () => fetchData(),
+    enabled: !!access && student === "true",
   });
 
   console.log(user, "user");

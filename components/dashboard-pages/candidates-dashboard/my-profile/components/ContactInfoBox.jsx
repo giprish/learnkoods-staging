@@ -25,11 +25,13 @@ const ContactInfoBox = ({ countryId, setCountryId, stateId, setStateId }) => {
   });
   const [access, setAccess] = useState(null);
   const [id, setId] = useState(null);
+  const [student, setStudent] = useState(null);
   useEffect(() => {
-    const access = window.localStorage.getItem("access");
-    const id = window.localStorage.getItem("id");
-    setAccess(access);
-    setId(id);
+    if (typeof window !== "undefined") {
+      setAccess(window.localStorage.getItem("access"));
+      setId(window.localStorage.getItem("id"));
+      setStudent(localStorage.getItem("student"));
+    }
   }, []);
   const fetchData = async () => {
     const response = await axios.get(
@@ -46,6 +48,7 @@ const ContactInfoBox = ({ countryId, setCountryId, stateId, setStateId }) => {
   const { data: user } = useQuery({
     queryKey: ["user", access],
     queryFn: () => fetchData(),
+    enabled: !!access && student === "true",
   });
 
   useEffect(() => {

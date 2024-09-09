@@ -35,6 +35,7 @@ const index = () => {
   );
   const [tab, setTab] = useState("step1");
   const [access, setAccess] = useState(null);
+  const [student, setStudent] = useState(null);
 
   const [id, setId] = useState(null);
   const [image, setImage] = useState({
@@ -55,10 +56,11 @@ const index = () => {
   });
 
   useEffect(() => {
-    const access = window.localStorage.getItem("access");
-    const id = window.localStorage.getItem("id");
-    setAccess(access);
-    setId(id);
+    if (typeof window !== "undefined") {
+      setAccess(window.localStorage.getItem("access"));
+      setId(window.localStorage.getItem("id"));
+      setStudent(localStorage.getItem("student"));
+    }
   }, []);
 
   const fetchData = async () => {
@@ -76,6 +78,7 @@ const index = () => {
   const { data: user } = useQuery({
     queryKey: ["user", access],
     queryFn: () => fetchData(),
+    enabled: !!access && student === "true",
   });
 
   console.log(user, "candidate dashboard");
