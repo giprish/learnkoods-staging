@@ -207,13 +207,25 @@ const FormInfoBox = ({
         {/* <!-- Input --> */}
         <div className="form-group col-lg-6 col-md-12">
           <label>Established Since</label>
-          <input
-            type="date"
+          <select
             name="established"
-            className="form-control py-3"
+            className="chosen-single form-select"
             {...register("since")}
             required
-          />
+          >
+            <option value="">Select Year</option>
+            {Array.from(
+              { length: new Date().getFullYear() - 1900 + 1 },
+              (_, i) => {
+                const year = 1900 + i;
+                return (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                );
+              }
+            )}
+          </select>
           {errors.since && (
             <p className="text-danger">{errors?.since?.message}</p>
           )}
