@@ -135,7 +135,7 @@ const WidgetContentBox = () => {
     }
   }, [AppliedCandidates, ApplicantStatus]);
 
-  // console.log(applicants, "merged arrays");
+  console.log(applicants, "merged arrays");
 
   useEffect(() => {
     if (applicants) {
@@ -256,7 +256,7 @@ const WidgetContentBox = () => {
                           <img
                             src={
                               student.student.profile_image ||
-                              "../images/avatar.jpg"
+                              "/images/resource/profile.jpg"
                             }
                             alt="candidates"
                           />

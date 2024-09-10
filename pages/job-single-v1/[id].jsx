@@ -105,6 +105,10 @@ const JobSingleDynamicV1 = () => {
         position: "top-left",
       });
     }
+    if ((user || access) && student === "false") {
+      e.preventDefault();
+      router.push(`/job-single-v1/apply/${jobId}`);
+    }
   };
 
   const createdAtDate = new Date(job?.created_at);
