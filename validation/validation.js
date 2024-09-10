@@ -238,9 +238,9 @@ export const jobPostSchema = z
     is_published: truthyOptions.refine((value) => value !== undefined, {
       message: "Please select a valid option",
     }),
-    is_closed: truthyOptions.refine((value) => value !== undefined, {
-      message: "Please select a valid option",
-    }),
+    // is_closed: truthyOptions.refine((value) => value !== undefined, {
+    //   message: "Please select a valid option",
+    // }),
     category: z.object({
       value: z.number().positive("Category is required!"),
       label: z.string(),
@@ -375,9 +375,9 @@ export const jobUpdateFirstSchema = z.object({
   is_published: truthyOptions.refine((value) => value !== undefined, {
     message: "Please select a valid option",
   }),
-  is_closed: truthyOptions.refine((value) => value !== undefined, {
-    message: "Please select a valid option",
-  }),
+  // is_closed: truthyOptions.refine((value) => value !== undefined, {
+  //   message: "Please select a valid option",
+  // }),
   category: z.object({
     value: z.number().positive("Category is required!"),
     label: z.string(),

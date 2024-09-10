@@ -298,6 +298,7 @@ const FilterJobsBox = () => {
     dispatch(addPerPage({ start: 0, end: 0 }));
   };
 
+  const length = content?.length < 10 ? content.length : 10;
   return (
     <>
       <div className="ls-switcher">
@@ -315,7 +316,7 @@ const FilterJobsBox = () => {
           {/* Collapsible sidebar button */}
 
           <div className="text">
-            Show <strong>{content?.length}</strong> jobs
+            Show <strong>{length}</strong> jobs
           </div>
         </div>
         {/* End show-result */}
@@ -420,11 +421,17 @@ const FilterJobsBox = () => {
       </div>
 
       <div className="ls-show-more">
-        <p>Show 36 of 497 Jobs</p>
+        <p>
+          Showing {length} out of {job?.count} Jobs
+        </p>
         <div className="bar">
-          <span className="bar-inner" style={{ width: "40%" }}></span>
+          <span
+            className="bar-inner"
+            style={{ width: `${(length / job?.count) * 100}%` }}
+          ></span>
         </div>
-        <button className="show-more">Show More</button>
+        {/* 
+        <button className="show-more">Show More</button> */}
       </div>
     </>
   );

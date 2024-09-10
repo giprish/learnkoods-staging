@@ -202,7 +202,7 @@ const PostjobForm = ({
             <p className="text-danger">{errors.is_published?.message}</p>
           )}
         </div>
-        <div className="form-group col-lg-6 col-md-12">
+        {/* <div className="form-group col-lg-6 col-md-12">
           <label>Is Closed</label>
           <select
             className="chosen-single form-select"
@@ -215,7 +215,7 @@ const PostjobForm = ({
           {errors.is_closed?.message && (
             <p className="text-danger">{errors.is_closed?.message}</p>
           )}
-        </div>
+        </div> */}
 
         <div className="form-group col-lg-6 col-md-12">
           <label>Category</label>
