@@ -25,7 +25,7 @@ const SocialTwo = () => {
 
   return (
     <>
-      {socialContent.map((item) => (
+      {socialContent?.map((item) => (
         <a
           href={item.link}
           className={item.iconClass}

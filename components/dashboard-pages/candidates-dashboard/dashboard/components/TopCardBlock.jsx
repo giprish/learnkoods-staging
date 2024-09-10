@@ -32,7 +32,7 @@ const TopCardBlock = () => {
 
   return (
     <>
-      {cardContent.map((item) => (
+      {cardContent?.map((item) => (
         <div
           className="ui-block col-xl-3 col-lg-6 col-md-6 col-sm-12"
           key={item.id}

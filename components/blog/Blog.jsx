@@ -16,7 +16,7 @@ const Blog = () => {
         </Link>
       </div>
       <div className="row">
-        {blogContent.slice(0, 3).map((item) => (
+        {blogContent.slice(0, 3)?.map((item) => (
           <div className="news-block col-lg-4 col-md-6 col-sm-12" key={item.id}>
             <div className="inner-box">
               <div className="image-box">

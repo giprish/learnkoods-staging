@@ -4,7 +4,7 @@ import blogContent from "../../data/blogs";
 const Blog8 = () => {
   return (
     <>
-      {blogContent.slice(0, 6).map((item) => (
+      {blogContent.slice(0, 6)?.map((item) => (
         <div className="news-block col-lg-4 col-md-6 col-sm-12" key={item.id}>
           <div className="inner-box">
             <div className="image-box">

@@ -56,9 +56,9 @@ const FeaturedBlock = () => {
   ];
   return (
     <>
-      {blockContent.map((item) => (
+      {blockContent?.map((item) => (
         <div className="column col-lg-4 col-md-6 col-sm-12" key={item.id}>
-          {item.block.map((value, i) => (
+          {item.block?.map((value, i) => (
             <div className="feature-block" key={i}>
               <div className="inner-box">
                 <figure className="image">

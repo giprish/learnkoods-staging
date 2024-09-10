@@ -85,7 +85,7 @@ const index = () => {
 
   useEffect(() => {
     if (user) {
-      let array = user?.data?.skills.map((s1) => ({
+      let array = user?.data?.skills?.map((s1) => ({
         value: s1.id,
         label: s1.data,
       }));
@@ -228,7 +228,7 @@ const index = () => {
       if (dirtyFields[key]) {
         if (Array.isArray(data[key])) {
           // Handle multi-select fields by extracting labels
-          acc[key] = data[key].map((option) => ({
+          acc[key] = data[key]?.map((option) => ({
             data: option.label,
           }));
         } else if (typeof data[key] === "object" && data[key].label) {

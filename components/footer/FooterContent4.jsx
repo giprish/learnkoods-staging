@@ -41,7 +41,7 @@ const FooterContent4 = () => {
   ];
   return (
     <>
-      {footerContent.map((item) => (
+      {footerContent?.map((item) => (
         <div
           className={`footer-column ${item.colClass} col-md-6 col-sm-12`}
           key={item.id}

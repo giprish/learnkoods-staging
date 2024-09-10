@@ -129,7 +129,7 @@ const index = () => {
       if (dirtyFields[key]) {
         if (Array.isArray(data[key])) {
           // Handle multi-select fields by extracting labels
-          acc[key] = data[key].map((option) => ({
+          acc[key] = data[key]((option) => ({
             data: option.label,
           }));
         } else if (typeof data[key] === "object" && data[key].label) {

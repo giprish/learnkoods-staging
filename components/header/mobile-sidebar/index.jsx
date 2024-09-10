@@ -84,7 +84,7 @@ const Index = () => {
       <Sidebar>
         <Menu>
           {student == null ? (
-            noLoginData.map((item) => (
+            noLoginData?.map((item) => (
               <MenuItem
                 className={
                   isActiveLink(item.routePath, router.asPath)
@@ -105,7 +105,7 @@ const Index = () => {
           ) : (
             <>
               {student === "true" &&
-                candidatesMenuData.map((item) => (
+                candidatesMenuData?.map((item) => (
                   <MenuItem
                     className={
                       isActiveLink(item.routePath, router.asPath)
@@ -118,7 +118,7 @@ const Index = () => {
                   </MenuItem>
                 ))}
               {student === "false" &&
-                employerMenuData.map((item) => (
+                employerMenuData?.map((item) => (
                   <MenuItem
                     className={
                       isActiveLink(item.routePath, router.asPath)

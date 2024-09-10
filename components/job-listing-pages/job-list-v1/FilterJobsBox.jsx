@@ -144,6 +144,7 @@ const FilterJobsBox = () => {
       setNextPageUrl(job?.next);
       setPrevPageUrl(job?.previous);
     }
+    console.log(job);
   }, [job]);
 
   console.log(nextPageUrl, "nextpage");
@@ -227,7 +228,7 @@ const FilterJobsBox = () => {
               {/* compnay info */}
               <li>
                 <span className="icon flaticon-map-locator"></span>
-                {item.location}
+                {item?.city?.name}
               </li>
               {/* location info */}
               <li>

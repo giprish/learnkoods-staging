@@ -23,7 +23,7 @@ const ApplicantsList = () => {
   ];
   return (
     <>
-      {applicantsContent.map((applicants) => (
+      {applicantsContent?.map((applicants) => (
         <li className="applicant" key={applicants.id}>
           <figure className="image">
             <Image

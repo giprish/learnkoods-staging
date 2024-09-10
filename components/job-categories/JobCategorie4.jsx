@@ -4,7 +4,7 @@ import jobCatContent from "../../data/job-catergories";
 const JobCategorie4 = () => {
   return (
     <>
-      {jobCatContent.slice(0, 3).map((item) => (
+      {jobCatContent.slice(0, 3)?.map((item) => (
         <div
           className="feature-block-two col-lg-4 col-md-4 col-sm-12"
           key={item.id}

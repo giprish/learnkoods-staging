@@ -42,7 +42,7 @@ const Testimonial3 = () => {
         nextArrow={<Arrow type="next" />}
         prevArrow={<Arrow type="prev" />}
       >
-        {testimonilaContent.slice(6, 9).map((item) => (
+        {testimonilaContent.slice(6, 9)?.map((item) => (
           <div key={item.id}>
             <div className="slide-item">
               <div className="image-column">

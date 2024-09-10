@@ -63,7 +63,7 @@ const Partner = () => {
   return (
     <>
       <Slider {...settings} arrows={false}>
-        {sliderGallery.map((item) => (
+        {sliderGallery?.map((item) => (
           <li className="slide-item" key={item.id}>
             <figure className="image-box">
               <a href={item.link}>

@@ -34,7 +34,7 @@ const Funfact = () => {
 
   return (
     <>
-      {counterUpContent.map((val) => (
+      {counterUpContent?.map((val) => (
         <div
           className="counter-column col-lg-4 col-md-4 col-sm-12 "
           data-aos="fade-up"

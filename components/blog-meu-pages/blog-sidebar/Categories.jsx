@@ -13,7 +13,7 @@ const Categories = () => {
   ];
   return (
     <>
-      {catContent.map((item, i) => (
+      {catContent?.map((item, i) => (
         <li key={i}>
           <Link href="#">{item}</Link>
         </li>

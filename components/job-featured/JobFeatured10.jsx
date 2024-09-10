@@ -11,7 +11,7 @@ const JobFeatured10 = () => {
     <div className="default-tabs pt-50 tabs-box">
       <div className="tab-buttons-wrap">
         <ul className="tab-buttons -pills-condensed">
-          {tab.map((item, i) => (
+          {tab?.map((item, i) => (
             <li
               key={i}
               onClick={() => setTab(i)}
@@ -25,7 +25,7 @@ const JobFeatured10 = () => {
       {/* <!--Tabs Box--> */}
 
       <div className="row pt-50" data-aos="fade-up">
-        {jobFeatured.slice(currentTab, 7).map((item) => (
+        {jobFeatured.slice(currentTab, 7)?.map((item) => (
           <div className="job-block col-lg-6 col-md-12 col-sm-12" key={item.id}>
             <div className="inner-box">
               <div className="content">
@@ -66,7 +66,7 @@ const JobFeatured10 = () => {
                 {/* End .job-info */}
 
                 <ul className="job-other-info">
-                  {item.jobType.map((val, i) => (
+                  {item.jobType?.map((val, i) => (
                     <li key={i} className={`${val.styleClass}`}>
                       {val.type}
                     </li>

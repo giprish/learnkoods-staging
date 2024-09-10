@@ -140,7 +140,7 @@ const FilterTopBox = () => {
             {/* End candidate-info */}
 
             <ul className="post-tags">
-              {candidate.tags.map((val, i) => (
+              {candidate.tags?.map((val, i) => (
                 <li key={i}>
                   <a href="#">{val}</a>
                 </li>

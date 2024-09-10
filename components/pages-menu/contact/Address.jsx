@@ -37,7 +37,7 @@ const Address = () => {
   ];
   return (
     <>
-      {addressContent.map((item) => (
+      {addressContent?.map((item) => (
         <div
           className="contact-block col-lg-4 col-md-6 col-sm-12"
           key={item.id}

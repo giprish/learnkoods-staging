@@ -100,7 +100,7 @@ const CompanyListingsTable = () => {
               </thead>
 
               <tbody>
-                {companies?.data.map((item) => (
+                {companies?.data?.map((item) => (
                   <tr key={item.id}>
                     <td>
                       <div className="job-block">

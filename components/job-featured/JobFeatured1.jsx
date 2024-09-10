@@ -5,7 +5,7 @@ import Image from "next/image";
 const JobFeatured1 = () => {
   return (
     <>
-      {jobFeatured.slice(0, 6).map((item) => (
+      {jobFeatured.slice(0, 6)?.map((item) => (
         <div className="job-block col-lg-6 col-md-12 col-sm-12" key={item.id}>
           <div className="inner-box">
             <div className="content">
@@ -44,7 +44,7 @@ const JobFeatured1 = () => {
               {/* End .job-info */}
 
               <ul className="job-other-info">
-                {item.jobType.map((val, i) => (
+                {item.jobType?.map((val, i) => (
                   <li key={i} className={`${val.styleClass}`}>
                     {val.type}
                   </li>

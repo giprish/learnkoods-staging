@@ -140,7 +140,7 @@ const Info = () => {
       </div>
       {/* added deployement check */}
       <div className="d-flex flex-wrap content-column order-2 justify-content-md-around mb-4">
-        {items.map((item) => {
+        {items?.map((item) => {
           return (
             <div
               key={item.id}

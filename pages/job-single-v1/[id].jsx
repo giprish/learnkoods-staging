@@ -173,7 +173,7 @@ const JobSingleDynamicV1 = () => {
                     {/* End .job-info */}
 
                     <ul className="job-other-info">
-                      {job?.skills_req?.slice(0, 3).map((val, i) => (
+                      {job?.skills_req?.slice(0, 3)?.map((val, i) => (
                         <li key={i} className={`border`}>
                           {val?.data}
                         </li>

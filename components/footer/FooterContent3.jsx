@@ -23,7 +23,7 @@ const checkUserPermissions = (route) => {
 const FooterContent3 = () => {
   return (
     <>
-      {footerContent.slice(0, 4).map((item) => (
+      {footerContent.slice(0, 4)?.map((item) => (
         <div
           className="footer-column col-lg-3 col-md-6 col-sm-12"
           key={item.id}

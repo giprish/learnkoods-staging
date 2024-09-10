@@ -4,14 +4,14 @@ import jobs from "../../../data/job-featured";
 const RelatedJobs2 = () => {
   return (
     <>
-      {jobs.slice(20, 24).map((item) => (
+      {jobs.slice(20, 24)?.map((item) => (
         <div
           className="job-block-four col-xl-3 col-lg-4 col-md-6 col-sm-12"
           key={item.id}
         >
           <div className="inner-box">
             <ul className="job-other-info">
-              {item.jobType.map((val, i) => (
+              {item.jobType?.map((val, i) => (
                 <li key={i} className={`${val.styleClass}`}>
                   {val.type}
                 </li>

@@ -17,7 +17,7 @@ const JobFeatured9 = () => {
 
   // slide hanlder
   const slideHandler = (id) => {
-    const data = jobSlider.map((slide) => {
+    const data = jobSlider?.map((slide) => {
       if (slide.id === id) {
         if (slide.isChecked) {
           slide.isChecked = false;
@@ -53,7 +53,7 @@ const JobFeatured9 = () => {
         </ul>
       </div>
       {/* End filter switch box */}
-      {jobFeatured.slice(latestJob?.length, 6).map((item) => (
+      {jobFeatured.slice(latestJob?.length, 6)?.map((item) => (
         <div className="job-block-five" key={item.id}>
           <div className="inner-box">
             <div className="content">
@@ -91,7 +91,7 @@ const JobFeatured9 = () => {
               {/* End .job-info */}
             </div>
             <ul className="job-other-info">
-              {item?.jobType?.slice(0, 1).map((val, i) => (
+              {item?.jobType?.slice(0, 1)?.map((val, i) => (
                 <li key={i} className={`${val.styleClass}`}>
                   {val.type}
                 </li>

@@ -15,7 +15,7 @@ const Testimonial2 = () => {
   return (
     <>
       <Slider {...settings} arrows={false}>
-        {testimonilaContent.slice(3, 6).map((item) => (
+        {testimonilaContent.slice(3, 6)?.map((item) => (
           <div className="testimonial-block-two" key={item.id}>
             <div className="inner-box">
               <div className="thumb">

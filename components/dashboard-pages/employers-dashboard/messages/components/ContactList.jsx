@@ -18,7 +18,7 @@ const ChatboxContactList = () => {
             </div>
             <div className="user_info">
               <span>Skillthrive</span>
-              <p> Head of Development</p>
+              {/* <p> Head of Development</p> */}
             </div>
             <span className="info">Just now</span>
           </div>

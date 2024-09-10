@@ -11,7 +11,7 @@ const Applicants = () => {
   };
   return (
     <>
-      {candidatesData.slice(17, 23).map((candidate) => (
+      {candidatesData.slice(17, 23)?.map((candidate) => (
         <div className="row">
           <div
             className="candidate-block-three col-lg-6 col-md-12 col-sm-12"
@@ -50,7 +50,7 @@ const Applicants = () => {
                 {/* End candidate-info */}
 
                 <ul className="post-tags">
-                  {candidate.tags.map((val, i) => (
+                  {candidate.tags?.map((val, i) => (
                     <li key={i}>
                       <a href="#">{val}</a>
                     </li>

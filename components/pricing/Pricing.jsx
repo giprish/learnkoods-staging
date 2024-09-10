@@ -198,7 +198,7 @@ const Pricing = () => {
     //     </>
     //   )}
     // </>
-    <Container className="mx-5 px-5">
+    <div className="mx-5 px-5">
       <div className="tabs-container">
         <Tabs
           id="pricing-tabs"
@@ -214,7 +214,7 @@ const Pricing = () => {
             </div>
             <div className="pricing-tabs tabs-box wow fadeInUp">
               <Row>
-                {pricingContentUser.map((item) => (
+                {pricingContentUser?.map((item) => (
                   <Col
                     md={6}
                     sm={12}
@@ -230,7 +230,7 @@ const Pricing = () => {
                       </div>
                       <div className="table-content">
                         <ul>
-                          {item.features.map((feature, i) => (
+                          {item.features?.map((feature, i) => (
                             <li key={i}>
                               <span>
                                 {feature.disabled ? (
@@ -265,7 +265,7 @@ const Pricing = () => {
             </div>
             <div className="pricing-tabs tabs-box wow fadeInUp">
               <Row>
-                {pricingContentEmployer.map((item) => (
+                {pricingContentEmployer?.map((item) => (
                   <Col
                     md={6}
                     sm={12}
@@ -281,7 +281,7 @@ const Pricing = () => {
                       </div>
                       <div className="table-content">
                         <ul>
-                          {item.features.map((feature, i) => (
+                          {item.features?.map((feature, i) => (
                             <li key={i}>
                               <span>
                                 {feature.disabled ? (
@@ -311,7 +311,7 @@ const Pricing = () => {
           </Tab>
         </Tabs>
       </div>
-    </Container>
+    </div>
   );
 };
 

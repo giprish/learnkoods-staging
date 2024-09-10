@@ -46,7 +46,7 @@ const Pricing3 = () => {
 
   return (
     <>
-      {pricingCotent.map((item) => (
+      {pricingCotent?.map((item) => (
         <div className="col-lg-4 col-md-6" key={item.id}>
           <div className="pricingCard -type-2">
             <h4 className="pricingCard__title">{item.type}</h4>
@@ -62,7 +62,7 @@ const Pricing3 = () => {
             </div>
 
             <ul className="pricingCard__list">
-              {item.features.map((val, i) => (
+              {item.features?.map((val, i) => (
                 <li key={i}>{val}</li>
               ))}
             </ul>

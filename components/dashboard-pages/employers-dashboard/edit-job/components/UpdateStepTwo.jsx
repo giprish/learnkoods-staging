@@ -41,7 +41,7 @@ const UpdateStepTwo = ({ setTab }) => {
     queryFn: () => fetch(`${process.env.GLOBAL_API}/skill_api/`),
   });
 
-  const skillOptions = skills?.data.map((skill) => {
+  const skillOptions = skills?.data?.map((skill) => {
     return {
       value: skill.id,
       label: skill.data,
@@ -55,7 +55,7 @@ const UpdateStepTwo = ({ setTab }) => {
 
   useEffect(() => {
     if (job) {
-      let skills = job?.data?.skills_req.map((skill) => {
+      let skills = job?.data?.skills_req?.map((skill) => {
         return { label: skill.data, value: skill.id };
       });
       setValue("job_des", job?.data?.job_des);
@@ -151,13 +151,13 @@ const UpdateStepTwo = ({ setTab }) => {
       if (dirtyFields[key]) {
         if (Array.isArray(data[key]) && key === "questions") {
           // Handle multi-select fields by extracting labels
-          acc[key] = data[key].map((option) => ({
+          acc[key] = data[key]?.map((option) => ({
             question_name: option.question_name,
             must_have: option.must_have,
           }));
         } else if (Array.isArray(data[key])) {
           // Handle multi-select fields by extracting labels
-          acc[key] = data[key].map((option) => ({
+          acc[key] = data[key]?.map((option) => ({
             data: option.label,
           }));
         } else if (typeof data[key] === "object" && data[key].value) {
@@ -204,7 +204,7 @@ const UpdateStepTwo = ({ setTab }) => {
       console.log(
         pair[0],
         Array.isArray(pair[1])
-          ? pair[1].map((obj) => JSON.stringify(obj))
+          ? pair[1]?.map((obj) => JSON.stringify(obj))
           : pair[1]
       );
     }
@@ -250,7 +250,7 @@ const UpdateStepTwo = ({ setTab }) => {
   });
 
   const generate = () => {
-    const skills_req = getValues("skills_req").map((skill) => {
+    const skills_req = getValues("skills_req")?.map((skill) => {
       return skill.label;
     });
     const data = {

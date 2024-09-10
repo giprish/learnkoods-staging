@@ -5,7 +5,7 @@ import Image from "next/image";
 const JobFeatured8 = () => {
   return (
     <>
-      {jobFeatured.slice(33, 41).map((item) => (
+      {jobFeatured.slice(33, 41)?.map((item) => (
         <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12" key={item.id}>
           <div className="job-block -type-2">
             <div className="inner-box">

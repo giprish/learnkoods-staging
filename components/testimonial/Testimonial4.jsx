@@ -25,7 +25,7 @@ const Testimonial4 = () => {
         <h2 className="heading text-center py-5">Testimonials</h2>
       </div>
       <Slider {...settings} arrows={false}>
-        {testimonilaContent.slice(3, 6).map((item) => (
+        {testimonilaContent.slice(3, 6)?.map((item) => (
           <div className="testimonial-block" key={item.id}>
             <div className="inner-box">
               <h4 className="title">{item.feedback}</h4>

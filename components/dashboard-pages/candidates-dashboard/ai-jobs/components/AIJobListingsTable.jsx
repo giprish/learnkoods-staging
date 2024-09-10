@@ -26,7 +26,7 @@ const AIJobListingsTable = () => {
     if (skills !== undefined && skills !== null) {
       setPostSkills(
         JSON.parse(skills)
-          .map((skill) => skill.data)
+          ?.map((skill) => skill.data)
           .join(", ")
       );
     }

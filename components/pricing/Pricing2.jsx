@@ -67,7 +67,7 @@ const Pricing2 = () => {
 
   return (
     <>
-      {pricingCotent.map((item) => (
+      {pricingCotent?.map((item) => (
         <div className="col-lg-3 col-md-6" key={item.id}>
           <div className="pricingCard">
             <div className="pricingCard__img">
@@ -83,7 +83,7 @@ const Pricing2 = () => {
             <div className="pricingCard__subtitle">{item.duration}</div>
 
             <ul className="pricingCard__list">
-              {item.features.map((val, i) => (
+              {item.features?.map((val, i) => (
                 <li key={i}>{val}</li>
               ))}
             </ul>

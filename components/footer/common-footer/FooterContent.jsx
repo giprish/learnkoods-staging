@@ -4,7 +4,7 @@ import footerContent from "../../../data/footerContent";
 const FooterContent = () => {
   return (
     <>
-      {footerContent.map((item) => (
+      {footerContent?.map((item) => (
         <div
           className="footer-column col-lg-3 col-md-6 col-sm-12"
           key={item.id}

@@ -48,7 +48,7 @@ const About8 = () => {
                   {/* End sec-title */}
 
                   <div className="mt-30 mb-30">
-                    {listItem.map((item) => (
+                    {listItem?.map((item) => (
                       <div className="icon-item" key={item.id}>
                         <div className="icon-wrap -red">
                           <Image

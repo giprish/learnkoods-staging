@@ -26,7 +26,7 @@ const RegBanner2 = () => {
   ];
   return (
     <>
-      {regBannerContent.map((item) => (
+      {regBannerContent?.map((item) => (
         <div
           className={`${item.bannerClass} -type-2 col-lg-6 col-md-12 col-sm-12`}
           key={item.id}

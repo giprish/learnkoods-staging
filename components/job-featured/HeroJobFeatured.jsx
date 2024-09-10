@@ -4,7 +4,7 @@ import jobFeatured from "../../data/job-featured";
 const HeroJobFeatured = () => {
   return (
     <>
-      {jobFeatured.slice(2, 3).map((item) => (
+      {jobFeatured.slice(2, 3)?.map((item) => (
         <div
           className="info_block_first job-block"
           data-aos="fade-in"
@@ -34,7 +34,7 @@ const HeroJobFeatured = () => {
               </ul>
               {/* End .job-info */}
               <ul className="job-other-info">
-                {item.jobType.slice(0, 2).map((val, i) => (
+                {item.jobType.slice(0, 2)?.map((val, i) => (
                   <li key={i} className={`${val.styleClass}`}>
                     {val.type}
                   </li>

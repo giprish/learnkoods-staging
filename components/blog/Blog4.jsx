@@ -10,7 +10,7 @@ const Blog4 = () => {
           The working world requires a new set of skills.
         </h3>
       </div>
-      {blogContent.slice(7, 10).map((item) => (
+      {blogContent.slice(7, 10)?.map((item) => (
         <div className="col-sm-12 col-md-6 col-lg-3 mb-4" key={item.id}>
           <div
             className="blog -type-1 align-items-center justify-content-center border"

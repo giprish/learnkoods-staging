@@ -35,7 +35,7 @@ const AddBlock = () => {
   ];
   return (
     <>
-      {blockContent.map((item) => (
+      {blockContent?.map((item) => (
         <div
           className="advrtise-block col-lg-4 col-md-6 col-sm-12"
           key={item.id}

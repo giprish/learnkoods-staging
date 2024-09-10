@@ -24,7 +24,7 @@ const index = () => {
       {/* <!--End Page Title--> */}
 
       <section className="pricing-section">
-        <div className="auto-container">
+        <div className="container-fluid">
           {/* End title */}
           <Pricing />
           {/* End .{/* <!--Pricing Tabs--> */}

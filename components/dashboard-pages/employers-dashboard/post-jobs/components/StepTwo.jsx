@@ -35,7 +35,7 @@ const StepTwo = ({ setTab, onSubmit }) => {
     queryFn: () => fetch(`${process.env.GLOBAL_API}/skill_api/`),
   });
 
-  const skillOptions = skills?.data.map((skill) => {
+  const skillOptions = skills?.data?.map((skill) => {
     return {
       value: skill.id,
       label: skill.data,
@@ -79,7 +79,7 @@ const StepTwo = ({ setTab, onSubmit }) => {
   });
 
   const generate = () => {
-    const skills_req = getValues("skills_req").map((skill) => {
+    const skills_req = getValues("skills_req")?.map((skill) => {
       return skill.label;
     });
     const data = {
