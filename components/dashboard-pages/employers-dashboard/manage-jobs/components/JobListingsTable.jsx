@@ -36,7 +36,7 @@ const JobListingsTable = () => {
 
   const CompanyOptions = [
     { value: "", label: "Select", isDisabled: true },
-    ...(Companies?.data || []).map((company) => ({
+    ...(Companies?.data || [])?.map((company) => ({
       value: company.id,
       label: company.name,
     })),
@@ -237,7 +237,7 @@ const JobListingsTable = () => {
               </thead>
 
               <tbody>
-                {filteredJobs.map((item) => (
+                {filteredJobs?.map((item) => (
                   <tr key={item.job_id}>
                     <td>
                       <div className="job-block">

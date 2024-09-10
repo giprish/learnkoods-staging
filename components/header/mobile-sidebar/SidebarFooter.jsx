@@ -30,7 +30,7 @@ const SidebarFooter = () => {
         {/* End .contact-info */}
 
         <div className="social-links">
-          {socialContent.map((item) => (
+          {socialContent?.map((item) => (
             <a
               href={item.link}
               target="_blank"

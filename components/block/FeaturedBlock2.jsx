@@ -21,7 +21,7 @@ const FeaturedBlock2 = () => {
   ];
   return (
     <>
-      {blockContent.map((item) => (
+      {blockContent?.map((item) => (
         <div className="col-lg-3 col-md-6" key={item.id}>
           <div className={`features -type-1 ${item.featureLine}`}>
             <div className="icon-wrap">

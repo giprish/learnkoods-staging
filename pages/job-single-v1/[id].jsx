@@ -105,6 +105,10 @@ const JobSingleDynamicV1 = () => {
         position: "top-left",
       });
     }
+    if ((user || access) && student === "false") {
+      e.preventDefault();
+      router.push(`/job-single-v1/apply/${jobId}`);
+    }
   };
 
   const createdAtDate = new Date(job?.created_at);
@@ -173,7 +177,7 @@ const JobSingleDynamicV1 = () => {
                     {/* End .job-info */}
 
                     <ul className="job-other-info">
-                      {job?.skills_req?.slice(0, 3).map((val, i) => (
+                      {job?.skills_req?.slice(0, 3)?.map((val, i) => (
                         <li key={i} className={`border`}>
                           {val?.data}
                         </li>

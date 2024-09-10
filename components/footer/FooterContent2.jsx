@@ -42,7 +42,7 @@ const FooterContent2 = () => {
           <h4 className="widget-title">Find Jobs</h4>
           <div className="widget-content">
             <ul className="list">
-              {footerMenu1.map((menu) => (
+              {footerMenu1?.map((menu) => (
                 <li key={menu.id}>
                   <Link href={menu.routeLink}>{menu.name}</Link>
                 </li>
@@ -57,9 +57,9 @@ const FooterContent2 = () => {
         <div className="footer-widget links-widget">
           <h4 className="widget-title">Frequently Asked Questions</h4>
           <div className="widget-content d-flex">
-            {footerMenu2.map((item) => (
+            {footerMenu2?.map((item) => (
               <ul className="list" key={item.id}>
-                {item.list.map((menu, i) => (
+                {item.list?.map((menu, i) => (
                   <li key={i}>
                     <Link href={menu.routeLink}>{menu.name}</Link>
                   </li>

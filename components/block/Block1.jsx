@@ -23,7 +23,7 @@ const Block1 = () => {
   ];
   return (
     <>
-      {blockContent.map((item) => (
+      {blockContent?.map((item) => (
         <div className="work-block col-lg-4 col-md-6 col-sm-12" key={item.id}>
           <div className="inner-box">
             <figure className="image">

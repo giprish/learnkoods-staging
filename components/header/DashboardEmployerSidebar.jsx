@@ -84,7 +84,7 @@ const DashboardEmployerSidebar = () => {
       {/* End sidebar close icon */}
       <div className="sidebar-inner">
         <ul className="navigation">
-          {employerMenuData.map((item) => (
+          {employerMenuData?.map((item) => (
             <OverlayTrigger
               placement="right"
               delay={{ show: 250, hide: 200 }}

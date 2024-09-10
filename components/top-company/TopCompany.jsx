@@ -40,7 +40,7 @@ const TopCompany = () => {
 
   return (
     <Slider {...settings} arrows={false}>
-      {topCompany.slice(0, 12).map((company) => (
+      {topCompany.slice(0, 12)?.map((company) => (
         <div className="company-block" key={company.id}>
           <div className="inner-box">
             <figure className="image">

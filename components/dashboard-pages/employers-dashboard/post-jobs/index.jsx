@@ -168,7 +168,7 @@ const index = () => {
 
     const postData = Object.keys(Job).reduce((acc, key) => {
       if (key === "skills_req" && Array.isArray(Job[key])) {
-        acc[key] = Job[key].map((option) => ({ data: option.label }));
+        acc[key] = Job[key]?.map((option) => ({ data: option.label }));
       } else if (key !== "questions") {
         acc[key] = Job[key];
       }

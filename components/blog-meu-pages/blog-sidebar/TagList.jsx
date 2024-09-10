@@ -12,7 +12,7 @@ const TagList = () => {
 
   return (
     <>
-      {tagContent.map((item, i) => (
+      {tagContent?.map((item, i) => (
         <li key={i}>
           <Link href="#">{item}</Link>
         </li>

@@ -41,7 +41,7 @@ const JobFeatured12 = () => {
   return (
     <>
       <Slider {...settings} arrows={false}>
-        {jobFeatured.slice(11, 20).map((item) => (
+        {jobFeatured.slice(11, 20)?.map((item) => (
           <div className="job-block-three mb-0" key={item.id}>
             <div className="inner-box">
               <div className="content">
@@ -71,7 +71,7 @@ const JobFeatured12 = () => {
               {/* End content */}
 
               <ul className="job-other-info">
-                {item.jobType.map((val, i) => (
+                {item.jobType?.map((val, i) => (
                   <li key={i} className={`${val.styleClass}`}>
                     {val.type}
                   </li>

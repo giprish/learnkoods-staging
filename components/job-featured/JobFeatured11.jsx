@@ -12,7 +12,7 @@ const JobFeatured11 = () => {
     <>
       <div className="tab-buttons-wrap">
         <ul className="tab-buttons -pills-condensed -blue">
-          {tab.map((item, i) => (
+          {tab?.map((item, i) => (
             <li
               key={i}
               onClick={() => setTab(i)}
@@ -26,7 +26,7 @@ const JobFeatured11 = () => {
       {/* <!--Tabs Box--> */}
 
       <div className="row pt-50">
-        {jobFeatured.slice(currentTab, 22).map((item) => (
+        {jobFeatured.slice(currentTab, 22)?.map((item) => (
           <div
             className="job-block-three col-lg-4 col-md-6 col-sm-12"
             key={item.id}
@@ -62,7 +62,7 @@ const JobFeatured11 = () => {
                 {/* End .job-info */}
 
                 <ul className="job-other-info">
-                  {item.jobType.map((val, i) => (
+                  {item.jobType?.map((val, i) => (
                     <li key={i} className={`${val.styleClass}`}>
                       {val.type}
                     </li>

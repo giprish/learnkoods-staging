@@ -60,7 +60,7 @@ const Block5 = () => {
                 <h2>{blockContent.title}</h2>
                 <div className="text">{blockContent.descriptions}</div>
                 <ul className="steps-list">
-                  {blockContent.list.map((list, i) => (
+                  {blockContent.list?.map((list, i) => (
                     <li key={i}>
                       <span className="count">{list.count}</span> {list.text}
                     </li>

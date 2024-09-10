@@ -41,7 +41,7 @@ const UpdateStepTwo = ({ setTab }) => {
     queryFn: () => fetch(`${process.env.GLOBAL_API}/skill_api/`),
   });
 
-  const skillOptions = skills?.data.map((skill) => {
+  const skillOptions = skills?.data?.map((skill) => {
     return {
       value: skill.id,
       label: skill.data,
@@ -55,7 +55,7 @@ const UpdateStepTwo = ({ setTab }) => {
 
   useEffect(() => {
     if (job) {
-      let skills = job?.data?.skills_req.map((skill) => {
+      let skills = job?.data?.skills_req?.map((skill) => {
         return { label: skill.data, value: skill.id };
       });
       setValue("job_des", job?.data?.job_des);
@@ -63,6 +63,7 @@ const UpdateStepTwo = ({ setTab }) => {
       setValue("max_salary", job?.data?.max_salary);
       setValue("min_salary", job?.data?.min_salary);
       setValue("rate_type", job?.data?.rate_type);
+      setValue("currency_symbol", job?.data?.currency_symbol);
     }
   }, [job]);
 
@@ -113,6 +114,7 @@ const UpdateStepTwo = ({ setTab }) => {
         "max_salary",
         "min_salary",
         "rate",
+        "currency_symbol",
       ];
 
       let errorHandled = false;
@@ -151,13 +153,13 @@ const UpdateStepTwo = ({ setTab }) => {
       if (dirtyFields[key]) {
         if (Array.isArray(data[key]) && key === "questions") {
           // Handle multi-select fields by extracting labels
-          acc[key] = data[key].map((option) => ({
+          acc[key] = data[key]?.map((option) => ({
             question_name: option.question_name,
             must_have: option.must_have,
           }));
         } else if (Array.isArray(data[key])) {
           // Handle multi-select fields by extracting labels
-          acc[key] = data[key].map((option) => ({
+          acc[key] = data[key]?.map((option) => ({
             data: option.label,
           }));
         } else if (typeof data[key] === "object" && data[key].value) {
@@ -204,7 +206,7 @@ const UpdateStepTwo = ({ setTab }) => {
       console.log(
         pair[0],
         Array.isArray(pair[1])
-          ? pair[1].map((obj) => JSON.stringify(obj))
+          ? pair[1]?.map((obj) => JSON.stringify(obj))
           : pair[1]
       );
     }
@@ -250,7 +252,7 @@ const UpdateStepTwo = ({ setTab }) => {
   });
 
   const generate = () => {
-    const skills_req = getValues("skills_req").map((skill) => {
+    const skills_req = getValues("skills_req")?.map((skill) => {
       return skill.label;
     });
     const data = {
@@ -316,65 +318,83 @@ const UpdateStepTwo = ({ setTab }) => {
             type="button"
             onClick={generate}
           >
-            Generate Description
+            Generate AI based Description
           </button>
         </div>
 
-        <div className="row">
-          <div className="form-group col-lg-4 col-md-12">
-            <label>Minimum Salary</label>
-            <input
-              type="number"
-              name="min_salary"
-              placeholder="Minimum Salary"
-              step="0.01"
-              min="0" // Prevents negative numbers
-              onInput={(e) => {
-                if (e.target.value < 0) e.target.value = 0; // Resets to 0 if a negative number is entered
-              }}
-              {...register("min_salary", {
-                valueAsNumber: true, // Ensures the value is treated as a number
-              })}
-            />
-            {errors?.min_salary && (
-              <p className="text-danger">{errors?.min_salary?.message}</p>
-            )}
-          </div>
-          <div className="form-group col-lg-4 col-md-12">
-            <label>Maximum Salary</label>
-            <input
-              type="number"
-              name="max_salary"
-              placeholder="Maximum Salary"
-              step="0.01"
-              min="0" // Prevents negative numbers
-              onInput={(e) => {
-                if (e.target.value < 0) e.target.value = 0; // Resets to 0 if a negative number is entered
-              }}
-              {...register("max_salary", {
-                valueAsNumber: true, // Ensures the value is treated as a number
-              })}
-            />
-            {errors?.max_salary && (
-              <p className="text-danger">{errors?.max_salary?.message}</p>
-            )}
-          </div>
-          <div className="form-group col-lg-4 col-md-12">
-            <label>Rate</label>
-            <select
-              className="chosen-single form-select"
-              {...register("rate_type")}
-            >
-              <option disabled>Select</option>
-              <option value="Per Year">per year</option>
-              <option value="Per Month">per month</option>
-              <option value="Per Week">per week</option>
-              <option value="Per Hour">per hour</option>
-            </select>
-            {errors?.rate && (
-              <p className="text-danger">{errors?.rate?.message}</p>
-            )}
-          </div>
+        <div className="form-group col-lg-2 col-md-1">
+          <label>Currency</label>
+          <select
+            className="chosen-single form-select"
+            {...register("currency_symbol")}
+          >
+            <option disabled>Select</option>
+            <option value="&#36;">&#36;</option>
+            <option value="&#163;">&#163;</option>
+            <option value="&#8377;">&#8377;</option>
+          </select>
+          {errors.currency_symbol?.message && (
+            <p className="text-danger">{errors.currency_symbol?.message}</p>
+          )}
+        </div>
+
+        <div className="form-group col-lg-3 col-md-12">
+          <label>Minimum Salary</label>
+          <input
+            type="number"
+            name="min_salary"
+            placeholder="Minimum Salary"
+            step="0.01"
+            min="0" // Prevents negative numbers
+            onInput={(e) => {
+              if (e.target.value < 0) e.target.value = 0; // Resets to 0 if a negative number is entered
+            }}
+            {...register("min_salary", {
+              valueAsNumber: true, // Ensures the value is treated as a number
+            })}
+          />
+          {errors?.min_salary && (
+            <p className="text-danger">{errors?.min_salary?.message}</p>
+          )}
+        </div>
+
+        <div className="form-group col-lg-3 col-md-12">
+          <label>Maximum Salary</label>
+          <input
+            type="number"
+            name="max_salary"
+            placeholder="Maximum Salary"
+            step="0.01"
+            min="0" // Prevents negative numbers
+            onInput={(e) => {
+              if (e.target.value < 0) e.target.value = 0; // Resets to 0 if a negative number is entered
+            }}
+            {...register("max_salary", {
+              valueAsNumber: true, // Ensures the value is treated as a number
+            })}
+          />
+          {errors?.max_salary && (
+            <p className="text-danger">{errors?.max_salary?.message}</p>
+          )}
+        </div>
+
+        <div className="form-group col-lg-3 col-md-12">
+          <label>Rate</label>
+          <select
+            className="chosen-single form-select"
+            {...register("rate_type", {
+              required: "Rate type is required",
+            })}
+          >
+            <option disabled>Select</option>
+            <option value="Per Year">per year</option>
+            <option value="Per Month">per month</option>
+            <option value="Per Week">per week</option>
+            <option value="Per Hour">per hour</option>
+          </select>
+          {errors?.rate_type && (
+            <p className="text-danger">{errors?.rate_type?.message}</p>
+          )}
         </div>
 
         {/* <!-- Input --> */}

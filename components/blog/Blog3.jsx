@@ -5,7 +5,7 @@ import Image from "next/image";
 const Blog3 = () => {
   return (
     <>
-      {blogContent.slice(10, 11).map((item) => (
+      {blogContent.slice(10, 11)?.map((item) => (
         <div className=" col-xl-6 col-lg-12 col-md-12 col-sm-12" key={item.id}>
           {/* <!-- News Block --> */}
           <div className="news-block">
@@ -36,7 +36,7 @@ const Blog3 = () => {
 
       <div className=" col-xl-6 col-lg-12 col-md-12 col-sm-12">
         <div className="row">
-          {blogContent.slice(11, 15).map((item) => (
+          {blogContent.slice(11, 15)?.map((item) => (
             <div
               className="news-block col-lg-6 col-md-6 col-sm-12"
               key={item.id}

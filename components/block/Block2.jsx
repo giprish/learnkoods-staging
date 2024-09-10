@@ -35,7 +35,7 @@ const Block2 = () => {
   ];
   return (
     <>
-      {blockContent.map((item) => (
+      {blockContent?.map((item) => (
         <div
           className="process-block col-lg-4 col-md-6 col-sm-12"
           key={item.id}

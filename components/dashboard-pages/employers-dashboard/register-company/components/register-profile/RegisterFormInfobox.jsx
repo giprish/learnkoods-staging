@@ -503,7 +503,7 @@ const RegisterFormInfoBox = ({
             type="button"
             onClick={generate}
           >
-            Generate Description
+            Generate AI based Description
           </button>
         </div>
 

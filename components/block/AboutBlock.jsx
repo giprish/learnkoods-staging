@@ -33,7 +33,7 @@ const AboutBlock = () => {
   ];
   return (
     <>
-      {blockContent.map((item) => (
+      {blockContent?.map((item) => (
         <div className="col-lg-6" key={item.id}>
           <div className="icon-side -type-1">
             <div className={`icon-wrap ${item.bgColor}`}>

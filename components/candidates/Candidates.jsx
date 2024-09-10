@@ -41,7 +41,7 @@ const Candidates = () => {
   return (
     <>
       <Slider {...settings} arrows={false}>
-        {candidates.slice(0, 12).map((candidate) => (
+        {candidates.slice(0, 12)?.map((candidate) => (
           <div className="candidate-block" key={candidate.id}>
             <div className="inner-box">
               <figure className="image">

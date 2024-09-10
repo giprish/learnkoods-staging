@@ -22,7 +22,7 @@ const Testimonial4 = () => {
   return (
     <>
       <Slider {...settings} arrows={false}>
-        {testimonilaContent.slice(0, 6).map((item) => (
+        {testimonilaContent.slice(0, 6)?.map((item) => (
           <div className="testimonial -type-1" key={item.id}>
             <div className="thumb">
               <Image

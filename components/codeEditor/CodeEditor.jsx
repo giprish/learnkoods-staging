@@ -126,7 +126,7 @@ const CodeEditor = () => {
 
   const getUniqueLanguages = () => {
     const languageSet = new Set(
-      runtimes.map((runtime) => runtime.language.toLowerCase())
+      runtimes?.map((runtime) => runtime.language.toLowerCase())
     );
     return Array.from(languageSet).filter((lang) =>
       ["javascript", "c", "c++", "python", "java"].includes(lang)
@@ -151,7 +151,7 @@ const CodeEditor = () => {
                     onChange={(e) => setLanguage(e.target.value)}
                     className="form-control border-primary pr-5"
                   >
-                    {getUniqueLanguages().map((lang) => (
+                    {getUniqueLanguages()?.map((lang) => (
                       <option key={lang} value={lang}>
                         {lang.charAt(0).toUpperCase() + lang.slice(1)}
                       </option>

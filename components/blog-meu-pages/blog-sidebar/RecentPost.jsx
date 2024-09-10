@@ -4,7 +4,7 @@ import blogContent from "../../../data/blogs";
 const RecentPost = () => {
   return (
     <>
-      {blogContent.slice(0, 3).map((item) => (
+      {blogContent.slice(0, 3)?.map((item) => (
         <article className="post" key={item.id}>
           <div className="post-thumb">
             <Link href={`/blog-details/${item.id}`}>

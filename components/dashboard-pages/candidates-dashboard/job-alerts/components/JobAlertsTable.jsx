@@ -35,7 +35,7 @@ const JobAlertsTable = () => {
               </thead>
 
               <tbody>
-                {jobs.slice(4, 8).map((item) => (
+                {jobs.slice(4, 8)?.map((item) => (
                   <tr key={item.id}>
                     <td>
                       {/* <!-- Job Block --> */}

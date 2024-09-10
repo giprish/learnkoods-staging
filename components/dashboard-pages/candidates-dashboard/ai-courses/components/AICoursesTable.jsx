@@ -28,7 +28,7 @@ const AICoursesTable = () => {
     if (skills !== undefined) {
       setPostSkills(
         JSON.parse(skills)
-          .map((skill) => skill.data)
+          ?.map((skill) => skill.data)
           .join(", ")
       );
     }

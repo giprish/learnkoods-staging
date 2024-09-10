@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
@@ -8,6 +8,7 @@ import "react-phone-input-2/lib/style.css";
 import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
 import Tooltip from "@/components/tooltip/ToolTip";
+import { toast } from "react-toastify";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
@@ -17,7 +18,15 @@ const FormInfoBox = ({ onSubmit, onError }) => {
     handleSubmit,
     control,
     formState: { errors },
+    setValue,
+    getValues,
   } = useFormContext();
+
+  const [access, setAccess] = useState(null);
+  useEffect(() => {
+    const access = window.localStorage.getItem("access");
+    setAccess(access);
+  }, []);
 
   const fetchIndustry = async () => {
     const response = await axios.get(`${process.env.GLOBAL_API}/industry_api/`);
@@ -47,6 +56,50 @@ const FormInfoBox = ({ onSubmit, onError }) => {
     value: option.id,
     label: option.data,
   }));
+  const generateDescriptionFn = async (formdata) => {
+    const { data: response } = await axios.post(
+      `${process.env.GLOBAL_API}/pro-desc-ai/`,
+      formdata,
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      }
+    );
+    return response;
+  };
+  const { mutate } = useMutation({
+    mutationFn: generateDescriptionFn,
+    onSuccess: (data) => {
+      console.log(data, "data from sucessful description generated");
+      const formattedHTML = data?.data
+        ?.map((line) => (line.trim() === "" ? "<br/>" : `<p>${line}</p>`))
+        .join("");
+      setValue("profile_desc", formattedHTML);
+      toast.success("Company description generated", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+    onError: (error) => {
+      console.log(error, "error message from api");
+      toast.error("Couldnot generate description", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    },
+  });
+
+  const generate = () => {
+    const skills_req = getValues("skills")?.map((skill) => {
+      return skill.label;
+    });
+    const data = {
+      username: getValues("username"),
+      position: getValues("position")?.label,
+      skills: skills_req,
+    };
+    console.log(data);
+    mutate(data);
+  };
 
   return (
     <form
@@ -226,6 +279,13 @@ const FormInfoBox = ({ onSubmit, onError }) => {
               </>
             )}
           />
+          <button
+            className="theme-btn btn-style-blue mt-3"
+            type="button"
+            onClick={generate}
+          >
+            Generate AI based Description
+          </button>
         </div>
 
         {/* <!-- Input --> */}

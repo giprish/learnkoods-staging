@@ -52,13 +52,13 @@ const UpdateStepThree = ({ setTab }) => {
     queryFn: () => fetchData(),
   });
 
-  const quesdataWithIds = question?.data.map((item) => ({
+  const quesdataWithIds = question?.data?.map((item) => ({
     ...item,
   }));
   useEffect(() => {
     if (question) {
       reset({ questions: quesdataWithIds });
-      setQuestionIds(question.data.map((item) => item.id));
+      setQuestionIds(question.data?.map((item) => item.id));
     }
     console.log(question);
   }, [question]);
@@ -197,7 +197,7 @@ const UpdateStepThree = ({ setTab }) => {
             we recommend adding 3 or more questions.Applicants must answer each
             question.
           </span>
-          {fields.map((element, index) => {
+          {fields?.map((element, index) => {
             return (
               <div className="border rounded-4 mb-3" key={element.id}>
                 <div className="d-flex justify-content-between">

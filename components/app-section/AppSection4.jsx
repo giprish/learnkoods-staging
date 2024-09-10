@@ -49,7 +49,7 @@ const AppSection4 = () => {
               </div>
 
               <div className="content-icons">
-                {featureList.map((item) => (
+                {featureList?.map((item) => (
                   <div className="item" key={item.id}>
                     <div className="icon-wrap">
                       <span className={`icon-green icon ${item.icon}`}></span>

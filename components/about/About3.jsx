@@ -54,7 +54,7 @@ const About3 = () => {
       <div className="content-column col-lg-12 col-md-12 col-sm-12 order-2 justify-content-around mt-4">
         <div className="inner-column col-lg-5 col-md-12 col-sm-12 border rounded-4 p-4">
           <ul>
-            {items.map((item, index) => (
+            {items?.map((item, index) => (
               <li key={index} className={`${item.border}`}>
                 <div className="d-flex flex-row px-3 py-3 justify-content-between">
                   <span className="service-title">{item.title}</span>
@@ -112,7 +112,7 @@ const About3 = () => {
           
         >
           <ul className="">
-            {items.map((item, index) => (
+            {items?.map((item, index) => (
               <li key={index} className="mb-3 border shadow rounded-3">
                 <div className="d-flex flex-row px-3 py-3 justify-content-between">
                   <span className="service-title">{item}</span>

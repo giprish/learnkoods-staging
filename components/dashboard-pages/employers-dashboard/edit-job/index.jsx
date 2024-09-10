@@ -70,7 +70,7 @@ const index = () => {
 
   useEffect(() => {
     if (job) {
-      let skills = job?.data?.skills_req.map((skill) => {
+      let skills = job?.data?.skills_req?.map((skill) => {
         return { label: skill.data };
       });
       methods.reset(job?.data);
@@ -205,13 +205,13 @@ const index = () => {
       if (dirtyFields[key]) {
         if (Array.isArray(data[key]) && key === "questions") {
           // Handle multi-select fields by extracting labels
-          acc[key] = data[key].map((option) => ({
+          acc[key] = data[key]?.map((option) => ({
             question_name: option.question_name,
             must_have: option.must_have,
           }));
         } else if (Array.isArray(data[key])) {
           // Handle multi-select fields by extracting labels
-          acc[key] = data[key].map((option) => ({
+          acc[key] = data[key]?.map((option) => ({
             data: option.label,
           }));
         } else if (typeof data[key] === "object" && data[key].value) {
@@ -261,7 +261,7 @@ const index = () => {
       console.log(
         pair[0],
         Array.isArray(pair[1])
-          ? pair[1].map((obj) => JSON.stringify(obj))
+          ? pair[1]?.map((obj) => JSON.stringify(obj))
           : pair[1]
       );
     }

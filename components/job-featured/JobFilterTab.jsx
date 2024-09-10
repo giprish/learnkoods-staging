@@ -50,7 +50,7 @@ const JobFilterTab = () => {
           {/* all tab */}
           {tabId === 1 ? (
             <>
-              {jobFeatured.slice(0, 6).map((item) => (
+              {jobFeatured.slice(0, 6)?.map((item) => (
                 <div
                   className="job-block col-lg-6 col-md-12 col-sm-12"
                   key={item.id}
@@ -117,7 +117,7 @@ const JobFilterTab = () => {
           {/* trending tab */}
           {tabId === 2 ? (
             <>
-              {jobFeatured.slice(6, 10).map((item) => (
+              {jobFeatured.slice(6, 10)?.map((item) => (
                 <div
                   className="job-block col-lg-6 col-md-12 col-sm-12"
                   key={item.id}
@@ -184,7 +184,7 @@ const JobFilterTab = () => {
           {/* design tab  */}
           {tabId === 3 ? (
             <>
-              {jobFeatured.slice(10, 16).map((item) => (
+              {jobFeatured.slice(10, 16)?.map((item) => (
                 <div
                   className="job-block col-lg-6 col-md-12 col-sm-12"
                   key={item.id}

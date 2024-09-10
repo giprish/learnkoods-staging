@@ -94,7 +94,7 @@ const CandidateSingleDynamicV1 = () => {
                   </ul>
 
                   <ul className="post-tags">
-                    {candidate?.data?.skills.map((val, i) => (
+                    {candidate?.data?.skills?.map((val, i) => (
                       <li key={i}>{val.data}</li>
                     ))}
                   </ul>

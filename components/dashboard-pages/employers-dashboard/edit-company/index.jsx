@@ -108,7 +108,7 @@ const index = () => {
     methods.setValue("website", company?.data.website);
     methods.setValue("address", company?.data.address);
     methods.setValue("team_size", company?.data.team_size);
-    methods.setValue("since", company?.data.since);
+    methods.setValue("since", String(company?.data.since));
     methods.setValue("address1", company?.data.address1);
 
     if (typeof company !== "undefined") {

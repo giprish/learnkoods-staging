@@ -40,7 +40,7 @@ const TopCompany2 = () => {
 
   return (
     <Slider {...settings} arrows={false}>
-      {topCompany.slice(0, 12).map((company) => (
+      {topCompany.slice(0, 12)?.map((company) => (
         <Link
           href={`/employers-single-v1/${company.id}`}
           className="company-block"

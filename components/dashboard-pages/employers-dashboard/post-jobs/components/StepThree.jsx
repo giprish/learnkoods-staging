@@ -62,7 +62,7 @@ const StepThree = ({ setTab, onSubmit, onError }) => {
             we recommend adding 3 or more questions.Applicants must answer each
             question.
           </span>
-          {[...Array(count)].map((element, index) => {
+          {[...Array(count)]?.map((element, index) => {
             return (
               <div className="border rounded-4 my-3 ">
                 <div className="d-flex justify-content-between ">

@@ -81,9 +81,9 @@ const CertificationInfoBox = () => {
     queryFn: () => fetchCertificates(),
   });
 
-  const certdata = userCertificate?.data.map((item) => ({
+  const certdata = userCertificate?.data?.map((item) => ({
     ...item,
-    skills_acquired: item.skills_acquired.map((skill) => ({
+    skills_acquired: item.skills_acquired?.map((skill) => ({
       value: skill.id,
       label: skill.data,
     })),
@@ -238,7 +238,7 @@ const CertificationInfoBox = () => {
 
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
-      {fields.map((item, index) => {
+      {fields?.map((item, index) => {
         const certificateUrl = item.certificate_file;
         return (
           <div className="row border rounded-3 p-2 mb-4 " key={item.id}>

@@ -20,24 +20,6 @@ const WidgetContentBox = () => {
       setAccess(window.localStorage.getItem("access"));
     }
   }, []);
-  const fetchAllApplicants = async () => {
-    const response = await axios.get(
-      `${process.env.GLOBAL_API}/all-shortlist/`,
-      {
-        headers: {
-          Authorization: `Bearer ${access}`,
-        },
-      }
-    );
-    return response.data;
-  };
-
-  const { data: Allapplicants } = useQuery({
-    queryKey: ["Allapplicants"],
-    queryFn: () => fetchAllApplicants(),
-
-    enabled: !!access,
-  });
 
   const fetchJobs = async () => {
     const response = await axios.get(`${process.env.GLOBAL_API}/job-user/`, {
@@ -55,7 +37,7 @@ const WidgetContentBox = () => {
     enabled: !!access,
   });
 
-  const JobOptions = Jobs?.data.map((job) => {
+  const JobOptions = Jobs?.data?.map((job) => {
     return { value: job.job_id, label: job.job_title };
   });
 
@@ -73,6 +55,11 @@ const WidgetContentBox = () => {
         },
       }
     );
+    if (response?.data === "No applicant found!") {
+      toast.error("No applicant found!", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
     return response.data;
   };
 
@@ -80,6 +67,7 @@ const WidgetContentBox = () => {
     queryKey: ["AppliedCandidates", jobId],
     queryFn: () => fetchAppliedCandidates(),
     enabled: !!jobId && !!access,
+    retry: 1,
   });
 
   const fetchApplicantStatus = async () => {
@@ -106,19 +94,23 @@ const WidgetContentBox = () => {
     enabled: !!jobId && !!access, // Only enable query if jobId and access are available
     staleTime: Infinity, // Prevents refetching until the component is unmounted or cache is invalidated manually
     cacheTime: Infinity, // Keeps the data in cache indefinitely,
+    retry: 1,
   });
 
   useEffect(() => {
-    if (isError && !hasShownError) {
+    if (isError) {
       toast.error("No Data found", {
         position: toast.POSITION.TOP_RIGHT,
       });
+      setApplicants(null);
+      setApproved(null);
+      setRejected(null);
       setHasShownError(true);
     }
   }, [isError, hasShownError]);
 
   useEffect(() => {
-    const mergedArray = AppliedCandidates?.data.map((item) => {
+    const mergedArray = AppliedCandidates?.data?.map((item) => {
       const matchingProfile = AppliedCandidates?.profile.find(
         (profile) => profile.profile_id === item.student.id
       );
@@ -158,7 +150,7 @@ const WidgetContentBox = () => {
 
   const toggleApplicantState = (id, key) => {
     setApplicants((prevApplicants) =>
-      prevApplicants.map((applicant) => {
+      prevApplicants?.map((applicant) => {
         if (applicant.applicant_id === id) {
           const newApplicantState = { ...applicant, [key]: !applicant[key] };
 
@@ -236,15 +228,15 @@ const WidgetContentBox = () => {
               <TabList className="aplicantion-status tab-buttons clearfix">
                 <Tab className="tab-btn totals">
                   {" "}
-                  Total(s): {applicants.length}
+                  Total(s): {applicants?.length}
                 </Tab>
                 <Tab className="tab-btn approved">
                   {" "}
-                  Approved: {approved.length}
+                  Approved: {approved?.length}
                 </Tab>
                 <Tab className="tab-btn rejected">
                   {" "}
-                  Rejected(s): {rejected.length}
+                  Rejected(s): {rejected?.length}
                 </Tab>
               </TabList>
             </div>
@@ -264,7 +256,7 @@ const WidgetContentBox = () => {
                           <img
                             src={
                               student.student.profile_image ||
-                              "../images/avatar.jpg"
+                              "/images/resource/profile.jpg"
                             }
                             alt="candidates"
                           />
@@ -298,7 +290,7 @@ const WidgetContentBox = () => {
                         </ul>
 
                         <ul className="post-tags">
-                          {student.student.skills.map((val, i) => (
+                          {student.student?.skills?.map((val, i) => (
                             <li key={i} className="my-2">
                               <a href="#">{val.data}</a>
                             </li>
@@ -436,7 +428,7 @@ const WidgetContentBox = () => {
                           </li>
                         </ul>
                         <ul className="post-tags">
-                          {student.student.skills.map((val, i) => (
+                          {student.student.skills?.map((val, i) => (
                             <li key={i} className="my-2">
                               <a href="#">{val.data}</a>
                             </li>
@@ -572,7 +564,7 @@ const WidgetContentBox = () => {
                           </li>
                         </ul>
                         <ul className="post-tags">
-                          {student.student.skills.map((val, i) => (
+                          {student.student.skills?.map((val, i) => (
                             <li key={i} className="my-2">
                               <a href="#">{val.data}</a>
                             </li>

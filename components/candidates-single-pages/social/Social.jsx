@@ -7,7 +7,7 @@ const Social = () => {
   ];
   return (
     <div className="social-links">
-      {socialContent.map((item) => (
+      {socialContent?.map((item) => (
         <a
           href={item.link}
           target="_blank"

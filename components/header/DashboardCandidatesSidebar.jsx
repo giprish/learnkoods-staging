@@ -128,7 +128,7 @@ const DashboardCandidatesSidebar = () => {
             </div>
           )}
 
-          {candidatesuData.map((item) => {
+          {candidatesuData?.map((item) => {
             return (
               <OverlayTrigger
                 placement="right"

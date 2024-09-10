@@ -5,7 +5,7 @@ import Image from "next/image";
 const Blog2 = () => {
   return (
     <>
-      {blogContent.slice(0, 4).map((item) => (
+      {blogContent.slice(0, 4)?.map((item) => (
         <div
           className="news-block-two col-lg-6 col-md-6 col-sm-12"
           key={item.id}

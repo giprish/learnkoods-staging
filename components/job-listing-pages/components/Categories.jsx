@@ -29,7 +29,7 @@ const Categories = () => {
     queryFn: () => fetch(`${process.env.GLOBAL_API}/cat-api/`),
   });
 
-  console.log(categories, "categories ");
+  // console.log(categories, "categories ");
 
   return (
     <>

@@ -238,9 +238,9 @@ export const jobPostSchema = z
     is_published: truthyOptions.refine((value) => value !== undefined, {
       message: "Please select a valid option",
     }),
-    is_closed: truthyOptions.refine((value) => value !== undefined, {
-      message: "Please select a valid option",
-    }),
+    // is_closed: truthyOptions.refine((value) => value !== undefined, {
+    //   message: "Please select a valid option",
+    // }),
     category: z.object({
       value: z.number().positive("Category is required!"),
       label: z.string(),
@@ -282,6 +282,10 @@ export const jobPostSchema = z
         })
       )
       .min(1, "Please select at least one skill"),
+    currency_symbol: z.enum(["$", "£", "₹"], {
+      required_error: "Currency symbol is required",
+      invalid_type_error: "Invalid currency symbol selected",
+    }),
     min_salary: z
       .number({
         required_error: "Minimum salary is required",
@@ -321,6 +325,10 @@ export const jobUpdateSecondSchema = z
         })
       )
       .min(1, "Please select at least one skill"),
+    currency_symbol: z.enum(["$", "£", "₹"], {
+      required_error: "Currency symbol is required",
+      invalid_type_error: "Invalid currency symbol selected",
+    }),
     min_salary: z
       .number({
         required_error: "Minimum salary is required",
@@ -367,9 +375,9 @@ export const jobUpdateFirstSchema = z.object({
   is_published: truthyOptions.refine((value) => value !== undefined, {
     message: "Please select a valid option",
   }),
-  is_closed: truthyOptions.refine((value) => value !== undefined, {
-    message: "Please select a valid option",
-  }),
+  // is_closed: truthyOptions.refine((value) => value !== undefined, {
+  //   message: "Please select a valid option",
+  // }),
   category: z.object({
     value: z.number().positive("Category is required!"),
     label: z.string(),

@@ -5,7 +5,7 @@ import Image from "next/image";
 const Candidates2 = () => {
   return (
     <>
-      {candidates.slice(0, 6).map((candidate) => (
+      {candidates.slice(0, 6)?.map((candidate) => (
         <div
           className="candidate-block-two col-lg-6 col-md-12 col-sm-12"
           key={candidate.id}

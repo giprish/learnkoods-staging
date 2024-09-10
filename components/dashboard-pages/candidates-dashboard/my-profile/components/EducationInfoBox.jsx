@@ -228,7 +228,7 @@ const EducationInfoBox = () => {
 
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
-      {fields.map((item, index) => (
+      {fields?.map((item, index) => (
         <div className="row border rounded-3 p-2 mb-4 " key={item.id}>
           <input type="hidden" {...register(`education.${index}.id`)} />
           <div className="form-group col-lg-12 col-md-12 d-flex flex-row-reverse">

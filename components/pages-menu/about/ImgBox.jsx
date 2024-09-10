@@ -23,9 +23,9 @@ const ImgBox = () => {
   return (
     <div className="images-box">
       <div className="row">
-        {imgContent.map((item) => (
+        {imgContent?.map((item) => (
           <div className="column col-lg-3 col-md-6 col-sm-6" key={item.id}>
-            {item.block.map((itemImg, i) => (
+            {item.block?.map((itemImg, i) => (
               <figure className="image" key={i}>
                 <Image
                   src={`/images/resource/${itemImg.img}.webp`}

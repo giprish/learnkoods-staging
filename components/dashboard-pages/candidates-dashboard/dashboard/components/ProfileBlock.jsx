@@ -34,7 +34,7 @@ const ProfileBlock = () => {
   return (
     <>
       <div className="skill-div mx-2">
-        {user?.data?.skills.slice(0, 6).map((item, index) => (
+        {user?.data?.skills.slice(0, 6)?.map((item, index) => (
           <div className="theme-btn btn-style-new-skill mt-2 mx-2" key={index}>
             {item.data}
           </div>

@@ -64,7 +64,7 @@ const JobCategorie8 = () => {
   ];
   return (
     <>
-      {categorieContent.map((item) => (
+      {categorieContent?.map((item) => (
         <div className="col-lg-4 col-md-6 col-sm-12" key={item.id}>
           <div className="category-block -type-1">
             <div className="inner-box">

@@ -91,7 +91,7 @@ const JobCategorie7 = () => {
             </div> */}
 
           <div className="grid-container container-1">
-            {jobCatContent.map((item) => (
+            {jobCatContent?.map((item) => (
               <div key={item.id}>
                 <Link
                   href="/job-list/job-list-v1"

@@ -59,11 +59,11 @@ const BrowseUsaJobs = () => {
 
   return (
     <>
-      {jobListContent.map((item) => (
+      {jobListContent?.map((item) => (
         <div className="column col-lg-3 col-md-6 col-sm-12" key={item.id}>
           <h4>{item.title}</h4>
           <ul className="links-list">
-            {item.jobListItem.map((job, i) => (
+            {item.jobListItem?.map((job, i) => (
               <li key={i}>
                 <Link href={job.link}>{job.name}</Link>
               </li>

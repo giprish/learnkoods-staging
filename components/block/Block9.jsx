@@ -27,7 +27,7 @@ const Block9 = () => {
 
   return (
     <>
-      {blockContent.map((item) => (
+      {blockContent?.map((item) => (
         <div className="col-xl-4 col-lg-4 col-md-6" key={item.id}>
           <div className="step-item text-center">
             <div className="image">

@@ -30,7 +30,7 @@ const FeaturedBlock3 = () => {
   ];
   return (
     <>
-      {blockContent.map((item) => (
+      {blockContent?.map((item) => (
         <div className="col-lg-3 col-md-6 col-sm-12" key={item.id}>
           <div className="feature-block">
             <div className="inner-box">
