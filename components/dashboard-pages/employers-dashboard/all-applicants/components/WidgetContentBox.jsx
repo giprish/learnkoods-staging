@@ -20,24 +20,24 @@ const WidgetContentBox = () => {
       setAccess(window.localStorage.getItem("access"));
     }
   }, []);
-  const fetchAllApplicants = async () => {
-    const response = await axios.get(
-      `${process.env.GLOBAL_API}/all-shortlist/`,
-      {
-        headers: {
-          Authorization: `Bearer ${access}`,
-        },
-      }
-    );
-    return response.data;
-  };
+  // const fetchAllApplicants = async () => {
+  //   const response = await axios.get(
+  //     `${process.env.GLOBAL_API}/all-shortlist/`,
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${access}`,
+  //       },
+  //     }
+  //   );
+  //   return response.data;
+  // };
 
-  const { data: Allapplicants } = useQuery({
-    queryKey: ["Allapplicants"],
-    queryFn: () => fetchAllApplicants(),
+  // const { data: Allapplicants } = useQuery({
+  //   queryKey: ["Allapplicants"],
+  //   queryFn: () => fetchAllApplicants(),
 
-    enabled: !!access,
-  });
+  //   enabled: !!access,
+  // });
 
   const fetchJobs = async () => {
     const response = await axios.get(`${process.env.GLOBAL_API}/job-user/`, {
@@ -298,7 +298,7 @@ const WidgetContentBox = () => {
                         </ul>
 
                         <ul className="post-tags">
-                          {student.student.skills.map((val, i) => (
+                          {student.student?.skills?.map((val, i) => (
                             <li key={i} className="my-2">
                               <a href="#">{val.data}</a>
                             </li>
