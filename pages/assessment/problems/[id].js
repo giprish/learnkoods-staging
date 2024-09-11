@@ -1,5 +1,5 @@
 import React from "react";
-import Seo from "../../components/common/Seo";
+// import Seo from "../../components/common/Seo";
 import CodeEditor from "@/components/codeEditor/CodeEditor";
 import LoginPopup from "@/components/common/form/login/LoginPopup";
 import DefaulHeader2 from "@/components/header/DefaulHeader2";
@@ -8,7 +8,7 @@ import MobileMenu from "@/components/header/MobileMenu";
 const index = () => {
   return (
     <>
-      <Seo pageTitle="Code Editor" />
+      {/* <Seo pageTitle="Code Editor" /> */}
 
       <LoginPopup />
       {/* End Login Popup Modal */}

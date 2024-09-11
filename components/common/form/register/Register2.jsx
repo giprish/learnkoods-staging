@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Link from "next/link";
+import Image from "next/image";
 
 const Register2 = () => {
   const {
@@ -182,6 +183,17 @@ const Register2 = () => {
 
   return (
     <div className="form-inner">
+      <div className="mb-5 ">
+        <Link href="/">
+          <Image
+            width={200}
+            height={100}
+            src="/images/skillthrive_logo.png"
+            alt="brand"
+          />
+          <h2>{/* <strong>SkillThrive</strong> */}</h2>
+        </Link>
+      </div>
       <Tabs>
         <TabList className="nav nav-pills mb-3">
           <Tab
@@ -432,6 +444,11 @@ const Register2 = () => {
         </TabPanel>
       </Tabs>
       <div className="bottom-box">
+        <div className="text">
+          <Link href="/" style={{ color: "#1967d2", fontWeight: "500" }}>
+            Go back to website
+          </Link>
+        </div>
         <div className="text">
           Already have an account?{" "}
           <Link

@@ -11,6 +11,56 @@
   margin: 20%;
   text-align: center;
 }
+.problems-section {
+  margin-top: 100px;
+}
+
+.problem-item:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.problem-item:nth-child(odd) {
+  background-color: #f8f9fa;
+}
+
+.problem-item {
+  border-top: 1px solid #dee2e6; /* Top border */
+  border-bottom: 1px solid #dee2e6; /* Bottom border */
+  padding: 16px; /* Padding inside the item */
+  border-radius: 4px; /* Optional: rounded corners */
+  background-color: #ffffff; /* Default background color */
+}
+
+.Resizer.vertical {
+  position: relative; /* Required for positioning the icon */
+}
+
+.Resizer.horizontal {
+  position: relative; /* Required for positioning the icon */
+}
+
+.Resizer.vertical::before {
+  content: ""; /* Needed for pseudo-element */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 25px; /* Adjust the icon size */
+  height: 25px; /* Adjust the icon size */
+  background: url("/vertical.svg") no-repeat center center; /* Add your icon */
+  background-size: contain; /* Adjust background size if needed */
+}
+
+.Resizer.horizontal::before {
+  content: ""; /* Needed for pseudo-element */
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 25px; /* Adjust the icon size */
+  height: 25px; /* Adjust the icon size */
+  background: url("/horizontal.svg") no-repeat center center; /* Add your icon */
+  background-size: contain; /* Adjust background size if needed */
+}
 .signin-menu {
   margin: 0 6%;
 }

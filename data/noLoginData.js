@@ -16,7 +16,7 @@ module.exports = [
 
   {
     id: 3,
-    name: "Mentorship",
+    name: "Assessment",
     icon: "la-comment-o",
     routePath: "/assessment",
     active: "",
