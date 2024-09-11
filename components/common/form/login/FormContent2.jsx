@@ -126,7 +126,7 @@ const FormContent2 = () => {
   return (
     <div className="form-inner">
       <div className="mb-5 ">
-        <Link href="/">
+        <Link href="http://35.176.222.49/">
           <Image
             width={200}
             height={100}
@@ -239,7 +239,10 @@ const FormContent2 = () => {
 
       <div className="bottom-box">
         <div className="text">
-          <Link href="/" style={{ color: "#1967d2", fontWeight: "500" }}>
+          <Link
+            href="http://35.176.222.49/"
+            style={{ color: "#1967d2", fontWeight: "500" }}
+          >
             Go back to website
           </Link>
         </div>
