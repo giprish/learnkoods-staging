@@ -73,6 +73,8 @@ const skipRoutes = [
   "/pricing",
   "/",
   "/payment",
+  "/assessment/problems",
+  "/assessment/problems/[id]",
 ];
 
 export default withAuth(MyApp, skipRoutes);

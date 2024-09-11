@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import LoginWithSocial from "./LoginWithSocial";
 import { useRouter } from "next/router";
@@ -124,6 +125,17 @@ const FormContent2 = () => {
   };
   return (
     <div className="form-inner">
+      <div className="mb-5 ">
+        <Link href="/">
+          <Image
+            width={200}
+            height={100}
+            src="/images/skillthrive_logo.png"
+            alt="brand"
+          />
+          <h2>{/* <strong>SkillThrive</strong> */}</h2>
+        </Link>
+      </div>
       <div className="row">
         <div className="form-group col-lg-6 col-md-6 col-sm-12">
           <div className="form-check">
@@ -226,6 +238,11 @@ const FormContent2 = () => {
       {/* End form */}
 
       <div className="bottom-box">
+        <div className="text">
+          <Link href="/" style={{ color: "#1967d2", fontWeight: "500" }}>
+            Go back to website
+          </Link>
+        </div>
         <div className="text">
           Don&apos;t have an account?{" "}
           <Link

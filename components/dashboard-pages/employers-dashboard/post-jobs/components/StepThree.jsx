@@ -33,28 +33,8 @@ const StepThree = ({ setTab, onSubmit, onError }) => {
 
   const [count, setCount] = useState(0);
 
-  const handlePreviewClick = () => {
-    const formData = getValues();
-    window.localStorage.setItem("job_preview", JSON.stringify(formData));
-  };
-
   return (
     <form className="default-form" onSubmit={handleSubmit(onSubmit, onError)}>
-      {/* <div className="row border p-2 rounded-4 mb-4 mx-1">
-        <h4 className="border-bottom p-2 mb-3">Receive qualified applicants</h4>
-        <span className="p-2">Applicant collection</span>
-        <div className="form-group col-lg-4 col-md-6">
-          <label>Recieve Applicants</label>
-          <select className="chosen-single form-select">
-            <option value="">Select</option>
-            <option value="By email">By email</option>
-          </select>
-        </div>
-        <div className="form-group col-lg-8 col-md-6">
-          <label>By Email</label>
-          <input type="email" name="email" placeholder="john@mail.com" />
-        </div>
-      </div> */}
       <div>
         <div>
           <h5>Screening Question</h5>

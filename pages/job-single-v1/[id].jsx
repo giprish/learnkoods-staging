@@ -105,7 +105,7 @@ const JobSingleDynamicV1 = () => {
         position: "top-left",
       });
     }
-    if ((user || access) && student === "false") {
+    if ((user || access) && student === "true") {
       e.preventDefault();
       router.push(`/job-single-v1/apply/${jobId}`);
     }
@@ -203,19 +203,20 @@ const JobSingleDynamicV1 = () => {
 
                 {student !== "false" && !jobAppliedCheck && (
                   <div className="btn-box">
-                    <a
-                      href="#"
+                    <button
+                      // href="#"
+                      type="button"
                       className="theme-btn btn-style-one"
-                      data-bs-toggle="modal"
-                      data-bs-target={
-                        access && student === "true"
-                          ? "#applyJobModal"
-                          : "#loginPopupModal"
-                      }
+                      // data-bs-toggle="modal"
+                      // data-bs-target={
+                      //   access && student === "true"
+                      //     ? "#applyJobModal"
+                      //     : "#loginPopupModal"
+                      // }
                       onClick={handleClick}
                     >
                       Apply For Job
-                    </a>
+                    </button>
                     <button className="bookmark-btn">
                       <i className="flaticon-bookmark"></i>
                     </button>

@@ -1,6 +1,8 @@
+import Link from "next/link";
 import Register2 from "../../common/form/register/Register2";
 import MobileMenu from "../../header/MobileMenu";
 import Header from "./Header";
+import Image from "next/image";
 
 const index = () => {
   return (
@@ -18,6 +20,7 @@ const index = () => {
         ></div>
         <div className="outer-box">
           {/* <!-- Login Form --> */}
+
           <div className="login-form default-form">
             <Register2 />
           </div>

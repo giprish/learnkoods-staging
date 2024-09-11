@@ -319,7 +319,7 @@ const FormContent = ({ hideModal }) => {
       </div>
       {/* {usertype === "candidate" ? ( */}
       <div className="form-group">
-        <label for="uploadresume">Resume</label>
+        <label htmlFor="uploadresume">Resume</label>
         <input
           className="form-control py-3 px-4"
           type="file"

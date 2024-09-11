@@ -219,6 +219,7 @@ export const jobPostSchema = z
     questions: z.array(
       z.object({
         question_name: z.string().min(1, "Question name cannot be empty"),
+        must_have: z.boolean().optional(),
       })
     ),
     job_title: z.string().min(4, "Title must have at least 4 characters"),
