@@ -16,6 +16,7 @@ import ComapnyBreadCrumb from "./CompanyBreadCrumb";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { companyRegistrationSchema } from "@/validation/validation";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 const index = () => {
   const methods = useForm({
@@ -25,6 +26,7 @@ const index = () => {
   const { shortSidebar: isSidebarCollapsed } = useSelector(
     (state) => state.toggle
   );
+  const router = useRouter();
   const [access, setAccess] = useState(null);
   const [id, setId] = useState();
   const [logo, setLogo] = useState({
@@ -75,7 +77,7 @@ const index = () => {
       toast.success("Company registered successfully", {
         position: toast.POSITION.TOP_RIGHT,
       });
-      window.localStorage.setItem("company_id", data.data.id);
+      router.replace("/employers-dashboard/company-profile");
     },
     onError: (error) => {
       console.log(error, "error message from api");

@@ -140,7 +140,10 @@ const CompanyListingsTable = () => {
                       </div>
                     </td>
                     <td className="applied">
-                      <a href="#"> {item.website}</a>
+                      <a href={item.website} target="_blank">
+                        {" "}
+                        {item.website}
+                      </a>
                     </td>
                     <td>{item?.industry?.name}</td>
                     <td className="">{item?.team_size}</td>

@@ -26,6 +26,15 @@ const nextConfig = {
     GLOBAL_API: process.env.GLOBAL_API,
     ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
   },
+  async redirects() {
+    return [
+      {
+        source: "/candidates-dashboard/skill-assessment",
+        destination: "/assessment",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

@@ -311,8 +311,6 @@ const CodeEditor = () => {
     retry: 0,
   });
 
-  console.log(que);
-
   const getDefaultProgram = (lang) => {
     const defaultCode = {
       javascript: `// Start coding in JavaScript here\nfunction myFunction() {\n  // Your code goes here\n}`,
@@ -439,7 +437,7 @@ const CodeEditor = () => {
         <SplitPane
           split="vertical"
           minSize={400}
-          maxSize={750}
+          maxSize={650}
           defaultSize={"40%"}
           allowResize={true}
         >
@@ -494,7 +492,7 @@ const CodeEditor = () => {
                       style={{ height: "65vh", overflow: "auto" }}
                     >
                       <p>Your Output :</p>
-                      {output || "Runtime Error"}
+                      {output || "No Output."}
                     </pre>
                   </div>
                 </div>
@@ -502,14 +500,7 @@ const CodeEditor = () => {
             </div>
           </div>
 
-          {/* <SplitPane
-            split="horizontal"
-            minSize={400}
-            maxSize={680}
-            defaultSize={"50%"}
-            allowResize={true}
-          > */}
-          <div className="p-3" style={{ width: "100%" }}>
+          <div className="p-3" style={{ width: "100% !important" }}>
             <div className="row mb-4 align-items-center">
               <div className="col-md-4">
                 <div className="form-group">
@@ -520,9 +511,9 @@ const CodeEditor = () => {
                     id="language"
                     value={language}
                     onChange={(e) => setLanguage(e.target.value)}
-                    className="form-control border-primary"
+                    className="form-select border-primary"
                   >
-                    {getUniqueLanguages()?.map((lang) => (
+                    {getUniqueLanguages().map((lang) => (
                       <option key={lang} value={lang}>
                         {lang.charAt(0).toUpperCase() + lang.slice(1)}
                       </option>
@@ -535,13 +526,20 @@ const CodeEditor = () => {
                   <label htmlFor="version" className="font-weight-bold">
                     Version
                   </label>
-                  <input
-                    type="text"
+                  <select
                     id="version"
                     value={version}
-                    readOnly
-                    className="form-control border-primary"
-                  />
+                    onChange={(e) => setVersion(e.target.value)}
+                    className="form-select border-primary"
+                  >
+                    {runtimes
+                      .filter((runtime) => runtime.language === language)
+                      .map((runtime) => (
+                        <option key={runtime.version} value={runtime.version}>
+                          {runtime.version}
+                        </option>
+                      ))}
+                  </select>
                 </div>
               </div>
               <div className="col-md-4">
@@ -573,15 +571,7 @@ const CodeEditor = () => {
               </div>
             </div>
           </div>
-
-          {/* <pre
-              className="border rounded bg-white shadow-sm mx-3 mt-3 p-3"
-              style={{ height: "65vh", overflow: "auto" }}
-            >
-              {output || "Click on run button to see output"}
-            </pre> */}
         </SplitPane>
-        {/* </SplitPane> */}
       </div>
     </div>
   );
