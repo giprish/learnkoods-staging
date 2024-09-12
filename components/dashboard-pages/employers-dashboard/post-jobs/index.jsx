@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { jobPostSchema } from "@/validation/validation.js";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 const index = () => {
   const methods = useForm({
@@ -27,6 +28,7 @@ const index = () => {
   const { shortSidebar: isSidebarCollapsed } = useSelector(
     (state) => state.toggle
   );
+  const router = useRouter();
   const [jobImage, setJobImage] = useState(null);
   const [companyId, setCompanyId] = useState(null);
   const [companyname, setComanyName] = useState(null);
@@ -56,6 +58,7 @@ const index = () => {
       toast.success("Job posted successfully", {
         position: toast.POSITION.TOP_RIGHT,
       });
+      router.replace("/employers-dashboard/manage-jobs");
     },
     onError: (error) => {
       console.log(error, "error message");

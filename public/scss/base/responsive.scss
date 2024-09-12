@@ -31,37 +31,6 @@
   background-color: #ffffff; /* Default background color */
 }
 
-.Resizer.vertical {
-  position: relative; /* Required for positioning the icon */
-}
-
-// .Resizer.horizontal {
-//   position: relative; /* Required for positioning the icon */
-// }
-
-.Resizer.vertical::before {
-  content: ""; /* Needed for pseudo-element */
-  position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 25px; /* Adjust the icon size */
-  height: 25px; /* Adjust the icon size */
-  background: url("/vertical.svg") no-repeat center center; /* Add your icon */
-  background-size: contain; /* Adjust background size if needed */
-}
-
-// .Resizer.horizontal::before {
-//   content: ""; /* Needed for pseudo-element */
-//   position: absolute;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-//   width: 25px; /* Adjust the icon size */
-//   height: 25px; /* Adjust the icon size */
-//   background: url("/horizontal.svg") no-repeat center center; /* Add your icon */
-//   background-size: contain; /* Adjust background size if needed */
-// }
-
 .signin-menu {
   margin: 0 6%;
 }

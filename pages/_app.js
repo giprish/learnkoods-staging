@@ -73,7 +73,7 @@ const skipRoutes = [
   "/pricing",
   "/",
   "/payment",
-  "/assessment/problems",
+  "/assessment",
   "/assessment/problems/[id]",
 ];
 

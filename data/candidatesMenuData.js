@@ -39,7 +39,7 @@ module.exports = [
     id: 12,
     name: "Skill Assessment",
     icon: "la la-file-invoice",
-    routePath: "/candidates-dashboard/skill-assessment",
+    routePath: "/assessment",
     active: "",
   },
   // {
