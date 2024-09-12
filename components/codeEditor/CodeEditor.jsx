@@ -154,7 +154,7 @@ const CodeEditor = () => {
         </svg>{" "}
         Problem
       </h2>
-      <div className="row" style={{ height: "130vh" }}>
+      <div className="row" style={{ height: "160vh" }}>
         <SplitPane
           split="vertical"
           minSize={150}
@@ -191,7 +191,7 @@ const CodeEditor = () => {
           <SplitPane
             split="horizontal"
             minSize={200}
-            defaultSize={"60%"}
+            defaultSize={"50%"}
             allowResize={true}
           >
             <div className="p-3">
@@ -253,7 +253,7 @@ const CodeEditor = () => {
 
             <div
               className="mx-3 mt-3 p-3 border rounded bg-white shadow-sm"
-              style={{ height: "100%", overflowY: "auto" }}
+              style={{ height: "60vh", overflowY: "auto" }}
             >
               <pre className="text-break">
                 {output || "Click on run button to see output"}
