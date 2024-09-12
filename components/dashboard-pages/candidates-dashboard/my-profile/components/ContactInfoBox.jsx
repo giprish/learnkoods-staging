@@ -393,7 +393,6 @@ const ContactInfoBox = ({ countryId, setCountryId, stateId, setStateId }) => {
             name="address1"
             placeholder="Address Line 1"
             {...register("address1")}
-            required
           />
           {errors.address1 && (
             <p className="text-danger">{errors.address1.message}</p>
@@ -406,7 +405,6 @@ const ContactInfoBox = ({ countryId, setCountryId, stateId, setStateId }) => {
             name="name"
             placeholder="Address Line 2"
             {...register("address")}
-            required
           />
           {errors.address && (
             <p className="text-danger">{errors.address.message}</p>

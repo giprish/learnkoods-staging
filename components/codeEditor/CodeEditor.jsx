@@ -158,7 +158,7 @@ const CodeEditor = () => {
         <SplitPane
           split="vertical"
           minSize={400}
-          maxSize={800}
+          maxSize={750}
           defaultSize={"40%"}
           allowResize={true}
         >
@@ -234,13 +234,20 @@ const CodeEditor = () => {
                   </div>
                 </div>
                 <div className="col-md-4">
-                  <button
-                    style={{ float: "right" }}
-                    onClick={runCode}
-                    className="btn btn-primary btn-lg mt-4 shadow-lg hover-shadow"
-                  >
-                    Run Code
-                  </button>
+                  <div style={{ float: "right" }}>
+                    <button
+                      onClick={runCode}
+                      className="btn btn-secondary btn-md mt-4 me-3 shadow-lg hover-shadow"
+                    >
+                      Compile & Run
+                    </button>
+                    <button
+                      onClick={runCode}
+                      className="btn btn-success btn-md mt-4 shadow-lg hover-shadow"
+                    >
+                      Submit
+                    </button>
+                  </div>
                 </div>
                 <div className="col-md-12 mt-3">
                   <Editor
