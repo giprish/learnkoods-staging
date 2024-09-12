@@ -77,9 +77,8 @@ const Index = () => {
                         {problem.difficulty}
                       </span>
                     </OverlayTrigger>
-                    {/* Assuming submissions and success rate are not available in the API response,
-                        you can modify this part if the API provides this data. */}
-                    <OverlayTrigger
+
+                    {/* <OverlayTrigger
                       placement="top"
                       overlay={renderSubmissionsTooltip}
                     >
@@ -90,7 +89,8 @@ const Index = () => {
                       overlay={renderSuccessRateTooltip}
                     >
                       <span className="success-rate">N/A</span>
-                    </OverlayTrigger>
+                    </OverlayTrigger> */}
+
                     <button
                       className="btn btn-outline-primary ms-3"
                       onClick={() => {
