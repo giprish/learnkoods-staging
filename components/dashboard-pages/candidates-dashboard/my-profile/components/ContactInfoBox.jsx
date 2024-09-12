@@ -164,12 +164,7 @@ const ContactInfoBox = ({ countryId, setCountryId, stateId, setStateId }) => {
           key === "username" ||
           key === "email"
         ) {
-          // Initialize the user object if it doesn't exist
-          if (!acc.user) {
-            acc.user = {};
-          }
-          // Add the fields to the user object
-          acc.user[key] = data[key];
+          acc[key] = data[key];
         } else {
           // Handle other fields
           acc[key] = data[key];
