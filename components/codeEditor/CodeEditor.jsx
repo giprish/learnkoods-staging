@@ -198,7 +198,7 @@ const CodeEditor = () => {
             defaultSize={"50%"}
             allowResize={true}
           >
-            <div className="p-3">
+            <div className="p-3" style={{ width: "100%" }}>
               <div className="row mb-4 align-items-center">
                 <div className="col-md-4">
                   <div className="form-group">
