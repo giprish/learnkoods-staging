@@ -106,8 +106,8 @@ export const userContact = z.object({
     value: z.number().positive("select a city"),
     label: z.string(),
   }), // Validates that the pincode is exactly 6 digits long
-  address1: z.string().min(2, "Address line 1 is required"), // Ensures address1 is not empty
-  address: z.string().min(2, "address is required"), // Optional field for address line 2, if needed
+  address1: z.string().optional(), // Ensures address1 is not empty
+  address: z.string().optional(), // Optional field for address line 2, if needed
 });
 
 // Define a schema for a single experience entry
