@@ -157,40 +157,44 @@ const CodeEditor = () => {
       <div className="row" style={{ height: "160vh" }}>
         <SplitPane
           split="vertical"
-          minSize={150}
+          minSize={400}
+          maxSize={800}
           defaultSize={"40%"}
           allowResize={true}
         >
-          <div className="me-3 p-3 border rounded bg-light">
-            <h5 className="mb-3">Que. {que?.name}</h5>
-            <p>
-              <strong>Difficulty:</strong> {que?.difficulty}
-            </p>
-            <p className="my-3" style={{ fontSize: "18px" }}>
-              {que?.description}
-            </p>
+          <div style={{ height: "160vh", overflow: "auto" }}>
+            <div className="me-3 p-3 border rounded bg-light">
+              <h5 className="mb-3">Que. {que?.name}</h5>
+              <p>
+                <strong>Difficulty:</strong> {que?.difficulty}
+              </p>
+              <p className="my-3" style={{ fontSize: "18px" }}>
+                {que?.description}
+              </p>
 
-            {que?.example?.map((ex, index) => (
-              <div key={index} className="my-4 p-3 border rounded bg-white">
-                <p>
-                  <strong>Example {index + 1}:</strong>
-                </p>
-                <p>
-                  <strong>Input:</strong> {ex.input}
-                </p>
-                <p>
-                  <strong>Output:</strong> {ex.output}
-                </p>
-                <p>
-                  <strong>Explanation:</strong> {ex.explanation}
-                </p>
-              </div>
-            ))}
+              {que?.example?.map((ex, index) => (
+                <div key={index} className="my-4 p-3 border rounded bg-white">
+                  <p>
+                    <strong>Example {index + 1}:</strong>
+                  </p>
+                  <p>
+                    <strong>Input:</strong> {ex.input}
+                  </p>
+                  <p>
+                    <strong>Output:</strong> {ex.output}
+                  </p>
+                  <p>
+                    <strong>Explanation:</strong> {ex.explanation}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
 
           <SplitPane
             split="horizontal"
-            minSize={200}
+            minSize={400}
+            maxSize={680}
             defaultSize={"50%"}
             allowResize={true}
           >
@@ -251,14 +255,12 @@ const CodeEditor = () => {
               </div>
             </div>
 
-            <div
-              className="mx-3 mt-3 p-3 border rounded bg-white shadow-sm"
-              style={{ height: "60vh", overflowY: "auto" }}
+            <pre
+              className="border rounded bg-white shadow-sm mx-3 mt-3 p-3"
+              style={{ height: "65vh", overflow: "auto" }}
             >
-              <pre className="text-break">
-                {output || "Click on run button to see output"}
-              </pre>
-            </div>
+              {output || "Click on run button to see output"}
+            </pre>
           </SplitPane>
         </SplitPane>
       </div>

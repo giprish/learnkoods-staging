@@ -357,7 +357,7 @@ const ExperienceInfoBox = () => {
               </p>
             )}
           </div>
-          {workingState[index] && (
+          {!workingState[index] && (
             <>
               <div className="form-group-date col-lg-6 col-md-12">
                 <label>End Date</label>
