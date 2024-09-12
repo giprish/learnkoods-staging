@@ -29,12 +29,12 @@ const FormInfoBox = ({ onSubmit, onError }) => {
   }, []);
 
   const fetchIndustry = async () => {
-    const response = await axios.get(`${process.env.GLOBAL_API}/industry_api/`);
+    const response = await axios.get(`${process.env.GLOBAL_API}/position/`);
     return response.data;
   };
 
   const { data: positions } = useQuery({
-    queryKey: ["industryData"],
+    queryKey: ["postionData"],
     queryFn: () => fetchIndustry(),
   });
 
