@@ -136,7 +136,7 @@ const FormContent2 = () => {
           <h2>{/* <strong>SkillThrive</strong> */}</h2>
         </Link>
       </div>
-      <div className="row">
+      {/* <div className="row">
         <div className="form-group col-lg-6 col-md-6 col-sm-12">
           <div className="form-check">
             <input
@@ -165,7 +165,7 @@ const FormContent2 = () => {
             </label>
           </div>
         </div>
-      </div>
+      </div> */}
       <h3>Login to SkillThrive</h3>
 
       {/* <!--Login Form--> */}
