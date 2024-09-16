@@ -106,7 +106,7 @@ const HeaderNavContent = () => {
                 </li>
 
                 <li>
-                  <a href="/job-list/job-list-v1">
+                  <a href="/job-list">
                     <span>Find Jobs</span>
                   </a>
                 </li>

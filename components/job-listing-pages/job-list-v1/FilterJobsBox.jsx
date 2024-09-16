@@ -215,9 +215,7 @@ const FilterJobsBox = () => {
               />
             </span>
             <h4>
-              <Link href={`/job-single-v1/${item.job_id}`}>
-                {item.job_title}
-              </Link>
+              <Link href={`/job-single/${item.job_id}`}>{item.job_title}</Link>
             </h4>
 
             <ul className="job-info">

@@ -107,7 +107,7 @@ const JobSingleDynamicV1 = () => {
     }
     if ((user || access) && student === "true") {
       e.preventDefault();
-      router.push(`/job-single-v1/apply/${jobId}`);
+      router.push(`/job-single/apply/${jobId}`);
     }
   };
 

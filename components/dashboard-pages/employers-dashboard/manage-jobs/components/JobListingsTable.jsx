@@ -256,7 +256,7 @@ const JobListingsTable = () => {
                               />
                             </span>
                             <h4>
-                              <Link href={`/job-single-v1/${item.job_id}`}>
+                              <Link href={`/job-single/${item.job_id}`}>
                                 {item.job_title}
                               </Link>
                             </h4>
@@ -311,7 +311,7 @@ const JobListingsTable = () => {
                     <td>
                       <div className="option-box">
                         <ul className="option-list">
-                          <Link href={`/job-single-v1/${item.job_id}`}>
+                          <Link href={`/job-single/${item.job_id}`}>
                             <li>
                               <button data-text="View">
                                 <span className="la la-eye"></span>

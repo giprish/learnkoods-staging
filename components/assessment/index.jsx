@@ -10,14 +10,19 @@ const Index = () => {
   const router = useRouter();
 
   const fetchData = async () => {
-    const response = await axios.get(`${process.env.GLOBAL_API}/asses-ques/`);
-    return response.data.data;
+    try {
+      const response = await axios.get(`${process.env.GLOBAL_API}/asses-ques/`);
+      console.log(response.data); // Add this for debugging
+      return response.data.data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   const { data: que, isLoading } = useQuery({
     queryKey: ["queData"],
     queryFn: () => fetchData(),
-    retry: 0,
+    retry: 1,
   });
 
   const renderDifficultyTooltip = (props) => (
@@ -55,7 +60,7 @@ const Index = () => {
 
       <section className="problems-section">
         <div className="auto-container">
-          <h2 className="my-4">Sample Problems</h2>
+          <h2 className="my-4">Problems</h2>
           <div className="problem-list">
             {isLoading ? (
               <p>Loading...</p>

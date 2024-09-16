@@ -93,10 +93,7 @@ const JobCategorie7 = () => {
           <div className="grid-container container-1">
             {jobCatContent?.map((item) => (
               <div key={item.id}>
-                <Link
-                  href="/job-list/job-list-v1"
-                  className="icon-item -type-3 "
-                >
+                <Link href="/job-list" className="icon-item -type-3 ">
                   <div
                     className="icon-wrap"
                     style={{ backgroundColor: `${item?.bgColor}` }}
@@ -112,7 +109,7 @@ const JobCategorie7 = () => {
           </div>
         </div>
         <div className="explore-pill">
-          <Link href="/job-list/job-list-v1" className="icon-item -type-3 ">
+          <Link href="/job-list" className="icon-item -type-3 ">
             <div className="icon-wrap" style={{ backgroundColor: `wheat` }}>
               <div className={`icon flaticon-car`}></div>
             </div>
