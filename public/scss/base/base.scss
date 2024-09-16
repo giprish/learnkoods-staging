@@ -343,16 +343,16 @@ li {
 }
 
 .sidebar-container {
-  position: absolute; /* Relative to the parent container */
-  // z-index: 99;
+  position: absolute;
   bottom: 0;
   right: 0;
-  width: 100%;
-  height: 80%; /* Increased height */
+  width: 98%;
+  margin: 0 2%;
+  height: 100%;
   background-color: #fff;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease-in-out;
-  transform: translateY(100%); /* Hidden by default */
+  transform: translateY(100%);
   overflow: auto;
 }
 
@@ -390,17 +390,6 @@ li {
   background-size: contain; /* Adjust background size if needed */
 }
 
-// .Resizer.horizontal {
-//   position: relative; /* Required for positioning the icon */
-// }
-
-// .Resizer.horizontal::before {
-//   content: ""; /* Needed for pseudo-element */
-//   position: absolute;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-//   width: 25px; /* Adjust the icon size */
-//   height: 25px; /* Adjust the icon size */
-//   background: url("/horizontal.svg") no-repeat center center; /* Add your icon */
-//   background-size: contain; /* Adjust background size if needed */
-// }
+.location-search {
+  text-align: right;
+}

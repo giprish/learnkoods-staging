@@ -1,7 +1,6 @@
 import EnterEmail from "@/components/common/form/otp/EnterEmail";
 import FormContent2 from "../../common/form/login/FormContent2";
 import MobileMenu from "../../header/MobileMenu";
-import Header from "./Header";
 import OtpVerify from "@/components/common/form/otp/OtpVerify";
 import $ from "jquery";
 

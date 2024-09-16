@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addCategory,
+  addCountry,
   addDatePosted,
   addDestination,
   addKeyword,
@@ -10,6 +11,7 @@ import {
   addPerPage,
   addSalary,
   addSort,
+  addState,
   addTag,
   clearExperience,
   clearJobType,
@@ -77,9 +79,9 @@ const FilterJobsBox = () => {
     } */
 
     // Check if jobType exists
-    /* if (jobType) {
-      params.push(`jobType=${jobType}`);
-    } */
+    if (jobType) {
+      params.push(`job_type=${jobType}`);
+    }
 
     // Check if datePosted exists
     /* if (datePosted) {
@@ -129,7 +131,7 @@ const FilterJobsBox = () => {
       sort,
       // destination,
       // category,
-      // jobType,
+      jobType,
       // datePosted,
       // experience,
       // salary,
@@ -144,10 +146,7 @@ const FilterJobsBox = () => {
       setNextPageUrl(job?.next);
       setPrevPageUrl(job?.previous);
     }
-    console.log(job);
   }, [job]);
-
-  console.log(nextPageUrl, "nextpage");
 
   const fetchNextPage = () => {
     if (nextPageUrl) {
@@ -215,9 +214,7 @@ const FilterJobsBox = () => {
               />
             </span>
             <h4>
-              <Link href={`/job-single-v1/${item.job_id}`}>
-                {item.job_title}
-              </Link>
+              <Link href={`/job-single/${item.job_id}`}>{item.job_title}</Link>
             </h4>
 
             <ul className="job-info">
@@ -284,6 +281,8 @@ const FilterJobsBox = () => {
   const clearAll = () => {
     dispatch(addKeyword(""));
     dispatch(addLocation(""));
+    dispatch(addState(""));
+    dispatch(addCountry(""));
     dispatch(addDestination({ min: 0, max: 100 }));
     dispatch(addCategory(""));
     dispatch(clearJobType());

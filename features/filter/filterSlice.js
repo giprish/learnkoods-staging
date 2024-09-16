@@ -4,6 +4,8 @@ const initialState = {
   jobList: {
     keyword: "",
     location: "",
+    country: "",
+    state: "",
     destination: {
       min: 0,
       max: 100,
@@ -38,6 +40,12 @@ export const filterSlice = createSlice({
     },
     addLocation: (state, { payload }) => {
       state.jobList.location = payload;
+    },
+    addCountry: (state, { payload }) => {
+      state.jobList.country = payload;
+    },
+    addState: (state, { payload }) => {
+      state.jobList.state = payload;
     },
     addDestination: (state, { payload }) => {
       state.jobList.destination.min = payload.min;
@@ -101,6 +109,8 @@ export const filterSlice = createSlice({
 export const {
   addKeyword,
   addLocation,
+  addCountry,
+  addState,
   addDestination,
   addCategory,
   addJobType,

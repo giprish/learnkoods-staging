@@ -1,17 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import candidatesuData from "../../data/candidatesMenuData";
 import { isActiveLink } from "../../utils/linkActiveChecker";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { menuToggle } from "../../features/toggle/toggleSlice";
-import { UserAuth } from "@/context/AuthContext";
 import { toast } from "react-toastify";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
 import Popover from "react-bootstrap/Popover";
 import { useEffect, useState } from "react";
 import Image from "next/image";

@@ -6,7 +6,7 @@ const JobCategorie9 = () => {
     <>
       {jobCatContent.slice(0, 6)?.map((item) => (
         <div className="item" key={item.id}>
-          <Link href="/job-list/job-list-v1">
+          <Link href="/job-list">
             <div className="icon-wrap">
               <div className={`icon ${item.icon}`}></div>
             </div>

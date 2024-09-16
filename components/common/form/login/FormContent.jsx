@@ -1,9 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import LoginWithSocial from "./LoginWithSocial";
 import axios from "axios";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

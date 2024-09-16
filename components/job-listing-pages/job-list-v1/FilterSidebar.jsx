@@ -1,14 +1,7 @@
-import { useState } from "react";
-import CallToActions from "../components/CallToActions";
 import Categories from "../components/Categories";
-import DatePosted from "../components/DatePosted";
-import DestinationRangeSlider from "../components/DestinationRangeSlider";
-import ExperienceLevel from "../components/ExperienceLevel";
 import JobType from "../components/JobType";
 import LocationBox from "../components/LocationBox";
-import SalaryRangeSlider from "../components/SalaryRangeSlider";
 import SearchBox from "../components/SearchBox";
-import Tag from "../components/Tag";
 
 const FilterSidebar = () => {
   return (
