@@ -5,14 +5,16 @@ import DefaulHeader2 from "../header/DefaulHeader2";
 import { Tooltip, OverlayTrigger } from "react-bootstrap";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 const Index = () => {
   const router = useRouter();
+  const [difficulty, setDifficulty] = useState("");
+  const [filterQues, setfilterQues] = useState([]);
 
   const fetchData = async () => {
     try {
       const response = await axios.get(`${process.env.GLOBAL_API}/asses-ques/`);
-      console.log(response.data); // Add this for debugging
       return response.data.data;
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -24,6 +26,32 @@ const Index = () => {
     queryFn: () => fetchData(),
     retry: 1,
   });
+
+  console.log(que);
+
+  useEffect(() => {
+    // Reset filtered jobs when companyId changes
+    setfilterQues([]);
+
+    if (que) {
+      if (difficulty === "Basic") {
+        // Filter jobs where is_published is true (active jobs)
+        setfilterQues(que?.filter((q) => q.difficulty === "Basic"));
+      } else if (difficulty === "Easy") {
+        // Filter jobs where is_published is false (inactive jobs)
+        setfilterQues(que?.filter((q) => q.difficulty === "Easy"));
+      } else if (difficulty === "Medium") {
+        // Filter jobs where is_published is false (inactive jobs)
+        setfilterQues(que?.filter((q) => q.difficulty === "Medium"));
+      } else if (difficulty === "Hard") {
+        // Filter jobs where is_published is false (inactive jobs)
+        setfilterQues(que?.filter((q) => q.difficulty === "Hard"));
+      } else {
+        // If no status is selected, show all jobs
+        setfilterQues(que);
+      }
+    }
+  }, [que, difficulty]);
 
   const renderDifficultyTooltip = (props) => (
     <Tooltip id="difficulty-tooltip" {...props}>
@@ -60,12 +88,27 @@ const Index = () => {
 
       <section className="problems-section">
         <div className="auto-container">
-          <h2 className="my-4">Problems</h2>
+          <div className="d-flex justify-content-between align-items-center">
+            <h2 className="my-4">Problems</h2>
+            <select
+              className="chosen-single form-select"
+              onChange={(event) => setDifficulty(event.target.value)}
+              style={{ width: "12%" }}
+            >
+              <option disabled>Select Difficulty</option>
+              <option value="">All Questions</option>
+              <option value="Basic">Basic</option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
+
           <div className="problem-list">
             {isLoading ? (
               <p>Loading...</p>
             ) : (
-              que?.map((problem, index) => (
+              filterQues?.map((problem, index) => (
                 <div
                   className="problem-item d-flex justify-content-between align-items-center"
                   key={index}

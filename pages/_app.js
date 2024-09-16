@@ -62,8 +62,9 @@ function MyApp({ Component, pageProps }) {
 
 // Routes that skip authentication
 const skipRoutes = [
-  "/job-list/job-list-v1",
-  "/job-single-v1/[id]",
+  "/job-list",
+  "/job-single/[id]",
+  "/job-single/apply",
   "/login",
   "/register",
   "/password-reset-confirm/[uidb64]/[token]",

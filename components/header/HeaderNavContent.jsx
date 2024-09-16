@@ -104,18 +104,17 @@ const HeaderNavContent = () => {
                     <span>Upskill</span>
                   </a>
                 </li>
-
+                <li>
+                  <a href="/assessment">
+                    <span>Skill Assessment</span>
+                  </a>
+                </li>
                 <li>
                   <a href="/job-list">
                     <span>Find Jobs</span>
                   </a>
                 </li>
 
-                <li>
-                  <a href="/assessment">
-                    <span>Assessment</span>
-                  </a>
-                </li>
                 <li>
                   <a href="/pricing">
                     <span>Pricing</span>
@@ -140,6 +139,11 @@ const HeaderNavContent = () => {
                     <span>Upskill</span>
                   </a>
                 </li>*/}
+                <li>
+                  <a href="/assessment">
+                    <span>Skill Assessment</span>
+                  </a>
+                </li>
                 {router.pathname === "/" && (
                   <li>
                     <a href="/pricing">
@@ -148,11 +152,6 @@ const HeaderNavContent = () => {
                   </li>
                 )}
 
-                <li>
-                  <a href="/assessment">
-                    <span>Assessment</span>
-                  </a>
-                </li>
                 {/* <li>
                   <a href="/employers-dashboard/dashboard">
                     <span>Employers</span>

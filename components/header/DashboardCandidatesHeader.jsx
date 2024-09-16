@@ -3,12 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import candidatesMenuData from "../../data/candidatesMenuData";
 import HeaderNavContent from "./HeaderNavContent";
-import { isActiveLink } from "../../utils/linkActiveChecker";
 import { useRouter } from "next/router";
-import { UserAuth } from "@/context/AuthContext";
-import { toast } from "react-toastify";
 
 const DashboardCandidatesHeader = () => {
   const [navbar, setNavbar] = useState(false);

@@ -1,9 +1,4 @@
-import Image from "next/image";
-import CopyrightFooter from "./CopyrightFooter";
-import FooterContent from "./FooterContent";
-import FooterContent2 from "../FooterContent2";
 import FooterContent3 from "../FooterContent3";
-import FooterContent4 from "../FooterContent4";
 import Social from "./Social";
 
 const index = ({ footerStyle = "" }) => {

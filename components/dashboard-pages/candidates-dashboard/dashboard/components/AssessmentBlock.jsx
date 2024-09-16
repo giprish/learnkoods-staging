@@ -1,4 +1,3 @@
-import Progress from "@/components/dashboard-pages/employers-dashboard/dashboard/components/Progress";
 import ProgressCandidate from "./ProgressCandidate";
 
 const AssessmentBlock = () => {

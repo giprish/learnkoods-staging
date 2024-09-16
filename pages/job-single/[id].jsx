@@ -1,6 +1,5 @@
 "use client";
 import dynamic from "next/dynamic";
-import jobs from "../../data/job-featured";
 import LoginPopup from "../../components/common/form/login/LoginPopup";
 import FooterDefault from "../../components/footer/common-footer";
 import DefaulHeader from "../../components/header/DefaulHeader";
@@ -8,12 +7,9 @@ import MobileMenu from "../../components/header/MobileMenu";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Seo from "../../components/common/Seo";
-import RelatedJobs from "../../components/job-single-pages/related-jobs/RelatedJobs";
 import JobOverView from "../../components/job-single-pages/job-overview/JobOverView";
 import JobSkills from "../../components/job-single-pages/shared-components/JobSkills";
 import CompnayInfo from "../../components/job-single-pages/shared-components/CompanyInfo";
-import MapJobFinder from "../../components/job-listing-pages/components/MapJobFinder";
-import SocialTwo from "../../components/job-single-pages/social/SocialTwo";
 import JobDetailsDescriptions from "../../components/job-single-pages/shared-components/JobDetailsDescriptions";
 import ApplyJobModalContent from "../../components/job-single-pages/shared-components/ApplyJobModalContent";
 import axios from "axios";
@@ -22,7 +18,6 @@ import { UserAuth } from "@/context/AuthContext";
 import $ from "jquery";
 import { toast } from "react-toastify";
 import LoadingSpinner from "@/components/loader";
-import Image from "next/image";
 
 const checkIfApplied = async (student_id, jobId, access) => {
   try {

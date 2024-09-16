@@ -1,10 +1,8 @@
 "use client";
 import axios from "axios";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { useState } from "react";
-import Link from "next/link";
 import $ from "jquery";
 
 const EnterEmail = ({ hideModal }) => {

@@ -5,8 +5,6 @@ import { useEffect, useState } from "react";
 import HeaderNavContent from "./HeaderNavContent";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
-import { UserAuth } from "@/context/AuthContext";
 
 const DefaulHeader2 = () => {
   const [navbar, setNavbar] = useState(false);

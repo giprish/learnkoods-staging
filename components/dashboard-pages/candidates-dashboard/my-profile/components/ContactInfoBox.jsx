@@ -3,7 +3,6 @@ import Map from "../../../Map";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Select from "react-select";
-import { error } from "jquery";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { useEffect, useState } from "react";

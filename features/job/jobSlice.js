@@ -34,19 +34,19 @@ const initialState = {
     {
       id: 2,
       name: "Full Time",
-      value: "full-time",
+      value: "Full Time",
       isChecked: false,
     },
     {
       id: 3,
       name: "Part Time",
-      value: "part-time",
+      value: "Part Time",
       isChecked: false,
     },
     {
       id: 4,
       name: "Internship",
-      value: "internship",
+      value: "Internship",
       isChecked: false,
     },
   ],

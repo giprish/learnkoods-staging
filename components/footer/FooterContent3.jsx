@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import footerContent from "../../data/footerContent";
 import CheckLink from "../check-link/CheckLink";
 import { useEffect, useState } from "react";

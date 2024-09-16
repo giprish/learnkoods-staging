@@ -1,4 +1,3 @@
-import { useRef, useState } from "react";
 import Register from "../register/Register";
 import FormContent from "./FormContent";
 import EnterEmail from "../otp/EnterEmail";
