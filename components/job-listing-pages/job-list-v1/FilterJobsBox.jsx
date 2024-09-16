@@ -49,6 +49,8 @@ const FilterJobsBox = () => {
 
   const originalUrl = `${process.env.GLOBAL_API}/jobs_api/`;
 
+  console.log(jobType, "job type");
+
   const generateUrl = () => {
     let url = originalUrl;
     const params = [];
@@ -79,7 +81,7 @@ const FilterJobsBox = () => {
     } */
 
     // Check if jobType exists
-    if (jobType) {
+    if (jobType && jobType.length > 0) {
       params.push(`job_type=${jobType}`);
     }
 
