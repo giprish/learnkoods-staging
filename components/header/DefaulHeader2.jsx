@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import HeaderNavContent from "./HeaderNavContent";
@@ -28,33 +26,26 @@ const DefaulHeader2 = () => {
   }, [router]);
 
   return (
-    // <!-- Main Header-->
     <header
-      className={`main-header  ${
+      className={`main-header ${
         navbar ? "fixed-header animated slideInDown" : ""
-      } shadow `}
+      } shadow`}
     >
-      {/* <!-- Main box --> */}
       <div className="main-box">
-        {/* <!--Nav Outer --> */}
-        <div className="nav-outer ">
+        <div className="nav-outer">
           <div className="logo-box">
             <div className="logo">
-              <Link href="/">
+              <Link href="https://www.skillthrive.io/">
                 <Image
                   width={200}
                   height={100}
                   src="/images/skillthrive_logo.png"
                   alt="brand"
                 />
-                {/* <h2>
-                  <strong>SkillThrive</strong>
-                </h2> */}
               </Link>
             </div>
           </div>
           <HeaderNavContent />
-          {/* <!-- Main Menu End--> */}
         </div>
       </div>
     </header>

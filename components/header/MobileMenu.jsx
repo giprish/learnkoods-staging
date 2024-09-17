@@ -70,8 +70,8 @@ const MobileMenu = () => {
           <div className="nav-outer">
             <div className="logo-box">
               <div className="logo">
-                <Link href="/">
-                  <Image
+                <Link href="https://www.skillthrive.io/">
+                  <img
                     width={150}
                     height={80}
                     src="/images/skillthrive_logo.png"
@@ -91,30 +91,6 @@ const MobileMenu = () => {
           {/* End .nav-outer */}
 
           <div className="outer-box">
-            {/* {!accessToken && (
-              <div className="login-box">
-                <a
-                  href="#"
-                  className="call-modal"
-                  data-bs-toggle="modal"
-                  data-bs-target="#loginPopupModal"
-                >
-                  <span className="icon icon-user"></span>
-                </a>
-              </div>
-            )}
-            {accessToken && (
-              <div>
-                <a
-                  href="#"
-                  className="theme-btn btn-style-three-mobile call-modal"
-                  onClick={unifiedLogout}
-                >
-                  <span className="las la-sign-out-alt"></span>
-                </a>
-              </div>
-            )} */}
-
             {!accessToken && (
               <li className="nav-item signin-menu">
                 <Link href={"/login"}>
@@ -122,28 +98,6 @@ const MobileMenu = () => {
                     <i className="las la-sign-in-alt "></i>
                   </div>
                 </Link>
-                {/* <ul className="dropdown-menu" aria-labelledby="loginDropdown">
-                  <li>
-                    <a
-                      className="dropdown-item"
-                      href="#"
-                      data-bs-toggle="modal"
-                      data-bs-target="#loginPopupModal"
-                    >
-                      User
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      className="dropdown-item"
-                      href="#"
-                      data-bs-toggle="modal"
-                      data-bs-target="#loginPopupModal"
-                    >
-                      Employer
-                    </a>
-                  </li>
-                </ul> */}
               </li>
             )}
 
@@ -154,49 +108,19 @@ const MobileMenu = () => {
                     <i className="las la-user-plus"></i>
                   </div>
                 </Link>
-                {/* <ul
-                  className="dropdown-menu"
-                  aria-labelledby="registerDropdown"
-                >
-                  <li>
-                    <a
-                      className="dropdown-item"
-                      href="#"
-                      data-bs-toggle="modal"
-                      data-bs-target="#registerModal"
-                      onClick={() => handleUserType("candidate")}
-                    >
-                      User
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      className="dropdown-item"
-                      href="#"
-                      data-bs-toggle="modal"
-                      data-bs-target="#registerModal"
-                      onClick={() => handleUserType("employer")}
-                    >
-                      Employer
-                    </a>
-                  </li>
-                </ul> */}
               </li>
             )}
 
             {accessToken && (
               <li>
-                <a
-                  href="#"
+                <div
                   className="theme-btn btn-style-blue"
                   onClick={unifiedLogout}
                 >
                   Logout
-                </a>
+                </div>
               </li>
             )}
-
-            {/* login popup end */}
 
             <a
               href="#"
@@ -206,7 +130,6 @@ const MobileMenu = () => {
             >
               <span className="flaticon-menu-1"></span>
             </a>
-            {/* right humberger menu */}
           </div>
         </div>
       </div>

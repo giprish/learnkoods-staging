@@ -27,8 +27,6 @@ const Index = () => {
     retry: 1,
   });
 
-  console.log(que);
-
   useEffect(() => {
     // Reset filtered jobs when companyId changes
     setfilterQues([]);
