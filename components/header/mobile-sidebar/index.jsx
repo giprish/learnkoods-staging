@@ -22,6 +22,7 @@ import candidatesMenuData from "@/data/candidatesMenuData";
 import employerMenuData from "@/data/employerMenuData";
 import { useEffect, useState } from "react";
 import noLoginData from "@/data/noLoginData";
+import { toast } from "react-toastify";
 
 const Index = () => {
   const router = useRouter();
@@ -92,14 +93,13 @@ const Index = () => {
                     : ""
                 }
                 key={item.id}
+                onClick={
+                  item.name === "Logout"
+                    ? unifiedLogout
+                    : () => handleNavigation(item.routePath)
+                }
               >
-                {item.name === "Logout" ? (
-                  <Link href={item.routePath} onClick={unifiedLogout}>
-                    {item?.name}
-                  </Link>
-                ) : (
-                  <Link href={item.routePath}>{item?.name}</Link>
-                )}
+                {item.name}
               </MenuItem>
             ))
           ) : (
@@ -113,8 +113,13 @@ const Index = () => {
                         : ""
                     }
                     key={item.id}
+                    onClick={
+                      item.name === "Logout"
+                        ? unifiedLogout
+                        : () => handleNavigation(item.routePath)
+                    }
                   >
-                    <Link href={item.routePath}>{item?.name}</Link>
+                    {item.name}
                   </MenuItem>
                 ))}
               {student === "false" &&
@@ -126,8 +131,13 @@ const Index = () => {
                         : ""
                     }
                     key={item.id}
+                    onClick={
+                      item.name === "Logout"
+                        ? unifiedLogout
+                        : () => handleNavigation(item.routePath)
+                    }
                   >
-                    <Link href={item.routePath}>{item?.name}</Link>
+                    {item.name}
                   </MenuItem>
                 ))}
             </>

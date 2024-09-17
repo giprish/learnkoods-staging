@@ -245,12 +245,18 @@ const Pricing = () => {
                         </ul>
                       </div>
                       <div className="table-footer">
-                        <Link
-                          href={access ? "/payment" : "login"}
-                          className="theme-btn btn-style-three"
-                        >
-                          {item.tag ? "Upgrade" : "Get Started"}
-                        </Link>
+                        {item.tag ? (
+                          <Link
+                            href={access ? "/payment" : "login"}
+                            className="theme-btn btn-style-three"
+                          >
+                            Upgrade
+                          </Link>
+                        ) : (
+                          <span className="theme-btn btn-style-three">
+                            Get Started
+                          </span>
+                        )}
                       </div>
                     </div>
                   </Col>
@@ -296,12 +302,18 @@ const Pricing = () => {
                         </ul>
                       </div>
                       <div className="table-footer">
-                        <Link
-                          href="/payment"
-                          className="theme-btn btn-style-three"
-                        >
-                          {item.tag ? "Upgrade" : "Get Started"}
-                        </Link>
+                        {item.tag ? (
+                          <Link
+                            href={access ? "/payment" : "login"}
+                            className="theme-btn btn-style-three"
+                          >
+                            Upgrade
+                          </Link>
+                        ) : (
+                          <span className="theme-btn btn-style-three">
+                            Get Started
+                          </span>
+                        )}
                       </div>
                     </div>
                   </Col>

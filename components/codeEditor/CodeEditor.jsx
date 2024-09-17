@@ -186,13 +186,24 @@ const CodeEditor = () => {
                       <strong>Example {index + 1}:</strong>
                     </p>
                     <p>
-                      <strong>Input:</strong> {ex.input}
+                      <strong>Input:</strong>
+                      <span dangerouslySetInnerHTML={{ __html: ex.input }} />
                     </p>
                     <p>
                       <strong>Output:</strong> {ex.output}
                     </p>
+                    {ex.file && (
+                      <img
+                        src={ex.file}
+                        style={{ marginTop: "10px" }}
+                        alt="example file"
+                      />
+                    )}
                     <p>
-                      <strong>Explanation:</strong> {ex.explanation}
+                      <strong>Explanation:</strong>
+                      <span
+                        dangerouslySetInnerHTML={{ __html: ex.explanation }}
+                      />
                     </p>
                   </div>
                 ))}
@@ -217,7 +228,7 @@ const CodeEditor = () => {
 
                   <pre
                     className="border rounded bg-white shadow-sm mx-3 mt-4 p-3"
-                    style={{ height: "100vh", overflow: "auto" }}
+                    style={{ height: "110vh", overflow: "auto" }}
                   >
                     <p>Your Output :</p>
                     {loading ? (

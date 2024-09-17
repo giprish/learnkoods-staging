@@ -1,11 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 
 const SidebarHeader = () => {
   return (
     <div className="pro-header">
       <Link href="/">
-        <Image
+        <img
           width={150}
           height={80}
           src="/images/skillthrive_logo.png"

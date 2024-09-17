@@ -116,7 +116,7 @@ const HeaderNavContent = () => {
                 </li>
 
                 <li>
-                  <a href="/pricing">
+                  <a href="https://skillthrive.io/pricing">
                     <span>Pricing</span>
                   </a>
                 </li>
@@ -146,7 +146,7 @@ const HeaderNavContent = () => {
                 </li>
                 {router.pathname === "/" && (
                   <li>
-                    <a href="/pricing">
+                    <a href="https://skillthrive.io/pricing">
                       <span>Pricing</span>
                     </a>
                   </li>

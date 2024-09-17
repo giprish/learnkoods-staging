@@ -40,7 +40,7 @@ const DashboardCandidatesHeader = () => {
           <div className="nav-outer">
             <div className="logo-box">
               <div className="logo">
-                <Link href="/">
+                <Link href="https://www.skillthrive.io/">
                   <Image
                     width={200}
                     height={100}

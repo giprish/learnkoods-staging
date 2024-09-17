@@ -29,7 +29,7 @@ const Header = () => {
           <div className="nav-outer">
             <div className="logo-box">
               <div className="logo">
-                <Link href="/" className="noSticky">
+                <Link href="https://www.skillthrive.io/" className="noSticky">
                   {/* <img src="/images/logo-2.svg" alt="logo" title="brand" /> */}
                   <Image
                     width={200}
