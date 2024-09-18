@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 const ProfileTabs = ({ setTab, currentTab }) => {
   useEffect(() => {
-    console.log("Current tab is:", currentTab);
+    // console.log("Current tab is:", currentTab);
   }, [currentTab]); // This will run every time currentTab changes
   return (
     <div className="post-job-steps">

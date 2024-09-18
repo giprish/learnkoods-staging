@@ -321,6 +321,7 @@ const Register2 = () => {
                   className="form-control"
                   accept=".pdf, .docx"
                   onChange={handleEvent}
+                  required
                 />
               </div>
             )}
