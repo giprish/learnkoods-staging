@@ -1,11 +1,10 @@
 "use client";
 
 import { Controller, useFieldArray, useForm } from "react-hook-form";
-import Map from "../../../Map";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Select from "react-select";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userCertificateSchema } from "@/validation/validation";
@@ -13,6 +12,8 @@ import { userCertificateSchema } from "@/validation/validation";
 const CertificationInfoBox = () => {
   const [userId, setUserId] = useState("");
   const [access, setAccess] = useState(null);
+  const [orgState, setOrgState] = useState([]);
+  const [certTitles, setCertTitles] = useState({});
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -28,6 +29,7 @@ const CertificationInfoBox = () => {
     formState: { dirtyFields, errors },
     setValue,
     getValues,
+    watch,
   } = useForm({
     mode: "onChange",
     resolver: zodResolver(userCertificateSchema),
@@ -37,18 +39,12 @@ const CertificationInfoBox = () => {
     name: "certificate",
   });
 
-  const [workingState, setWorkingState] = useState({});
+  const certificates = watch("certificate");
 
   const addEntry = () => {
     append({});
   };
 
-  const handleWorkingChange = (index) => {
-    setWorkingState((prev) => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
-  };
   const fetchSkill = async () => {
     const response = await axios.get(`${process.env.GLOBAL_API}/skill_api/`);
     return response.data;
@@ -58,11 +54,88 @@ const CertificationInfoBox = () => {
     queryKey: ["skillData"],
     queryFn: () => fetchSkill(),
   });
+  const fetchOrg = async () => {
+    const response = await axios.get(`${process.env.GLOBAL_API}/cert-org/`);
+    return response.data;
+  };
 
-  const skillOption = skills?.data?.map((option) => ({
-    value: option.id,
-    label: option.data,
-  }));
+  const { data: orgs } = useQuery({
+    queryKey: ["orgData"],
+    queryFn: () => fetchOrg(),
+  });
+
+  const fetchCert = async (orgId) => {
+    if (!orgId) return []; // Return empty array if no orgId provided
+
+    try {
+      const response = await axios.get(
+        `${process.env.GLOBAL_API}/cert-org-title/${orgId}/`
+      );
+      return response.data;
+    } catch (error) {
+      // Log or handle the error as needed
+      console.error(
+        `Failed to fetch certificate titles for orgId ${orgId}:`,
+        error
+      );
+      return []; // Return empty array or handle the error based on your requirements
+    }
+  };
+
+  // State to store cert_title options
+
+  // Fetch cert_titles dynamically based on issuing_organization IDs
+  // Helper function to handle fetching cert titles
+  const fetchAndSetCertTitles = useCallback(async (orgId, index) => {
+    if (orgId) {
+      try {
+        const titles = await fetchCert(orgId);
+        setCertTitles((prev) => ({
+          ...prev,
+          [index]:
+            titles?.data?.map((title) => ({
+              value: title.id,
+              label: title.name,
+            })) || [],
+        }));
+      } catch (error) {
+        setCertTitles((prev) => ({
+          ...prev,
+          [index]: [],
+        }));
+      }
+    }
+  }, []);
+  // Effect to handle fetching cert titles when issuing organizations change
+  useEffect(() => {
+    orgState.forEach((item, index) => {
+      const orgId = item?.issuing_organization?.value;
+      fetchAndSetCertTitles(orgId, index);
+    });
+  }, [orgState, fetchAndSetCertTitles]);
+  // Handle issuing organization change
+  const handleOrgChange = (selectedOption, index) => {
+    setValue(`certificate[${index}].issuing_organization`, selectedOption);
+    setOrgState((prev) => {
+      const newOrgState = [...prev];
+      newOrgState[index] = { issuing_organization: selectedOption };
+      return newOrgState;
+    });
+    setValue(`certificate[${index}].cert_title`, ""); // Reset cert_title when org changes
+  };
+
+  const options = (optiondata) => {
+    if (optiondata?.message) {
+      return optiondata?.message?.map((option) => ({
+        value: option.id,
+        label: option.data || option.name,
+      }));
+    }
+    return optiondata?.data?.map((option) => ({
+      value: option.id,
+      label: option.data || option.name,
+    }));
+  };
 
   const fetchCertificates = async () => {
     const response = await axios.get(
@@ -79,21 +152,46 @@ const CertificationInfoBox = () => {
   const { data: userCertificate } = useQuery({
     queryKey: ["userCertificate", access],
     queryFn: () => fetchCertificates(),
+    enabled: !!access,
+    retry: 0,
   });
 
-  const certdata = userCertificate?.data?.map((item) => ({
-    ...item,
-    skills_acquired: item.skills_acquired?.map((skill) => ({
-      value: skill.id,
-      label: skill.data,
-    })),
-  }));
+  const certdata = userCertificate?.data?.map((item) => {
+    // Build the certificate object with all fields
+    const certificate = {
+      id: item.id,
+      issuing_organization: {
+        value: item?.issuing_organization.id,
+        label: item?.issuing_organization.name,
+      },
+      cert_title: {
+        value: item?.cert_title.id,
+        label: item?.cert_title.name,
+      },
+      issue_date: item.issue_date,
+      description: item.description,
+      link: item.link,
+      certificate_file: item.certificate_file,
+      skills_acquired: item.skills_acquired?.map((skill) => ({
+        value: skill.id,
+        label: skill.data,
+      })),
+      is_current: item.is_current,
+      // Conditionally include `expiration_date` if it is not null
+      ...(item.expiration_date !== null
+        ? { expiration_date: item.expiration_date }
+        : {}),
+    };
+
+    return certificate;
+  });
+
   useEffect(() => {
+    console.log(certdata, "certdata");
     if (userCertificate) {
       reset({ certificate: certdata });
     }
   }, [userCertificate]);
-  console.log(certdata, "certdata");
 
   const createOrUpdateCertificate = async ({ data }) => {
     const createPromises = [];
@@ -117,6 +215,8 @@ const CertificationInfoBox = () => {
             certificate[key].forEach((element, index) => {
               formData.append(`${key}[${index}]data`, element.label);
             });
+          } else if (key === "cert_title" || key === "issuing_organization") {
+            formData.append(key, certificate[key].value);
           } else {
             formData.append(key, certificate[key]);
           }
@@ -132,21 +232,29 @@ const CertificationInfoBox = () => {
         );
       } else if (dirtyFields.certificate && dirtyFields.certificate[index]) {
         // Update existing certificate: include only dirty fields
+
+        // Loop over the keys in dirtyFields for the current certificate
         Object.keys(dirtyFields.certificate[index]).forEach((key) => {
-          if (
-            key === "certificate_file" &&
-            certificate.certificate_file?.length > 0
-          ) {
-            dirtyformData.append(key, certificate.certificate_file[0]);
-          }
-          if (key === "skills_acquired" && Array.isArray(certificate[key])) {
-            certificate[key].forEach((element, index) => {
-              dirtyformData.append(`${key}[${index}]data`, element.label);
-            });
-          } else {
-            dirtyformData.append(key, certificate[key]);
+          if (dirtyFields.certificate[index][key] === true) {
+            // Field is dirty, process the update for this field
+            if (
+              key === "certificate_file" &&
+              certificate.certificate_file?.length > 0
+            ) {
+              dirtyformData.append(key, certificate.certificate_file[0]);
+            }
+            if (key === "skills_acquired" && Array.isArray(certificate[key])) {
+              certificate[key].forEach((element, index) => {
+                dirtyformData.append(`${key}[${index}]`, element.label);
+              });
+            } else if (key === "cert_title" || key === "issuing_organization") {
+              dirtyformData.append(key, certificate[key].value);
+            } else {
+              dirtyformData.append(key, certificate[key]);
+            }
           }
         });
+
         updatePromises.push(
           axios.put(
             `${process.env.GLOBAL_API}/certificate/${certificate.id}/`,
@@ -240,6 +348,8 @@ const CertificationInfoBox = () => {
     <form className="default-form" onSubmit={handleSubmit(onSubmit)}>
       {fields?.map((item, index) => {
         const certificateUrl = item.certificate_file;
+        const certTitleOptions = certTitles[index] || [];
+        const isCurrent = certificates[index]?.is_current;
         return (
           <div className="row border rounded-3 p-2 mb-4 " key={item.id}>
             <div className="form-group col-lg-12 col-md-12 d-flex flex-row-reverse">
@@ -252,30 +362,50 @@ const CertificationInfoBox = () => {
               </button>
             </div>
             <div className="form-group col-lg-12 col-md-12">
-              <label>Title of Certificate</label>
-              <input
-                type="text"
-                name={`certificate[${index}].cert_title`}
-                placeholder="Title of Certificate"
-                {...register(`certificate[${index}].cert_title`)}
-              />
-              {errors.certificate?.[index]?.cert_title && (
-                <p className="text-danger">
-                  {errors.certificate[index].cert_title.message}
-                </p>
-              )}
-            </div>
-            <div className="form-group col-lg-6 col-md-12">
               <label>Issuing Organization</label>
-              <input
-                type="text"
+
+              <Controller
                 name={`certificate[${index}].issuing_organization`}
-                placeholder="Issuing Organization"
-                {...register(`certificate[${index}].issuing_organization`)}
+                control={control}
+                rules={{ required: "Please select at organization" }}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    options={options(orgs)}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    onChange={(selected) => {
+                      field.onChange(selected); // Ensure the value is updated in the form state
+                      handleOrgChange(selected, index); // If additional logic is needed
+                    }}
+                  />
+                )}
               />
               {errors.certificate?.[index]?.issuing_organization && (
                 <p className="text-danger">
                   {errors.certificate[index].issuing_organization.message}
+                </p>
+              )}
+            </div>
+            <div className="form-group col-lg-6 col-md-12">
+              <label>Title of Certificate</label>
+
+              <Controller
+                name={`certificate[${index}].cert_title`}
+                control={control}
+                rules={{ required: "Please select at certificate" }}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    options={certTitleOptions}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                  />
+                )}
+              />
+              {errors.certificate?.[index]?.cert_title && (
+                <p className="text-danger">
+                  {errors.certificate[index].cert_title.message}
                 </p>
               )}
             </div>
@@ -288,7 +418,7 @@ const CertificationInfoBox = () => {
                   accept=".pdf, .docx"
                   name={`certificate[${index}].certificate_file`}
                   {...register(`certificate[${index}].certificate_file`)}
-                  required={!certificateUrl} // Conditionally required based on URL presence
+                  // required={!certificateUrl}
                 />
                 {certificateUrl && (
                   <a
@@ -332,6 +462,7 @@ const CertificationInfoBox = () => {
                 placeholder="Issuing Date"
                 {...register(`certificate[${index}].issue_date`)}
                 className="border p-3 rounded-3"
+                required
               />
               {errors.certificate?.[index]?.issue_date && (
                 <p className="text-danger">
@@ -340,40 +471,50 @@ const CertificationInfoBox = () => {
               )}
             </div>
 
-            {/* {workingState[index] && ( */}
-            <>
-              <div className="form-group-date col-lg-6 col-md-12">
-                <label>Expiration Date</label>
-                <input
-                  type="date"
-                  name={`certificate[${index}].expiration_date`}
-                  placeholder="Expiration Date"
-                  {...register(`certificate[${index}].expiration_date`)}
-                  className="border p-3 rounded-3"
-                />
-                {errors.certificate?.[index]?.expiration_date && (
-                  <p className="text-danger">
-                    {errors.certificate[index].expiration_date.message}
-                  </p>
+            {!isCurrent && (
+              <>
+                <div className="form-group-date col-lg-6 col-md-12">
+                  <label>Expiration Date</label>
+                  <input
+                    type="date"
+                    name={`certificate[${index}].expiration_date`}
+                    placeholder="Expiration Date"
+                    {...register(`certificate[${index}].expiration_date`)}
+                    className="border p-3 rounded-3"
+                  />
+                  {errors.certificate?.[index]?.expiration_date && (
+                    <p className="text-danger">
+                      {errors.certificate[index].expiration_date.message}
+                    </p>
+                  )}
+                </div>
+              </>
+            )}
+            <div className=" col-lg-12 col-md-12 py-3">
+              <Controller
+                name={`certificate[${index}].is_current`}
+                control={control}
+                defaultValue={false}
+                render={({ field }) => (
+                  <input
+                    type="checkbox"
+                    {...field}
+                    className="mx-4"
+                    checked={field.value || false} // Ensure the checkbox reflects boolean value
+                    onChange={(e) => {
+                      field.onChange(e.target.checked); // Update with the boolean value
+                    }}
+                  />
                 )}
-              </div>
-            </>
-            {/* )} */}
-            {/* <div className="form-group col-lg-12 col-md-12 p-4">
-    <input
-      type="checkbox"
-      placeholder=""
-      {...register(`certificate[${index}].working`)}
-      className="mx-4"
-      onChange={() => handleWorkingChange(index)}
-    />
-    <label>Has Expiry Date</label>
-    {errors.certificate?.[index]?.working && (
-      <p className="text-danger">
-        {errors.certificate[index].working.message}
-      </p>
-    )}
-  </div> */}
+              />
+
+              <label>No Expiry Date</label>
+              {errors.certificate?.[index]?.is_current && (
+                <p className="text-danger">
+                  {errors.certificate[index].is_current.message}
+                </p>
+              )}
+            </div>
             <div className="form-group col-lg-6 col-md-12 my-4">
               <label>Link This Certificate</label>
               <input
@@ -399,7 +540,7 @@ const CertificationInfoBox = () => {
                   <Select
                     {...field}
                     isMulti
-                    options={skillOption}
+                    options={options(skills)}
                     className="basic-multi-select"
                     classNamePrefix="select"
                   />

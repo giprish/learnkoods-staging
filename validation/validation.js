@@ -132,21 +132,35 @@ export const userExperienceSchema = z.object({
 
 // Define a schema for a single certificate entry
 const certificateSchema = z.object({
-  cert_title: z.string().min(1, "Certificate title is required"),
-  issuing_organization: z.string().min(1, "Issuing organization is required"),
-  certificate_file: z.any(), // This can be refined further if you need specific validation
-  issue_date: z.string().min(1, "Issue date is required"),
-  expiration_date: z.string().nullable().optional(),
-  working: z.boolean().optional(),
-  link: z.string().url("Must be a valid URL"),
+  issuing_organization: z.string().nonempty("Please select an organization"), // Ensure it's not empty
+
+  cert_title: z.string().nonempty("Please select a certificate title"), // Ensure it's not empty
+
+  certificate_file: z.instanceof(File).optional(), // Optional field, validate file if present
+
+  description: z.string().nonempty("Description is required"), // Ensure description is not empty
+
+  issue_date: z
+    .string()
+    .nonempty("Issuing Date is required") // Ensure date is provided
+    .refine((date) => !isNaN(Date.parse(date)), {
+      message: "Invalid date format",
+    }),
+
+  expiration_date: z
+    .string()
+    .optional()
+    .refine((date) => !date || !isNaN(Date.parse(date)), {
+      message: "Invalid expiration date format",
+    }),
+
+  is_current: z.boolean().optional(), // Checkbox field, optional
+
+  link: z.string().url("Must be a valid URL").optional(), // Optional field for URL
+
   skills_acquired: z
-    .array(
-      z.object({
-        value: z.number().optional(),
-        label: z.string(),
-      })
-    )
-    .min(1, "Please select at least one skill"),
+    .array(z.string())
+    .min(1, "Please select at least one skill"), // Ensure at least one skill is selected
 });
 
 // Define the schema for the entire form which includes an array of certificates
