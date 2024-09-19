@@ -296,6 +296,9 @@ const CertificationInfoBox = () => {
     console.log(dirtyFields, "dirty fields");
     mutate({ data: formData, dirtyFields });
   };
+  // const onError = (error) => {
+  //   console.log(error, "error");
+  // };
 
   const deleteFieldAPI = async (fieldId) => {
     const response = await axios.delete(
@@ -534,23 +537,24 @@ const CertificationInfoBox = () => {
               <Controller
                 name={`certificate[${index}].skills_acquired`}
                 control={control}
-                // defaultValue={[]}
                 rules={{ required: "Please select at least one skill" }}
                 render={({ field }) => (
-                  <Select
-                    {...field}
-                    isMulti
-                    options={options(skills)}
-                    className="basic-multi-select"
-                    classNamePrefix="select"
-                  />
+                  <>
+                    <Select
+                      {...field}
+                      isMulti
+                      options={options(skills)}
+                      className="basic-multi-select"
+                      classNamePrefix="select"
+                    />
+                    {errors.certificate?.[index]?.skills_acquired && (
+                      <p className="text-danger">
+                        {errors.certificate[index].skills_acquired.message}
+                      </p>
+                    )}
+                  </>
                 )}
               />
-              {errors.certificate?.[index]?.skills_acquired && (
-                <p className="text-danger">
-                  {errors.certificate[index].skills_acquired.message}
-                </p>
-              )}
             </div>
           </div>
         );

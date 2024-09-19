@@ -132,11 +132,17 @@ export const userExperienceSchema = z.object({
 
 // Define a schema for a single certificate entry
 const certificateSchema = z.object({
-  issuing_organization: z.string().nonempty("Please select an organization"), // Ensure it's not empty
+  issuing_organization: z.object({
+    value: z.number().positive("select a organization"),
+    label: z.string(),
+  }), // Ensure it's not empty
 
-  cert_title: z.string().nonempty("Please select a certificate title"), // Ensure it's not empty
+  cert_title: z.object({
+    value: z.number().positive("select a certificate title"),
+    label: z.string(),
+  }), // Ensure it's not empty
 
-  certificate_file: z.instanceof(File).optional(), // Optional field, validate file if present
+  certificate_file: z.any().optional(), // Optional field, validate file if present
 
   description: z.string().nonempty("Description is required"), // Ensure description is not empty
 
@@ -159,7 +165,12 @@ const certificateSchema = z.object({
   link: z.string().url("Must be a valid URL").optional(), // Optional field for URL
 
   skills_acquired: z
-    .array(z.string())
+    .array(
+      z.object({
+        value: z.number().nonnegative(), // Ensure value is a number and non-negative
+        label: z.string().nonempty(), // Ensure label is a non-empty string
+      })
+    )
     .min(1, "Please select at least one skill"), // Ensure at least one skill is selected
 });
 
