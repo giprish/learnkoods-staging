@@ -22,6 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema } from "@/validation/validation";
 import ProfileTabs from "./components/profileTabs/ProfileTabs";
 import { useSelector } from "react-redux";
+import LumaSidebar from "@/components/header/LumaSidebar";
 
 const index = () => {
   const methods = useForm({
@@ -308,12 +309,14 @@ const index = () => {
       {/* End Login Popup Modal */}
 
       <DashboardCandidatesHeader />
+
       {/* End Header */}
 
       <MobileMenu />
       {/* End MobileMenu */}
 
       <DashboardCandidatesSidebar />
+
       {/* <!-- End Candidates Sidebar Menu --> */}
 
       {/* <!-- Dashboard --> */}

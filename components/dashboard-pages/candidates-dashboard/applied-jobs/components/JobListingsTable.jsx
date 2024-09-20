@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link.js";
-import jobs from "../../../../../data/job-featured.js";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router.js";
 
 const JobListingsTable = () => {
+  const router = useRouter();
   const [userId, setUserId] = useState("");
   const [access, setAccess] = useState(null);
 
@@ -118,7 +119,7 @@ const JobListingsTable = () => {
                         <div className="option-box">
                           <ul className="option-list">
                             <li>
-                              <button data-text="View">
+                              <button data-text="View" onClick={() => { router.push(`/job-single/${item.job_id}`); }}>
                                 <span className="la la-eye"></span>
                               </button>
                             </li>
