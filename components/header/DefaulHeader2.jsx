@@ -35,7 +35,7 @@ const DefaulHeader2 = () => {
         <div className="nav-outer">
           <div className="logo-box">
             <div className="logo">
-              <Link href="https://www.skillthrive.io/">
+              <Link href="https://skillthrive.io/">
                 <Image
                   width={200}
                   height={100}

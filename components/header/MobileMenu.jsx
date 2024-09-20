@@ -70,7 +70,7 @@ const MobileMenu = () => {
           <div className="nav-outer">
             <div className="logo-box">
               <div className="logo">
-                <Link href="https://www.skillthrive.io/">
+                <Link href="https://skillthrive.io/">
                   <img
                     width={150}
                     height={80}
