@@ -1,95 +1,109 @@
-import Link from "next/link.js";
-import jobs from "../../../../../data/job-featured.js";
+import Link from "next/link";
+import axios from 'axios';
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 
 const JobFavouriteTable = () => {
+  const router = useRouter();
+  const access = window.localStorage.getItem("access");
+  const id = window.localStorage.getItem("id");
+
+  const fetchShortlisted = async () => {
+    const response = await axios.get(
+      `${process.env.GLOBAL_API}/user-shortlist/${id}/`,
+      {
+        headers: { Authorization: `Bearer ${access}` },
+      }
+    );
+    return response.data.data;
+  };
+
+  const { data: shortjobs } = useQuery({
+    queryKey: ["shortlistedjobs", access],
+    queryFn: fetchShortlisted,
+    enabled: !!access,
+  });
+
+  console.log(shortjobs);
+
   return (
     <div className="tabs-box">
       <div className="widget-title">
-        <h4>My Favorite Jobs</h4>
-
-        <div className="chosen-outer">
-          {/* <!--Tabs Box--> */}
-          <select className="chosen-single form-select">
-            <option>Last 6 Months</option>
-            <option>Last 12 Months</option>
-            <option>Last 16 Months</option>
-            <option>Last 24 Months</option>
-            <option>Last 5 year</option>
-          </select>
-        </div>
+        {/* <h4>My Favorite Jobs</h4> */}
+        {/* Optional filter or title */}
       </div>
-      {/* End filter top bar */}
 
-      {/* Start table widget content */}
       <div className="widget-content">
         <div className="table-outer">
-          <div className="table-outer">
-            <table className="default-table manage-job-table">
-              <thead>
-                <tr>
-                  <th>Job Title</th>
-                  <th>Date Applied</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
+          <table className="default-table manage-job-table">
+            <thead>
+              <tr>
+                <th>Job Title</th>
+                <th>Date Applied</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
 
-              <tbody>
-                {jobs.slice(8, 12)?.map((item) => (
-                  <tr key={item.id}>
-                    <td>
-                      {/* <!-- Job Block --> */}
-                      <div className="job-block">
-                        <div className="inner-box">
-                          <div className="content">
-                            <span className="company-logo">
-                              <img src={item.logo} alt="logo" />
-                            </span>
-                            <h4>
-                              <Link href={`/job-single-v3/${item.id}`}>
-                                {item.jobTitle}
-                              </Link>
-                            </h4>
-                            <ul className="job-info">
-                              <li>
-                                <span className="icon flaticon-briefcase"></span>
-                                Segment
-                              </li>
-                              <li>
-                                <span className="icon flaticon-map-locator"></span>
-                                London, UK
-                              </li>
-                            </ul>
-                          </div>
+            <tbody>
+              {shortjobs?.map((item) => (
+                <tr key={item.id}>
+                  <td>
+                    <div className="job-block">
+                      <div className="inner-box">
+                        <div className="content">
+                          <span className="company-logo">
+                            <img src={item.company.logo} alt="logo" />
+                          </span>
+                          <h4>
+                            <Link href={`/job-single/${item.job.id}`}>
+                              {item.job.job_title}
+                            </Link>
+                          </h4>
+                          <ul className="job-info">
+                            <li>
+                              <span className="icon flaticon-briefcase"></span>
+                              {item.company?.name || "Unknown Company"}
+                            </li>
+                            <li>
+                              <span className="icon flaticon-map-locator"></span>
+                              {item.company?.city}, {item.company?.country}
+                            </li>
+                          </ul>
                         </div>
                       </div>
-                    </td>
-                    <td>Dec 5, 2020</td>
-                    <td className="status">Active</td>
-                    <td>
-                      <div className="option-box">
-                        <ul className="option-list">
-                          <li>
-                            <button data-text="View">
-                              <span className="la la-eye"></span>
-                            </button>
-                          </li>
-                          <li>
-                            <button data-text="Delete">
-                              <span className="la la-trash"></span>
-                            </button>
-                          </li>
-                        </ul>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    </div>
+                  </td>
+                  <td>{new Date(item.applied_date).toLocaleDateString()}</td>
+                  <td className={`status ${!item.is_shortlist || item.is_rejected ? "text-danger" : ""}`}>
+                    {item.is_rejected
+                      ? "Rejected"
+                      : item.is_shortlist
+                        ? "Shortlisted"
+                        : "Not Shortlisted"}
+                  </td>
+                  <td>
+                    <div className="option-box">
+                      <ul className="option-list">
+                        <li>
+                          <button data-text="View" onClick={() => { router.push(`/job-single/${item.job.id}`); }}>
+                            <span className="la la-eye"></span>
+                          </button>
+                        </li>
+                        <li>
+                          <button data-text="Delete">
+                            <span className="la la-trash"></span>
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
-      {/* End table widget content */}
     </div>
   );
 };

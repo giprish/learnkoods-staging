@@ -63,7 +63,7 @@ const ApplyJobs = () => {
       checkIfApplied(student_id, jobId, access).then((result) => {
         setJobAppliedCheck(result);
         if (result) {
-          router.replace(`/job-single-v1/${jobId}`);
+          router.replace(`/job-single/${jobId}`);
         }
       });
     }
