@@ -133,12 +133,31 @@ const JobSingleDynamicV1 = () => {
               <div className="inner-box">
                 <div className="d-flex align-items-center">
                   <div className="mx-4">
-                    <img
-                      src={`${job?.company?.logo}` || "/images/logo.svg"}
-                      alt="logo"
-                      width={200}
-                      height={200}
-                    />
+                    <div
+                      style={{
+                        width: "175px",
+                        height: "175px",
+                        borderRadius: "50%",
+                        border: "5px solid #ddd",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <img
+                        src={`${job?.company?.logo}` || "/images/logo.svg"}
+                        alt="logo"
+                        width={200}
+                        height={200}
+                        style={{
+
+                          objectFit: "contain",
+                          width: "70%",
+                          height: "auto",
+                        }}
+                      />
+                    </div>
                   </div>
                   <div>
                     <h4>{job?.job_title}</h4>
@@ -171,7 +190,7 @@ const JobSingleDynamicV1 = () => {
                     </ul>
                     {/* End .job-info */}
 
-                    <ul className="job-other-info">
+                    {/* <ul className="job-other-info">
                       {job?.skills_req?.slice(0, 3)?.map((val, i) => (
                         <li key={i} className={`border`}>
                           {val?.data}
@@ -191,7 +210,30 @@ const JobSingleDynamicV1 = () => {
                         // Render this if there are 3 or fewer items
                         <></>
                       )}
+                    </ul> */}
+
+                    <ul className="job-other-info">
+                      {job?.skills_req?.slice(0, 3)?.map((val, i) => (
+                        <li key={i} className={`skilltab`}>
+                          {val?.data}
+                        </li>
+                      ))}
+                      {job?.skills_req?.length > 3 ? (
+                        // Render this if there are more than 3 items
+                        <li className="skilltab">
+                          <a
+                            data-bs-toggle="modal"
+                            data-bs-target="#skillModal"
+                          >
+                            Show more ...
+                          </a>
+                        </li>
+                      ) : (
+                        // Render this if there are 3 or fewer items
+                        <></>
+                      )}
                     </ul>
+
                   </div>
                 </div>
                 {/* End .content */}

@@ -17,7 +17,7 @@ const JobOverView = ({ jobDetails }) => {
         <li>
           <i className="icon icon-location"></i>
           <h5>Location:</h5>
-          <span>{jobDetails?.city?.name}</span>
+          <span>{jobDetails?.location1}, {jobDetails?.location}, {jobDetails?.city?.name}, {jobDetails?.state?.name}, {jobDetails?.country?.name}, {jobDetails?.pincode}</span>
         </li>
         <li>
           <i className="icon icon-user-2"></i>

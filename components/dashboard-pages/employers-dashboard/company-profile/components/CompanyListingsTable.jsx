@@ -1,12 +1,10 @@
 "use client";
 import Link from "next/link";
-import jobs from "../../../../../data/job-featured.js";
 import Image from "next/image.js";
 import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useState } from "react";
-import appliedJobs from "@/pages/candidates-dashboard/applied-jobs/index.js";
 import ConfirmationModal from "@/components/modal/ConfirmationModal.jsx";
 
 const CompanyListingsTable = () => {
@@ -120,7 +118,7 @@ const CompanyListingsTable = () => {
                             </span>
                             <h4>
                               <Link
-                                href={`/employers-dashboard/edit-companies/${item.id}`}
+                                href={`/employers-dashboard/view-companies/${item.id}`}
                               >
                                 {item.name}
                               </Link>

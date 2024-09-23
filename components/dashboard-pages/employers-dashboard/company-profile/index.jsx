@@ -5,17 +5,7 @@ import DashboardHeader from "../../../header/DashboardHeader";
 import LoginPopup from "../../../common/form/login/LoginPopup";
 import DashboardEmployerSidebar from "../../../header/DashboardEmployerSidebar";
 import BreadCrumb from "../../BreadCrumb";
-import MyProfile from "../edit-company/components/my-profile";
-import SocialNetworkBox from "./components/SocialNetworkBox";
-import ContactInfoBox from "./components/ContactInfoBox";
-
 import MenuToggler from "../../MenuToggler";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import ComapnyBreadCrumb from "../register-company/CompanyBreadCrumb";
-import { toast } from "react-toastify";
 import CompanyListingsTable from "./components/CompanyListingsTable";
 import { useSelector } from "react-redux";
 

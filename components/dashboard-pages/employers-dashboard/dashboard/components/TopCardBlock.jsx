@@ -1,16 +1,41 @@
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+
 const TopCardBlock = () => {
+
+  const access = window.localStorage.getItem("access");
+
+  const fetchJobs = async () => {
+    const response = await axios.get(`${process.env.GLOBAL_API}/dash-data-count/`, {
+      headers: {
+        Authorization: `Bearer ${access}`,
+      },
+    });
+    return response.data;
+  };
+
+  const { data: Jobs } = useQuery({
+    queryKey: ["AllJobs"],
+    queryFn: () => fetchJobs(),
+
+    enabled: !!access,
+  });
+
+  console.log(Jobs);
+  
+  
   const cardContent = [
     {
       id: 1,
       icon: "flaticon-briefcase",
-      countNumber: "22",
+      countNumber: `${Jobs?.job_count}`,
       metaName: "Posted Jobs",
       uiClass: "ui-blue",
     },
     {
       id: 2,
       icon: "la-file-invoice",
-      countNumber: "9382",
+      countNumber: `${Jobs?.application_count}`,
       metaName: "Application",
       uiClass: "ui-red",
     },
@@ -24,7 +49,7 @@ const TopCardBlock = () => {
     {
       id: 4,
       icon: "la-bookmark-o",
-      countNumber: "32",
+      countNumber: `${Jobs?.shortlist_count}`,
       metaName: "Shortlist",
       uiClass: "ui-green",
     },
